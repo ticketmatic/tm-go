@@ -63,6 +63,8 @@ func (c *Client) NewRequest(method, url string) *Request {
 }
 
 func (r *Request) AddParameter(key string, val interface{}) {
+	// Try to omit empty parameters by not sending them when they're set to
+	// their default values.
 	v := reflect.ValueOf(val)
 	if v.Interface() != reflect.Zero(v.Type()).Interface() {
 		r.query[key] = val
