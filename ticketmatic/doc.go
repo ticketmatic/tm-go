@@ -11,7 +11,7 @@
 //
 // The URIs for endpoints are served at
 //
-// https://apps.ticketmatic.com/api/{accountname}/
+//      https://apps.ticketmatic.com/api/{accountname}/
 //
 // Note that Ticketmatic API is secure, so use HTTPS whenever you access any endpoints. Calls made
 // over plain HTTP will fail.

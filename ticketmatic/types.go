@@ -1,6 +1,16 @@
 package ticketmatic
 
 type DeliveryscenarioAvailability struct {
+	// An array of sales channel IDs for which this delivery scenario can be used.
+	Saleschannels []int `json:"saleschannels,omitempty"`
+
+	// Use a script to refine the set of sales channels?
+	Usescript bool `json:"usescript,omitempty"`
+
+	// Script used to determine availability of the delivery
+	// scenario. More info on the delivery scenario overview
+	// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_ticketsales_deliveryscenarios) page.
+	Script string `json:"script,omitempty"`
 }
 
 type OrderfeeRule struct {
