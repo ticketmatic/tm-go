@@ -65,12 +65,12 @@ func Update(client *ticketmatic.Client, id int, data *ticketmatic.UpdatePriceTyp
 
 // Remove a price type
 //
-// Price types are archivable: this call won't actually delete the object from the database.
-// Instead, it will mark the object as archived, which means it won't show up anymore in most
-// places.
+// Price types are archivable: this call won't actually delete the object from the
+// database. Instead, it will mark the object as archived, which means it won't
+// show up anymore in most places.
 //
-// Most object types are archivable and can't be deleted: this is needed to ensure consistency of
-// historical data.
+// Most object types are archivable and can't be deleted: this is needed to ensure
+// consistency of historical data.
 func Delete(client *ticketmatic.Client, id int) error {
 	r := client.NewRequest("DELETE", "/{accountname}/settings/pricing/pricetypes/{id}")
 	r.UrlParameters(map[string]interface{}{

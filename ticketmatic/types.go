@@ -7,9 +7,9 @@ type DeliveryscenarioAvailability struct {
 	// Use a script to refine the set of sales channels?
 	Usescript bool `json:"usescript,omitempty"`
 
-	// Script used to determine availability of the delivery
-	// scenario. More info on the delivery scenario overview
-	// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_ticketsales_deliveryscenarios) page.
+	// Script used to determine availability of the delivery scenario. More info on the
+	// delivery scenario overview (https://apps.ticketmatic.com/#/knowledgebase/api/settings_ticketsales_deliveryscenarios)
+	// page.
 	Script string `json:"script,omitempty"`
 }
 
@@ -71,11 +71,12 @@ type OrderMailTemplateParameters struct {
 	// If this parameter is true, archived items will be returned as well.
 	Includearchived bool `json:"includearchived,omitempty"`
 
-	// All items that were updated since this timestamp will be returned. Timestamp should be passed
-	// in YYYY-MM-DD hh:mm:ss format.
+	// All items that were updated since this timestamp will be returned. Timestamp
+	// should be passed in YYYY-MM-DD hh:mm:ss format.
 	Lastupdatesince Time `json:"lastupdatesince,omitempty"`
 
-	// Filter the returned items by specifying a query on the public datamodel that returns the ids.
+	// Filter the returned items by specifying a query on the public datamodel that
+	// returns the ids.
 	Filter string `json:"filter,omitempty"`
 }
 
@@ -142,11 +143,12 @@ type UpdateOrderMailTemplate struct {
 }
 
 type WebSalesSkinParameters struct {
-	// All items that were updated since this timestamp will be returned. Timestamp should be passed
-	// in YYYY-MM-DD hh:mm:ss format.
+	// All items that were updated since this timestamp will be returned. Timestamp
+	// should be passed in YYYY-MM-DD hh:mm:ss format.
 	Lastupdatesince Time `json:"lastupdatesince,omitempty"`
 
-	// Filter the returned items by specifying a query on the public datamodel that returns the ids.
+	// Filter the returned items by specifying a query on the public datamodel that
+	// returns the ids.
 	Filter string `json:"filter,omitempty"`
 }
 
@@ -209,11 +211,12 @@ type EventLocationParameters struct {
 	// If this parameter is true, archived items will be returned as well.
 	Includearchived bool `json:"includearchived,omitempty"`
 
-	// All items that were updated since this timestamp will be returned. Timestamp should be passed
-	// in YYYY-MM-DD hh:mm:ss format.
+	// All items that were updated since this timestamp will be returned. Timestamp
+	// should be passed in YYYY-MM-DD hh:mm:ss format.
 	Lastupdatesince Time `json:"lastupdatesince,omitempty"`
 
-	// Filter the returned items by specifying a query on the public datamodel that returns the ids.
+	// Filter the returned items by specifying a query on the public datamodel that
+	// returns the ids.
 	Filter string `json:"filter,omitempty"`
 }
 
@@ -236,8 +239,8 @@ type ListEventLocation struct {
 	// City
 	City string `json:"city,omitempty"`
 
-	// Country code. Should be an ISO 3166-1 alpha-2 (http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)
-	// two-letter code.
+	// Country code. Should be an ISO 3166-1 alpha-2
+	// (http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) two-letter code.
 	Countrycode string `json:"countrycode,omitempty"`
 
 	// Created timestamp
@@ -269,8 +272,8 @@ type EventLocation struct {
 	// City
 	City string `json:"city,omitempty"`
 
-	// Country code. Should be an ISO 3166-1 alpha-2 (http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)
-	// two-letter code.
+	// Country code. Should be an ISO 3166-1 alpha-2
+	// (http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) two-letter code.
 	Countrycode string `json:"countrycode,omitempty"`
 
 	// Created timestamp
@@ -311,8 +314,8 @@ type CreateEventLocation struct {
 	// City
 	City string `json:"city,omitempty"`
 
-	// Country code. Should be an ISO 3166-1 alpha-2 (http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)
-	// two-letter code.
+	// Country code. Should be an ISO 3166-1 alpha-2
+	// (http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) two-letter code.
 	Countrycode string `json:"countrycode,omitempty"`
 }
 
@@ -332,8 +335,8 @@ type UpdateEventLocation struct {
 	// City
 	City string `json:"city,omitempty"`
 
-	// Country code. Should be an ISO 3166-1 alpha-2 (http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)
-	// two-letter code.
+	// Country code. Should be an ISO 3166-1 alpha-2
+	// (http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) two-letter code.
 	Countrycode string `json:"countrycode,omitempty"`
 }
 
@@ -341,11 +344,12 @@ type PriceAvailabilityParameters struct {
 	// If this parameter is true, archived items will be returned as well.
 	Includearchived bool `json:"includearchived,omitempty"`
 
-	// All items that were updated since this timestamp will be returned. Timestamp should be passed
-	// in YYYY-MM-DD hh:mm:ss format.
+	// All items that were updated since this timestamp will be returned. Timestamp
+	// should be passed in YYYY-MM-DD hh:mm:ss format.
 	Lastupdatesince Time `json:"lastupdatesince,omitempty"`
 
-	// Filter the returned items by specifying a query on the public datamodel that returns the ids.
+	// Filter the returned items by specifying a query on the public datamodel that
+	// returns the ids.
 	Filter string `json:"filter,omitempty"`
 }
 
@@ -402,11 +406,12 @@ type PriceListParameters struct {
 	// If this parameter is true, archived items will be returned as well.
 	Includearchived bool `json:"includearchived,omitempty"`
 
-	// All items that were updated since this timestamp will be returned. Timestamp should be passed
-	// in YYYY-MM-DD hh:mm:ss format.
+	// All items that were updated since this timestamp will be returned. Timestamp
+	// should be passed in YYYY-MM-DD hh:mm:ss format.
 	Lastupdatesince Time `json:"lastupdatesince,omitempty"`
 
-	// Filter the returned items by specifying a query on the public datamodel that returns the ids.
+	// Filter the returned items by specifying a query on the public datamodel that
+	// returns the ids.
 	Filter string `json:"filter,omitempty"`
 }
 
@@ -468,11 +473,12 @@ type PriceTypeParameters struct {
 	// If this parameter is true, archived items will be returned as well.
 	Includearchived bool `json:"includearchived,omitempty"`
 
-	// All items that were updated since this timestamp will be returned. Timestamp should be passed
-	// in YYYY-MM-DD hh:mm:ss format.
+	// All items that were updated since this timestamp will be returned. Timestamp
+	// should be passed in YYYY-MM-DD hh:mm:ss format.
 	Lastupdatesince Time `json:"lastupdatesince,omitempty"`
 
-	// Filter the returned items by specifying a query on the public datamodel that returns the ids.
+	// Filter the returned items by specifying a query on the public datamodel that
+	// returns the ids.
 	Filter string `json:"filter,omitempty"`
 }
 
@@ -535,11 +541,12 @@ type RevenueSplitCategoryParameters struct {
 	// If this parameter is true, archived items will be returned as well.
 	Includearchived bool `json:"includearchived,omitempty"`
 
-	// All items that were updated since this timestamp will be returned. Timestamp should be passed
-	// in YYYY-MM-DD hh:mm:ss format.
+	// All items that were updated since this timestamp will be returned. Timestamp
+	// should be passed in YYYY-MM-DD hh:mm:ss format.
 	Lastupdatesince Time `json:"lastupdatesince,omitempty"`
 
-	// Filter the returned items by specifying a query on the public datamodel that returns the ids.
+	// Filter the returned items by specifying a query on the public datamodel that
+	// returns the ids.
 	Filter string `json:"filter,omitempty"`
 }
 
@@ -592,11 +599,12 @@ type RevenueSplitParameters struct {
 	// If this parameter is true, archived items will be returned as well.
 	Includearchived bool `json:"includearchived,omitempty"`
 
-	// All items that were updated since this timestamp will be returned. Timestamp should be passed
-	// in YYYY-MM-DD hh:mm:ss format.
+	// All items that were updated since this timestamp will be returned. Timestamp
+	// should be passed in YYYY-MM-DD hh:mm:ss format.
 	Lastupdatesince Time `json:"lastupdatesince,omitempty"`
 
-	// Filter the returned items by specifying a query on the public datamodel that returns the ids.
+	// Filter the returned items by specifying a query on the public datamodel that
+	// returns the ids.
 	Filter string `json:"filter,omitempty"`
 }
 
@@ -653,11 +661,12 @@ type TicketFeeParameters struct {
 	// If this parameter is true, archived items will be returned as well.
 	Includearchived bool `json:"includearchived,omitempty"`
 
-	// All items that were updated since this timestamp will be returned. Timestamp should be passed
-	// in YYYY-MM-DD hh:mm:ss format.
+	// All items that were updated since this timestamp will be returned. Timestamp
+	// should be passed in YYYY-MM-DD hh:mm:ss format.
 	Lastupdatesince Time `json:"lastupdatesince,omitempty"`
 
-	// Filter the returned items by specifying a query on the public datamodel that returns the ids.
+	// Filter the returned items by specifying a query on the public datamodel that
+	// returns the ids.
 	Filter string `json:"filter,omitempty"`
 }
 
@@ -714,11 +723,12 @@ type FilterDefinitionParameters struct {
 	// If this parameter is true, archived items will be returned as well.
 	Includearchived bool `json:"includearchived,omitempty"`
 
-	// All items that were updated since this timestamp will be returned. Timestamp should be passed
-	// in YYYY-MM-DD hh:mm:ss format.
+	// All items that were updated since this timestamp will be returned. Timestamp
+	// should be passed in YYYY-MM-DD hh:mm:ss format.
 	Lastupdatesince Time `json:"lastupdatesince,omitempty"`
 
-	// Filter the returned items by specifying a query on the public datamodel that returns the ids.
+	// Filter the returned items by specifying a query on the public datamodel that
+	// returns the ids.
 	Filter string `json:"filter,omitempty"`
 
 	// Only return items with the given typeid.
@@ -797,11 +807,12 @@ type DeliveryScenarioParameters struct {
 	// If this parameter is true, archived items will be returned as well.
 	Includearchived bool `json:"includearchived,omitempty"`
 
-	// All items that were updated since this timestamp will be returned. Timestamp should be passed
-	// in YYYY-MM-DD hh:mm:ss format.
+	// All items that were updated since this timestamp will be returned. Timestamp
+	// should be passed in YYYY-MM-DD hh:mm:ss format.
 	Lastupdatesince Time `json:"lastupdatesince,omitempty"`
 
-	// Filter the returned items by specifying a query on the public datamodel that returns the ids.
+	// Filter the returned items by specifying a query on the public datamodel that
+	// returns the ids.
 	Filter string `json:"filter,omitempty"`
 }
 
@@ -818,16 +829,17 @@ type ListDeliveryScenario struct {
 	// An internal description field. Will not be shown to customers.
 	Internalremark string `json:"internalremark,omitempty"`
 
-	// The type of this delivery scenario, defines when this delivery scenario is triggered.
-	// The available values for this field can be found on the delivery scenario overview
-	// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_ticketsales_deliveryscenarios) page.
+	// The type of this delivery scenario, defines when this delivery scenario is
+	// triggered. The available values for this field can be found on the delivery
+	// scenario overview (https://apps.ticketmatic.com/#/knowledgebase/api/settings_ticketsales_deliveryscenarios)
+	// page.
 	Typeid int `json:"typeid,omitempty"`
 
 	// A physical address is required
 	Needsaddress bool `json:"needsaddress,omitempty"`
 
-	// The ID of the order mail template that will be used for sending out this delivery scenario. Can
-	// be 0 to indicate that no mail should be sent
+	// The ID of the order mail template that will be used for sending out this
+	// delivery scenario. Can be 0 to indicate that no mail should be sent
 	OrdermailtemplateidDelivery int `json:"ordermailtemplateid_delivery,omitempty"`
 
 	// Are e-tickets allowed with this delivery scenario?
@@ -856,21 +868,22 @@ type DeliveryScenario struct {
 	// An internal description field. Will not be shown to customers.
 	Internalremark string `json:"internalremark,omitempty"`
 
-	// The type of this delivery scenario, defines when this delivery scenario is triggered.
-	// The available values for this field can be found on the delivery scenario overview
-	// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_ticketsales_deliveryscenarios) page.
+	// The type of this delivery scenario, defines when this delivery scenario is
+	// triggered. The available values for this field can be found on the delivery
+	// scenario overview (https://apps.ticketmatic.com/#/knowledgebase/api/settings_ticketsales_deliveryscenarios)
+	// page.
 	Typeid int `json:"typeid,omitempty"`
 
 	// A physical address is required
 	Needsaddress bool `json:"needsaddress,omitempty"`
 
-	// The rules that define when this scenario is available. See the delivery scenario overview
-	// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_ticketsales_deliveryscenarios) page
-	// for a description of this field
+	// The rules that define when this scenario is available. See the delivery scenario
+	// overview (https://apps.ticketmatic.com/#/knowledgebase/api/settings_ticketsales_deliveryscenarios)
+	// page for a description of this field
 	Availability *DeliveryscenarioAvailability `json:"availability,omitempty"`
 
-	// The ID of the order mail template that will be used for sending out this delivery scenario. Can
-	// be 0 to indicate that no mail should be sent
+	// The ID of the order mail template that will be used for sending out this
+	// delivery scenario. Can be 0 to indicate that no mail should be sent
 	OrdermailtemplateidDelivery int `json:"ordermailtemplateid_delivery,omitempty"`
 
 	// Are e-tickets allowed with this delivery scenario?
@@ -910,21 +923,22 @@ type CreateDeliveryScenario struct {
 	// An internal description field. Will not be shown to customers.
 	Internalremark string `json:"internalremark,omitempty"`
 
-	// The type of this delivery scenario, defines when this delivery scenario is triggered.
-	// The available values for this field can be found on the delivery scenario overview
-	// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_ticketsales_deliveryscenarios) page.
+	// The type of this delivery scenario, defines when this delivery scenario is
+	// triggered. The available values for this field can be found on the delivery
+	// scenario overview (https://apps.ticketmatic.com/#/knowledgebase/api/settings_ticketsales_deliveryscenarios)
+	// page.
 	Typeid int `json:"typeid,omitempty"`
 
 	// A physical address is required
 	Needsaddress bool `json:"needsaddress,omitempty"`
 
-	// The rules that define when this scenario is available. See the delivery scenario overview
-	// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_ticketsales_deliveryscenarios) page
-	// for a description of this field
+	// The rules that define when this scenario is available. See the delivery scenario
+	// overview (https://apps.ticketmatic.com/#/knowledgebase/api/settings_ticketsales_deliveryscenarios)
+	// page for a description of this field
 	Availability *DeliveryscenarioAvailability `json:"availability,omitempty"`
 
-	// The ID of the order mail template that will be used for sending out this delivery scenario. Can
-	// be 0 to indicate that no mail should be sent
+	// The ID of the order mail template that will be used for sending out this
+	// delivery scenario. Can be 0 to indicate that no mail should be sent
 	OrdermailtemplateidDelivery int `json:"ordermailtemplateid_delivery,omitempty"`
 
 	// Are e-tickets allowed with this delivery scenario?
@@ -941,21 +955,22 @@ type UpdateDeliveryScenario struct {
 	// An internal description field. Will not be shown to customers.
 	Internalremark string `json:"internalremark,omitempty"`
 
-	// The type of this delivery scenario, defines when this delivery scenario is triggered.
-	// The available values for this field can be found on the delivery scenario overview
-	// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_ticketsales_deliveryscenarios) page.
+	// The type of this delivery scenario, defines when this delivery scenario is
+	// triggered. The available values for this field can be found on the delivery
+	// scenario overview (https://apps.ticketmatic.com/#/knowledgebase/api/settings_ticketsales_deliveryscenarios)
+	// page.
 	Typeid int `json:"typeid,omitempty"`
 
 	// A physical address is required
 	Needsaddress bool `json:"needsaddress,omitempty"`
 
-	// The rules that define when this scenario is available. See the delivery scenario overview
-	// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_ticketsales_deliveryscenarios) page
-	// for a description of this field
+	// The rules that define when this scenario is available. See the delivery scenario
+	// overview (https://apps.ticketmatic.com/#/knowledgebase/api/settings_ticketsales_deliveryscenarios)
+	// page for a description of this field
 	Availability *DeliveryscenarioAvailability `json:"availability,omitempty"`
 
-	// The ID of the order mail template that will be used for sending out this delivery scenario. Can
-	// be 0 to indicate that no mail should be sent
+	// The ID of the order mail template that will be used for sending out this
+	// delivery scenario. Can be 0 to indicate that no mail should be sent
 	OrdermailtemplateidDelivery int `json:"ordermailtemplateid_delivery,omitempty"`
 
 	// Are e-tickets allowed with this delivery scenario?
@@ -966,11 +981,12 @@ type LockTypeParameters struct {
 	// If this parameter is true, archived items will be returned as well.
 	Includearchived bool `json:"includearchived,omitempty"`
 
-	// All items that were updated since this timestamp will be returned. Timestamp should be passed
-	// in YYYY-MM-DD hh:mm:ss format.
+	// All items that were updated since this timestamp will be returned. Timestamp
+	// should be passed in YYYY-MM-DD hh:mm:ss format.
 	Lastupdatesince Time `json:"lastupdatesince,omitempty"`
 
-	// Filter the returned items by specifying a query on the public datamodel that returns the ids.
+	// Filter the returned items by specifying a query on the public datamodel that
+	// returns the ids.
 	Filter string `json:"filter,omitempty"`
 }
 
@@ -1028,11 +1044,12 @@ type OrderFeeParameters struct {
 	// If this parameter is true, archived items will be returned as well.
 	Includearchived bool `json:"includearchived,omitempty"`
 
-	// All items that were updated since this timestamp will be returned. Timestamp should be passed
-	// in YYYY-MM-DD hh:mm:ss format.
+	// All items that were updated since this timestamp will be returned. Timestamp
+	// should be passed in YYYY-MM-DD hh:mm:ss format.
 	Lastupdatesince Time `json:"lastupdatesince,omitempty"`
 
-	// Filter the returned items by specifying a query on the public datamodel that returns the ids.
+	// Filter the returned items by specifying a query on the public datamodel that
+	// returns the ids.
 	Filter string `json:"filter,omitempty"`
 }
 
@@ -1094,11 +1111,12 @@ type PaymentMethodParameters struct {
 	// If this parameter is true, archived items will be returned as well.
 	Includearchived bool `json:"includearchived,omitempty"`
 
-	// All items that were updated since this timestamp will be returned. Timestamp should be passed
-	// in YYYY-MM-DD hh:mm:ss format.
+	// All items that were updated since this timestamp will be returned. Timestamp
+	// should be passed in YYYY-MM-DD hh:mm:ss format.
 	Lastupdatesince Time `json:"lastupdatesince,omitempty"`
 
-	// Filter the returned items by specifying a query on the public datamodel that returns the ids.
+	// Filter the returned items by specifying a query on the public datamodel that
+	// returns the ids.
 	Filter string `json:"filter,omitempty"`
 }
 
@@ -1170,11 +1188,12 @@ type PaymentScenarioParameters struct {
 	// If this parameter is true, archived items will be returned as well.
 	Includearchived bool `json:"includearchived,omitempty"`
 
-	// All items that were updated since this timestamp will be returned. Timestamp should be passed
-	// in YYYY-MM-DD hh:mm:ss format.
+	// All items that were updated since this timestamp will be returned. Timestamp
+	// should be passed in YYYY-MM-DD hh:mm:ss format.
 	Lastupdatesince Time `json:"lastupdatesince,omitempty"`
 
-	// Filter the returned items by specifying a query on the public datamodel that returns the ids.
+	// Filter the returned items by specifying a query on the public datamodel that
+	// returns the ids.
 	Filter string `json:"filter,omitempty"`
 }
 
@@ -1188,12 +1207,12 @@ type ListPaymentScenario struct {
 	// Short description of the payment scenario, will be shown to customers
 	Shortdescription string `json:"shortdescription,omitempty"`
 
-	// An internal remark, which is never shown to customers. Can be used to distinguish identically
-	// named payment scenarios.
+	// An internal remark, which is never shown to customers. Can be used to
+	// distinguish identically named payment scenarios.
 	//
-	// For example: You could have two VISA scenarios, one for the web sales and one for the box
-	// office, each will have different fee configurations. Both will be named VISA, this field can be
-	// used to distinguish them.
+	// For example: You could have two VISA scenarios, one for the web sales and one
+	// for the box office, each will have different fee configurations. Both will be
+	// named VISA, this field can be used to distinguish them.
 	Internalremark                        string `json:"internalremark,omitempty"`
 	Typeid                                int    `json:"typeid,omitempty"`
 	Paymentmethods                        []int  `json:"paymentmethods,omitempty"`
@@ -1221,12 +1240,12 @@ type PaymentScenario struct {
 	// Short description of the payment scenario, will be shown to customers
 	Shortdescription string `json:"shortdescription,omitempty"`
 
-	// An internal remark, which is never shown to customers. Can be used to distinguish identically
-	// named payment scenarios.
+	// An internal remark, which is never shown to customers. Can be used to
+	// distinguish identically named payment scenarios.
 	//
-	// For example: You could have two VISA scenarios, one for the web sales and one for the box
-	// office, each will have different fee configurations. Both will be named VISA, this field can be
-	// used to distinguish them.
+	// For example: You could have two VISA scenarios, one for the web sales and one
+	// for the box office, each will have different fee configurations. Both will be
+	// named VISA, this field can be used to distinguish them.
 	Internalremark                        string                            `json:"internalremark,omitempty"`
 	Typeid                                int                               `json:"typeid,omitempty"`
 	Overdueparameters                     *PaymentscenarioOverdueParameters `json:"overdueparameters,omitempty"`
@@ -1271,12 +1290,12 @@ type CreatePaymentScenario struct {
 	// Short description of the payment scenario, will be shown to customers
 	Shortdescription string `json:"shortdescription,omitempty"`
 
-	// An internal remark, which is never shown to customers. Can be used to distinguish identically
-	// named payment scenarios.
+	// An internal remark, which is never shown to customers. Can be used to
+	// distinguish identically named payment scenarios.
 	//
-	// For example: You could have two VISA scenarios, one for the web sales and one for the box
-	// office, each will have different fee configurations. Both will be named VISA, this field can be
-	// used to distinguish them.
+	// For example: You could have two VISA scenarios, one for the web sales and one
+	// for the box office, each will have different fee configurations. Both will be
+	// named VISA, this field can be used to distinguish them.
 	Internalremark                        string                            `json:"internalremark,omitempty"`
 	Typeid                                int                               `json:"typeid,omitempty"`
 	Overdueparameters                     *PaymentscenarioOverdueParameters `json:"overdueparameters,omitempty"`
@@ -1295,12 +1314,12 @@ type UpdatePaymentScenario struct {
 	// Short description of the payment scenario, will be shown to customers
 	Shortdescription string `json:"shortdescription,omitempty"`
 
-	// An internal remark, which is never shown to customers. Can be used to distinguish identically
-	// named payment scenarios.
+	// An internal remark, which is never shown to customers. Can be used to
+	// distinguish identically named payment scenarios.
 	//
-	// For example: You could have two VISA scenarios, one for the web sales and one for the box
-	// office, each will have different fee configurations. Both will be named VISA, this field can be
-	// used to distinguish them.
+	// For example: You could have two VISA scenarios, one for the web sales and one
+	// for the box office, each will have different fee configurations. Both will be
+	// named VISA, this field can be used to distinguish them.
 	Internalremark                        string                            `json:"internalremark,omitempty"`
 	Typeid                                int                               `json:"typeid,omitempty"`
 	Overdueparameters                     *PaymentscenarioOverdueParameters `json:"overdueparameters,omitempty"`
@@ -1316,11 +1335,12 @@ type SalesChannelParameters struct {
 	// If this parameter is true, archived items will be returned as well.
 	Includearchived bool `json:"includearchived,omitempty"`
 
-	// All items that were updated since this timestamp will be returned. Timestamp should be passed
-	// in YYYY-MM-DD hh:mm:ss format.
+	// All items that were updated since this timestamp will be returned. Timestamp
+	// should be passed in YYYY-MM-DD hh:mm:ss format.
 	Lastupdatesince Time `json:"lastupdatesince,omitempty"`
 
-	// Filter the returned items by specifying a query on the public datamodel that returns the ids.
+	// Filter the returned items by specifying a query on the public datamodel that
+	// returns the ids.
 	Filter string `json:"filter,omitempty"`
 }
 
@@ -1333,7 +1353,8 @@ type ListSalesChannel struct {
 
 	// The type of this sales channel, defines where this sales channel will be used.
 	// The available values for this field can be found on the sales channel overview
-	// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_ticketsales_saleschannels) page.
+	// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_ticketsales_saleschannels)
+	// page.
 	Typeid int `json:"typeid,omitempty"`
 
 	// The ID of the order mail template to use for sending confirmations
@@ -1361,7 +1382,8 @@ type SalesChannel struct {
 
 	// The type of this sales channel, defines where this sales channel will be used.
 	// The available values for this field can be found on the sales channel overview
-	// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_ticketsales_saleschannels) page.
+	// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_ticketsales_saleschannels)
+	// page.
 	Typeid int `json:"typeid,omitempty"`
 
 	// The ID of the order mail template to use for sending confirmations
@@ -1396,7 +1418,8 @@ type CreateSalesChannel struct {
 
 	// The type of this sales channel, defines where this sales channel will be used.
 	// The available values for this field can be found on the sales channel overview
-	// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_ticketsales_saleschannels) page.
+	// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_ticketsales_saleschannels)
+	// page.
 	Typeid int `json:"typeid,omitempty"`
 
 	// The ID of the order mail template to use for sending confirmations
@@ -1412,7 +1435,8 @@ type UpdateSalesChannel struct {
 
 	// The type of this sales channel, defines where this sales channel will be used.
 	// The available values for this field can be found on the sales channel overview
-	// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_ticketsales_saleschannels) page.
+	// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_ticketsales_saleschannels)
+	// page.
 	Typeid int `json:"typeid,omitempty"`
 
 	// The ID of the order mail template to use for sending confirmations

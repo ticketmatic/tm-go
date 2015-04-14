@@ -1,6 +1,7 @@
-// Pricetypes describe the different types of prices that exist for an event, for example
-// "Standard", "Reduction -26", "Guest" or "VIP". Pricetypes are used in pricelists to define
-// actual prices. Pricetypes are global for the account. Pricetypes are themselves categorized in:
+// Pricetypes describe the different types of prices that exist for an event,
+// for example "Standard", "Reduction -26", "Guest" or "VIP". Pricetypes are used
+// in pricelists to define actual prices. Pricetypes are global for the account.
+// Pricetypes are themselves categorized in:
 //
 // * Normal (id 2302)
 //
