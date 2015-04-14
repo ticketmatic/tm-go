@@ -18,5 +18,7 @@ func TestMain(m *testing.M) {
 		os.Exit(1)
 	}
 
+	server = "https://qa.ticketmatic.com/api"
+
 	os.Exit(m.Run())
 }

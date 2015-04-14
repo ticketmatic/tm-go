@@ -6,6 +6,8 @@
 //
 // Examples include: Print at home, Mobile, Send by mail, Retrieve at desk
 //
+// TODO: availability
+//
 // Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center

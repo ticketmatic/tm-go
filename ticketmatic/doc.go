@@ -22,6 +22,8 @@
 //
 // * Authentication (https://apps.ticketmatic.com/#/knowledgebase/api/coreconcepts_authentication)
 //
+// * Custom fields (https://apps.ticketmatic.com/#/knowledgebase/api/coreconcepts_customfields)
+//
 // * Error handling (https://apps.ticketmatic.com/#/knowledgebase/api/coreconcepts_errors)
 //
 // * Translations (https://apps.ticketmatic.com/#/knowledgebase/api/coreconcepts_translations)

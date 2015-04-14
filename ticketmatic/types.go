@@ -104,6 +104,17 @@ type OrderMailTemplate struct {
 	Isarchived bool `json:"isarchived,omitempty"`
 }
 
+// Convert OrderMailTemplate to UpdateOrderMailTemplate
+func (o *OrderMailTemplate) Update() *UpdateOrderMailTemplate {
+	return &UpdateOrderMailTemplate{
+		Name:         o.Name,
+		Typeid:       o.Typeid,
+		Subject:      o.Subject,
+		Body:         o.Body,
+		Translations: o.Translations,
+	}
+}
+
 type CreateOrderMailTemplate struct {
 	Name         string            `json:"name,omitempty"`
 	Typeid       int               `json:"typeid,omitempty"`
@@ -155,6 +166,17 @@ type WebSalesSkin struct {
 
 	// Last updated timestamp
 	Lastupdatets Time `json:"lastupdatets,omitempty"`
+}
+
+// Convert WebSalesSkin to UpdateWebSalesSkin
+func (o *WebSalesSkin) Update() *UpdateWebSalesSkin {
+	return &UpdateWebSalesSkin{
+		Name:          o.Name,
+		Html:          o.Html,
+		Css:           o.Css,
+		Translations:  o.Translations,
+		Configuration: o.Configuration,
+	}
 }
 
 type CreateWebSalesSkin struct {
@@ -251,6 +273,18 @@ type EventLocation struct {
 	Isarchived bool `json:"isarchived,omitempty"`
 }
 
+// Convert EventLocation to UpdateEventLocation
+func (o *EventLocation) Update() *UpdateEventLocation {
+	return &UpdateEventLocation{
+		Name:        o.Name,
+		Street1:     o.Street1,
+		Street2:     o.Street2,
+		Zip:         o.Zip,
+		City:        o.City,
+		Countrycode: o.Countrycode,
+	}
+}
+
 type CreateEventLocation struct {
 	// Name of the location
 	Name string `json:"name,omitempty"`
@@ -336,6 +370,14 @@ type PriceAvailability struct {
 	Isarchived bool `json:"isarchived,omitempty"`
 }
 
+// Convert PriceAvailability to UpdatePriceAvailability
+func (o *PriceAvailability) Update() *UpdatePriceAvailability {
+	return &UpdatePriceAvailability{
+		Name:  o.Name,
+		Rules: o.Rules,
+	}
+}
+
 type CreatePriceAvailability struct {
 	Name  string                  `json:"name,omitempty"`
 	Rules *PriceAvailabilityRules `json:"rules,omitempty"`
@@ -389,6 +431,15 @@ type PriceList struct {
 
 	// Whether or not this item is archived
 	Isarchived bool `json:"isarchived,omitempty"`
+}
+
+// Convert PriceList to UpdatePriceList
+func (o *PriceList) Update() *UpdatePriceList {
+	return &UpdatePriceList{
+		Name:     o.Name,
+		Prices:   o.Prices,
+		Hasranks: o.Hasranks,
+	}
 }
 
 type CreatePriceList struct {
@@ -449,6 +500,15 @@ type PriceType struct {
 	Isarchived bool `json:"isarchived,omitempty"`
 }
 
+// Convert PriceType to UpdatePriceType
+func (o *PriceType) Update() *UpdatePriceType {
+	return &UpdatePriceType{
+		Name:   o.Name,
+		Typeid: o.Typeid,
+		Remark: o.Remark,
+	}
+}
+
 type CreatePriceType struct {
 	Name   string `json:"name,omitempty"`
 	Typeid int    `json:"typeid,omitempty"`
@@ -503,6 +563,13 @@ type RevenueSplitCategory struct {
 	Isarchived bool `json:"isarchived,omitempty"`
 }
 
+// Convert RevenueSplitCategory to UpdateRevenueSplitCategory
+func (o *RevenueSplitCategory) Update() *UpdateRevenueSplitCategory {
+	return &UpdateRevenueSplitCategory{
+		Name: o.Name,
+	}
+}
+
 type CreateRevenueSplitCategory struct {
 	Name string `json:"name,omitempty"`
 }
@@ -552,6 +619,14 @@ type RevenueSplit struct {
 
 	// Whether or not this item is archived
 	Isarchived bool `json:"isarchived,omitempty"`
+}
+
+// Convert RevenueSplit to UpdateRevenueSplit
+func (o *RevenueSplit) Update() *UpdateRevenueSplit {
+	return &UpdateRevenueSplit{
+		Name:  o.Name,
+		Rules: o.Rules,
+	}
 }
 
 type CreateRevenueSplit struct {
@@ -605,6 +680,14 @@ type TicketFee struct {
 
 	// Whether or not this item is archived
 	Isarchived bool `json:"isarchived,omitempty"`
+}
+
+// Convert TicketFee to UpdateTicketFee
+func (o *TicketFee) Update() *UpdateTicketFee {
+	return &UpdateTicketFee{
+		Name:  o.Name,
+		Rules: o.Rules,
+	}
 }
 
 type CreateTicketFee struct {
@@ -674,6 +757,16 @@ type FilterDefinition struct {
 	Isarchived bool `json:"isarchived,omitempty"`
 }
 
+// Convert FilterDefinition to UpdateFilterDefinition
+func (o *FilterDefinition) Update() *UpdateFilterDefinition {
+	return &UpdateFilterDefinition{
+		Description:    o.Description,
+		Sqlclause:      o.Sqlclause,
+		Filtertype:     o.Filtertype,
+		Checklistquery: o.Checklistquery,
+	}
+}
+
 type CreateFilterDefinition struct {
 	// Type ID
 	Typeid         int    `json:"typeid,omitempty"`
@@ -704,14 +797,31 @@ type DeliveryScenarioParameters struct {
 
 type ListDeliveryScenario struct {
 	// Unique ID
-	Id                          int    `json:"id,omitempty"`
-	Name                        string `json:"name,omitempty"`
-	Shortdescription            string `json:"shortdescription,omitempty"`
-	Internalremark              string `json:"internalremark,omitempty"`
-	Typeid                      int    `json:"typeid,omitempty"`
-	Needsaddress                bool   `json:"needsaddress,omitempty"`
-	OrdermailtemplateidDelivery int    `json:"ordermailtemplateid_delivery,omitempty"`
-	Allowetickets               int    `json:"allowetickets,omitempty"`
+	Id int `json:"id,omitempty"`
+
+	// Name of the delivery scenario
+	Name string `json:"name,omitempty"`
+
+	// A short description of the deilvery scenario. Will be shown to customers.
+	Shortdescription string `json:"shortdescription,omitempty"`
+
+	// An internal description field. Will not be shown to customers.
+	Internalremark string `json:"internalremark,omitempty"`
+
+	// The type of this delivery scenario, defines when this delivery scenario is triggered.
+	// The available values for this field can be found on the delivery scenario overview
+	// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_ticketsales_deliveryscenarios) page.
+	Typeid int `json:"typeid,omitempty"`
+
+	// A physical address is required
+	Needsaddress bool `json:"needsaddress,omitempty"`
+
+	// The ID of the order mail template that will be used for sending out this delivery scenario. Can
+	// be 0 to indicate that no mail should be sent
+	OrdermailtemplateidDelivery int `json:"ordermailtemplateid_delivery,omitempty"`
+
+	// Are e-tickets allowed with this delivery scenario?
+	Allowetickets int `json:"allowetickets,omitempty"`
 
 	// Created timestamp
 	Createdts Time `json:"createdts,omitempty"`
@@ -725,15 +835,36 @@ type ListDeliveryScenario struct {
 
 type DeliveryScenario struct {
 	// Unique ID
-	Id                          int                           `json:"id,omitempty"`
-	Name                        string                        `json:"name,omitempty"`
-	Shortdescription            string                        `json:"shortdescription,omitempty"`
-	Internalremark              string                        `json:"internalremark,omitempty"`
-	Typeid                      int                           `json:"typeid,omitempty"`
-	Needsaddress                bool                          `json:"needsaddress,omitempty"`
-	Availability                *DeliveryscenarioAvailability `json:"availability,omitempty"`
-	OrdermailtemplateidDelivery int                           `json:"ordermailtemplateid_delivery,omitempty"`
-	Allowetickets               int                           `json:"allowetickets,omitempty"`
+	Id int `json:"id,omitempty"`
+
+	// Name of the delivery scenario
+	Name string `json:"name,omitempty"`
+
+	// A short description of the deilvery scenario. Will be shown to customers.
+	Shortdescription string `json:"shortdescription,omitempty"`
+
+	// An internal description field. Will not be shown to customers.
+	Internalremark string `json:"internalremark,omitempty"`
+
+	// The type of this delivery scenario, defines when this delivery scenario is triggered.
+	// The available values for this field can be found on the delivery scenario overview
+	// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_ticketsales_deliveryscenarios) page.
+	Typeid int `json:"typeid,omitempty"`
+
+	// A physical address is required
+	Needsaddress bool `json:"needsaddress,omitempty"`
+
+	// The rules that define when this scenario is available. See the delivery scenario overview
+	// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_ticketsales_deliveryscenarios) page
+	// for a description of this field
+	Availability *DeliveryscenarioAvailability `json:"availability,omitempty"`
+
+	// The ID of the order mail template that will be used for sending out this delivery scenario. Can
+	// be 0 to indicate that no mail should be sent
+	OrdermailtemplateidDelivery int `json:"ordermailtemplateid_delivery,omitempty"`
+
+	// Are e-tickets allowed with this delivery scenario?
+	Allowetickets int `json:"allowetickets,omitempty"`
 
 	// Created timestamp
 	Createdts Time `json:"createdts,omitempty"`
@@ -745,26 +876,80 @@ type DeliveryScenario struct {
 	Isarchived bool `json:"isarchived,omitempty"`
 }
 
+// Convert DeliveryScenario to UpdateDeliveryScenario
+func (o *DeliveryScenario) Update() *UpdateDeliveryScenario {
+	return &UpdateDeliveryScenario{
+		Name:                        o.Name,
+		Shortdescription:            o.Shortdescription,
+		Internalremark:              o.Internalremark,
+		Typeid:                      o.Typeid,
+		Needsaddress:                o.Needsaddress,
+		Availability:                o.Availability,
+		OrdermailtemplateidDelivery: o.OrdermailtemplateidDelivery,
+		Allowetickets:               o.Allowetickets,
+	}
+}
+
 type CreateDeliveryScenario struct {
-	Name                        string                        `json:"name,omitempty"`
-	Shortdescription            string                        `json:"shortdescription,omitempty"`
-	Internalremark              string                        `json:"internalremark,omitempty"`
-	Typeid                      int                           `json:"typeid,omitempty"`
-	Needsaddress                bool                          `json:"needsaddress,omitempty"`
-	Availability                *DeliveryscenarioAvailability `json:"availability,omitempty"`
-	OrdermailtemplateidDelivery int                           `json:"ordermailtemplateid_delivery,omitempty"`
-	Allowetickets               int                           `json:"allowetickets,omitempty"`
+	// Name of the delivery scenario
+	Name string `json:"name,omitempty"`
+
+	// A short description of the deilvery scenario. Will be shown to customers.
+	Shortdescription string `json:"shortdescription,omitempty"`
+
+	// An internal description field. Will not be shown to customers.
+	Internalremark string `json:"internalremark,omitempty"`
+
+	// The type of this delivery scenario, defines when this delivery scenario is triggered.
+	// The available values for this field can be found on the delivery scenario overview
+	// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_ticketsales_deliveryscenarios) page.
+	Typeid int `json:"typeid,omitempty"`
+
+	// A physical address is required
+	Needsaddress bool `json:"needsaddress,omitempty"`
+
+	// The rules that define when this scenario is available. See the delivery scenario overview
+	// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_ticketsales_deliveryscenarios) page
+	// for a description of this field
+	Availability *DeliveryscenarioAvailability `json:"availability,omitempty"`
+
+	// The ID of the order mail template that will be used for sending out this delivery scenario. Can
+	// be 0 to indicate that no mail should be sent
+	OrdermailtemplateidDelivery int `json:"ordermailtemplateid_delivery,omitempty"`
+
+	// Are e-tickets allowed with this delivery scenario?
+	Allowetickets int `json:"allowetickets,omitempty"`
 }
 
 type UpdateDeliveryScenario struct {
-	Name                        string                        `json:"name,omitempty"`
-	Shortdescription            string                        `json:"shortdescription,omitempty"`
-	Internalremark              string                        `json:"internalremark,omitempty"`
-	Typeid                      int                           `json:"typeid,omitempty"`
-	Needsaddress                bool                          `json:"needsaddress,omitempty"`
-	Availability                *DeliveryscenarioAvailability `json:"availability,omitempty"`
-	OrdermailtemplateidDelivery int                           `json:"ordermailtemplateid_delivery,omitempty"`
-	Allowetickets               int                           `json:"allowetickets,omitempty"`
+	// Name of the delivery scenario
+	Name string `json:"name,omitempty"`
+
+	// A short description of the deilvery scenario. Will be shown to customers.
+	Shortdescription string `json:"shortdescription,omitempty"`
+
+	// An internal description field. Will not be shown to customers.
+	Internalremark string `json:"internalremark,omitempty"`
+
+	// The type of this delivery scenario, defines when this delivery scenario is triggered.
+	// The available values for this field can be found on the delivery scenario overview
+	// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_ticketsales_deliveryscenarios) page.
+	Typeid int `json:"typeid,omitempty"`
+
+	// A physical address is required
+	Needsaddress bool `json:"needsaddress,omitempty"`
+
+	// The rules that define when this scenario is available. See the delivery scenario overview
+	// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_ticketsales_deliveryscenarios) page
+	// for a description of this field
+	Availability *DeliveryscenarioAvailability `json:"availability,omitempty"`
+
+	// The ID of the order mail template that will be used for sending out this delivery scenario. Can
+	// be 0 to indicate that no mail should be sent
+	OrdermailtemplateidDelivery int `json:"ordermailtemplateid_delivery,omitempty"`
+
+	// Are e-tickets allowed with this delivery scenario?
+	Allowetickets int `json:"allowetickets,omitempty"`
 }
 
 type LockTypeParameters struct {
@@ -809,6 +994,14 @@ type LockType struct {
 
 	// Whether or not this item is archived
 	Isarchived bool `json:"isarchived,omitempty"`
+}
+
+// Convert LockType to UpdateLockType
+func (o *LockType) Update() *UpdateLockType {
+	return &UpdateLockType{
+		Name:       o.Name,
+		Ishardlock: o.Ishardlock,
+	}
 }
 
 type CreateLockType struct {
@@ -864,6 +1057,15 @@ type OrderFee struct {
 
 	// Whether or not this item is archived
 	Isarchived bool `json:"isarchived,omitempty"`
+}
+
+// Convert OrderFee to UpdateOrderFee
+func (o *OrderFee) Update() *UpdateOrderFee {
+	return &UpdateOrderFee{
+		Name:   o.Name,
+		Typeid: o.Typeid,
+		Rule:   o.Rule,
+	}
 }
 
 type CreateOrderFee struct {
@@ -925,6 +1127,17 @@ type PaymentMethod struct {
 
 	// Whether or not this item is archived
 	Isarchived bool `json:"isarchived,omitempty"`
+}
+
+// Convert PaymentMethod to UpdatePaymentMethod
+func (o *PaymentMethod) Update() *UpdatePaymentMethod {
+	return &UpdatePaymentMethod{
+		Name:                    o.Name,
+		Internalremark:          o.Internalremark,
+		Paymentmethodtypeid:     o.Paymentmethodtypeid,
+		Paymentmethodreceiverid: o.Paymentmethodreceiverid,
+		Config:                  o.Config,
+	}
 }
 
 type CreatePaymentMethod struct {
@@ -1022,6 +1235,23 @@ type PaymentScenario struct {
 
 	// Whether or not this item is archived
 	Isarchived bool `json:"isarchived,omitempty"`
+}
+
+// Convert PaymentScenario to UpdatePaymentScenario
+func (o *PaymentScenario) Update() *UpdatePaymentScenario {
+	return &UpdatePaymentScenario{
+		Name:                                  o.Name,
+		Shortdescription:                      o.Shortdescription,
+		Internalremark:                        o.Internalremark,
+		Typeid:                                o.Typeid,
+		Overdueparameters:                     o.Overdueparameters,
+		Expiryparameters:                      o.Expiryparameters,
+		Availability:                          o.Availability,
+		Paymentmethods:                        o.Paymentmethods,
+		OrdermailtemplateidPaymentinstruction: o.OrdermailtemplateidPaymentinstruction,
+		OrdermailtemplateidOverdue:            o.OrdermailtemplateidOverdue,
+		OrdermailtemplateidExpiry:             o.OrdermailtemplateidExpiry,
+	}
 }
 
 type CreatePaymentScenario struct {
@@ -1138,6 +1368,16 @@ type SalesChannel struct {
 
 	// Whether or not this item is archived
 	Isarchived bool `json:"isarchived,omitempty"`
+}
+
+// Convert SalesChannel to UpdateSalesChannel
+func (o *SalesChannel) Update() *UpdateSalesChannel {
+	return &UpdateSalesChannel{
+		Name:   o.Name,
+		Typeid: o.Typeid,
+		OrdermailtemplateidConfirmation:           o.OrdermailtemplateidConfirmation,
+		OrdermailtemplateidConfirmationSendalways: o.OrdermailtemplateidConfirmationSendalways,
+	}
 }
 
 type CreateSalesChannel struct {
