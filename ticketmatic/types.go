@@ -8,7 +8,8 @@ type DeliveryscenarioAvailability struct {
 	Usescript bool `json:"usescript,omitempty"`
 
 	// Script used to determine availability of the delivery scenario. More info on the
-	// delivery scenario overview (https://apps.ticketmatic.com/#/knowledgebase/api/settings_ticketsales_deliveryscenarios)
+	// delivery scenario overview
+	// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_ticketsales_deliveryscenarios)
 	// page.
 	Script string `json:"script,omitempty"`
 }
@@ -831,7 +832,8 @@ type ListDeliveryScenario struct {
 
 	// The type of this delivery scenario, defines when this delivery scenario is
 	// triggered. The available values for this field can be found on the delivery
-	// scenario overview (https://apps.ticketmatic.com/#/knowledgebase/api/settings_ticketsales_deliveryscenarios)
+	// scenario overview
+	// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_ticketsales_deliveryscenarios)
 	// page.
 	Typeid int `json:"typeid,omitempty"`
 
@@ -870,7 +872,8 @@ type DeliveryScenario struct {
 
 	// The type of this delivery scenario, defines when this delivery scenario is
 	// triggered. The available values for this field can be found on the delivery
-	// scenario overview (https://apps.ticketmatic.com/#/knowledgebase/api/settings_ticketsales_deliveryscenarios)
+	// scenario overview
+	// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_ticketsales_deliveryscenarios)
 	// page.
 	Typeid int `json:"typeid,omitempty"`
 
@@ -878,7 +881,8 @@ type DeliveryScenario struct {
 	Needsaddress bool `json:"needsaddress,omitempty"`
 
 	// The rules that define when this scenario is available. See the delivery scenario
-	// overview (https://apps.ticketmatic.com/#/knowledgebase/api/settings_ticketsales_deliveryscenarios)
+	// overview
+	// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_ticketsales_deliveryscenarios)
 	// page for a description of this field
 	Availability *DeliveryscenarioAvailability `json:"availability,omitempty"`
 
@@ -925,7 +929,8 @@ type CreateDeliveryScenario struct {
 
 	// The type of this delivery scenario, defines when this delivery scenario is
 	// triggered. The available values for this field can be found on the delivery
-	// scenario overview (https://apps.ticketmatic.com/#/knowledgebase/api/settings_ticketsales_deliveryscenarios)
+	// scenario overview
+	// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_ticketsales_deliveryscenarios)
 	// page.
 	Typeid int `json:"typeid,omitempty"`
 
@@ -933,7 +938,8 @@ type CreateDeliveryScenario struct {
 	Needsaddress bool `json:"needsaddress,omitempty"`
 
 	// The rules that define when this scenario is available. See the delivery scenario
-	// overview (https://apps.ticketmatic.com/#/knowledgebase/api/settings_ticketsales_deliveryscenarios)
+	// overview
+	// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_ticketsales_deliveryscenarios)
 	// page for a description of this field
 	Availability *DeliveryscenarioAvailability `json:"availability,omitempty"`
 
@@ -957,7 +963,8 @@ type UpdateDeliveryScenario struct {
 
 	// The type of this delivery scenario, defines when this delivery scenario is
 	// triggered. The available values for this field can be found on the delivery
-	// scenario overview (https://apps.ticketmatic.com/#/knowledgebase/api/settings_ticketsales_deliveryscenarios)
+	// scenario overview
+	// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_ticketsales_deliveryscenarios)
 	// page.
 	Typeid int `json:"typeid,omitempty"`
 
@@ -965,7 +972,8 @@ type UpdateDeliveryScenario struct {
 	Needsaddress bool `json:"needsaddress,omitempty"`
 
 	// The rules that define when this scenario is available. See the delivery scenario
-	// overview (https://apps.ticketmatic.com/#/knowledgebase/api/settings_ticketsales_deliveryscenarios)
+	// overview
+	// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_ticketsales_deliveryscenarios)
 	// page for a description of this field
 	Availability *DeliveryscenarioAvailability `json:"availability,omitempty"`
 

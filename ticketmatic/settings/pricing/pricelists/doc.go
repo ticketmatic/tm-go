@@ -25,8 +25,8 @@
 // same price list can be linked to multiple events.
 //
 // Changing the price in a price list will automatically change the price in all
-// events that have linked this price list. (Remark: the new prices will only
-// be applied for new orders, prices for tickets that are already sold will not
+// events that have linked this price list. (Remark: the new prices will only be
+// applied for new orders, prices for tickets that are already sold will not
 // change)
 //
 // Help Center
