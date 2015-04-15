@@ -1,5 +1,8 @@
 // In Ticketmatic, each order is created in the context of a sales channel.
 //
+// For an overview of ticket sales concepts, check the ticket sales setup guide
+// (https://apps.ticketmatic.com/#/knowledgebase/setupexpert_ticketsales).
+//
 // Types
 //
 // There are 3 types of sales channels:
