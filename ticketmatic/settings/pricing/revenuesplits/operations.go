@@ -79,10 +79,3 @@ func Delete(client *ticketmatic.Client, id int) error {
 
 	return r.Run(nil)
 }
-
-// Batch modify revenue splits
-func Batch(client *ticketmatic.Client) error {
-	r := client.NewRequest("PUT", "/{accountname}/settings/pricing/revenuesplits")
-
-	return r.Run(nil)
-}

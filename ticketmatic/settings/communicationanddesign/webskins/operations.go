@@ -71,10 +71,3 @@ func Delete(client *ticketmatic.Client, id int) error {
 
 	return r.Run(nil)
 }
-
-// Batch modify web sales skins
-func Batch(client *ticketmatic.Client) error {
-	r := client.NewRequest("PUT", "/{accountname}/settings/communicationanddesign/webskins")
-
-	return r.Run(nil)
-}

@@ -79,10 +79,3 @@ func Delete(client *ticketmatic.Client, id int) error {
 
 	return r.Run(nil)
 }
-
-// Batch modify price lists
-func Batch(client *ticketmatic.Client) error {
-	r := client.NewRequest("PUT", "/{accountname}/settings/pricing/pricelists")
-
-	return r.Run(nil)
-}

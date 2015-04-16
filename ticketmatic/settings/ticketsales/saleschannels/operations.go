@@ -79,10 +79,3 @@ func Delete(client *ticketmatic.Client, id int) error {
 
 	return r.Run(nil)
 }
-
-// Batch modify sales channels
-func Batch(client *ticketmatic.Client) error {
-	r := client.NewRequest("PUT", "/{accountname}/settings/ticketsales/saleschannels")
-
-	return r.Run(nil)
-}

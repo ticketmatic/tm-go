@@ -1,6 +1,8 @@
 package ticketmatic
 
-// A DeliveryscenarioAvailability defines when a delivery scenario is available.
+// A DeliveryscenarioAvailability defines when a delivery scenario
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/DeliveryScenario) is
+// available.
 //
 // This can be done in two ways:
 //
@@ -109,7 +111,36 @@ type RevenuesplitRules struct {
 type TicketfeeRules struct {
 }
 
-type WebskinConfiguration struct {
+// Configuration settings and parameters for a web sales skin
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/WebSalesSkin).
+//
+// Page titles
+//
+// The title field contains a template for the page title. The same variables as in
+// the HTML of the skin itself can be used.
+//
+// Check the web sales skin setup guide
+// (https://apps.ticketmatic.com/#/knowledgebase/designer_webskin) for more
+// information.
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/WebSalesSkinConfiguration).
+type WebSalesSkinConfiguration struct {
+	// Page title
+	Title string `json:"title,omitempty"`
+
+	// Asset path to favicon image.
+	Favicon string `json:"favicon,omitempty"`
+
+	// Facebook app ID to use for Facebook authentication.
+	//
+	// The default Ticketmatic Facebook app will be used if you leave this field blank
+	Fbappid string `json:"fbappid,omitempty"`
+
+	// Google Analytics tracking ID. Can be left blank.
+	Googleanalyticsid string `json:"googleanalyticsid,omitempty"`
 }
 
 // A timestamp returned by the diagnostic /time call
@@ -143,7 +174,9 @@ type Order struct {
 
 // Set of parameters used to filter order mail templates.
 //
-// More info: see the getlist operation
+// More info: see order mail template
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/OrderMailTemplate), the
+// getlist operation
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_communicationanddesign_ordermails/getlist)
 // and the order mail templates endpoint
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_communicationanddesign_ordermails).
@@ -170,7 +203,9 @@ type OrderMailTemplateParameters struct {
 // This differs from the normal OrderMailTemplate type: not all fields are present
 // in the list.
 //
-// More info: see the getlist operation
+// More info: see order mail template
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/OrderMailTemplate), the
+// getlist operation
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_communicationanddesign_ordermails/getlist)
 // and the order mail templates endpoint
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_communicationanddesign_ordermails).
@@ -181,9 +216,16 @@ type OrderMailTemplateParameters struct {
 // (https://apps.ticketmatic.com/#/knowledgebase/api/types/ListOrderMailTemplate).
 type ListOrderMailTemplate struct {
 	// Unique ID
-	Id     int    `json:"id,omitempty"`
-	Name   string `json:"name,omitempty"`
-	Typeid int    `json:"typeid,omitempty"`
+	Id int `json:"id,omitempty"`
+
+	// Name of the order mail template
+	Name string `json:"name,omitempty"`
+
+	// The type of this order mail template, defines where this template is used. The
+	// available values for this field can be found on the order mail template overview
+	// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_communicationanddesign_ordermails)
+	// page.
+	Typeid int `json:"typeid,omitempty"`
 
 	// Created timestamp
 	Createdts Time `json:"createdts,omitempty"`
@@ -208,11 +250,28 @@ type ListOrderMailTemplate struct {
 // (https://apps.ticketmatic.com/#/knowledgebase/api/types/OrderMailTemplate).
 type OrderMailTemplate struct {
 	// Unique ID
-	Id           int               `json:"id,omitempty"`
-	Name         string            `json:"name,omitempty"`
-	Typeid       int               `json:"typeid,omitempty"`
-	Subject      string            `json:"subject,omitempty"`
-	Body         string            `json:"body,omitempty"`
+	Id int `json:"id,omitempty"`
+
+	// Name of the order mail template
+	Name string `json:"name,omitempty"`
+
+	// The type of this order mail template, defines where this template is used. The
+	// available values for this field can be found on the order mail template overview
+	// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_communicationanddesign_ordermails)
+	// page.
+	Typeid int `json:"typeid,omitempty"`
+
+	// Subject line for the order mail template
+	Subject string `json:"subject,omitempty"`
+
+	// Message body
+	Body string `json:"body,omitempty"`
+
+	// A map of language codes to gettext .po files
+	// (http://en.wikipedia.org/wiki/Gettext). More info can be found on the order mail
+	// template overview
+	// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_communicationanddesign_ordermails)
+	// page.
 	Translations map[string]string `json:"translations,omitempty"`
 
 	// Created timestamp
@@ -238,7 +297,9 @@ func (o *OrderMailTemplate) Update() *UpdateOrderMailTemplate {
 
 // A set of fields to create a order mail template.
 //
-// More info: see the create operation
+// More info: see order mail template
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/OrderMailTemplate), the
+// create operation
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_communicationanddesign_ordermails/create)
 // and the order mail templates endpoint
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_communicationanddesign_ordermails).
@@ -248,16 +309,34 @@ func (o *OrderMailTemplate) Update() *UpdateOrderMailTemplate {
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://apps.ticketmatic.com/#/knowledgebase/api/types/CreateOrderMailTemplate).
 type CreateOrderMailTemplate struct {
-	Name         string            `json:"name,omitempty"`
-	Typeid       int               `json:"typeid,omitempty"`
-	Subject      string            `json:"subject,omitempty"`
-	Body         string            `json:"body,omitempty"`
+	// Name of the order mail template
+	Name string `json:"name,omitempty"`
+
+	// The type of this order mail template, defines where this template is used. The
+	// available values for this field can be found on the order mail template overview
+	// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_communicationanddesign_ordermails)
+	// page.
+	Typeid int `json:"typeid,omitempty"`
+
+	// Subject line for the order mail template
+	Subject string `json:"subject,omitempty"`
+
+	// Message body
+	Body string `json:"body,omitempty"`
+
+	// A map of language codes to gettext .po files
+	// (http://en.wikipedia.org/wiki/Gettext). More info can be found on the order mail
+	// template overview
+	// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_communicationanddesign_ordermails)
+	// page.
 	Translations map[string]string `json:"translations,omitempty"`
 }
 
 // A set of fields to update a order mail template.
 //
-// More info: see the update operation
+// More info: see order mail template
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/OrderMailTemplate), the
+// update operation
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_communicationanddesign_ordermails/update)
 // and the order mail templates endpoint
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_communicationanddesign_ordermails).
@@ -267,16 +346,34 @@ type CreateOrderMailTemplate struct {
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://apps.ticketmatic.com/#/knowledgebase/api/types/UpdateOrderMailTemplate).
 type UpdateOrderMailTemplate struct {
-	Name         string            `json:"name,omitempty"`
-	Typeid       int               `json:"typeid,omitempty"`
-	Subject      string            `json:"subject,omitempty"`
-	Body         string            `json:"body,omitempty"`
+	// Name of the order mail template
+	Name string `json:"name,omitempty"`
+
+	// The type of this order mail template, defines where this template is used. The
+	// available values for this field can be found on the order mail template overview
+	// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_communicationanddesign_ordermails)
+	// page.
+	Typeid int `json:"typeid,omitempty"`
+
+	// Subject line for the order mail template
+	Subject string `json:"subject,omitempty"`
+
+	// Message body
+	Body string `json:"body,omitempty"`
+
+	// A map of language codes to gettext .po files
+	// (http://en.wikipedia.org/wiki/Gettext). More info can be found on the order mail
+	// template overview
+	// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_communicationanddesign_ordermails)
+	// page.
 	Translations map[string]string `json:"translations,omitempty"`
 }
 
 // Set of parameters used to filter web sales skins.
 //
-// More info: see the getlist operation
+// More info: see web sales skin
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/WebSalesSkin), the
+// getlist operation
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_communicationanddesign_webskins/getlist)
 // and the web sales skins endpoint
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_communicationanddesign_webskins).
@@ -300,7 +397,9 @@ type WebSalesSkinParameters struct {
 // This differs from the normal WebSalesSkin type: not all fields are present in
 // the list.
 //
-// More info: see the getlist operation
+// More info: see web sales skin
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/WebSalesSkin), the
+// getlist operation
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_communicationanddesign_webskins/getlist)
 // and the web sales skins endpoint
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_communicationanddesign_webskins).
@@ -313,7 +412,7 @@ type ListWebSalesSkin struct {
 	// Unique ID
 	Id int `json:"id,omitempty"`
 
-	// Name of the sales channel
+	// Name of the web sales skin
 	Name string `json:"name,omitempty"`
 
 	// Created timestamp
@@ -338,7 +437,7 @@ type WebSalesSkin struct {
 	// Unique ID
 	Id int `json:"id,omitempty"`
 
-	// Name of the sales channel
+	// Name of the web sales skin
 	Name string `json:"name,omitempty"`
 
 	// HTML template of the skin. See the web skin setup guide
@@ -353,13 +452,15 @@ type WebSalesSkin struct {
 	// (http://en.wikipedia.org/wiki/Gettext). More info can be found on the web skin
 	// overview
 	// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_communicationanddesign_webskins)
-	// page
+	// page.
 	Translations map[string]string `json:"translations,omitempty"`
 
-	// Skin configuration, described on the web skin overview
-	// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_communicationanddesign_webskins)
-	// page
-	Configuration *WebskinConfiguration `json:"configuration,omitempty"`
+	// Skin configuration.
+	//
+	// See the WebSalesSkinConfiguration reference
+	// (https://apps.ticketmatic.com/#/knowledgebase/api/types/WebSalesSkinConfiguration)
+	// for an overview of all possible options.
+	Configuration *WebSalesSkinConfiguration `json:"configuration,omitempty"`
 
 	// Created timestamp
 	Createdts Time `json:"createdts,omitempty"`
@@ -381,7 +482,9 @@ func (o *WebSalesSkin) Update() *UpdateWebSalesSkin {
 
 // A set of fields to create a web sales skin.
 //
-// More info: see the create operation
+// More info: see web sales skin
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/WebSalesSkin), the
+// create operation
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_communicationanddesign_webskins/create)
 // and the web sales skins endpoint
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_communicationanddesign_webskins).
@@ -391,7 +494,7 @@ func (o *WebSalesSkin) Update() *UpdateWebSalesSkin {
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://apps.ticketmatic.com/#/knowledgebase/api/types/CreateWebSalesSkin).
 type CreateWebSalesSkin struct {
-	// Name of the sales channel
+	// Name of the web sales skin
 	Name string `json:"name,omitempty"`
 
 	// HTML template of the skin. See the web skin setup guide
@@ -406,18 +509,22 @@ type CreateWebSalesSkin struct {
 	// (http://en.wikipedia.org/wiki/Gettext). More info can be found on the web skin
 	// overview
 	// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_communicationanddesign_webskins)
-	// page
+	// page.
 	Translations map[string]string `json:"translations,omitempty"`
 
-	// Skin configuration, described on the web skin overview
-	// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_communicationanddesign_webskins)
-	// page
-	Configuration *WebskinConfiguration `json:"configuration,omitempty"`
+	// Skin configuration.
+	//
+	// See the WebSalesSkinConfiguration reference
+	// (https://apps.ticketmatic.com/#/knowledgebase/api/types/WebSalesSkinConfiguration)
+	// for an overview of all possible options.
+	Configuration *WebSalesSkinConfiguration `json:"configuration,omitempty"`
 }
 
 // A set of fields to update a web sales skin.
 //
-// More info: see the update operation
+// More info: see web sales skin
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/WebSalesSkin), the
+// update operation
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_communicationanddesign_webskins/update)
 // and the web sales skins endpoint
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_communicationanddesign_webskins).
@@ -427,7 +534,7 @@ type CreateWebSalesSkin struct {
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://apps.ticketmatic.com/#/knowledgebase/api/types/UpdateWebSalesSkin).
 type UpdateWebSalesSkin struct {
-	// Name of the sales channel
+	// Name of the web sales skin
 	Name string `json:"name,omitempty"`
 
 	// HTML template of the skin. See the web skin setup guide
@@ -442,18 +549,22 @@ type UpdateWebSalesSkin struct {
 	// (http://en.wikipedia.org/wiki/Gettext). More info can be found on the web skin
 	// overview
 	// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_communicationanddesign_webskins)
-	// page
+	// page.
 	Translations map[string]string `json:"translations,omitempty"`
 
-	// Skin configuration, described on the web skin overview
-	// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_communicationanddesign_webskins)
-	// page
-	Configuration *WebskinConfiguration `json:"configuration,omitempty"`
+	// Skin configuration.
+	//
+	// See the WebSalesSkinConfiguration reference
+	// (https://apps.ticketmatic.com/#/knowledgebase/api/types/WebSalesSkinConfiguration)
+	// for an overview of all possible options.
+	Configuration *WebSalesSkinConfiguration `json:"configuration,omitempty"`
 }
 
 // Set of parameters used to filter event locations.
 //
-// More info: see the getlist operation
+// More info: see event location
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/EventLocation), the
+// getlist operation
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_events_eventlocations/getlist)
 // and the event locations endpoint
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_events_eventlocations).
@@ -480,7 +591,9 @@ type EventLocationParameters struct {
 // This differs from the normal EventLocation type: not all fields are present in
 // the list.
 //
-// More info: see the getlist operation
+// More info: see event location
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/EventLocation), the
+// getlist operation
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_events_eventlocations/getlist)
 // and the event locations endpoint
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_events_eventlocations).
@@ -580,7 +693,9 @@ func (o *EventLocation) Update() *UpdateEventLocation {
 
 // A set of fields to create a event location.
 //
-// More info: see the create operation
+// More info: see event location
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/EventLocation), the
+// create operation
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_events_eventlocations/create)
 // and the event locations endpoint
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_events_eventlocations).
@@ -612,7 +727,9 @@ type CreateEventLocation struct {
 
 // A set of fields to update a event location.
 //
-// More info: see the update operation
+// More info: see event location
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/EventLocation), the
+// update operation
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_events_eventlocations/update)
 // and the event locations endpoint
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_events_eventlocations).
@@ -644,7 +761,9 @@ type UpdateEventLocation struct {
 
 // Set of parameters used to filter price availabilities.
 //
-// More info: see the getlist operation
+// More info: see price availability
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/PriceAvailability), the
+// getlist operation
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_pricing_priceavailabilities/getlist)
 // and the price availabilities endpoint
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_pricing_priceavailabilities).
@@ -671,7 +790,9 @@ type PriceAvailabilityParameters struct {
 // This differs from the normal PriceAvailability type: not all fields are present
 // in the list.
 //
-// More info: see the getlist operation
+// More info: see price availability
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/PriceAvailability), the
+// getlist operation
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_pricing_priceavailabilities/getlist)
 // and the price availabilities endpoint
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_pricing_priceavailabilities).
@@ -732,7 +853,9 @@ func (o *PriceAvailability) Update() *UpdatePriceAvailability {
 
 // A set of fields to create a price availability.
 //
-// More info: see the create operation
+// More info: see price availability
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/PriceAvailability), the
+// create operation
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_pricing_priceavailabilities/create)
 // and the price availabilities endpoint
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_pricing_priceavailabilities).
@@ -748,7 +871,9 @@ type CreatePriceAvailability struct {
 
 // A set of fields to update a price availability.
 //
-// More info: see the update operation
+// More info: see price availability
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/PriceAvailability), the
+// update operation
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_pricing_priceavailabilities/update)
 // and the price availabilities endpoint
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_pricing_priceavailabilities).
@@ -764,7 +889,9 @@ type UpdatePriceAvailability struct {
 
 // Set of parameters used to filter price lists.
 //
-// More info: see the getlist operation
+// More info: see price list
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/PriceList), the getlist
+// operation
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_pricing_pricelists/getlist)
 // and the price lists endpoint
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_pricing_pricelists).
@@ -791,7 +918,9 @@ type PriceListParameters struct {
 // This differs from the normal PriceList type: not all fields are present in the
 // list.
 //
-// More info: see the getlist operation
+// More info: see price list
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/PriceList), the getlist
+// operation
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_pricing_pricelists/getlist)
 // and the price lists endpoint
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_pricing_pricelists).
@@ -855,7 +984,9 @@ func (o *PriceList) Update() *UpdatePriceList {
 
 // A set of fields to create a price list.
 //
-// More info: see the create operation
+// More info: see price list
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/PriceList), the create
+// operation
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_pricing_pricelists/create)
 // and the price lists endpoint
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_pricing_pricelists).
@@ -872,7 +1003,9 @@ type CreatePriceList struct {
 
 // A set of fields to update a price list.
 //
-// More info: see the update operation
+// More info: see price list
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/PriceList), the update
+// operation
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_pricing_pricelists/update)
 // and the price lists endpoint
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_pricing_pricelists).
@@ -889,7 +1022,9 @@ type UpdatePriceList struct {
 
 // Set of parameters used to filter price types.
 //
-// More info: see the getlist operation
+// More info: see price type
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/PriceType), the getlist
+// operation
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_pricing_pricetypes/getlist)
 // and the price types endpoint
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_pricing_pricetypes).
@@ -916,7 +1051,9 @@ type PriceTypeParameters struct {
 // This differs from the normal PriceType type: not all fields are present in the
 // list.
 //
-// More info: see the getlist operation
+// More info: see price type
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/PriceType), the getlist
+// operation
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_pricing_pricetypes/getlist)
 // and the price types endpoint
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_pricing_pricetypes).
@@ -999,7 +1136,9 @@ func (o *PriceType) Update() *UpdatePriceType {
 
 // A set of fields to create a price type.
 //
-// More info: see the create operation
+// More info: see price type
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/PriceType), the create
+// operation
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_pricing_pricetypes/create)
 // and the price types endpoint
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_pricing_pricetypes).
@@ -1024,7 +1163,9 @@ type CreatePriceType struct {
 
 // A set of fields to update a price type.
 //
-// More info: see the update operation
+// More info: see price type
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/PriceType), the update
+// operation
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_pricing_pricetypes/update)
 // and the price types endpoint
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_pricing_pricetypes).
@@ -1049,7 +1190,9 @@ type UpdatePriceType struct {
 
 // Set of parameters used to filter revenue split categories.
 //
-// More info: see the getlist operation
+// More info: see revenue split category
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/RevenueSplitCategory),
+// the getlist operation
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_pricing_revenuesplitcategories/getlist)
 // and the revenue split categories endpoint
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_pricing_revenuesplitcategories).
@@ -1076,7 +1219,9 @@ type RevenueSplitCategoryParameters struct {
 // This differs from the normal RevenueSplitCategory type: not all fields are
 // present in the list.
 //
-// More info: see the getlist operation
+// More info: see revenue split category
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/RevenueSplitCategory),
+// the getlist operation
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_pricing_revenuesplitcategories/getlist)
 // and the revenue split categories endpoint
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_pricing_revenuesplitcategories).
@@ -1135,7 +1280,9 @@ func (o *RevenueSplitCategory) Update() *UpdateRevenueSplitCategory {
 
 // A set of fields to create a revenue split category.
 //
-// More info: see the create operation
+// More info: see revenue split category
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/RevenueSplitCategory),
+// the create operation
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_pricing_revenuesplitcategories/create)
 // and the revenue split categories endpoint
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_pricing_revenuesplitcategories).
@@ -1150,7 +1297,9 @@ type CreateRevenueSplitCategory struct {
 
 // A set of fields to update a revenue split category.
 //
-// More info: see the update operation
+// More info: see revenue split category
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/RevenueSplitCategory),
+// the update operation
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_pricing_revenuesplitcategories/update)
 // and the revenue split categories endpoint
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_pricing_revenuesplitcategories).
@@ -1165,7 +1314,9 @@ type UpdateRevenueSplitCategory struct {
 
 // Set of parameters used to filter revenue splits.
 //
-// More info: see the getlist operation
+// More info: see revenue split
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/RevenueSplit), the
+// getlist operation
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_pricing_revenuesplits/getlist)
 // and the revenue splits endpoint
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_pricing_revenuesplits).
@@ -1192,7 +1343,9 @@ type RevenueSplitParameters struct {
 // This differs from the normal RevenueSplit type: not all fields are present in
 // the list.
 //
-// More info: see the getlist operation
+// More info: see revenue split
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/RevenueSplit), the
+// getlist operation
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_pricing_revenuesplits/getlist)
 // and the revenue splits endpoint
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_pricing_revenuesplits).
@@ -1253,7 +1406,9 @@ func (o *RevenueSplit) Update() *UpdateRevenueSplit {
 
 // A set of fields to create a revenue split.
 //
-// More info: see the create operation
+// More info: see revenue split
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/RevenueSplit), the
+// create operation
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_pricing_revenuesplits/create)
 // and the revenue splits endpoint
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_pricing_revenuesplits).
@@ -1269,7 +1424,9 @@ type CreateRevenueSplit struct {
 
 // A set of fields to update a revenue split.
 //
-// More info: see the update operation
+// More info: see revenue split
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/RevenueSplit), the
+// update operation
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_pricing_revenuesplits/update)
 // and the revenue splits endpoint
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_pricing_revenuesplits).
@@ -1285,7 +1442,9 @@ type UpdateRevenueSplit struct {
 
 // Set of parameters used to filter ticket fees.
 //
-// More info: see the getlist operation
+// More info: see ticket fee
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/TicketFee), the getlist
+// operation
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_pricing_ticketfees/getlist)
 // and the ticket fees endpoint
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_pricing_ticketfees).
@@ -1312,7 +1471,9 @@ type TicketFeeParameters struct {
 // This differs from the normal TicketFee type: not all fields are present in the
 // list.
 //
-// More info: see the getlist operation
+// More info: see ticket fee
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/TicketFee), the getlist
+// operation
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_pricing_ticketfees/getlist)
 // and the ticket fees endpoint
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_pricing_ticketfees).
@@ -1373,7 +1534,9 @@ func (o *TicketFee) Update() *UpdateTicketFee {
 
 // A set of fields to create a ticket fee.
 //
-// More info: see the create operation
+// More info: see ticket fee
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/TicketFee), the create
+// operation
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_pricing_ticketfees/create)
 // and the ticket fees endpoint
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_pricing_ticketfees).
@@ -1389,7 +1552,9 @@ type CreateTicketFee struct {
 
 // A set of fields to update a ticket fee.
 //
-// More info: see the update operation
+// More info: see ticket fee
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/TicketFee), the update
+// operation
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_pricing_ticketfees/update)
 // and the ticket fees endpoint
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_pricing_ticketfees).
@@ -1405,7 +1570,9 @@ type UpdateTicketFee struct {
 
 // Set of parameters used to filter filter definitions.
 //
-// More info: see the getlist operation
+// More info: see filter definition
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/FilterDefinition), the
+// getlist operation
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_system_filterdefinitions/getlist)
 // and the filter definitions endpoint
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_system_filterdefinitions).
@@ -1435,7 +1602,9 @@ type FilterDefinitionParameters struct {
 // This differs from the normal FilterDefinition type: not all fields are present
 // in the list.
 //
-// More info: see the getlist operation
+// More info: see filter definition
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/FilterDefinition), the
+// getlist operation
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_system_filterdefinitions/getlist)
 // and the filter definitions endpoint
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_system_filterdefinitions).
@@ -1509,7 +1678,9 @@ func (o *FilterDefinition) Update() *UpdateFilterDefinition {
 
 // A set of fields to create a filter definition.
 //
-// More info: see the create operation
+// More info: see filter definition
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/FilterDefinition), the
+// create operation
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_system_filterdefinitions/create)
 // and the filter definitions endpoint
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_system_filterdefinitions).
@@ -1529,7 +1700,9 @@ type CreateFilterDefinition struct {
 
 // A set of fields to update a filter definition.
 //
-// More info: see the update operation
+// More info: see filter definition
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/FilterDefinition), the
+// update operation
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_system_filterdefinitions/update)
 // and the filter definitions endpoint
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_system_filterdefinitions).
@@ -1547,7 +1720,9 @@ type UpdateFilterDefinition struct {
 
 // Set of parameters used to filter delivery scenarios.
 //
-// More info: see the getlist operation
+// More info: see delivery scenario
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/DeliveryScenario), the
+// getlist operation
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_ticketsales_deliveryscenarios/getlist)
 // and the delivery scenarios endpoint
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_ticketsales_deliveryscenarios).
@@ -1574,7 +1749,9 @@ type DeliveryScenarioParameters struct {
 // This differs from the normal DeliveryScenario type: not all fields are present
 // in the list.
 //
-// More info: see the getlist operation
+// More info: see delivery scenario
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/DeliveryScenario), the
+// getlist operation
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_ticketsales_deliveryscenarios/getlist)
 // and the delivery scenarios endpoint
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_ticketsales_deliveryscenarios).
@@ -1696,7 +1873,9 @@ func (o *DeliveryScenario) Update() *UpdateDeliveryScenario {
 
 // A set of fields to create a delivery scenario.
 //
-// More info: see the create operation
+// More info: see delivery scenario
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/DeliveryScenario), the
+// create operation
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_ticketsales_deliveryscenarios/create)
 // and the delivery scenarios endpoint
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_ticketsales_deliveryscenarios).
@@ -1741,7 +1920,9 @@ type CreateDeliveryScenario struct {
 
 // A set of fields to update a delivery scenario.
 //
-// More info: see the update operation
+// More info: see delivery scenario
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/DeliveryScenario), the
+// update operation
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_ticketsales_deliveryscenarios/update)
 // and the delivery scenarios endpoint
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_ticketsales_deliveryscenarios).
@@ -1786,7 +1967,9 @@ type UpdateDeliveryScenario struct {
 
 // Set of parameters used to filter lock types.
 //
-// More info: see the getlist operation
+// More info: see lock type
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/LockType), the getlist
+// operation
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_ticketsales_locktypes/getlist)
 // and the lock types endpoint
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_ticketsales_locktypes).
@@ -1813,7 +1996,9 @@ type LockTypeParameters struct {
 // This differs from the normal LockType type: not all fields are present in the
 // list.
 //
-// More info: see the getlist operation
+// More info: see lock type
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/LockType), the getlist
+// operation
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_ticketsales_locktypes/getlist)
 // and the lock types endpoint
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_ticketsales_locktypes).
@@ -1875,7 +2060,9 @@ func (o *LockType) Update() *UpdateLockType {
 
 // A set of fields to create a lock type.
 //
-// More info: see the create operation
+// More info: see lock type
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/LockType), the create
+// operation
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_ticketsales_locktypes/create)
 // and the lock types endpoint
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_ticketsales_locktypes).
@@ -1891,7 +2078,9 @@ type CreateLockType struct {
 
 // A set of fields to update a lock type.
 //
-// More info: see the update operation
+// More info: see lock type
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/LockType), the update
+// operation
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_ticketsales_locktypes/update)
 // and the lock types endpoint
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_ticketsales_locktypes).
@@ -1907,7 +2096,9 @@ type UpdateLockType struct {
 
 // Set of parameters used to filter order fees.
 //
-// More info: see the getlist operation
+// More info: see order fee
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/OrderFee), the getlist
+// operation
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_ticketsales_orderfees/getlist)
 // and the order fees endpoint
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_ticketsales_orderfees).
@@ -1934,7 +2125,9 @@ type OrderFeeParameters struct {
 // This differs from the normal OrderFee type: not all fields are present in the
 // list.
 //
-// More info: see the getlist operation
+// More info: see order fee
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/OrderFee), the getlist
+// operation
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_ticketsales_orderfees/getlist)
 // and the order fees endpoint
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_ticketsales_orderfees).
@@ -1998,7 +2191,9 @@ func (o *OrderFee) Update() *UpdateOrderFee {
 
 // A set of fields to create a order fee.
 //
-// More info: see the create operation
+// More info: see order fee
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/OrderFee), the create
+// operation
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_ticketsales_orderfees/create)
 // and the order fees endpoint
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_ticketsales_orderfees).
@@ -2015,7 +2210,9 @@ type CreateOrderFee struct {
 
 // A set of fields to update a order fee.
 //
-// More info: see the update operation
+// More info: see order fee
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/OrderFee), the update
+// operation
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_ticketsales_orderfees/update)
 // and the order fees endpoint
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_ticketsales_orderfees).
@@ -2032,7 +2229,9 @@ type UpdateOrderFee struct {
 
 // Set of parameters used to filter payment methods.
 //
-// More info: see the getlist operation
+// More info: see payment method
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/PaymentMethod), the
+// getlist operation
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_ticketsales_paymentmethods/getlist)
 // and the payment methods endpoint
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_ticketsales_paymentmethods).
@@ -2059,7 +2258,9 @@ type PaymentMethodParameters struct {
 // This differs from the normal PaymentMethod type: not all fields are present in
 // the list.
 //
-// More info: see the getlist operation
+// More info: see payment method
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/PaymentMethod), the
+// getlist operation
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_ticketsales_paymentmethods/getlist)
 // and the payment methods endpoint
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_ticketsales_paymentmethods).
@@ -2129,7 +2330,9 @@ func (o *PaymentMethod) Update() *UpdatePaymentMethod {
 
 // A set of fields to create a payment method.
 //
-// More info: see the create operation
+// More info: see payment method
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/PaymentMethod), the
+// create operation
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_ticketsales_paymentmethods/create)
 // and the payment methods endpoint
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_ticketsales_paymentmethods).
@@ -2148,7 +2351,9 @@ type CreatePaymentMethod struct {
 
 // A set of fields to update a payment method.
 //
-// More info: see the update operation
+// More info: see payment method
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/PaymentMethod), the
+// update operation
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_ticketsales_paymentmethods/update)
 // and the payment methods endpoint
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_ticketsales_paymentmethods).
@@ -2167,7 +2372,9 @@ type UpdatePaymentMethod struct {
 
 // Set of parameters used to filter payment scenarios.
 //
-// More info: see the getlist operation
+// More info: see payment scenario
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/PaymentScenario), the
+// getlist operation
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_ticketsales_paymentscenarios/getlist)
 // and the payment scenarios endpoint
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_ticketsales_paymentscenarios).
@@ -2194,7 +2401,9 @@ type PaymentScenarioParameters struct {
 // This differs from the normal PaymentScenario type: not all fields are present in
 // the list.
 //
-// More info: see the getlist operation
+// More info: see payment scenario
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/PaymentScenario), the
+// getlist operation
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_ticketsales_paymentscenarios/getlist)
 // and the payment scenarios endpoint
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_ticketsales_paymentscenarios).
@@ -2302,7 +2511,9 @@ func (o *PaymentScenario) Update() *UpdatePaymentScenario {
 
 // A set of fields to create a payment scenario.
 //
-// More info: see the create operation
+// More info: see payment scenario
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/PaymentScenario), the
+// create operation
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_ticketsales_paymentscenarios/create)
 // and the payment scenarios endpoint
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_ticketsales_paymentscenarios).
@@ -2337,7 +2548,9 @@ type CreatePaymentScenario struct {
 
 // A set of fields to update a payment scenario.
 //
-// More info: see the update operation
+// More info: see payment scenario
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/PaymentScenario), the
+// update operation
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_ticketsales_paymentscenarios/update)
 // and the payment scenarios endpoint
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_ticketsales_paymentscenarios).
@@ -2372,7 +2585,9 @@ type UpdatePaymentScenario struct {
 
 // Set of parameters used to filter sales channels.
 //
-// More info: see the getlist operation
+// More info: see sales channel
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/SalesChannel), the
+// getlist operation
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_ticketsales_saleschannels/getlist)
 // and the sales channels endpoint
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_ticketsales_saleschannels).
@@ -2399,7 +2614,9 @@ type SalesChannelParameters struct {
 // This differs from the normal SalesChannel type: not all fields are present in
 // the list.
 //
-// More info: see the getlist operation
+// More info: see sales channel
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/SalesChannel), the
+// getlist operation
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_ticketsales_saleschannels/getlist)
 // and the sales channels endpoint
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_ticketsales_saleschannels).
@@ -2489,7 +2706,9 @@ func (o *SalesChannel) Update() *UpdateSalesChannel {
 
 // A set of fields to create a sales channel.
 //
-// More info: see the create operation
+// More info: see sales channel
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/SalesChannel), the
+// create operation
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_ticketsales_saleschannels/create)
 // and the sales channels endpoint
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_ticketsales_saleschannels).
@@ -2517,7 +2736,9 @@ type CreateSalesChannel struct {
 
 // A set of fields to update a sales channel.
 //
-// More info: see the update operation
+// More info: see sales channel
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/SalesChannel), the
+// update operation
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_ticketsales_saleschannels/update)
 // and the sales channels endpoint
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_ticketsales_saleschannels).
