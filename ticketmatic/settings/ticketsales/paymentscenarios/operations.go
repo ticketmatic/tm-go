@@ -5,13 +5,13 @@ import (
 )
 
 // Get a list of payment scenarios
-func Getlist(client *ticketmatic.Client, params *ticketmatic.PaymentScenarioParameters) ([]*ticketmatic.ListPaymentScenario, error) {
+func Getlist(client *ticketmatic.Client, params *ticketmatic.PaymentScenarioQuery) ([]*ticketmatic.PaymentScenario, error) {
 	r := client.NewRequest("GET", "/{accountname}/settings/ticketsales/paymentscenarios")
 	r.AddParameter("includearchived", params.Includearchived)
 	r.AddParameter("lastupdatesince", params.Lastupdatesince)
 	r.AddParameter("filter", params.Filter)
 
-	var obj []*ticketmatic.ListPaymentScenario
+	var obj []*ticketmatic.PaymentScenario
 	err := r.Run(&obj)
 	if err != nil {
 		return nil, err
@@ -35,7 +35,7 @@ func Get(client *ticketmatic.Client, id int) (*ticketmatic.PaymentScenario, erro
 }
 
 // Create a new payment scenario
-func Create(client *ticketmatic.Client, data *ticketmatic.CreatePaymentScenario) (*ticketmatic.PaymentScenario, error) {
+func Create(client *ticketmatic.Client, data *ticketmatic.PaymentScenario) (*ticketmatic.PaymentScenario, error) {
 	r := client.NewRequest("POST", "/{accountname}/settings/ticketsales/paymentscenarios")
 	r.Body(data)
 
@@ -48,7 +48,7 @@ func Create(client *ticketmatic.Client, data *ticketmatic.CreatePaymentScenario)
 }
 
 // Modify an existing payment scenario
-func Update(client *ticketmatic.Client, id int, data *ticketmatic.UpdatePaymentScenario) (*ticketmatic.PaymentScenario, error) {
+func Update(client *ticketmatic.Client, id int, data *ticketmatic.PaymentScenario) (*ticketmatic.PaymentScenario, error) {
 	r := client.NewRequest("PUT", "/{accountname}/settings/ticketsales/paymentscenarios/{id}")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,

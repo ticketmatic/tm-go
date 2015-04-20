@@ -5,13 +5,13 @@ import (
 )
 
 // Get a list of price availabilities
-func Getlist(client *ticketmatic.Client, params *ticketmatic.PriceAvailabilityParameters) ([]*ticketmatic.ListPriceAvailability, error) {
+func Getlist(client *ticketmatic.Client, params *ticketmatic.PriceAvailabilityQuery) ([]*ticketmatic.PriceAvailability, error) {
 	r := client.NewRequest("GET", "/{accountname}/settings/pricing/priceavailabilities")
 	r.AddParameter("includearchived", params.Includearchived)
 	r.AddParameter("lastupdatesince", params.Lastupdatesince)
 	r.AddParameter("filter", params.Filter)
 
-	var obj []*ticketmatic.ListPriceAvailability
+	var obj []*ticketmatic.PriceAvailability
 	err := r.Run(&obj)
 	if err != nil {
 		return nil, err
@@ -35,7 +35,7 @@ func Get(client *ticketmatic.Client, id int) (*ticketmatic.PriceAvailability, er
 }
 
 // Create a new price availability
-func Create(client *ticketmatic.Client, data *ticketmatic.CreatePriceAvailability) (*ticketmatic.PriceAvailability, error) {
+func Create(client *ticketmatic.Client, data *ticketmatic.PriceAvailability) (*ticketmatic.PriceAvailability, error) {
 	r := client.NewRequest("POST", "/{accountname}/settings/pricing/priceavailabilities")
 	r.Body(data)
 
@@ -48,7 +48,7 @@ func Create(client *ticketmatic.Client, data *ticketmatic.CreatePriceAvailabilit
 }
 
 // Modify an existing price availability
-func Update(client *ticketmatic.Client, id int, data *ticketmatic.UpdatePriceAvailability) (*ticketmatic.PriceAvailability, error) {
+func Update(client *ticketmatic.Client, id int, data *ticketmatic.PriceAvailability) (*ticketmatic.PriceAvailability, error) {
 	r := client.NewRequest("PUT", "/{accountname}/settings/pricing/priceavailabilities/{id}")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,

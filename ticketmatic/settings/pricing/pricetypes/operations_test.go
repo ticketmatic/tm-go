@@ -16,7 +16,7 @@ func TestGet(t *testing.T) {
 	secretkey := os.Getenv("TM_TEST_SECRETKEY")
 	c := ticketmatic.NewClient(accountcode, accesskey, secretkey)
 
-	req, err := Getlist(c, &ticketmatic.PriceTypeParameters{})
+	req, err := Getlist(c, &ticketmatic.PriceTypeQuery{})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -25,7 +25,7 @@ func TestGet(t *testing.T) {
 		t.Errorf("Unexpected req length, got %#v, expected greater than %#v", len(req), 0)
 	}
 
-	req2, err := Getlist(c, &ticketmatic.PriceTypeParameters{
+	req2, err := Getlist(c, &ticketmatic.PriceTypeQuery{
 		Filter: "select id from conf.pricetype where typeid=2301",
 	})
 	if err != nil {
@@ -46,7 +46,7 @@ func TestCreatedelete(t *testing.T) {
 	secretkey := os.Getenv("TM_TEST_SECRETKEY")
 	c := ticketmatic.NewClient(accountcode, accesskey, secretkey)
 
-	req, err := Getlist(c, &ticketmatic.PriceTypeParameters{})
+	req, err := Getlist(c, &ticketmatic.PriceTypeQuery{})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -55,7 +55,7 @@ func TestCreatedelete(t *testing.T) {
 		t.Errorf("Unexpected req length, got %#v, expected greater than %#v", len(req), 0)
 	}
 
-	req2, err := Create(c, &ticketmatic.CreatePriceType{
+	req2, err := Create(c, &ticketmatic.PriceType{
 		Name: "test",
 	})
 	if err != nil {
@@ -70,7 +70,7 @@ func TestCreatedelete(t *testing.T) {
 		t.Errorf("Unexpected req2.Createdts time, should be recent, got %s", req2.Createdts.Time())
 	}
 
-	req3, err := Getlist(c, &ticketmatic.PriceTypeParameters{})
+	req3, err := Getlist(c, &ticketmatic.PriceTypeQuery{})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -93,7 +93,7 @@ func TestCreatedelete(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	req6, err := Getlist(c, &ticketmatic.PriceTypeParameters{})
+	req6, err := Getlist(c, &ticketmatic.PriceTypeQuery{})
 	if err != nil {
 		t.Fatal(err)
 	}

@@ -5,14 +5,14 @@ import (
 )
 
 // Get a list of filter definitions
-func Getlist(client *ticketmatic.Client, params *ticketmatic.FilterDefinitionParameters) ([]*ticketmatic.ListFilterDefinition, error) {
+func Getlist(client *ticketmatic.Client, params *ticketmatic.FilterDefinitionQuery) ([]*ticketmatic.FilterDefinition, error) {
 	r := client.NewRequest("GET", "/{accountname}/settings/system/filterdefinitions")
 	r.AddParameter("includearchived", params.Includearchived)
 	r.AddParameter("lastupdatesince", params.Lastupdatesince)
 	r.AddParameter("filter", params.Filter)
 	r.AddParameter("typeid", params.Typeid)
 
-	var obj []*ticketmatic.ListFilterDefinition
+	var obj []*ticketmatic.FilterDefinition
 	err := r.Run(&obj)
 	if err != nil {
 		return nil, err
@@ -36,7 +36,7 @@ func Get(client *ticketmatic.Client, id int) (*ticketmatic.FilterDefinition, err
 }
 
 // Create a new filter definition
-func Create(client *ticketmatic.Client, data *ticketmatic.CreateFilterDefinition) (*ticketmatic.FilterDefinition, error) {
+func Create(client *ticketmatic.Client, data *ticketmatic.FilterDefinition) (*ticketmatic.FilterDefinition, error) {
 	r := client.NewRequest("POST", "/{accountname}/settings/system/filterdefinitions")
 	r.Body(data)
 
@@ -49,7 +49,7 @@ func Create(client *ticketmatic.Client, data *ticketmatic.CreateFilterDefinition
 }
 
 // Modify an existing filter definition
-func Update(client *ticketmatic.Client, id int, data *ticketmatic.UpdateFilterDefinition) (*ticketmatic.FilterDefinition, error) {
+func Update(client *ticketmatic.Client, id int, data *ticketmatic.FilterDefinition) (*ticketmatic.FilterDefinition, error) {
 	r := client.NewRequest("PUT", "/{accountname}/settings/system/filterdefinitions/{id}")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,

@@ -5,13 +5,13 @@ import (
 )
 
 // Get a list of payment methods
-func Getlist(client *ticketmatic.Client, params *ticketmatic.PaymentMethodParameters) ([]*ticketmatic.ListPaymentMethod, error) {
+func Getlist(client *ticketmatic.Client, params *ticketmatic.PaymentMethodQuery) ([]*ticketmatic.PaymentMethod, error) {
 	r := client.NewRequest("GET", "/{accountname}/settings/ticketsales/paymentmethods")
 	r.AddParameter("includearchived", params.Includearchived)
 	r.AddParameter("lastupdatesince", params.Lastupdatesince)
 	r.AddParameter("filter", params.Filter)
 
-	var obj []*ticketmatic.ListPaymentMethod
+	var obj []*ticketmatic.PaymentMethod
 	err := r.Run(&obj)
 	if err != nil {
 		return nil, err
@@ -35,7 +35,7 @@ func Get(client *ticketmatic.Client, id int) (*ticketmatic.PaymentMethod, error)
 }
 
 // Create a new payment method
-func Create(client *ticketmatic.Client, data *ticketmatic.CreatePaymentMethod) (*ticketmatic.PaymentMethod, error) {
+func Create(client *ticketmatic.Client, data *ticketmatic.PaymentMethod) (*ticketmatic.PaymentMethod, error) {
 	r := client.NewRequest("POST", "/{accountname}/settings/ticketsales/paymentmethods")
 	r.Body(data)
 
@@ -48,7 +48,7 @@ func Create(client *ticketmatic.Client, data *ticketmatic.CreatePaymentMethod) (
 }
 
 // Modify an existing payment method
-func Update(client *ticketmatic.Client, id int, data *ticketmatic.UpdatePaymentMethod) (*ticketmatic.PaymentMethod, error) {
+func Update(client *ticketmatic.Client, id int, data *ticketmatic.PaymentMethod) (*ticketmatic.PaymentMethod, error) {
 	r := client.NewRequest("PUT", "/{accountname}/settings/ticketsales/paymentmethods/{id}")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,

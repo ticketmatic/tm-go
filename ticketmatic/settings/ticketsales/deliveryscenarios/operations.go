@@ -5,13 +5,13 @@ import (
 )
 
 // Get a list of delivery scenarios
-func Getlist(client *ticketmatic.Client, params *ticketmatic.DeliveryScenarioParameters) ([]*ticketmatic.ListDeliveryScenario, error) {
+func Getlist(client *ticketmatic.Client, params *ticketmatic.DeliveryScenarioQuery) ([]*ticketmatic.DeliveryScenario, error) {
 	r := client.NewRequest("GET", "/{accountname}/settings/ticketsales/deliveryscenarios")
 	r.AddParameter("includearchived", params.Includearchived)
 	r.AddParameter("lastupdatesince", params.Lastupdatesince)
 	r.AddParameter("filter", params.Filter)
 
-	var obj []*ticketmatic.ListDeliveryScenario
+	var obj []*ticketmatic.DeliveryScenario
 	err := r.Run(&obj)
 	if err != nil {
 		return nil, err
@@ -35,7 +35,7 @@ func Get(client *ticketmatic.Client, id int) (*ticketmatic.DeliveryScenario, err
 }
 
 // Create a new delivery scenario
-func Create(client *ticketmatic.Client, data *ticketmatic.CreateDeliveryScenario) (*ticketmatic.DeliveryScenario, error) {
+func Create(client *ticketmatic.Client, data *ticketmatic.DeliveryScenario) (*ticketmatic.DeliveryScenario, error) {
 	r := client.NewRequest("POST", "/{accountname}/settings/ticketsales/deliveryscenarios")
 	r.Body(data)
 
@@ -48,7 +48,7 @@ func Create(client *ticketmatic.Client, data *ticketmatic.CreateDeliveryScenario
 }
 
 // Modify an existing delivery scenario
-func Update(client *ticketmatic.Client, id int, data *ticketmatic.UpdateDeliveryScenario) (*ticketmatic.DeliveryScenario, error) {
+func Update(client *ticketmatic.Client, id int, data *ticketmatic.DeliveryScenario) (*ticketmatic.DeliveryScenario, error) {
 	r := client.NewRequest("PUT", "/{accountname}/settings/ticketsales/deliveryscenarios/{id}")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,

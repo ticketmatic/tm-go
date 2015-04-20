@@ -5,12 +5,12 @@ import (
 )
 
 // Get a list of web sales skins
-func Getlist(client *ticketmatic.Client, params *ticketmatic.WebSalesSkinParameters) ([]*ticketmatic.ListWebSalesSkin, error) {
+func Getlist(client *ticketmatic.Client, params *ticketmatic.WebSalesSkinQuery) ([]*ticketmatic.WebSalesSkin, error) {
 	r := client.NewRequest("GET", "/{accountname}/settings/communicationanddesign/webskins")
 	r.AddParameter("lastupdatesince", params.Lastupdatesince)
 	r.AddParameter("filter", params.Filter)
 
-	var obj []*ticketmatic.ListWebSalesSkin
+	var obj []*ticketmatic.WebSalesSkin
 	err := r.Run(&obj)
 	if err != nil {
 		return nil, err
@@ -34,7 +34,7 @@ func Get(client *ticketmatic.Client, id int) (*ticketmatic.WebSalesSkin, error) 
 }
 
 // Create a new web sales skin
-func Create(client *ticketmatic.Client, data *ticketmatic.CreateWebSalesSkin) (*ticketmatic.WebSalesSkin, error) {
+func Create(client *ticketmatic.Client, data *ticketmatic.WebSalesSkin) (*ticketmatic.WebSalesSkin, error) {
 	r := client.NewRequest("POST", "/{accountname}/settings/communicationanddesign/webskins")
 	r.Body(data)
 
@@ -47,7 +47,7 @@ func Create(client *ticketmatic.Client, data *ticketmatic.CreateWebSalesSkin) (*
 }
 
 // Modify an existing web sales skin
-func Update(client *ticketmatic.Client, id int, data *ticketmatic.UpdateWebSalesSkin) (*ticketmatic.WebSalesSkin, error) {
+func Update(client *ticketmatic.Client, id int, data *ticketmatic.WebSalesSkin) (*ticketmatic.WebSalesSkin, error) {
 	r := client.NewRequest("PUT", "/{accountname}/settings/communicationanddesign/webskins/{id}")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,

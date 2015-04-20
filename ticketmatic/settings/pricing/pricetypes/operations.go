@@ -5,13 +5,13 @@ import (
 )
 
 // Get a list of price types
-func Getlist(client *ticketmatic.Client, params *ticketmatic.PriceTypeParameters) ([]*ticketmatic.ListPriceType, error) {
+func Getlist(client *ticketmatic.Client, params *ticketmatic.PriceTypeQuery) ([]*ticketmatic.PriceType, error) {
 	r := client.NewRequest("GET", "/{accountname}/settings/pricing/pricetypes")
 	r.AddParameter("includearchived", params.Includearchived)
 	r.AddParameter("lastupdatesince", params.Lastupdatesince)
 	r.AddParameter("filter", params.Filter)
 
-	var obj []*ticketmatic.ListPriceType
+	var obj []*ticketmatic.PriceType
 	err := r.Run(&obj)
 	if err != nil {
 		return nil, err
@@ -35,7 +35,7 @@ func Get(client *ticketmatic.Client, id int) (*ticketmatic.PriceType, error) {
 }
 
 // Create a new price type
-func Create(client *ticketmatic.Client, data *ticketmatic.CreatePriceType) (*ticketmatic.PriceType, error) {
+func Create(client *ticketmatic.Client, data *ticketmatic.PriceType) (*ticketmatic.PriceType, error) {
 	r := client.NewRequest("POST", "/{accountname}/settings/pricing/pricetypes")
 	r.Body(data)
 
@@ -48,7 +48,7 @@ func Create(client *ticketmatic.Client, data *ticketmatic.CreatePriceType) (*tic
 }
 
 // Modify an existing price type
-func Update(client *ticketmatic.Client, id int, data *ticketmatic.UpdatePriceType) (*ticketmatic.PriceType, error) {
+func Update(client *ticketmatic.Client, id int, data *ticketmatic.PriceType) (*ticketmatic.PriceType, error) {
 	r := client.NewRequest("PUT", "/{accountname}/settings/pricing/pricetypes/{id}")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,

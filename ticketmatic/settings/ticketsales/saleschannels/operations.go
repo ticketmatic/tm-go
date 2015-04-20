@@ -5,13 +5,13 @@ import (
 )
 
 // Get a list of sales channels
-func Getlist(client *ticketmatic.Client, params *ticketmatic.SalesChannelParameters) ([]*ticketmatic.ListSalesChannel, error) {
+func Getlist(client *ticketmatic.Client, params *ticketmatic.SalesChannelQuery) ([]*ticketmatic.SalesChannel, error) {
 	r := client.NewRequest("GET", "/{accountname}/settings/ticketsales/saleschannels")
 	r.AddParameter("includearchived", params.Includearchived)
 	r.AddParameter("lastupdatesince", params.Lastupdatesince)
 	r.AddParameter("filter", params.Filter)
 
-	var obj []*ticketmatic.ListSalesChannel
+	var obj []*ticketmatic.SalesChannel
 	err := r.Run(&obj)
 	if err != nil {
 		return nil, err
@@ -35,7 +35,7 @@ func Get(client *ticketmatic.Client, id int) (*ticketmatic.SalesChannel, error) 
 }
 
 // Create a new sales channel
-func Create(client *ticketmatic.Client, data *ticketmatic.CreateSalesChannel) (*ticketmatic.SalesChannel, error) {
+func Create(client *ticketmatic.Client, data *ticketmatic.SalesChannel) (*ticketmatic.SalesChannel, error) {
 	r := client.NewRequest("POST", "/{accountname}/settings/ticketsales/saleschannels")
 	r.Body(data)
 
@@ -48,7 +48,7 @@ func Create(client *ticketmatic.Client, data *ticketmatic.CreateSalesChannel) (*
 }
 
 // Modify an existing sales channel
-func Update(client *ticketmatic.Client, id int, data *ticketmatic.UpdateSalesChannel) (*ticketmatic.SalesChannel, error) {
+func Update(client *ticketmatic.Client, id int, data *ticketmatic.SalesChannel) (*ticketmatic.SalesChannel, error) {
 	r := client.NewRequest("PUT", "/{accountname}/settings/ticketsales/saleschannels/{id}")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,

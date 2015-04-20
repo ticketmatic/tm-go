@@ -5,13 +5,13 @@ import (
 )
 
 // Get a list of event locations
-func Getlist(client *ticketmatic.Client, params *ticketmatic.EventLocationParameters) ([]*ticketmatic.ListEventLocation, error) {
+func Getlist(client *ticketmatic.Client, params *ticketmatic.EventLocationQuery) ([]*ticketmatic.EventLocation, error) {
 	r := client.NewRequest("GET", "/{accountname}/settings/events/eventlocations")
 	r.AddParameter("includearchived", params.Includearchived)
 	r.AddParameter("lastupdatesince", params.Lastupdatesince)
 	r.AddParameter("filter", params.Filter)
 
-	var obj []*ticketmatic.ListEventLocation
+	var obj []*ticketmatic.EventLocation
 	err := r.Run(&obj)
 	if err != nil {
 		return nil, err
@@ -35,7 +35,7 @@ func Get(client *ticketmatic.Client, id int) (*ticketmatic.EventLocation, error)
 }
 
 // Create a new event location
-func Create(client *ticketmatic.Client, data *ticketmatic.CreateEventLocation) (*ticketmatic.EventLocation, error) {
+func Create(client *ticketmatic.Client, data *ticketmatic.EventLocation) (*ticketmatic.EventLocation, error) {
 	r := client.NewRequest("POST", "/{accountname}/settings/events/eventlocations")
 	r.Body(data)
 
@@ -48,7 +48,7 @@ func Create(client *ticketmatic.Client, data *ticketmatic.CreateEventLocation) (
 }
 
 // Modify an existing event location
-func Update(client *ticketmatic.Client, id int, data *ticketmatic.UpdateEventLocation) (*ticketmatic.EventLocation, error) {
+func Update(client *ticketmatic.Client, id int, data *ticketmatic.EventLocation) (*ticketmatic.EventLocation, error) {
 	r := client.NewRequest("PUT", "/{accountname}/settings/events/eventlocations/{id}")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,

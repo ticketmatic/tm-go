@@ -5,13 +5,13 @@ import (
 )
 
 // Get a list of ticket fees
-func Getlist(client *ticketmatic.Client, params *ticketmatic.TicketFeeParameters) ([]*ticketmatic.ListTicketFee, error) {
+func Getlist(client *ticketmatic.Client, params *ticketmatic.TicketFeeQuery) ([]*ticketmatic.TicketFee, error) {
 	r := client.NewRequest("GET", "/{accountname}/settings/pricing/ticketfees")
 	r.AddParameter("includearchived", params.Includearchived)
 	r.AddParameter("lastupdatesince", params.Lastupdatesince)
 	r.AddParameter("filter", params.Filter)
 
-	var obj []*ticketmatic.ListTicketFee
+	var obj []*ticketmatic.TicketFee
 	err := r.Run(&obj)
 	if err != nil {
 		return nil, err
@@ -35,7 +35,7 @@ func Get(client *ticketmatic.Client, id int) (*ticketmatic.TicketFee, error) {
 }
 
 // Create a new ticket fee
-func Create(client *ticketmatic.Client, data *ticketmatic.CreateTicketFee) (*ticketmatic.TicketFee, error) {
+func Create(client *ticketmatic.Client, data *ticketmatic.TicketFee) (*ticketmatic.TicketFee, error) {
 	r := client.NewRequest("POST", "/{accountname}/settings/pricing/ticketfees")
 	r.Body(data)
 
@@ -48,7 +48,7 @@ func Create(client *ticketmatic.Client, data *ticketmatic.CreateTicketFee) (*tic
 }
 
 // Modify an existing ticket fee
-func Update(client *ticketmatic.Client, id int, data *ticketmatic.UpdateTicketFee) (*ticketmatic.TicketFee, error) {
+func Update(client *ticketmatic.Client, id int, data *ticketmatic.TicketFee) (*ticketmatic.TicketFee, error) {
 	r := client.NewRequest("PUT", "/{accountname}/settings/pricing/ticketfees/{id}")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,

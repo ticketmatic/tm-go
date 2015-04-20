@@ -5,13 +5,13 @@ import (
 )
 
 // Get a list of order mail templates
-func Getlist(client *ticketmatic.Client, params *ticketmatic.OrderMailTemplateParameters) ([]*ticketmatic.ListOrderMailTemplate, error) {
+func Getlist(client *ticketmatic.Client, params *ticketmatic.OrderMailTemplateQuery) ([]*ticketmatic.OrderMailTemplate, error) {
 	r := client.NewRequest("GET", "/{accountname}/settings/communicationanddesign/ordermails")
 	r.AddParameter("includearchived", params.Includearchived)
 	r.AddParameter("lastupdatesince", params.Lastupdatesince)
 	r.AddParameter("filter", params.Filter)
 
-	var obj []*ticketmatic.ListOrderMailTemplate
+	var obj []*ticketmatic.OrderMailTemplate
 	err := r.Run(&obj)
 	if err != nil {
 		return nil, err
@@ -35,7 +35,7 @@ func Get(client *ticketmatic.Client, id int) (*ticketmatic.OrderMailTemplate, er
 }
 
 // Create a new order mail template
-func Create(client *ticketmatic.Client, data *ticketmatic.CreateOrderMailTemplate) (*ticketmatic.OrderMailTemplate, error) {
+func Create(client *ticketmatic.Client, data *ticketmatic.OrderMailTemplate) (*ticketmatic.OrderMailTemplate, error) {
 	r := client.NewRequest("POST", "/{accountname}/settings/communicationanddesign/ordermails")
 	r.Body(data)
 
@@ -48,7 +48,7 @@ func Create(client *ticketmatic.Client, data *ticketmatic.CreateOrderMailTemplat
 }
 
 // Modify an existing order mail template
-func Update(client *ticketmatic.Client, id int, data *ticketmatic.UpdateOrderMailTemplate) (*ticketmatic.OrderMailTemplate, error) {
+func Update(client *ticketmatic.Client, id int, data *ticketmatic.OrderMailTemplate) (*ticketmatic.OrderMailTemplate, error) {
 	r := client.NewRequest("PUT", "/{accountname}/settings/communicationanddesign/ordermails/{id}")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,

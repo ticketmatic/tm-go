@@ -5,13 +5,13 @@ import (
 )
 
 // Get a list of lock types
-func Getlist(client *ticketmatic.Client, params *ticketmatic.LockTypeParameters) ([]*ticketmatic.ListLockType, error) {
+func Getlist(client *ticketmatic.Client, params *ticketmatic.LockTypeQuery) ([]*ticketmatic.LockType, error) {
 	r := client.NewRequest("GET", "/{accountname}/settings/ticketsales/locktypes")
 	r.AddParameter("includearchived", params.Includearchived)
 	r.AddParameter("lastupdatesince", params.Lastupdatesince)
 	r.AddParameter("filter", params.Filter)
 
-	var obj []*ticketmatic.ListLockType
+	var obj []*ticketmatic.LockType
 	err := r.Run(&obj)
 	if err != nil {
 		return nil, err
@@ -35,7 +35,7 @@ func Get(client *ticketmatic.Client, id int) (*ticketmatic.LockType, error) {
 }
 
 // Create a new lock type
-func Create(client *ticketmatic.Client, data *ticketmatic.CreateLockType) (*ticketmatic.LockType, error) {
+func Create(client *ticketmatic.Client, data *ticketmatic.LockType) (*ticketmatic.LockType, error) {
 	r := client.NewRequest("POST", "/{accountname}/settings/ticketsales/locktypes")
 	r.Body(data)
 
@@ -48,7 +48,7 @@ func Create(client *ticketmatic.Client, data *ticketmatic.CreateLockType) (*tick
 }
 
 // Modify an existing lock type
-func Update(client *ticketmatic.Client, id int, data *ticketmatic.UpdateLockType) (*ticketmatic.LockType, error) {
+func Update(client *ticketmatic.Client, id int, data *ticketmatic.LockType) (*ticketmatic.LockType, error) {
 	r := client.NewRequest("PUT", "/{accountname}/settings/ticketsales/locktypes/{id}")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,

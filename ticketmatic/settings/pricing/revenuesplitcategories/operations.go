@@ -5,13 +5,13 @@ import (
 )
 
 // Get a list of revenue split categories
-func Getlist(client *ticketmatic.Client, params *ticketmatic.RevenueSplitCategoryParameters) ([]*ticketmatic.ListRevenueSplitCategory, error) {
+func Getlist(client *ticketmatic.Client, params *ticketmatic.RevenueSplitCategoryQuery) ([]*ticketmatic.RevenueSplitCategory, error) {
 	r := client.NewRequest("GET", "/{accountname}/settings/pricing/revenuesplitcategories")
 	r.AddParameter("includearchived", params.Includearchived)
 	r.AddParameter("lastupdatesince", params.Lastupdatesince)
 	r.AddParameter("filter", params.Filter)
 
-	var obj []*ticketmatic.ListRevenueSplitCategory
+	var obj []*ticketmatic.RevenueSplitCategory
 	err := r.Run(&obj)
 	if err != nil {
 		return nil, err
@@ -35,7 +35,7 @@ func Get(client *ticketmatic.Client, id int) (*ticketmatic.RevenueSplitCategory,
 }
 
 // Create a new revenue split category
-func Create(client *ticketmatic.Client, data *ticketmatic.CreateRevenueSplitCategory) (*ticketmatic.RevenueSplitCategory, error) {
+func Create(client *ticketmatic.Client, data *ticketmatic.RevenueSplitCategory) (*ticketmatic.RevenueSplitCategory, error) {
 	r := client.NewRequest("POST", "/{accountname}/settings/pricing/revenuesplitcategories")
 	r.Body(data)
 
@@ -48,7 +48,7 @@ func Create(client *ticketmatic.Client, data *ticketmatic.CreateRevenueSplitCate
 }
 
 // Modify an existing revenue split category
-func Update(client *ticketmatic.Client, id int, data *ticketmatic.UpdateRevenueSplitCategory) (*ticketmatic.RevenueSplitCategory, error) {
+func Update(client *ticketmatic.Client, id int, data *ticketmatic.RevenueSplitCategory) (*ticketmatic.RevenueSplitCategory, error) {
 	r := client.NewRequest("PUT", "/{accountname}/settings/pricing/revenuesplitcategories/{id}")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
