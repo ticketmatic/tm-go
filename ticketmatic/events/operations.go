@@ -5,7 +5,7 @@ import (
 )
 
 // Get a list of events
-func List(client *ticketmatic.Client, params *ticketmatic.EventParameters) ([]*ticketmatic.ListEvent, error) {
+func List(client *ticketmatic.Client, params *ticketmatic.EventQuery) ([]*ticketmatic.ListEvent, error) {
 	r := client.NewRequest("GET", "/{accountname}/events")
 	r.AddParameter("includearchived", params.Includearchived)
 

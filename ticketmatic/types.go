@@ -74,14 +74,19 @@ package ticketmatic
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://apps.ticketmatic.com/#/knowledgebase/api/types/DeliveryscenarioAvailability).
 type DeliveryscenarioAvailability struct {
-	// An array of sales channel IDs for which this delivery scenario can be used.
+	// An array of sales channel IDs for which this delivery scenario can be used
 	Saleschannels []int `json:"saleschannels,omitempty"`
 
 	// Use a script to refine the set of sales channels?
 	Usescript bool `json:"usescript,omitempty"`
 
-	// Script used to determine availability of the delivery scenario.
+	// Script used to determine availability of the delivery scenario
 	Script string `json:"script,omitempty"`
+}
+
+type Order struct {
+	// Order ID
+	Orderid int `json:"orderid,omitempty"`
 }
 
 type OrderFeeRule struct {
@@ -161,7 +166,7 @@ type Event struct {
 type ListEvent struct {
 }
 
-type EventParameters struct {
+type EventQuery struct {
 	// If this parameter is true, archived items will be returned as well.
 	Includearchived bool `json:"includearchived,omitempty"`
 }
@@ -169,7 +174,18 @@ type EventParameters struct {
 type Ticket struct {
 }
 
-type Order struct {
+type OrderQuery struct {
+	Filter string `json:"filter,omitempty"`
+
+	// If this parameter is true, archived items will be returned as well.
+	Includearchived bool   `json:"includearchived,omitempty"`
+	Lastupdatesince Time   `json:"lastupdatesince,omitempty"`
+	Limit           int    `json:"limit,omitempty"`
+	Offset          int    `json:"offset,omitempty"`
+	Orderby         string `json:"orderby,omitempty"`
+	Output          string `json:"output,omitempty"`
+	Searchterm      string `json:"searchterm,omitempty"`
+	Simplefilter    string `json:"simplefilter,omitempty"`
 }
 
 // Set of parameters used to filter order mail templates.
@@ -212,9 +228,9 @@ type OrderMailTemplateQuery struct {
 type OrderMailTemplate struct {
 	// Unique ID
 	//
-	// Note: Ignored when updating an existing order mail template.
-	//
 	// Note: Ignored when creating a new order mail template.
+	//
+	// Note: Ignored when updating an existing order mail template.
 	Id int `json:"id,omitempty"`
 
 	// Name of the order mail template
@@ -344,9 +360,9 @@ type WebSalesSkin struct {
 
 	// Created timestamp
 	//
-	// Note: Ignored when updating an existing web sales skin.
-	//
 	// Note: Ignored when creating a new web sales skin.
+	//
+	// Note: Ignored when updating an existing web sales skin.
 	Createdts Time `json:"createdts,omitempty"`
 
 	// Last updated timestamp
@@ -573,9 +589,9 @@ type PriceList struct {
 
 	// Last updated timestamp
 	//
-	// Note: Ignored when updating an existing price list.
-	//
 	// Note: Ignored when creating a new price list.
+	//
+	// Note: Ignored when updating an existing price list.
 	Lastupdatets Time `json:"lastupdatets,omitempty"`
 
 	// Whether or not this item is archived
@@ -705,9 +721,9 @@ type RevenueSplitCategoryQuery struct {
 type RevenueSplitCategory struct {
 	// Unique ID
 	//
-	// Note: Ignored when creating a new revenue split category.
-	//
 	// Note: Ignored when updating an existing revenue split category.
+	//
+	// Note: Ignored when creating a new revenue split category.
 	Id   int    `json:"id,omitempty"`
 	Name string `json:"name,omitempty"`
 
@@ -791,9 +807,9 @@ type RevenueSplit struct {
 
 	// Last updated timestamp
 	//
-	// Note: Ignored when creating a new revenue split.
-	//
 	// Note: Ignored when updating an existing revenue split.
+	//
+	// Note: Ignored when creating a new revenue split.
 	Lastupdatets Time `json:"lastupdatets,omitempty"`
 
 	// Whether or not this item is archived
@@ -941,9 +957,9 @@ type FilterDefinition struct {
 
 	// Last updated timestamp
 	//
-	// Note: Ignored when updating an existing filter definition.
-	//
 	// Note: Ignored when creating a new filter definition.
+	//
+	// Note: Ignored when updating an existing filter definition.
 	Lastupdatets Time `json:"lastupdatets,omitempty"`
 
 	// Whether or not this item is archived
@@ -1042,16 +1058,16 @@ type DeliveryScenario struct {
 
 	// Last updated timestamp
 	//
-	// Note: Ignored when updating an existing delivery scenario.
-	//
 	// Note: Ignored when creating a new delivery scenario.
+	//
+	// Note: Ignored when updating an existing delivery scenario.
 	Lastupdatets Time `json:"lastupdatets,omitempty"`
 
 	// Whether or not this item is archived
 	//
-	// Note: Ignored when creating a new delivery scenario.
-	//
 	// Note: Ignored when updating an existing delivery scenario.
+	//
+	// Note: Ignored when creating a new delivery scenario.
 	Isarchived bool `json:"isarchived,omitempty"`
 }
 
@@ -1183,9 +1199,9 @@ type OrderFee struct {
 
 	// Last updated timestamp
 	//
-	// Note: Ignored when creating a new order fee.
-	//
 	// Note: Ignored when updating an existing order fee.
+	//
+	// Note: Ignored when creating a new order fee.
 	Lastupdatets Time `json:"lastupdatets,omitempty"`
 
 	// Whether or not this item is archived
@@ -1250,9 +1266,9 @@ type PaymentMethod struct {
 
 	// Created timestamp
 	//
-	// Note: Ignored when creating a new payment method.
-	//
 	// Note: Ignored when updating an existing payment method.
+	//
+	// Note: Ignored when creating a new payment method.
 	Createdts Time `json:"createdts,omitempty"`
 
 	// Last updated timestamp
@@ -1434,9 +1450,9 @@ type SalesChannel struct {
 
 	// Last updated timestamp
 	//
-	// Note: Ignored when updating an existing sales channel.
-	//
 	// Note: Ignored when creating a new sales channel.
+	//
+	// Note: Ignored when updating an existing sales channel.
 	Lastupdatets Time `json:"lastupdatets,omitempty"`
 
 	// Whether or not this item is archived
