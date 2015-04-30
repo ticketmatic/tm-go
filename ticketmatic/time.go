@@ -33,6 +33,21 @@ func (t *Time) UnmarshalJSON(data []byte) error {
 	}
 
 	s = s[1 : len(s)-1]
+	ts, err := ParseTime(s)
+	if err != nil {
+		return err
+	}
+	t.ts = ts
+	return nil
+}
+
+// Marshal Time to JSON.
+func (t *Time) MarshalJSON() ([]byte, error) {
+	return []byte(fmt.Sprintf(`"%s"`, t.ts.Format("2006-01-02T15:04:05.999999"))), nil
+}
+
+// Parse Ticketmatic timestamps
+func ParseTime(s string) (time.Time, error) {
 	if len(s) >= 19 {
 		if s[10] == ' ' {
 			// We're not always fully consistent in date outputs (for
@@ -43,34 +58,23 @@ func (t *Time) UnmarshalJSON(data []byte) error {
 
 		// "2015-04-09T14:19:49"
 		if len(s) == 19 {
-			ts, err := time.Parse("2006-01-02T15:04:05", s)
-			if err != nil {
-				return err
-			}
-			t.ts = ts
-			return nil
+			return time.Parse("2006-01-02T15:04:05", s)
 		} else {
-			ts, err := time.Parse("2006-01-02T15:04:05.999999", s)
-			if err != nil {
-				return err
-			}
-			t.ts = ts
-			return nil
+			return time.Parse("2006-01-02T15:04:05.999999", s)
 		}
 	} else if len(s) == 10 {
 		// "2015-04-09"
-		ts, err := time.Parse("2006-01-02", s)
-		if err != nil {
-			return err
-		}
-		t.ts = ts
-		return nil
+		return time.Parse("2006-01-02", s)
 	}
 
-	return fmt.Errorf("Unknown date format: %s", s)
+	return time.Time{}, fmt.Errorf("Unknown date format: %s", s)
 }
 
-// Marshal Time to JSON.
-func (t *Time) MarshalJSON() ([]byte, error) {
-	return []byte(fmt.Sprintf(`"%s"`, t.ts.Format("2006-01-02T15:04:05.999999"))), nil
+// Parse a timestamp, panic if it fails
+func MustParseTime(s string) time.Time {
+	ts, err := ParseTime(s)
+	if err != nil {
+		panic(err)
+	}
+	return ts
 }
