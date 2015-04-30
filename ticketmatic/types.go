@@ -1803,3 +1803,13 @@ type SubscriberSync struct {
 	Lastname   string `json:"lastname,omitempty"`
 	Subscribed bool   `json:"subscribed,omitempty"`
 }
+
+type SubscriberCommunication struct {
+	// Name of the communication
+	Name   string `json:"name,omitempty"`
+	Remark string `json:"remark,omitempty"`
+
+	// Timestamp for the communication
+	Ts        Time     `json:"ts,omitempty"`
+	Addresses []string `json:"addresses,omitempty"`
+}
