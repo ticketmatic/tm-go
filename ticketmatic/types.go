@@ -156,10 +156,10 @@ type Event struct {
 	// Only set for events with fixed seats. See price lists
 	// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_pricing_pricelists)
 	// for more info.
-	Seatingplanpricelistid         int64 `json:"seatingplanpricelistid,omitempty"`
-	Seatingplaneventspecificprices *TODO `json:"seatingplaneventspecificprices,omitempty"`
-	Seatingplancontingents         *TODO `json:"seatingplancontingents,omitempty"`
-	Contingents                    *TODO `json:"contingents,omitempty"`
+	Seatingplanpricelistid         int64       `json:"seatingplanpricelistid,omitempty"`
+	Seatingplaneventspecificprices interface{} `json:"seatingplaneventspecificprices,omitempty"`
+	Seatingplancontingents         interface{} `json:"seatingplancontingents,omitempty"`
+	Contingents                    interface{} `json:"contingents,omitempty"`
 
 	// Price availability ID
 	//
@@ -194,11 +194,11 @@ type Event struct {
 	Maxnbrofticketsperbasket int64 `json:"maxnbrofticketsperbasket,omitempty"`
 
 	// Event status
-	Currentstatus int64 `json:"currentstatus,omitempty"`
-	Prices        *TODO `json:"prices,omitempty"`
-	Saleschannels *TODO `json:"saleschannels,omitempty"`
-	Tags          *TODO `json:"tags,omitempty"`
-	Availability  *TODO `json:"availability,omitempty"`
+	Currentstatus int64       `json:"currentstatus,omitempty"`
+	Prices        interface{} `json:"prices,omitempty"`
+	Saleschannels interface{} `json:"saleschannels,omitempty"`
+	Tags          interface{} `json:"tags,omitempty"`
+	Availability  interface{} `json:"availability,omitempty"`
 
 	// Created timestamp
 	Createdts Time `json:"createdts,omitempty"`
@@ -231,11 +231,11 @@ type Order struct {
 	Totalamount float64 `json:"totalamount,omitempty"`
 
 	// Total amount paid.
-	Amountpaid                float64 `json:"amountpaid,omitempty"`
-	Paymentstatus             int64   `json:"paymentstatus,omitempty"`
-	Deliverystatus            int64   `json:"deliverystatus,omitempty"`
-	Deliveryaddress           *TODO   `json:"deliveryaddress,omitempty"`
-	Deferredpaymentproperties *TODO   `json:"deferredpaymentproperties,omitempty"`
+	Amountpaid                float64     `json:"amountpaid,omitempty"`
+	Paymentstatus             int64       `json:"paymentstatus,omitempty"`
+	Deliverystatus            int64       `json:"deliverystatus,omitempty"`
+	Deliveryaddress           interface{} `json:"deliveryaddress,omitempty"`
+	Deferredpaymentproperties interface{} `json:"deferredpaymentproperties,omitempty"`
 
 	// Sales channel ID
 	//
@@ -265,11 +265,11 @@ type Order struct {
 	Rappelsent bool `json:"rappelsent,omitempty"`
 
 	// When the order will expire
-	Expiryts   Time  `json:"expiryts,omitempty"`
-	Tickets    *TODO `json:"tickets,omitempty"`
-	Payments   *TODO `json:"payments,omitempty"`
-	Lookup     *TODO `json:"lookup,omitempty"`
-	Ordercosts *TODO `json:"ordercosts,omitempty"`
+	Expiryts   Time        `json:"expiryts,omitempty"`
+	Tickets    interface{} `json:"tickets,omitempty"`
+	Payments   interface{} `json:"payments,omitempty"`
+	Lookup     interface{} `json:"lookup,omitempty"`
+	Ordercosts interface{} `json:"ordercosts,omitempty"`
 
 	// Created timestamp
 	Createdts Time `json:"createdts,omitempty"`
@@ -425,13 +425,19 @@ type AddTickets struct {
 type AddTicketsResult struct {
 	// Number of tickets added
 	Nbrofaddedtickets int64 `json:"nbrofaddedtickets,omitempty"`
+
+	// The modified order
+	Order *Order `json:"order,omitempty"`
+}
+
+type UpdateTickets struct {
 }
 
 type UpdateOrder struct {
-	Deliveryscenarioid int64 `json:"deliveryscenarioid,omitempty"`
-	Paymentscenarioid  int64 `json:"paymentscenarioid,omitempty"`
-	Customerid         int64 `json:"customerid,omitempty"`
-	Customfields       *TODO `json:"customfields,omitempty"`
+	Deliveryscenarioid int64       `json:"deliveryscenarioid,omitempty"`
+	Paymentscenarioid  int64       `json:"paymentscenarioid,omitempty"`
+	Customerid         int64       `json:"customerid,omitempty"`
+	Customfields       interface{} `json:"customfields,omitempty"`
 }
 
 type OrderQuery struct {
