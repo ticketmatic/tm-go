@@ -93,8 +93,24 @@ func Confirm(client *ticketmatic.Client, id int64) (*ticketmatic.Order, error) {
 }
 
 // Add tickets to order
-func Addtickets(client *ticketmatic.Client, id int64, data *ticketmatic.AddTickets) (*ticketmatic.Order, error) {
+func Addtickets(client *ticketmatic.Client, id int64, data *ticketmatic.AddTickets) (*ticketmatic.AddTicketsResult, error) {
 	r := client.NewRequest("POST", "/{accountname}/orders/{id}/tickets")
+	r.UrlParameters(map[string]interface{}{
+		"id": id,
+	})
+	r.Body(data)
+
+	var obj *ticketmatic.AddTicketsResult
+	err := r.Run(&obj)
+	if err != nil {
+		return nil, err
+	}
+	return obj, nil
+}
+
+// Modify tickets in order
+func Updatetickets(client *ticketmatic.Client, id int64, data *ticketmatic.UpdateTickets) (*ticketmatic.Order, error) {
+	r := client.NewRequest("PUT", "/{accountname}/orders/{id}/tickets")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
 	})
