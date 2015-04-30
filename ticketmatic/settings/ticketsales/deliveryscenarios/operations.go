@@ -20,7 +20,7 @@ func Getlist(client *ticketmatic.Client, params *ticketmatic.DeliveryScenarioQue
 }
 
 // Get a single delivery scenario
-func Get(client *ticketmatic.Client, id int) (*ticketmatic.DeliveryScenario, error) {
+func Get(client *ticketmatic.Client, id int64) (*ticketmatic.DeliveryScenario, error) {
 	r := client.NewRequest("GET", "/{accountname}/settings/ticketsales/deliveryscenarios/{id}")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
@@ -48,7 +48,7 @@ func Create(client *ticketmatic.Client, data *ticketmatic.DeliveryScenario) (*ti
 }
 
 // Modify an existing delivery scenario
-func Update(client *ticketmatic.Client, id int, data *ticketmatic.DeliveryScenario) (*ticketmatic.DeliveryScenario, error) {
+func Update(client *ticketmatic.Client, id int64, data *ticketmatic.DeliveryScenario) (*ticketmatic.DeliveryScenario, error) {
 	r := client.NewRequest("PUT", "/{accountname}/settings/ticketsales/deliveryscenarios/{id}")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
@@ -71,7 +71,7 @@ func Update(client *ticketmatic.Client, id int, data *ticketmatic.DeliveryScenar
 //
 // Most object types are archivable and can't be deleted: this is needed to ensure
 // consistency of historical data.
-func Delete(client *ticketmatic.Client, id int) error {
+func Delete(client *ticketmatic.Client, id int64) error {
 	r := client.NewRequest("DELETE", "/{accountname}/settings/ticketsales/deliveryscenarios/{id}")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,

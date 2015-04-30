@@ -75,7 +75,7 @@ package ticketmatic
 // (https://apps.ticketmatic.com/#/knowledgebase/api/types/DeliveryscenarioAvailability).
 type DeliveryscenarioAvailability struct {
 	// An array of sales channel IDs for which this delivery scenario can be used
-	Saleschannels []int `json:"saleschannels,omitempty"`
+	Saleschannels []int64 `json:"saleschannels,omitempty"`
 
 	// Use a script to refine the set of sales channels?
 	Usescript bool `json:"usescript,omitempty"`
@@ -84,9 +84,198 @@ type DeliveryscenarioAvailability struct {
 	Script string `json:"script,omitempty"`
 }
 
+type Event struct {
+	// Event ID
+	Id int64 `json:"id,omitempty"`
+
+	// Event name
+	Name string `json:"name,omitempty"`
+
+	// Event subtitle
+	Subtitle string `json:"subtitle,omitempty"`
+
+	// Event subtitle (2)
+	Subtitle2 string `json:"subtitle2,omitempty"`
+
+	// Small description that will be shown on the sales pages of this event
+	Webremark string `json:"webremark,omitempty"`
+
+	// Event start time
+	Startts Time `json:"startts,omitempty"`
+
+	// Time of start of sales.
+	//
+	// Used for all sales channels for which no specific sales period has been defined.
+	Salestartts Time `json:"salestartts,omitempty"`
+
+	// Time of end of sales.
+	//
+	// Used for all sales channels for which no specific sales period has been defined.
+	Saleendts Time `json:"saleendts,omitempty"`
+
+	// Event publish time
+	Publishedts Time `json:"publishedts,omitempty"`
+
+	// Event end time
+	Endts Time `json:"endts,omitempty"`
+
+	// Event code.
+	//
+	// Used as a unique identifier in web sales.
+	Code string `json:"code,omitempty"`
+
+	// External event code.
+	//
+	// This field is typically set when importing data from other systems.
+	Externalcode string `json:"externalcode,omitempty"`
+
+	// Production ID
+	Productionid string `json:"productionid,omitempty"`
+
+	// Event location ID
+	//
+	// See event locations
+	// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_events_eventlocations)
+	// for more info.
+	Locationid int64 `json:"locationid,omitempty"`
+
+	// Event location name
+	//
+	// Automatically derived using locationid.
+	Locationname string `json:"locationname,omitempty"`
+
+	// Seating plan ID
+	//
+	// Only set for events with fixed seats. See seating plans
+	// (https://apps.ticketmatic.com/#/knowledgebase/api/types/Seatingplan) for more
+	// info.
+	Seatingplanid int64 `json:"seatingplanid,omitempty"`
+
+	// Price list ID for fixed seats.
+	//
+	// Only set for events with fixed seats. See price lists
+	// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_pricing_pricelists)
+	// for more info.
+	Seatingplanpricelistid         int64 `json:"seatingplanpricelistid,omitempty"`
+	Seatingplaneventspecificprices *TODO `json:"seatingplaneventspecificprices,omitempty"`
+	Seatingplancontingents         *TODO `json:"seatingplancontingents,omitempty"`
+	Contingents                    *TODO `json:"contingents,omitempty"`
+
+	// Price availability ID
+	//
+	// Determines which price types are available for this event. See price
+	// availabilities
+	// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_pricing_priceavailabilities)
+	// for more info.
+	Priceavailabilityid int64 `json:"priceavailabilityid,omitempty"`
+
+	// Ticket fee ID
+	//
+	// Determines which ticket fee rules are used for this event. See ticket fees
+	// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_pricing_ticketfees)
+	// for more info.
+	Ticketfeeid int64 `json:"ticketfeeid,omitempty"`
+
+	// Revenue split ID
+	//
+	// Determines which revenue split rules are used for this event. See revenue splits
+	// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_pricing_revenuesplits)
+	// for more info.
+	Revenuesplitid int64 `json:"revenuesplitid,omitempty"`
+
+	// Ticket layout ID
+	//
+	// See ticket layouts
+	// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_communicationanddesign_ticketlayouts)
+	// for more info.
+	Ticketlayoutid int64 `json:"ticketlayoutid,omitempty"`
+
+	// Maximum number of tickets for this event that can be added to a basket
+	Maxnbrofticketsperbasket int64 `json:"maxnbrofticketsperbasket,omitempty"`
+
+	// Event status
+	Currentstatus int64 `json:"currentstatus,omitempty"`
+	Prices        *TODO `json:"prices,omitempty"`
+	Saleschannels *TODO `json:"saleschannels,omitempty"`
+	Tags          *TODO `json:"tags,omitempty"`
+	Availability  *TODO `json:"availability,omitempty"`
+
+	// Created timestamp
+	Createdts Time `json:"createdts,omitempty"`
+
+	// Last updated timestamp
+	Lastupdatets Time `json:"lastupdatets,omitempty"`
+}
+
 type Order struct {
 	// Order ID
-	Orderid int `json:"orderid,omitempty"`
+	Orderid int64 `json:"orderid,omitempty"`
+
+	// Order status
+	Status int64 `json:"status,omitempty"`
+
+	// Order code.
+	//
+	// Used as a unique identifier in web sales.
+	Code string `json:"code,omitempty"`
+
+	// Customer ID
+	Customerid int64 `json:"customerid,omitempty"`
+
+	// Has customer authenticated?
+	Isauthenticatedcustomer bool `json:"isauthenticatedcustomer,omitempty"`
+
+	// Total order amount.
+	//
+	// Includes all costs and fees.
+	Totalamount float64 `json:"totalamount,omitempty"`
+
+	// Total amount paid.
+	Amountpaid                float64 `json:"amountpaid,omitempty"`
+	Paymentstatus             int64   `json:"paymentstatus,omitempty"`
+	Deliverystatus            int64   `json:"deliverystatus,omitempty"`
+	Deliveryaddress           *TODO   `json:"deliveryaddress,omitempty"`
+	Deferredpaymentproperties *TODO   `json:"deferredpaymentproperties,omitempty"`
+
+	// Sales channel ID
+	//
+	// See sales channels
+	// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_ticketsales_saleschannels)
+	// for more info.
+	Saleschannelid int64 `json:"saleschannelid,omitempty"`
+
+	// Payment scenario ID
+	//
+	// See payment scenarios
+	// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_ticketsales_paymentscenarios)
+	// for more info.
+	Paymentscenarioid int64 `json:"paymentscenarioid,omitempty"`
+
+	// Delivery scenario ID
+	//
+	// See delivery scenarios
+	// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_ticketsales_deliveryscenarios)
+	// for more info.
+	Deliveryscenarioid int64 `json:"deliveryscenarioid,omitempty"`
+
+	// When the reminder mail will be sent
+	Rappelts Time `json:"rappelts,omitempty"`
+
+	// Whether the reminder mail has been sent
+	Rappelsent bool `json:"rappelsent,omitempty"`
+
+	// When the order will expire
+	Expiryts   Time  `json:"expiryts,omitempty"`
+	Tickets    *TODO `json:"tickets,omitempty"`
+	Payments   *TODO `json:"payments,omitempty"`
+	Lookup     *TODO `json:"lookup,omitempty"`
+	Ordercosts *TODO `json:"ordercosts,omitempty"`
+
+	// Created timestamp
+	Createdts Time `json:"createdts,omitempty"`
+
+	// Last updated timestamp
+	Lastupdatets Time `json:"lastupdatets,omitempty"`
 }
 
 type OrderFeeRule struct {
@@ -114,6 +303,15 @@ type RevenuesplitRules struct {
 }
 
 type TicketfeeRules struct {
+}
+
+// This type isn't documented yet
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/TODO).
+type TODO struct {
 }
 
 // Configuration settings and parameters for a web sales skin
@@ -160,18 +358,80 @@ type Timestamp struct {
 	Systemtime Time `json:"systemtime,omitempty"`
 }
 
-type Event struct {
-}
-
-type ListEvent struct {
-}
-
 type EventQuery struct {
+	Filter string `json:"filter,omitempty"`
+
 	// If this parameter is true, archived items will be returned as well.
-	Includearchived bool `json:"includearchived,omitempty"`
+	Includearchived bool   `json:"includearchived,omitempty"`
+	Lastupdatesince Time   `json:"lastupdatesince,omitempty"`
+	Limit           int64  `json:"limit,omitempty"`
+	Offset          int64  `json:"offset,omitempty"`
+	Orderby         string `json:"orderby,omitempty"`
+	Output          string `json:"output,omitempty"`
+	Searchterm      string `json:"searchterm,omitempty"`
+	Simplefilter    string `json:"simplefilter,omitempty"`
+	Context         string `json:"context,omitempty"`
 }
 
 type Ticket struct {
+}
+
+// Required data for creating an order
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/Order).
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/CreateOrder).
+type CreateOrder struct {
+	// Sales channel in which this order is created
+	Saleschannelid int64 `json:"saleschannelid,omitempty"`
+}
+
+// Info for adding a ticket
+// (https://apps.ticketmatic.com/#/knowledgebase/api/orders/addtickets) to an order
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/Order).
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/CreateTicket).
+type CreateTicket struct {
+	// The required ticket type price ID.
+	Tickettypepriceid int64 `json:"tickettypepriceid,omitempty"`
+}
+
+// Request data used to add tickets
+// (https://apps.ticketmatic.com/#/knowledgebase/api/orders/addtickets) to an order
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/Order).
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/AddTickets).
+type AddTickets struct {
+	// Ticket information
+	Tickets []*CreateTicket `json:"tickets,omitempty"`
+}
+
+// Result when adding tickets
+// (https://apps.ticketmatic.com/#/knowledgebase/api/orders/addtickets) to an order
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/Order).
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/AddTicketsResult).
+type AddTicketsResult struct {
+	// Number of tickets added
+	Nbrofaddedtickets int64 `json:"nbrofaddedtickets,omitempty"`
+}
+
+type UpdateOrder struct {
+	Deliveryscenarioid int64 `json:"deliveryscenarioid,omitempty"`
+	Paymentscenarioid  int64 `json:"paymentscenarioid,omitempty"`
+	Customerid         int64 `json:"customerid,omitempty"`
+	Customfields       *TODO `json:"customfields,omitempty"`
 }
 
 type OrderQuery struct {
@@ -180,8 +440,8 @@ type OrderQuery struct {
 	// If this parameter is true, archived items will be returned as well.
 	Includearchived bool   `json:"includearchived,omitempty"`
 	Lastupdatesince Time   `json:"lastupdatesince,omitempty"`
-	Limit           int    `json:"limit,omitempty"`
-	Offset          int    `json:"offset,omitempty"`
+	Limit           int64  `json:"limit,omitempty"`
+	Offset          int64  `json:"offset,omitempty"`
 	Orderby         string `json:"orderby,omitempty"`
 	Output          string `json:"output,omitempty"`
 	Searchterm      string `json:"searchterm,omitempty"`
@@ -231,7 +491,7 @@ type OrderMailTemplate struct {
 	// Note: Ignored when creating a new order mail template.
 	//
 	// Note: Ignored when updating an existing order mail template.
-	Id int `json:"id,omitempty"`
+	Id int64 `json:"id,omitempty"`
 
 	// Name of the order mail template
 	Name string `json:"name,omitempty"`
@@ -240,7 +500,7 @@ type OrderMailTemplate struct {
 	// available values for this field can be found on the order mail template overview
 	// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_communicationanddesign_ordermails)
 	// page.
-	Typeid int `json:"typeid,omitempty"`
+	Typeid int64 `json:"typeid,omitempty"`
 
 	// Subject line for the order mail template
 	//
@@ -280,6 +540,74 @@ type OrderMailTemplate struct {
 	// Note: Ignored when creating a new order mail template.
 	//
 	// Note: Ignored when updating an existing order mail template.
+	Isarchived bool `json:"isarchived,omitempty"`
+}
+
+// Set of parameters used to filter ticket layouts.
+//
+// More info: see ticket layout
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/TicketLayout), the
+// getlist operation
+// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_communicationanddesign_ticketlayouts/getlist)
+// and the ticket layouts endpoint
+// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_communicationanddesign_ticketlayouts).
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/TicketLayoutQuery).
+type TicketLayoutQuery struct {
+	// If this parameter is true, archived items will be returned as well.
+	Includearchived bool `json:"includearchived,omitempty"`
+
+	// All items that were updated since this timestamp will be returned. Timestamp
+	// should be passed in YYYY-MM-DD hh:mm:ss format.
+	Lastupdatesince Time `json:"lastupdatesince,omitempty"`
+
+	// Filter the returned items by specifying a query on the public datamodel that
+	// returns the ids.
+	Filter string `json:"filter,omitempty"`
+}
+
+// A single ticket layout.
+//
+// More info: see the get operation
+// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_communicationanddesign_ticketlayouts/get)
+// and the ticket layouts endpoint
+// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_communicationanddesign_ticketlayouts).
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/TicketLayout).
+type TicketLayout struct {
+	// Unique ID
+	//
+	// Note: Ignored when creating a new ticket layout.
+	//
+	// Note: Ignored when updating an existing ticket layout.
+	Id   int64  `json:"id,omitempty"`
+	Name string `json:"name,omitempty"`
+
+	// Created timestamp
+	//
+	// Note: Ignored when creating a new ticket layout.
+	//
+	// Note: Ignored when updating an existing ticket layout.
+	Createdts Time `json:"createdts,omitempty"`
+
+	// Last updated timestamp
+	//
+	// Note: Ignored when creating a new ticket layout.
+	//
+	// Note: Ignored when updating an existing ticket layout.
+	Lastupdatets Time `json:"lastupdatets,omitempty"`
+
+	// Whether or not this item is archived
+	//
+	// Note: Ignored when creating a new ticket layout.
+	//
+	// Note: Ignored when updating an existing ticket layout.
 	Isarchived bool `json:"isarchived,omitempty"`
 }
 
@@ -323,7 +651,7 @@ type WebSalesSkin struct {
 	// Note: Ignored when creating a new web sales skin.
 	//
 	// Note: Ignored when updating an existing web sales skin.
-	Id int `json:"id,omitempty"`
+	Id int64 `json:"id,omitempty"`
 
 	// Name of the web sales skin
 	Name string `json:"name,omitempty"`
@@ -416,7 +744,7 @@ type EventLocation struct {
 	// Note: Ignored when creating a new event location.
 	//
 	// Note: Ignored when updating an existing event location.
-	Id int `json:"id,omitempty"`
+	Id int64 `json:"id,omitempty"`
 
 	// Name of the location
 	Name string `json:"name,omitempty"`
@@ -502,7 +830,7 @@ type PriceAvailability struct {
 	// Note: Ignored when creating a new price availability.
 	//
 	// Note: Ignored when updating an existing price availability.
-	Id   int    `json:"id,omitempty"`
+	Id   int64  `json:"id,omitempty"`
 	Name string `json:"name,omitempty"`
 
 	// Note: Not set when retrieving a list of price availabilities.
@@ -573,7 +901,7 @@ type PriceList struct {
 	// Note: Ignored when creating a new price list.
 	//
 	// Note: Ignored when updating an existing price list.
-	Id   int    `json:"id,omitempty"`
+	Id   int64  `json:"id,omitempty"`
 	Name string `json:"name,omitempty"`
 
 	// Note: Not set when retrieving a list of price lists.
@@ -645,7 +973,7 @@ type PriceType struct {
 	// Note: Ignored when creating a new price type.
 	//
 	// Note: Ignored when updating an existing price type.
-	Id int `json:"id,omitempty"`
+	Id int64 `json:"id,omitempty"`
 
 	// Name of the price type
 	Name string `json:"name,omitempty"`
@@ -654,7 +982,7 @@ type PriceType struct {
 	// available values for this field can be found on the price type overview
 	// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_pricing_pricetypes)
 	// page.
-	Typeid int `json:"typeid,omitempty"`
+	Typeid int64 `json:"typeid,omitempty"`
 
 	// A remark that describes the price type. Will be shown to customers.
 	Remark string `json:"remark,omitempty"`
@@ -721,10 +1049,10 @@ type RevenueSplitCategoryQuery struct {
 type RevenueSplitCategory struct {
 	// Unique ID
 	//
-	// Note: Ignored when updating an existing revenue split category.
-	//
 	// Note: Ignored when creating a new revenue split category.
-	Id   int    `json:"id,omitempty"`
+	//
+	// Note: Ignored when updating an existing revenue split category.
+	Id   int64  `json:"id,omitempty"`
 	Name string `json:"name,omitempty"`
 
 	// Created timestamp
@@ -792,7 +1120,7 @@ type RevenueSplit struct {
 	// Note: Ignored when creating a new revenue split.
 	//
 	// Note: Ignored when updating an existing revenue split.
-	Id   int    `json:"id,omitempty"`
+	Id   int64  `json:"id,omitempty"`
 	Name string `json:"name,omitempty"`
 
 	// Note: Not set when retrieving a list of revenue splits.
@@ -807,9 +1135,9 @@ type RevenueSplit struct {
 
 	// Last updated timestamp
 	//
-	// Note: Ignored when updating an existing revenue split.
-	//
 	// Note: Ignored when creating a new revenue split.
+	//
+	// Note: Ignored when updating an existing revenue split.
 	Lastupdatets Time `json:"lastupdatets,omitempty"`
 
 	// Whether or not this item is archived
@@ -863,7 +1191,7 @@ type TicketFee struct {
 	// Note: Ignored when creating a new ticket fee.
 	//
 	// Note: Ignored when updating an existing ticket fee.
-	Id   int    `json:"id,omitempty"`
+	Id   int64  `json:"id,omitempty"`
 	Name string `json:"name,omitempty"`
 
 	// Note: Not set when retrieving a list of ticket fees.
@@ -917,7 +1245,7 @@ type FilterDefinitionQuery struct {
 	Filter string `json:"filter,omitempty"`
 
 	// Only return items with the given typeid.
-	Typeid int `json:"typeid,omitempty"`
+	Typeid int64 `json:"typeid,omitempty"`
 }
 
 // A single filter definition.
@@ -937,15 +1265,15 @@ type FilterDefinition struct {
 	// Note: Ignored when creating a new filter definition.
 	//
 	// Note: Ignored when updating an existing filter definition.
-	Id int `json:"id,omitempty"`
+	Id int64 `json:"id,omitempty"`
 
 	// Type ID
 	//
 	// Note: Ignored when updating an existing filter definition.
-	Typeid         int    `json:"typeid,omitempty"`
+	Typeid         int64  `json:"typeid,omitempty"`
 	Description    string `json:"description,omitempty"`
 	Sqlclause      string `json:"sqlclause,omitempty"`
-	Filtertype     int    `json:"filtertype,omitempty"`
+	Filtertype     int64  `json:"filtertype,omitempty"`
 	Checklistquery string `json:"checklistquery,omitempty"`
 
 	// Created timestamp
@@ -1013,7 +1341,7 @@ type DeliveryScenario struct {
 	// Note: Ignored when creating a new delivery scenario.
 	//
 	// Note: Ignored when updating an existing delivery scenario.
-	Id int `json:"id,omitempty"`
+	Id int64 `json:"id,omitempty"`
 
 	// Name of the delivery scenario
 	Name string `json:"name,omitempty"`
@@ -1029,7 +1357,7 @@ type DeliveryScenario struct {
 	// scenario overview
 	// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_ticketsales_deliveryscenarios)
 	// page.
-	Typeid int `json:"typeid,omitempty"`
+	Typeid int64 `json:"typeid,omitempty"`
 
 	// A physical address is required
 	Needsaddress bool `json:"needsaddress,omitempty"`
@@ -1044,10 +1372,10 @@ type DeliveryScenario struct {
 
 	// The ID of the order mail template that will be used for sending out this
 	// delivery scenario. Can be 0 to indicate that no mail should be sent
-	OrdermailtemplateidDelivery int `json:"ordermailtemplateid_delivery,omitempty"`
+	OrdermailtemplateidDelivery int64 `json:"ordermailtemplateid_delivery,omitempty"`
 
 	// Are e-tickets allowed with this delivery scenario?
-	Allowetickets int `json:"allowetickets,omitempty"`
+	Allowetickets int64 `json:"allowetickets,omitempty"`
 
 	// Created timestamp
 	//
@@ -1065,9 +1393,9 @@ type DeliveryScenario struct {
 
 	// Whether or not this item is archived
 	//
-	// Note: Ignored when updating an existing delivery scenario.
-	//
 	// Note: Ignored when creating a new delivery scenario.
+	//
+	// Note: Ignored when updating an existing delivery scenario.
 	Isarchived bool `json:"isarchived,omitempty"`
 }
 
@@ -1114,7 +1442,7 @@ type LockType struct {
 	// Note: Ignored when creating a new lock type.
 	//
 	// Note: Ignored when updating an existing lock type.
-	Id         int    `json:"id,omitempty"`
+	Id         int64  `json:"id,omitempty"`
 	Name       string `json:"name,omitempty"`
 	Ishardlock bool   `json:"ishardlock,omitempty"`
 
@@ -1183,9 +1511,9 @@ type OrderFee struct {
 	// Note: Ignored when creating a new order fee.
 	//
 	// Note: Ignored when updating an existing order fee.
-	Id     int    `json:"id,omitempty"`
+	Id     int64  `json:"id,omitempty"`
 	Name   string `json:"name,omitempty"`
-	Typeid int    `json:"typeid,omitempty"`
+	Typeid int64  `json:"typeid,omitempty"`
 
 	// Note: Not set when retrieving a list of order fees.
 	Rule *OrderFeeRule `json:"rule,omitempty"`
@@ -1199,9 +1527,9 @@ type OrderFee struct {
 
 	// Last updated timestamp
 	//
-	// Note: Ignored when updating an existing order fee.
-	//
 	// Note: Ignored when creating a new order fee.
+	//
+	// Note: Ignored when updating an existing order fee.
 	Lastupdatets Time `json:"lastupdatets,omitempty"`
 
 	// Whether or not this item is archived
@@ -1255,20 +1583,20 @@ type PaymentMethod struct {
 	// Note: Ignored when creating a new payment method.
 	//
 	// Note: Ignored when updating an existing payment method.
-	Id                      int    `json:"id,omitempty"`
+	Id                      int64  `json:"id,omitempty"`
 	Name                    string `json:"name,omitempty"`
 	Internalremark          string `json:"internalremark,omitempty"`
-	Paymentmethodtypeid     int    `json:"paymentmethodtypeid,omitempty"`
-	Paymentmethodreceiverid int    `json:"paymentmethodreceiverid,omitempty"`
+	Paymentmethodtypeid     int64  `json:"paymentmethodtypeid,omitempty"`
+	Paymentmethodreceiverid int64  `json:"paymentmethodreceiverid,omitempty"`
 
 	// Note: Not set when retrieving a list of payment methods.
 	Config *PaymentmethodConfig `json:"config,omitempty"`
 
 	// Created timestamp
 	//
-	// Note: Ignored when updating an existing payment method.
-	//
 	// Note: Ignored when creating a new payment method.
+	//
+	// Note: Ignored when updating an existing payment method.
 	Createdts Time `json:"createdts,omitempty"`
 
 	// Last updated timestamp
@@ -1329,7 +1657,7 @@ type PaymentScenario struct {
 	// Note: Ignored when creating a new payment scenario.
 	//
 	// Note: Ignored when updating an existing payment scenario.
-	Id int `json:"id,omitempty"`
+	Id int64 `json:"id,omitempty"`
 
 	// Name of the payment scenario
 	Name string `json:"name,omitempty"`
@@ -1344,7 +1672,7 @@ type PaymentScenario struct {
 	// for the box office, each will have different fee configurations. Both will be
 	// named VISA, this field can be used to distinguish them.
 	Internalremark string `json:"internalremark,omitempty"`
-	Typeid         int    `json:"typeid,omitempty"`
+	Typeid         int64  `json:"typeid,omitempty"`
 
 	// Note: Not set when retrieving a list of payment scenarios.
 	Overdueparameters *PaymentscenarioOverdueParameters `json:"overdueparameters,omitempty"`
@@ -1354,10 +1682,10 @@ type PaymentScenario struct {
 
 	// Note: Not set when retrieving a list of payment scenarios.
 	Availability                          *PaymentscenarioAvailability `json:"availability,omitempty"`
-	Paymentmethods                        []int                        `json:"paymentmethods,omitempty"`
-	OrdermailtemplateidPaymentinstruction int                          `json:"ordermailtemplateid_paymentinstruction,omitempty"`
-	OrdermailtemplateidOverdue            int                          `json:"ordermailtemplateid_overdue,omitempty"`
-	OrdermailtemplateidExpiry             int                          `json:"ordermailtemplateid_expiry,omitempty"`
+	Paymentmethods                        []int64                      `json:"paymentmethods,omitempty"`
+	OrdermailtemplateidPaymentinstruction int64                        `json:"ordermailtemplateid_paymentinstruction,omitempty"`
+	OrdermailtemplateidOverdue            int64                        `json:"ordermailtemplateid_overdue,omitempty"`
+	OrdermailtemplateidExpiry             int64                        `json:"ordermailtemplateid_expiry,omitempty"`
 
 	// Created timestamp
 	//
@@ -1424,7 +1752,7 @@ type SalesChannel struct {
 	// Note: Ignored when creating a new sales channel.
 	//
 	// Note: Ignored when updating an existing sales channel.
-	Id int `json:"id,omitempty"`
+	Id int64 `json:"id,omitempty"`
 
 	// Name of the sales channel
 	Name string `json:"name,omitempty"`
@@ -1433,10 +1761,10 @@ type SalesChannel struct {
 	// The available values for this field can be found on the sales channel overview
 	// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_ticketsales_saleschannels)
 	// page.
-	Typeid int `json:"typeid,omitempty"`
+	Typeid int64 `json:"typeid,omitempty"`
 
 	// The ID of the order mail template to use for sending confirmations
-	OrdermailtemplateidConfirmation int `json:"ordermailtemplateid_confirmation,omitempty"`
+	OrdermailtemplateidConfirmation int64 `json:"ordermailtemplateid_confirmation,omitempty"`
 
 	// Always send the confirmation, regardless of the payment method configuration
 	OrdermailtemplateidConfirmationSendalways bool `json:"ordermailtemplateid_confirmation_sendalways,omitempty"`
@@ -1461,4 +1789,11 @@ type SalesChannel struct {
 	//
 	// Note: Ignored when updating an existing sales channel.
 	Isarchived bool `json:"isarchived,omitempty"`
+}
+
+type SubscriberSync struct {
+	Email      string `json:"email,omitempty"`
+	Firstname  string `json:"firstname,omitempty"`
+	Lastname   string `json:"lastname,omitempty"`
+	Subscribed bool   `json:"subscribed,omitempty"`
 }

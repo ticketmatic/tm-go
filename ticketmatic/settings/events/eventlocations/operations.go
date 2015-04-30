@@ -20,7 +20,7 @@ func Getlist(client *ticketmatic.Client, params *ticketmatic.EventLocationQuery)
 }
 
 // Get a single event location
-func Get(client *ticketmatic.Client, id int) (*ticketmatic.EventLocation, error) {
+func Get(client *ticketmatic.Client, id int64) (*ticketmatic.EventLocation, error) {
 	r := client.NewRequest("GET", "/{accountname}/settings/events/eventlocations/{id}")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
@@ -48,7 +48,7 @@ func Create(client *ticketmatic.Client, data *ticketmatic.EventLocation) (*ticke
 }
 
 // Modify an existing event location
-func Update(client *ticketmatic.Client, id int, data *ticketmatic.EventLocation) (*ticketmatic.EventLocation, error) {
+func Update(client *ticketmatic.Client, id int64, data *ticketmatic.EventLocation) (*ticketmatic.EventLocation, error) {
 	r := client.NewRequest("PUT", "/{accountname}/settings/events/eventlocations/{id}")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
@@ -71,7 +71,7 @@ func Update(client *ticketmatic.Client, id int, data *ticketmatic.EventLocation)
 //
 // Most object types are archivable and can't be deleted: this is needed to ensure
 // consistency of historical data.
-func Delete(client *ticketmatic.Client, id int) error {
+func Delete(client *ticketmatic.Client, id int64) error {
 	r := client.NewRequest("DELETE", "/{accountname}/settings/events/eventlocations/{id}")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,

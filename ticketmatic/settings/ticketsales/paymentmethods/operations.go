@@ -20,7 +20,7 @@ func Getlist(client *ticketmatic.Client, params *ticketmatic.PaymentMethodQuery)
 }
 
 // Get a single payment method
-func Get(client *ticketmatic.Client, id int) (*ticketmatic.PaymentMethod, error) {
+func Get(client *ticketmatic.Client, id int64) (*ticketmatic.PaymentMethod, error) {
 	r := client.NewRequest("GET", "/{accountname}/settings/ticketsales/paymentmethods/{id}")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
@@ -48,7 +48,7 @@ func Create(client *ticketmatic.Client, data *ticketmatic.PaymentMethod) (*ticke
 }
 
 // Modify an existing payment method
-func Update(client *ticketmatic.Client, id int, data *ticketmatic.PaymentMethod) (*ticketmatic.PaymentMethod, error) {
+func Update(client *ticketmatic.Client, id int64, data *ticketmatic.PaymentMethod) (*ticketmatic.PaymentMethod, error) {
 	r := client.NewRequest("PUT", "/{accountname}/settings/ticketsales/paymentmethods/{id}")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
@@ -71,7 +71,7 @@ func Update(client *ticketmatic.Client, id int, data *ticketmatic.PaymentMethod)
 //
 // Most object types are archivable and can't be deleted: this is needed to ensure
 // consistency of historical data.
-func Delete(client *ticketmatic.Client, id int) error {
+func Delete(client *ticketmatic.Client, id int64) error {
 	r := client.NewRequest("DELETE", "/{accountname}/settings/ticketsales/paymentmethods/{id}")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,

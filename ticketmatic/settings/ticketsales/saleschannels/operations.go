@@ -20,7 +20,7 @@ func Getlist(client *ticketmatic.Client, params *ticketmatic.SalesChannelQuery) 
 }
 
 // Get a single sales channel
-func Get(client *ticketmatic.Client, id int) (*ticketmatic.SalesChannel, error) {
+func Get(client *ticketmatic.Client, id int64) (*ticketmatic.SalesChannel, error) {
 	r := client.NewRequest("GET", "/{accountname}/settings/ticketsales/saleschannels/{id}")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
@@ -48,7 +48,7 @@ func Create(client *ticketmatic.Client, data *ticketmatic.SalesChannel) (*ticket
 }
 
 // Modify an existing sales channel
-func Update(client *ticketmatic.Client, id int, data *ticketmatic.SalesChannel) (*ticketmatic.SalesChannel, error) {
+func Update(client *ticketmatic.Client, id int64, data *ticketmatic.SalesChannel) (*ticketmatic.SalesChannel, error) {
 	r := client.NewRequest("PUT", "/{accountname}/settings/ticketsales/saleschannels/{id}")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
@@ -71,7 +71,7 @@ func Update(client *ticketmatic.Client, id int, data *ticketmatic.SalesChannel) 
 //
 // Most object types are archivable and can't be deleted: this is needed to ensure
 // consistency of historical data.
-func Delete(client *ticketmatic.Client, id int) error {
+func Delete(client *ticketmatic.Client, id int64) error {
 	r := client.NewRequest("DELETE", "/{accountname}/settings/ticketsales/saleschannels/{id}")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,

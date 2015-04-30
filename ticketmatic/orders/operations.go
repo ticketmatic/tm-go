@@ -26,7 +26,7 @@ func Getlist(client *ticketmatic.Client, params *ticketmatic.OrderQuery) ([]*tic
 }
 
 // Get a single order
-func Get(client *ticketmatic.Client, id int) (*ticketmatic.Order, error) {
+func Get(client *ticketmatic.Client, id int64) (*ticketmatic.Order, error) {
 	r := client.NewRequest("GET", "/{accountname}/orders/{id}")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
@@ -40,8 +40,60 @@ func Get(client *ticketmatic.Client, id int) (*ticketmatic.Order, error) {
 	return obj, nil
 }
 
+// Create a new order
+//
+// Creates a new empty order.
+//
+// Each order is linked to a sales channel
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/SalesChannel), which
+// needs to be supplied when creating.
+func Create(client *ticketmatic.Client, data *ticketmatic.CreateOrder) (*ticketmatic.Order, error) {
+	r := client.NewRequest("POST", "/{accountname}/orders")
+	r.Body(data)
+
+	var obj *ticketmatic.Order
+	err := r.Run(&obj)
+	if err != nil {
+		return nil, err
+	}
+	return obj, nil
+}
+
+// Update an order
+func Update(client *ticketmatic.Client, id int64, data *ticketmatic.UpdateOrder) (*ticketmatic.Order, error) {
+	r := client.NewRequest("PUT", "/{accountname}/orders/{id}")
+	r.UrlParameters(map[string]interface{}{
+		"id": id,
+	})
+	r.Body(data)
+
+	var obj *ticketmatic.Order
+	err := r.Run(&obj)
+	if err != nil {
+		return nil, err
+	}
+	return obj, nil
+}
+
+// Confirm an order
+//
+// Marks the order as confirmed.
+func Confirm(client *ticketmatic.Client, id int64) (*ticketmatic.Order, error) {
+	r := client.NewRequest("POST", "/{accountname}/orders/{id}")
+	r.UrlParameters(map[string]interface{}{
+		"id": id,
+	})
+
+	var obj *ticketmatic.Order
+	err := r.Run(&obj)
+	if err != nil {
+		return nil, err
+	}
+	return obj, nil
+}
+
 // Add tickets to order
-func Addtickets(client *ticketmatic.Client, id int, data []*ticketmatic.Ticket) (*ticketmatic.Order, error) {
+func Addtickets(client *ticketmatic.Client, id int64, data *ticketmatic.AddTickets) (*ticketmatic.Order, error) {
 	r := client.NewRequest("POST", "/{accountname}/orders/{id}/tickets")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,

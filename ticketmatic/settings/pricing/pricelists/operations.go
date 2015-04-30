@@ -20,7 +20,7 @@ func Getlist(client *ticketmatic.Client, params *ticketmatic.PriceListQuery) ([]
 }
 
 // Get a single price list
-func Get(client *ticketmatic.Client, id int) (*ticketmatic.PriceList, error) {
+func Get(client *ticketmatic.Client, id int64) (*ticketmatic.PriceList, error) {
 	r := client.NewRequest("GET", "/{accountname}/settings/pricing/pricelists/{id}")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
@@ -48,7 +48,7 @@ func Create(client *ticketmatic.Client, data *ticketmatic.PriceList) (*ticketmat
 }
 
 // Modify an existing price list
-func Update(client *ticketmatic.Client, id int, data *ticketmatic.PriceList) (*ticketmatic.PriceList, error) {
+func Update(client *ticketmatic.Client, id int64, data *ticketmatic.PriceList) (*ticketmatic.PriceList, error) {
 	r := client.NewRequest("PUT", "/{accountname}/settings/pricing/pricelists/{id}")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
@@ -71,7 +71,7 @@ func Update(client *ticketmatic.Client, id int, data *ticketmatic.PriceList) (*t
 //
 // Most object types are archivable and can't be deleted: this is needed to ensure
 // consistency of historical data.
-func Delete(client *ticketmatic.Client, id int) error {
+func Delete(client *ticketmatic.Client, id int64) error {
 	r := client.NewRequest("DELETE", "/{accountname}/settings/pricing/pricelists/{id}")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,

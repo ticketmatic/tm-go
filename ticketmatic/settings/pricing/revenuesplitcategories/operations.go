@@ -20,7 +20,7 @@ func Getlist(client *ticketmatic.Client, params *ticketmatic.RevenueSplitCategor
 }
 
 // Get a single revenue split category
-func Get(client *ticketmatic.Client, id int) (*ticketmatic.RevenueSplitCategory, error) {
+func Get(client *ticketmatic.Client, id int64) (*ticketmatic.RevenueSplitCategory, error) {
 	r := client.NewRequest("GET", "/{accountname}/settings/pricing/revenuesplitcategories/{id}")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
@@ -48,7 +48,7 @@ func Create(client *ticketmatic.Client, data *ticketmatic.RevenueSplitCategory) 
 }
 
 // Modify an existing revenue split category
-func Update(client *ticketmatic.Client, id int, data *ticketmatic.RevenueSplitCategory) (*ticketmatic.RevenueSplitCategory, error) {
+func Update(client *ticketmatic.Client, id int64, data *ticketmatic.RevenueSplitCategory) (*ticketmatic.RevenueSplitCategory, error) {
 	r := client.NewRequest("PUT", "/{accountname}/settings/pricing/revenuesplitcategories/{id}")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
@@ -71,7 +71,7 @@ func Update(client *ticketmatic.Client, id int, data *ticketmatic.RevenueSplitCa
 //
 // Most object types are archivable and can't be deleted: this is needed to ensure
 // consistency of historical data.
-func Delete(client *ticketmatic.Client, id int) error {
+func Delete(client *ticketmatic.Client, id int64) error {
 	r := client.NewRequest("DELETE", "/{accountname}/settings/pricing/revenuesplitcategories/{id}")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,

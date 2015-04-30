@@ -26,6 +26,12 @@ func (t Time) Time() time.Time {
 // returned by Ticketmatic.
 func (t *Time) UnmarshalJSON(data []byte) error {
 	s := string(data)
+
+	// No date set
+	if s == "null" {
+		return nil
+	}
+
 	s = s[1 : len(s)-1]
 	if len(s) >= 19 {
 		if s[10] == ' ' {

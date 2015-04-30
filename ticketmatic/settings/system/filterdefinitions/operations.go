@@ -21,7 +21,7 @@ func Getlist(client *ticketmatic.Client, params *ticketmatic.FilterDefinitionQue
 }
 
 // Get a single filter definition
-func Get(client *ticketmatic.Client, id int) (*ticketmatic.FilterDefinition, error) {
+func Get(client *ticketmatic.Client, id int64) (*ticketmatic.FilterDefinition, error) {
 	r := client.NewRequest("GET", "/{accountname}/settings/system/filterdefinitions/{id}")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
@@ -49,7 +49,7 @@ func Create(client *ticketmatic.Client, data *ticketmatic.FilterDefinition) (*ti
 }
 
 // Modify an existing filter definition
-func Update(client *ticketmatic.Client, id int, data *ticketmatic.FilterDefinition) (*ticketmatic.FilterDefinition, error) {
+func Update(client *ticketmatic.Client, id int64, data *ticketmatic.FilterDefinition) (*ticketmatic.FilterDefinition, error) {
 	r := client.NewRequest("PUT", "/{accountname}/settings/system/filterdefinitions/{id}")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
@@ -72,7 +72,7 @@ func Update(client *ticketmatic.Client, id int, data *ticketmatic.FilterDefiniti
 //
 // Most object types are archivable and can't be deleted: this is needed to ensure
 // consistency of historical data.
-func Delete(client *ticketmatic.Client, id int) error {
+func Delete(client *ticketmatic.Client, id int64) error {
 	r := client.NewRequest("DELETE", "/{accountname}/settings/system/filterdefinitions/{id}")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,

@@ -19,7 +19,7 @@ func Getlist(client *ticketmatic.Client, params *ticketmatic.WebSalesSkinQuery) 
 }
 
 // Get a single web sales skin
-func Get(client *ticketmatic.Client, id int) (*ticketmatic.WebSalesSkin, error) {
+func Get(client *ticketmatic.Client, id int64) (*ticketmatic.WebSalesSkin, error) {
 	r := client.NewRequest("GET", "/{accountname}/settings/communicationanddesign/webskins/{id}")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
@@ -47,7 +47,7 @@ func Create(client *ticketmatic.Client, data *ticketmatic.WebSalesSkin) (*ticket
 }
 
 // Modify an existing web sales skin
-func Update(client *ticketmatic.Client, id int, data *ticketmatic.WebSalesSkin) (*ticketmatic.WebSalesSkin, error) {
+func Update(client *ticketmatic.Client, id int64, data *ticketmatic.WebSalesSkin) (*ticketmatic.WebSalesSkin, error) {
 	r := client.NewRequest("PUT", "/{accountname}/settings/communicationanddesign/webskins/{id}")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
@@ -63,7 +63,7 @@ func Update(client *ticketmatic.Client, id int, data *ticketmatic.WebSalesSkin) 
 }
 
 // Remove a web sales skin
-func Delete(client *ticketmatic.Client, id int) error {
+func Delete(client *ticketmatic.Client, id int64) error {
 	r := client.NewRequest("DELETE", "/{accountname}/settings/communicationanddesign/webskins/{id}")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
