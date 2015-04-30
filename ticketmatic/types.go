@@ -130,7 +130,7 @@ type Event struct {
 	Externalcode string `json:"externalcode,omitempty"`
 
 	// Production ID
-	Productionid string `json:"productionid,omitempty"`
+	Productionid int64 `json:"productionid,omitempty"`
 
 	// Event location ID
 	//
