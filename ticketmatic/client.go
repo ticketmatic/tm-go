@@ -15,12 +15,12 @@ import (
 	"time"
 )
 
-var server = "https://apps.ticketmatic.com/api"
+var Server = "https://apps.ticketmatic.com/api"
 
 func init() {
 	s := os.Getenv("TM_TEST_SERVER")
 	if s != "" {
-		server = s
+		Server = s
 	}
 }
 
@@ -138,7 +138,7 @@ func (r *Request) prepareUrl() string {
 	}
 	u = strings.Replace(u, "{accountname}", r.client.AccountCode, 1)
 
-	result := fmt.Sprintf("%s%s", server, u)
+	result := fmt.Sprintf("%s%s", Server, u)
 	if len(r.query) > 0 {
 		query := url.Values{}
 		for k, v := range r.query {

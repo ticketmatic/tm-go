@@ -36,12 +36,12 @@ func TestCommunications(t *testing.T) {
 	c := ticketmatic.NewClient(accountcode, accesskey, secretkey)
 
 	err = Communications(c, &ticketmatic.SubscriberCommunication{
+		Name: "test1",
+		Ts:   ticketmatic.NewTime(ticketmatic.MustParseTime("2015-02-02")),
 		Addresses: []string{
 			"test1@ticketmatic.com",
 			"test2@ticketmatic.com",
 		},
-		Name: "test1",
-		Ts:   ticketmatic.NewTime(ticketmatic.MustParseTime("2015-02-02")),
 	})
 	if err != nil {
 		t.Fatal(err)
