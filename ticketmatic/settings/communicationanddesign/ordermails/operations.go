@@ -4,14 +4,19 @@ import (
 	"github.com/ticketmatic/tm-go/ticketmatic"
 )
 
+// List results
+type List struct {
+	Data []*ticketmatic.OrderMailTemplate `json:"data"`
+}
+
 // Get a list of order mail templates
-func Getlist(client *ticketmatic.Client, params *ticketmatic.OrderMailTemplateQuery) ([]*ticketmatic.OrderMailTemplate, error) {
+func Getlist(client *ticketmatic.Client, params *ticketmatic.OrderMailTemplateQuery) (*List, error) {
 	r := client.NewRequest("GET", "/{accountname}/settings/communicationanddesign/ordermails")
 	r.AddParameter("includearchived", params.Includearchived)
 	r.AddParameter("lastupdatesince", params.Lastupdatesince)
 	r.AddParameter("filter", params.Filter)
 
-	var obj []*ticketmatic.OrderMailTemplate
+	var obj *List
 	err := r.Run(&obj)
 	if err != nil {
 		return nil, err

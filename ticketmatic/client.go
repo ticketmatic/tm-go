@@ -15,6 +15,7 @@ import (
 	"time"
 )
 
+// API server to use.
 var Server = "https://apps.ticketmatic.com/api"
 
 func init() {

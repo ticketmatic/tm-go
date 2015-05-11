@@ -197,7 +197,6 @@ type Event struct {
 	Currentstatus int64       `json:"currentstatus,omitempty"`
 	Prices        interface{} `json:"prices,omitempty"`
 	Saleschannels interface{} `json:"saleschannels,omitempty"`
-	Tags          interface{} `json:"tags,omitempty"`
 	Availability  interface{} `json:"availability,omitempty"`
 
 	// Created timestamp
@@ -359,18 +358,87 @@ type Timestamp struct {
 }
 
 type EventQuery struct {
+	// A SQL query that returns event IDs
+	//
+	// Can be used to do arbitrary filtering. See the database documentation for event
+	// (/db/event) for more information.
 	Filter string `json:"filter,omitempty"`
 
 	// If this parameter is true, archived items will be returned as well.
-	Includearchived bool   `json:"includearchived,omitempty"`
-	Lastupdatesince Time   `json:"lastupdatesince,omitempty"`
-	Limit           int64  `json:"limit,omitempty"`
-	Offset          int64  `json:"offset,omitempty"`
-	Orderby         string `json:"orderby,omitempty"`
-	Output          string `json:"output,omitempty"`
-	Searchterm      string `json:"searchterm,omitempty"`
-	Simplefilter    string `json:"simplefilter,omitempty"`
-	Context         string `json:"context,omitempty"`
+	Includearchived bool `json:"includearchived,omitempty"`
+
+	// Only include events that have been updated since the given timestamp.
+	Lastupdatesince Time `json:"lastupdatesince,omitempty"`
+
+	// Limit results to at most the given amount of events.
+	Limit int64 `json:"limit,omitempty"`
+
+	// Skip the first X events.
+	Offset int64 `json:"offset,omitempty"`
+
+	// Order by the given field.
+	//
+	// Supported values: name, startts.
+	Orderby string `json:"orderby,omitempty"`
+
+	// Output format.
+	//
+	// Possible values:
+	//
+	// * ids: Only fill the ID field
+	//
+	// * default: Return all event fields (also used when the output parameter is
+	// omitted)
+	//
+	// * withlookup: Returns all event fields and an additional lookup field which
+	// contains all dependent objects
+	Output string `json:"output,omitempty"`
+
+	// A text filter string.
+	//
+	// Matches against the start of the event name, the production name or the
+	// subtitle.
+	Searchterm string `json:"searchterm,omitempty"`
+
+	// Filters the events based on a given set of fields. Currently supports:
+	// productionid.
+	Simplefilter *EventFilter `json:"simplefilter,omitempty"`
+
+	// Restrict the event information to a specific context.
+	//
+	// Currently allows you to filter the event information (both the events and the
+	// pricing information within each event) to a specific saleschannel. This makes it
+	// very easy to show the correct information on a website.
+	Context *EventContext `json:"context,omitempty"`
+}
+
+// Used when requesting events, to filter events.
+//
+// Currently allows you to filter based on the production ID.
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/EventFilter).
+type EventFilter struct {
+	// The ID of the production
+	Productionid int64 `json:"productionid,omitempty"`
+}
+
+// Used when requesting events, to restrict the event information to a specific
+// context.
+//
+// Currently allows you to filter the event information (both the events and the
+// pricing information within each event) to a specific saleschannel. This makes it
+// very easy to show the correct information on a website.
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/EventContext).
+type EventContext struct {
+	// The ID of the saleschannel used to restrict the event information
+	Saleschannelid int64 `json:"saleschannelid,omitempty"`
 }
 
 type Ticket struct {
@@ -592,7 +660,9 @@ type TicketLayout struct {
 	// Note: Ignored when creating a new ticket layout.
 	//
 	// Note: Ignored when updating an existing ticket layout.
-	Id   int64  `json:"id,omitempty"`
+	Id int64 `json:"id,omitempty"`
+
+	// Name for the ticket layout
 	Name string `json:"name,omitempty"`
 
 	// Created timestamp
@@ -836,9 +906,13 @@ type PriceAvailability struct {
 	// Note: Ignored when creating a new price availability.
 	//
 	// Note: Ignored when updating an existing price availability.
-	Id   int64  `json:"id,omitempty"`
+	Id int64 `json:"id,omitempty"`
+
+	// Name for the price availability
 	Name string `json:"name,omitempty"`
 
+	// Definition of the rules that define which prices will be available when
+	//
 	// Note: Not set when retrieving a list of price availabilities.
 	Rules *PriceAvailabilityRules `json:"rules,omitempty"`
 
@@ -907,12 +981,18 @@ type PriceList struct {
 	// Note: Ignored when creating a new price list.
 	//
 	// Note: Ignored when updating an existing price list.
-	Id   int64  `json:"id,omitempty"`
+	Id int64 `json:"id,omitempty"`
+
+	// Name for the pricelist
 	Name string `json:"name,omitempty"`
 
+	// Definition of the actual prices and conditions for the pricelist
+	//
 	// Note: Not set when retrieving a list of price lists.
-	Prices   *PricelistPrices `json:"prices,omitempty"`
-	Hasranks bool             `json:"hasranks,omitempty"`
+	Prices *PricelistPrices `json:"prices,omitempty"`
+
+	// Boolean indicating whether this pricelist has ranks or not
+	Hasranks bool `json:"hasranks,omitempty"`
 
 	// Created timestamp
 	//
@@ -1197,9 +1277,13 @@ type TicketFee struct {
 	// Note: Ignored when creating a new ticket fee.
 	//
 	// Note: Ignored when updating an existing ticket fee.
-	Id   int64  `json:"id,omitempty"`
+	Id int64 `json:"id,omitempty"`
+
+	// Name for the ticket fee scheme
 	Name string `json:"name,omitempty"`
 
+	// Definition of the rules that define when the ticket fee will be applied
+	//
 	// Note: Not set when retrieving a list of ticket fees.
 	Rules *TicketfeeRules `json:"rules,omitempty"`
 
@@ -1276,10 +1360,20 @@ type FilterDefinition struct {
 	// Type ID
 	//
 	// Note: Ignored when updating an existing filter definition.
-	Typeid         int64  `json:"typeid,omitempty"`
-	Description    string `json:"description,omitempty"`
-	Sqlclause      string `json:"sqlclause,omitempty"`
-	Filtertype     int64  `json:"filtertype,omitempty"`
+	Typeid int64 `json:"typeid,omitempty"`
+
+	// Name for the filter
+	Description string `json:"description,omitempty"`
+
+	// The sql clause that defines how the filter will work
+	Sqlclause string `json:"sqlclause,omitempty"`
+
+	// The type of filter definition defines the UI and resulting parameters that will
+	// be used when a user selects the filter.
+	Filtertype int64 `json:"filtertype,omitempty"`
+
+	// For certain filter types, the user must select a value from a list. The
+	// checklistquery contains the sql clause to retrieve the list of available values.
 	Checklistquery string `json:"checklistquery,omitempty"`
 
 	// Created timestamp
@@ -1448,9 +1542,14 @@ type LockType struct {
 	// Note: Ignored when creating a new lock type.
 	//
 	// Note: Ignored when updating an existing lock type.
-	Id         int64  `json:"id,omitempty"`
-	Name       string `json:"name,omitempty"`
-	Ishardlock bool   `json:"ishardlock,omitempty"`
+	Id int64 `json:"id,omitempty"`
+
+	// Name for the lock type
+	Name string `json:"name,omitempty"`
+
+	// Indicates whether this lock is a hard lock (meaning that it normally never will
+	// be released and does not count for the inventory) or a soft lock
+	Ishardlock bool `json:"ishardlock,omitempty"`
 
 	// Created timestamp
 	//
@@ -1517,10 +1616,16 @@ type OrderFee struct {
 	// Note: Ignored when creating a new order fee.
 	//
 	// Note: Ignored when updating an existing order fee.
-	Id     int64  `json:"id,omitempty"`
-	Name   string `json:"name,omitempty"`
-	Typeid int64  `json:"typeid,omitempty"`
+	Id int64 `json:"id,omitempty"`
 
+	// Name for the order fee
+	Name string `json:"name,omitempty"`
+
+	// Type of the order fee. Can be Automatic (2401) or Script (2403)
+	Typeid int64 `json:"typeid,omitempty"`
+
+	// Definition of the rule that defines when the order fee will be applied
+	//
 	// Note: Not set when retrieving a list of order fees.
 	Rule *OrderFeeRule `json:"rule,omitempty"`
 
@@ -1589,12 +1694,20 @@ type PaymentMethod struct {
 	// Note: Ignored when creating a new payment method.
 	//
 	// Note: Ignored when updating an existing payment method.
-	Id                      int64  `json:"id,omitempty"`
-	Name                    string `json:"name,omitempty"`
-	Internalremark          string `json:"internalremark,omitempty"`
-	Paymentmethodtypeid     int64  `json:"paymentmethodtypeid,omitempty"`
-	Paymentmethodreceiverid int64  `json:"paymentmethodreceiverid,omitempty"`
+	Id int64 `json:"id,omitempty"`
 
+	// Name of the payment method
+	Name string `json:"name,omitempty"`
+
+	// Internal remark, will not be shown to customers
+	Internalremark string `json:"internalremark,omitempty"`
+
+	// Type of the paymentmethod.
+	Paymentmethodtypeid int64 `json:"paymentmethodtypeid,omitempty"`
+
+	// Specific configuration for the payment method, content depends on the payment
+	// method type.
+	//
 	// Note: Not set when retrieving a list of payment methods.
 	Config *PaymentmethodConfig `json:"config,omitempty"`
 
@@ -1678,20 +1791,37 @@ type PaymentScenario struct {
 	// for the box office, each will have different fee configurations. Both will be
 	// named VISA, this field can be used to distinguish them.
 	Internalremark string `json:"internalremark,omitempty"`
-	Typeid         int64  `json:"typeid,omitempty"`
 
+	// Type for the payment scenario. Can be 'Immediate payment' (2701) or 'Deffered
+	// payment' (2702)
+	Typeid int64 `json:"typeid,omitempty"`
+
+	// Rules that define when an order becomes overdue
+	//
 	// Note: Not set when retrieving a list of payment scenarios.
 	Overdueparameters *PaymentscenarioOverdueParameters `json:"overdueparameters,omitempty"`
 
+	// Rules that define when an order becomes expired
+	//
 	// Note: Not set when retrieving a list of payment scenarios.
 	Expiryparameters *PaymentscenarioExpiryParameters `json:"expiryparameters,omitempty"`
 
+	// Rules that define in what conditions this payment scenario is available
+	//
 	// Note: Not set when retrieving a list of payment scenarios.
-	Availability                          *PaymentscenarioAvailability `json:"availability,omitempty"`
-	Paymentmethods                        []int64                      `json:"paymentmethods,omitempty"`
-	OrdermailtemplateidPaymentinstruction int64                        `json:"ordermailtemplateid_paymentinstruction,omitempty"`
-	OrdermailtemplateidOverdue            int64                        `json:"ordermailtemplateid_overdue,omitempty"`
-	OrdermailtemplateidExpiry             int64                        `json:"ordermailtemplateid_expiry,omitempty"`
+	Availability *PaymentscenarioAvailability `json:"availability,omitempty"`
+
+	// Set of payment methods that are linked to this payment scenario
+	Paymentmethods []int64 `json:"paymentmethods,omitempty"`
+
+	// Link to the order mail template that will be sent as payment instruction
+	OrdermailtemplateidPaymentinstruction int64 `json:"ordermailtemplateid_paymentinstruction,omitempty"`
+
+	// Link to the order mail template that will be sent when the order is overdue
+	OrdermailtemplateidOverdue int64 `json:"ordermailtemplateid_overdue,omitempty"`
+
+	// Link to the order mail template that will be sent when the order is expired
+	OrdermailtemplateidExpiry int64 `json:"ordermailtemplateid_expiry,omitempty"`
 
 	// Created timestamp
 	//

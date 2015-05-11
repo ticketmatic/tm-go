@@ -4,14 +4,19 @@ import (
 	"github.com/ticketmatic/tm-go/ticketmatic"
 )
 
+// List results
+type List struct {
+	Data []*ticketmatic.PriceType `json:"data"`
+}
+
 // Get a list of price types
-func Getlist(client *ticketmatic.Client, params *ticketmatic.PriceTypeQuery) ([]*ticketmatic.PriceType, error) {
+func Getlist(client *ticketmatic.Client, params *ticketmatic.PriceTypeQuery) (*List, error) {
 	r := client.NewRequest("GET", "/{accountname}/settings/pricing/pricetypes")
 	r.AddParameter("includearchived", params.Includearchived)
 	r.AddParameter("lastupdatesince", params.Lastupdatesince)
 	r.AddParameter("filter", params.Filter)
 
-	var obj []*ticketmatic.PriceType
+	var obj *List
 	err := r.Run(&obj)
 	if err != nil {
 		return nil, err

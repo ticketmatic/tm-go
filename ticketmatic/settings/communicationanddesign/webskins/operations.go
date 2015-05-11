@@ -4,13 +4,18 @@ import (
 	"github.com/ticketmatic/tm-go/ticketmatic"
 )
 
+// List results
+type List struct {
+	Data []*ticketmatic.WebSalesSkin `json:"data"`
+}
+
 // Get a list of web sales skins
-func Getlist(client *ticketmatic.Client, params *ticketmatic.WebSalesSkinQuery) ([]*ticketmatic.WebSalesSkin, error) {
+func Getlist(client *ticketmatic.Client, params *ticketmatic.WebSalesSkinQuery) (*List, error) {
 	r := client.NewRequest("GET", "/{accountname}/settings/communicationanddesign/webskins")
 	r.AddParameter("lastupdatesince", params.Lastupdatesince)
 	r.AddParameter("filter", params.Filter)
 
-	var obj []*ticketmatic.WebSalesSkin
+	var obj *List
 	err := r.Run(&obj)
 	if err != nil {
 		return nil, err

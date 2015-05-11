@@ -4,14 +4,19 @@ import (
 	"github.com/ticketmatic/tm-go/ticketmatic"
 )
 
+// List results
+type List struct {
+	Data []*ticketmatic.SalesChannel `json:"data"`
+}
+
 // Get a list of sales channels
-func Getlist(client *ticketmatic.Client, params *ticketmatic.SalesChannelQuery) ([]*ticketmatic.SalesChannel, error) {
+func Getlist(client *ticketmatic.Client, params *ticketmatic.SalesChannelQuery) (*List, error) {
 	r := client.NewRequest("GET", "/{accountname}/settings/ticketsales/saleschannels")
 	r.AddParameter("includearchived", params.Includearchived)
 	r.AddParameter("lastupdatesince", params.Lastupdatesince)
 	r.AddParameter("filter", params.Filter)
 
-	var obj []*ticketmatic.SalesChannel
+	var obj *List
 	err := r.Run(&obj)
 	if err != nil {
 		return nil, err

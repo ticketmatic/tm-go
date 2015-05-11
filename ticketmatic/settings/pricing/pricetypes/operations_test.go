@@ -21,8 +21,8 @@ func TestGet(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	if len(req) <= 0 {
-		t.Errorf("Unexpected req length, got %#v, expected greater than %#v", len(req), 0)
+	if len(req.Data) <= 0 {
+		t.Errorf("Unexpected req.Data length, got %#v, expected greater than %#v", len(req.Data), 0)
 	}
 
 	req2, err := Getlist(c, &ticketmatic.PriceTypeQuery{
@@ -32,8 +32,8 @@ func TestGet(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	if len(req) <= len(req2) {
-		t.Errorf("Unexpected req length, got %#v, expected greater than %#v", len(req), len(req2))
+	if len(req.Data) <= len(req2.Data) {
+		t.Errorf("Unexpected req.Data length, got %#v, expected greater than %#v", len(req.Data), len(req2.Data))
 	}
 
 }
@@ -51,8 +51,8 @@ func TestCreatedelete(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	if len(req) <= 0 {
-		t.Errorf("Unexpected req length, got %#v, expected greater than %#v", len(req), 0)
+	if len(req.Data) <= 0 {
+		t.Errorf("Unexpected req.Data length, got %#v, expected greater than %#v", len(req.Data), 0)
 	}
 
 	req2, err := Create(c, &ticketmatic.PriceType{
@@ -75,8 +75,8 @@ func TestCreatedelete(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	if len(req3) <= len(req) {
-		t.Errorf("Unexpected req3 length, got %#v, expected greater than %#v", len(req3), len(req))
+	if len(req3.Data) <= len(req.Data) {
+		t.Errorf("Unexpected req3.Data length, got %#v, expected greater than %#v", len(req3.Data), len(req.Data))
 	}
 
 	req4, err := Get(c, req2.Id)
@@ -98,8 +98,8 @@ func TestCreatedelete(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	if len(req) != len(req6) {
-		t.Errorf("Unexpected req length, got %#v, expected %#v", len(req), len(req6))
+	if len(req.Data) != len(req6.Data) {
+		t.Errorf("Unexpected req.Data length, got %#v, expected %#v", len(req.Data), len(req6.Data))
 	}
 
 }

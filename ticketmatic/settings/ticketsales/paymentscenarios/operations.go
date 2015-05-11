@@ -4,14 +4,19 @@ import (
 	"github.com/ticketmatic/tm-go/ticketmatic"
 )
 
+// List results
+type List struct {
+	Data []*ticketmatic.PaymentScenario `json:"data"`
+}
+
 // Get a list of payment scenarios
-func Getlist(client *ticketmatic.Client, params *ticketmatic.PaymentScenarioQuery) ([]*ticketmatic.PaymentScenario, error) {
+func Getlist(client *ticketmatic.Client, params *ticketmatic.PaymentScenarioQuery) (*List, error) {
 	r := client.NewRequest("GET", "/{accountname}/settings/ticketsales/paymentscenarios")
 	r.AddParameter("includearchived", params.Includearchived)
 	r.AddParameter("lastupdatesince", params.Lastupdatesince)
 	r.AddParameter("filter", params.Filter)
 
-	var obj []*ticketmatic.PaymentScenario
+	var obj *List
 	err := r.Run(&obj)
 	if err != nil {
 		return nil, err

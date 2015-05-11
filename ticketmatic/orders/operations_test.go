@@ -20,17 +20,17 @@ func TestGet(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	if len(list) <= 0 {
-		t.Errorf("Unexpected list length, got %#v, expected greater than %#v", len(list), 0)
+	if len(list.Data) <= 0 {
+		t.Errorf("Unexpected list.Data length, got %#v, expected greater than %#v", len(list.Data), 0)
 	}
 
-	order, err := Get(c, list[0].Orderid)
+	order, err := Get(c, list.Data[0].Orderid)
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	if order.Orderid != list[0].Orderid {
-		t.Errorf("Unexpected order.Orderid, got %#v, expected %#v", order.Orderid, list[0].Orderid)
+	if order.Orderid != list.Data[0].Orderid {
+		t.Errorf("Unexpected order.Orderid, got %#v, expected %#v", order.Orderid, list.Data[0].Orderid)
 	}
 
 }
@@ -59,9 +59,9 @@ func TestCreate(t *testing.T) {
 	}
 
 	updated, err := Update(c, order.Orderid, &ticketmatic.UpdateOrder{
+		Customerid:         208,
 		Deliveryscenarioid: 2,
 		Paymentscenarioid:  3,
-		Customerid:         208,
 	})
 	if err != nil {
 		t.Fatal(err)

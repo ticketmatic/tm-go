@@ -4,14 +4,19 @@ import (
 	"github.com/ticketmatic/tm-go/ticketmatic"
 )
 
+// List results
+type List struct {
+	Data []*ticketmatic.RevenueSplit `json:"data"`
+}
+
 // Get a list of revenue splits
-func Getlist(client *ticketmatic.Client, params *ticketmatic.RevenueSplitQuery) ([]*ticketmatic.RevenueSplit, error) {
+func Getlist(client *ticketmatic.Client, params *ticketmatic.RevenueSplitQuery) (*List, error) {
 	r := client.NewRequest("GET", "/{accountname}/settings/pricing/revenuesplits")
 	r.AddParameter("includearchived", params.Includearchived)
 	r.AddParameter("lastupdatesince", params.Lastupdatesince)
 	r.AddParameter("filter", params.Filter)
 
-	var obj []*ticketmatic.RevenueSplit
+	var obj *List
 	err := r.Run(&obj)
 	if err != nil {
 		return nil, err

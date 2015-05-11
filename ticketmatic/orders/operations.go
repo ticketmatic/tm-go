@@ -4,8 +4,13 @@ import (
 	"github.com/ticketmatic/tm-go/ticketmatic"
 )
 
+// List results
+type List struct {
+	Data []*ticketmatic.Order `json:"data"`
+}
+
 // Get a list of orders
-func Getlist(client *ticketmatic.Client, params *ticketmatic.OrderQuery) ([]*ticketmatic.Order, error) {
+func Getlist(client *ticketmatic.Client, params *ticketmatic.OrderQuery) (*List, error) {
 	r := client.NewRequest("GET", "/{accountname}/orders")
 	r.AddParameter("filter", params.Filter)
 	r.AddParameter("includearchived", params.Includearchived)
@@ -17,7 +22,7 @@ func Getlist(client *ticketmatic.Client, params *ticketmatic.OrderQuery) ([]*tic
 	r.AddParameter("searchterm", params.Searchterm)
 	r.AddParameter("simplefilter", params.Simplefilter)
 
-	var obj []*ticketmatic.Order
+	var obj *List
 	err := r.Run(&obj)
 	if err != nil {
 		return nil, err
