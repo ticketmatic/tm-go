@@ -304,15 +304,6 @@ type RevenuesplitRules struct {
 type TicketfeeRules struct {
 }
 
-// This type isn't documented yet
-//
-// Help Center
-//
-// Full documentation can be found in the Ticketmatic Help Center
-// (https://apps.ticketmatic.com/#/knowledgebase/api/types/TODO).
-type TODO struct {
-}
-
 // Configuration settings and parameters for a web sales skin
 // (https://apps.ticketmatic.com/#/knowledgebase/api/types/WebSalesSkin).
 //
@@ -501,25 +492,102 @@ type AddTicketsResult struct {
 type UpdateTickets struct {
 }
 
+// Used to update an order. Each of the fields is optional. Omitting a field will
+// leave it unchanged.
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/UpdateOrder).
 type UpdateOrder struct {
-	Deliveryscenarioid int64       `json:"deliveryscenarioid,omitempty"`
-	Paymentscenarioid  int64       `json:"paymentscenarioid,omitempty"`
-	Customerid         int64       `json:"customerid,omitempty"`
-	Customfields       interface{} `json:"customfields,omitempty"`
+	// New delivery scenario ID
+	Deliveryscenarioid int64 `json:"deliveryscenarioid,omitempty"`
+
+	// New payment scenario ID
+	Paymentscenarioid int64 `json:"paymentscenarioid,omitempty"`
+
+	// New customer ID
+	Customerid int64 `json:"customerid,omitempty"`
+
+	// Change custom field values
+	Customfields map[string]interface{} `json:"customfields,omitempty"`
 }
 
+// Filter parameters to fetch a list of orders
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/OrderQuery).
 type OrderQuery struct {
+	// A SQL query that returns order IDs
+	//
+	// Can be used to do arbitrary filtering. See the database documentation for order
+	// (/db/order) for more information.
 	Filter string `json:"filter,omitempty"`
 
 	// If this parameter is true, archived items will be returned as well.
-	Includearchived bool   `json:"includearchived,omitempty"`
-	Lastupdatesince Time   `json:"lastupdatesince,omitempty"`
-	Limit           int64  `json:"limit,omitempty"`
-	Offset          int64  `json:"offset,omitempty"`
-	Orderby         string `json:"orderby,omitempty"`
-	Output          string `json:"output,omitempty"`
-	Searchterm      string `json:"searchterm,omitempty"`
-	Simplefilter    string `json:"simplefilter,omitempty"`
+	Includearchived bool `json:"includearchived,omitempty"`
+
+	// Only include orders that have been updated since the given timestamp.
+	Lastupdatesince Time `json:"lastupdatesince,omitempty"`
+
+	// Limit results to at most the given amount of orders.
+	Limit int64 `json:"limit,omitempty"`
+
+	// Skip the first X orders.
+	Offset int64 `json:"offset,omitempty"`
+
+	// Order by the given field.
+	//
+	// Supported values: createdts, lastupdatets.
+	Orderby string `json:"orderby,omitempty"`
+
+	// Output format.
+	//
+	// Possible values:
+	//
+	// * ids: Only fill the ID field
+	//
+	// * minimal: A minimal set of order fields
+	//
+	// * default: Return all order fields (also used when the output parameter is
+	// omitted)
+	//
+	// * withlookup: Returns all order fields and an additional lookup field which
+	// contains all dependent objects
+	Output string `json:"output,omitempty"`
+
+	// A text filter string.
+	//
+	// Matches against the order ID or the customer details..
+	Searchterm string `json:"searchterm,omitempty"`
+
+	// Filters the orders based on a given set of fields. Currently supports:
+	// createdsince, saleschannelid, customerid, status.
+	Simplefilter *OrderFilter `json:"simplefilter,omitempty"`
+}
+
+// Used when requesting orders, to filter orders.
+//
+// Specify any of the supported fields to filter the list of orders.
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/OrderFilter).
+type OrderFilter struct {
+	// Only include orders older than the given timestamp
+	Createdsince Time `json:"createdsince,omitempty"`
+
+	// Filter orders based on saleschannel
+	Saleschannelid int64 `json:"saleschannelid,omitempty"`
+
+	// Filter orders based on customer
+	Customerid int64 `json:"customerid,omitempty"`
+
+	// Only include orders with a given status
+	Status int64 `json:"status,omitempty"`
 }
 
 // Set of parameters used to filter order mail templates.
@@ -1138,7 +1206,9 @@ type RevenueSplitCategory struct {
 	// Note: Ignored when creating a new revenue split category.
 	//
 	// Note: Ignored when updating an existing revenue split category.
-	Id   int64  `json:"id,omitempty"`
+	Id int64 `json:"id,omitempty"`
+
+	// Display name of the revenue split
 	Name string `json:"name,omitempty"`
 
 	// Created timestamp
@@ -1927,19 +1997,48 @@ type SalesChannel struct {
 	Isarchived bool `json:"isarchived,omitempty"`
 }
 
+// A subscriber record to sync state back to Ticketmatic
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/SubscriberSync).
 type SubscriberSync struct {
-	Email      string `json:"email,omitempty"`
-	Firstname  string `json:"firstname,omitempty"`
-	Lastname   string `json:"lastname,omitempty"`
-	Subscribed bool   `json:"subscribed,omitempty"`
+	// Subscriber e-mail
+	Email string `json:"email,omitempty"`
+
+	// Previous value of the email field, to indicate a changed e-mail address.
+	//
+	// Used to find the correct contact. The normal email field will be used when this
+	// field is ommitted or empty.
+	Oldemail string `json:"oldemail,omitempty"`
+
+	// Subscriber first name
+	Firstname string `json:"firstname,omitempty"`
+
+	// Subscriber last name
+	Lastname string `json:"lastname,omitempty"`
+
+	// Whether or not the subscriber is still subscribed
+	Subscribed bool `json:"subscribed,omitempty"`
 }
 
+// A newly created communication
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/SubscriberCommunication).
 type SubscriberCommunication struct {
 	// Name of the communication
-	Name   string `json:"name,omitempty"`
+	Name string `json:"name,omitempty"`
+
+	// Optional description of the communication
 	Remark string `json:"remark,omitempty"`
 
 	// Timestamp for the communication
-	Ts        Time     `json:"ts,omitempty"`
+	Ts Time `json:"ts,omitempty"`
+
+	// E-mail addresses to which the communication has been sent
 	Addresses []string `json:"addresses,omitempty"`
 }
