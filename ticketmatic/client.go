@@ -123,10 +123,7 @@ func (r *Request) Run(obj interface{}) error {
 
 func (r *Request) authHeader() string {
 	ts := time.Now().UTC().Format("2006-01-02T15:04:05")
-
-	mac := hmac.New(sha256.New, []byte(r.client.SecretKey))
-	mac.Write([]byte(fmt.Sprintf("%s%s%s", r.client.AccessKey, r.client.AccountCode, ts)))
-	hash := fmt.Sprintf("%x", mac.Sum(nil))
+	hash := Sign(r.client.AccessKey, r.client.SecretKey, r.client.AccountCode, ts)
 
 	return fmt.Sprintf("TM-HMAC-SHA256 key=%s ts=%s sign=%s", r.client.AccessKey, ts, hash)
 }
@@ -148,4 +145,11 @@ func (r *Request) prepareUrl() string {
 		result = fmt.Sprintf("%s?%s", result, query.Encode())
 	}
 	return result
+}
+
+// Generates a signed authentication hash
+func Sign(accesskey, secretkey, accountcode, ts string) string {
+	mac := hmac.New(sha256.New, []byte(secretkey))
+	mac.Write([]byte(fmt.Sprintf("%s%s%s", accesskey, accountcode, ts)))
+	return fmt.Sprintf("%x", mac.Sum(nil))
 }

@@ -59,9 +59,9 @@ func TestCreate(t *testing.T) {
 	}
 
 	updated, err := Update(c, order.Orderid, &ticketmatic.UpdateOrder{
-		Customerid:         208,
 		Deliveryscenarioid: 2,
 		Paymentscenarioid:  3,
+		Customerid:         208,
 	})
 	if err != nil {
 		t.Fatal(err)
