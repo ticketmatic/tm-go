@@ -348,6 +348,12 @@ type Timestamp struct {
 	Systemtime Time `json:"systemtime,omitempty"`
 }
 
+// Filter parameters to fetch a list of events
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/EventQuery).
 type EventQuery struct {
 	// A SQL query that returns event IDs
 	//
@@ -1163,147 +1169,6 @@ type PriceType struct {
 	Isarchived bool `json:"isarchived,omitempty"`
 }
 
-// Set of parameters used to filter revenue split categories.
-//
-// More info: see revenue split category
-// (https://apps.ticketmatic.com/#/knowledgebase/api/types/RevenueSplitCategory),
-// the getlist operation
-// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_pricing_revenuesplitcategories/getlist)
-// and the revenue split categories endpoint
-// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_pricing_revenuesplitcategories).
-//
-// Help Center
-//
-// Full documentation can be found in the Ticketmatic Help Center
-// (https://apps.ticketmatic.com/#/knowledgebase/api/types/RevenueSplitCategoryQuery).
-type RevenueSplitCategoryQuery struct {
-	// If this parameter is true, archived items will be returned as well.
-	Includearchived bool `json:"includearchived,omitempty"`
-
-	// All items that were updated since this timestamp will be returned. Timestamp
-	// should be passed in YYYY-MM-DD hh:mm:ss format.
-	Lastupdatesince Time `json:"lastupdatesince,omitempty"`
-
-	// Filter the returned items by specifying a query on the public datamodel that
-	// returns the ids.
-	Filter string `json:"filter,omitempty"`
-}
-
-// A single revenue split category.
-//
-// More info: see the get operation
-// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_pricing_revenuesplitcategories/get)
-// and the revenue split categories endpoint
-// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_pricing_revenuesplitcategories).
-//
-// Help Center
-//
-// Full documentation can be found in the Ticketmatic Help Center
-// (https://apps.ticketmatic.com/#/knowledgebase/api/types/RevenueSplitCategory).
-type RevenueSplitCategory struct {
-	// Unique ID
-	//
-	// Note: Ignored when creating a new revenue split category.
-	//
-	// Note: Ignored when updating an existing revenue split category.
-	Id int64 `json:"id,omitempty"`
-
-	// Display name of the revenue split
-	Name string `json:"name,omitempty"`
-
-	// Created timestamp
-	//
-	// Note: Ignored when creating a new revenue split category.
-	//
-	// Note: Ignored when updating an existing revenue split category.
-	Createdts Time `json:"createdts,omitempty"`
-
-	// Last updated timestamp
-	//
-	// Note: Ignored when creating a new revenue split category.
-	//
-	// Note: Ignored when updating an existing revenue split category.
-	Lastupdatets Time `json:"lastupdatets,omitempty"`
-
-	// Whether or not this item is archived
-	//
-	// Note: Ignored when creating a new revenue split category.
-	//
-	// Note: Ignored when updating an existing revenue split category.
-	Isarchived bool `json:"isarchived,omitempty"`
-}
-
-// Set of parameters used to filter revenue splits.
-//
-// More info: see revenue split
-// (https://apps.ticketmatic.com/#/knowledgebase/api/types/RevenueSplit), the
-// getlist operation
-// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_pricing_revenuesplits/getlist)
-// and the revenue splits endpoint
-// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_pricing_revenuesplits).
-//
-// Help Center
-//
-// Full documentation can be found in the Ticketmatic Help Center
-// (https://apps.ticketmatic.com/#/knowledgebase/api/types/RevenueSplitQuery).
-type RevenueSplitQuery struct {
-	// If this parameter is true, archived items will be returned as well.
-	Includearchived bool `json:"includearchived,omitempty"`
-
-	// All items that were updated since this timestamp will be returned. Timestamp
-	// should be passed in YYYY-MM-DD hh:mm:ss format.
-	Lastupdatesince Time `json:"lastupdatesince,omitempty"`
-
-	// Filter the returned items by specifying a query on the public datamodel that
-	// returns the ids.
-	Filter string `json:"filter,omitempty"`
-}
-
-// A single revenue split.
-//
-// More info: see the get operation
-// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_pricing_revenuesplits/get)
-// and the revenue splits endpoint
-// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_pricing_revenuesplits).
-//
-// Help Center
-//
-// Full documentation can be found in the Ticketmatic Help Center
-// (https://apps.ticketmatic.com/#/knowledgebase/api/types/RevenueSplit).
-type RevenueSplit struct {
-	// Unique ID
-	//
-	// Note: Ignored when creating a new revenue split.
-	//
-	// Note: Ignored when updating an existing revenue split.
-	Id   int64  `json:"id,omitempty"`
-	Name string `json:"name,omitempty"`
-
-	// Note: Not set when retrieving a list of revenue splits.
-	Rules *RevenuesplitRules `json:"rules,omitempty"`
-
-	// Created timestamp
-	//
-	// Note: Ignored when creating a new revenue split.
-	//
-	// Note: Ignored when updating an existing revenue split.
-	Createdts Time `json:"createdts,omitempty"`
-
-	// Last updated timestamp
-	//
-	// Note: Ignored when creating a new revenue split.
-	//
-	// Note: Ignored when updating an existing revenue split.
-	Lastupdatets Time `json:"lastupdatets,omitempty"`
-
-	// Whether or not this item is archived
-	//
-	// Note: Ignored when creating a new revenue split.
-	//
-	// Note: Ignored when updating an existing revenue split.
-	Isarchived bool `json:"isarchived,omitempty"`
-}
-
 // Set of parameters used to filter ticket fees.
 //
 // More info: see ticket fee
@@ -2041,4 +1906,35 @@ type SubscriberCommunication struct {
 
 	// E-mail addresses to which the communication has been sent
 	Addresses []string `json:"addresses,omitempty"`
+}
+
+// Required data for creating a query on the public data model.
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/QueryRequest).
+type QueryRequest struct {
+	// Actual query to execute
+	Query string `json:"query,omitempty"`
+
+	// Optional offset for the result. Default 0
+	Offset int64 `json:"offset,omitempty"`
+
+	// Optional limit for the result. Default 100
+	Limit int64 `json:"limit,omitempty"`
+}
+
+// Result of a query on the public data model.
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/QueryResult).
+type QueryResult struct {
+	// The number of rows in the result
+	Nbrofresults int64 `json:"nbrofresults,omitempty"`
+
+	// The actual resulting rows
+	Results []interface{} `json:"results,omitempty"`
 }
