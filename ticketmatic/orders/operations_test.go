@@ -63,7 +63,7 @@ func TestCreate(t *testing.T) {
 	updated, err := Update(c, order.Orderid, &ticketmatic.UpdateOrder{
 		Deliveryscenarioid: 2,
 		Paymentscenarioid:  3,
-		Customerid:         208,
+		Customerid:         777701,
 	})
 	if err != nil {
 		t.Fatal(err)
@@ -81,12 +81,15 @@ func TestCreate(t *testing.T) {
 		t.Errorf("Unexpected updated.Paymentscenarioid, got %#v, expected %#v", updated.Paymentscenarioid, 3)
 	}
 
-	if updated.Customerid != 208 {
-		t.Errorf("Unexpected updated.Customerid, got %#v, expected %#v", updated.Customerid, 208)
+	if updated.Customerid != 777701 {
+		t.Errorf("Unexpected updated.Customerid, got %#v, expected %#v", updated.Customerid, 777701)
 	}
 
-	_, err = Addtickets(c, order.Orderid, &ticketmatic.AddTickets{
+	ticketsadded, err := Addtickets(c, order.Orderid, &ticketmatic.AddTickets{
 		Tickets: []*ticketmatic.CreateTicket{
+			&ticketmatic.CreateTicket{
+				Tickettypepriceid: 584,
+			},
 			&ticketmatic.CreateTicket{
 				Tickettypepriceid: 584,
 			},
@@ -96,9 +99,43 @@ func TestCreate(t *testing.T) {
 		t.Fatal(err)
 	}
 
+	if len(ticketsadded.Order.Tickets) != 2 {
+		t.Errorf("Unexpected ticketsadded.Order.Tickets length, got %#v, expected %#v", len(ticketsadded.Order.Tickets), 2)
+	}
+
 	_, err = Confirm(c, order.Orderid)
 	if err != nil {
 		t.Fatal(err)
+	}
+
+	ticketids := []int64{
+		ticketsadded.Order.Tickets[0].Id,
+	}
+
+	updated2, err := Updatetickets(c, order.Orderid, &ticketmatic.UpdateTickets{
+		Tickets:   ticketids,
+		Operation: "setticketholders",
+		Params: map[string]interface{}{
+			"ticketholderids": []interface{}{777701},
+		},
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if updated2.Tickets[0].Ticketholderid != 777701 {
+		t.Errorf("Unexpected updated2.Tickets[0].Ticketholderid, got %#v, expected %#v", updated2.Tickets[0].Ticketholderid, 777701)
+	}
+
+	deleted, err := Deletetickets(c, order.Orderid, &ticketmatic.DeleteTickets{
+		Tickets: ticketids,
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if len(deleted.Tickets) != 1 {
+		t.Errorf("Unexpected deleted.Tickets length, got %#v, expected %#v", len(deleted.Tickets), 1)
 	}
 
 }

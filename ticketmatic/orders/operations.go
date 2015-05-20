@@ -114,8 +114,37 @@ func Addtickets(client *ticketmatic.Client, id int64, data *ticketmatic.AddTicke
 }
 
 // Modify tickets in order
+//
+// Individual tickets can be updated. Per call you can specify any number of ticket
+// IDs and one operation.
+//
+// Each operation accepts different parameters, dependent on the operation type:
+//
+// * Set ticket holders: an array of ticket holder IDs (see Contact
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/Contact)), one for each
+// ticket (ticketholderids).
+//
+// * Update price type: an array of ticket price type IDs (as can be found in the
+// Event pricing (https://apps.ticketmatic.com/#/knowledgebase/api/types/Event)),
+// one for each ticket (tickettypepriceids).
 func Updatetickets(client *ticketmatic.Client, id int64, data *ticketmatic.UpdateTickets) (*ticketmatic.Order, error) {
 	r := client.NewRequest("PUT", "/{accountname}/orders/{id}/tickets")
+	r.UrlParameters(map[string]interface{}{
+		"id": id,
+	})
+	r.Body(data)
+
+	var obj *ticketmatic.Order
+	err := r.Run(&obj)
+	if err != nil {
+		return nil, err
+	}
+	return obj, nil
+}
+
+// Remove tickets from order
+func Deletetickets(client *ticketmatic.Client, id int64, data *ticketmatic.DeleteTickets) (*ticketmatic.Order, error) {
+	r := client.NewRequest("DELETE", "/{accountname}/orders/{id}/tickets")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
 	})

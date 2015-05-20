@@ -1,5 +1,44 @@
 package ticketmatic
 
+// Address, used for physical deliveries and contact details.
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/Address).
+type Address struct {
+	// Addressee
+	//
+	// Note: Only available when used as an order
+	// (https://apps.ticketmatic.com/#/knowledgebase/api/types/Order) deliver address.
+	Addressee string `json:"addressee,omitempty"`
+
+	// ISO 3166-1 alpha-2 country code
+	// (http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)
+	Countrycode string `json:"countrycode,omitempty"`
+
+	// Zip code
+	Zip string `json:"zip,omitempty"`
+
+	// City
+	City string `json:"city,omitempty"`
+
+	// Street field 1 (typically the street name)
+	Street1 string `json:"street1,omitempty"`
+
+	// Street field 2 (typically the number)
+	Street2 string `json:"street2,omitempty"`
+
+	// Street field 3 (sometimes used for box numbers or suffixes)
+	Street3 string `json:"street3,omitempty"`
+
+	// Street field 4 (rarely used)
+	Street4 string `json:"street4,omitempty"`
+}
+
+type Contact struct {
+}
+
 // A DeliveryscenarioAvailability defines when a delivery scenario
 // (https://apps.ticketmatic.com/#/knowledgebase/api/types/DeliveryScenario) is
 // available.
@@ -196,14 +235,41 @@ type Event struct {
 	// Event status
 	Currentstatus int64       `json:"currentstatus,omitempty"`
 	Prices        interface{} `json:"prices,omitempty"`
-	Saleschannels interface{} `json:"saleschannels,omitempty"`
-	Availability  interface{} `json:"availability,omitempty"`
+
+	// Per-sales channel information about when this event is for sale.
+	Saleschannels []*EventSalesChannel `json:"saleschannels,omitempty"`
+	Availability  interface{}          `json:"availability,omitempty"`
 
 	// Created timestamp
 	Createdts Time `json:"createdts,omitempty"`
 
 	// Last updated timestamp
 	Lastupdatets Time `json:"lastupdatets,omitempty"`
+}
+
+// Information about the sales period for a specific sales channel
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/SalesChannel) in an
+// event (https://apps.ticketmatic.com/#/knowledgebase/api/types/Event).
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/EventSalesChannel).
+type EventSalesChannel struct {
+	// Event ID
+	Eventid int64 `json:"eventid,omitempty"`
+
+	// Sales channel ID
+	Saleschannelid int64 `json:"saleschannelid,omitempty"`
+
+	// When the sales start
+	Salestartts Time `json:"salestartts,omitempty"`
+
+	// When the sales end
+	Saleendts Time `json:"saleendts,omitempty"`
+
+	// Whether or not this sales channel is active for this event
+	Isactive bool `json:"isactive,omitempty"`
 }
 
 type Order struct {
@@ -213,7 +279,7 @@ type Order struct {
 	// Order status
 	Status int64 `json:"status,omitempty"`
 
-	// Order code.
+	// Order code
 	//
 	// Used as a unique identifier in web sales.
 	Code string `json:"code,omitempty"`
@@ -224,16 +290,38 @@ type Order struct {
 	// Has customer authenticated?
 	Isauthenticatedcustomer bool `json:"isauthenticatedcustomer,omitempty"`
 
-	// Total order amount.
+	// Total order amount
 	//
 	// Includes all costs and fees.
 	Totalamount float64 `json:"totalamount,omitempty"`
 
-	// Total amount paid.
-	Amountpaid                float64     `json:"amountpaid,omitempty"`
-	Paymentstatus             int64       `json:"paymentstatus,omitempty"`
-	Deliverystatus            int64       `json:"deliverystatus,omitempty"`
-	Deliveryaddress           interface{} `json:"deliveryaddress,omitempty"`
+	// Total amount paid
+	Amountpaid float64 `json:"amountpaid,omitempty"`
+
+	// Payment status
+	//
+	// Possible values:
+	//
+	// * 0: Incomplete
+	//
+	// * 1: Fully paid
+	//
+	// * 2: Overpaid
+	Paymentstatus int64 `json:"paymentstatus,omitempty"`
+
+	// Delivery status
+	//
+	// Possible values:
+	//
+	// * 2601: Not delivered
+	//
+	// * 2602: Delivered
+	//
+	// * 2603: Changed after delivery
+	Deliverystatus int64 `json:"deliverystatus,omitempty"`
+
+	// Address used when delivering physically
+	Deliveryaddress           *Address    `json:"deliveryaddress,omitempty"`
 	Deferredpaymentproperties interface{} `json:"deferredpaymentproperties,omitempty"`
 
 	// Sales channel ID
@@ -265,7 +353,7 @@ type Order struct {
 
 	// When the order will expire
 	Expiryts   Time        `json:"expiryts,omitempty"`
-	Tickets    interface{} `json:"tickets,omitempty"`
+	Tickets    []*Ticket   `json:"tickets,omitempty"`
 	Payments   interface{} `json:"payments,omitempty"`
 	Lookup     interface{} `json:"lookup,omitempty"`
 	Ordercosts interface{} `json:"ordercosts,omitempty"`
@@ -299,6 +387,28 @@ type PricelistPrices struct {
 }
 
 type RevenuesplitRules struct {
+}
+
+type Ticket struct {
+	// Ticket ID
+	Id int64 `json:"id,omitempty"`
+
+	// Order ID
+	Orderid                 int64       `json:"orderid,omitempty"`
+	Tickettypeid            interface{} `json:"tickettypeid,omitempty"`
+	Baskettickettypepriceid interface{} `json:"baskettickettypepriceid,omitempty"`
+	Price                   interface{} `json:"price,omitempty"`
+	Servicecharge           interface{} `json:"servicecharge,omitempty"`
+
+	// Ticket holder ID
+	Ticketholderid  int64       `json:"ticketholderid,omitempty"`
+	Ticketname      interface{} `json:"ticketname,omitempty"`
+	Aboparentid     interface{} `json:"aboparentid,omitempty"`
+	Eventid         interface{} `json:"eventid,omitempty"`
+	Pricetypeid     interface{} `json:"pricetypeid,omitempty"`
+	Seatdescription interface{} `json:"seatdescription,omitempty"`
+	Seatname        interface{} `json:"seatname,omitempty"`
+	Tickettypename  interface{} `json:"tickettypename,omitempty"`
 }
 
 type TicketfeeRules struct {
@@ -438,9 +548,6 @@ type EventContext struct {
 	Saleschannelid int64 `json:"saleschannelid,omitempty"`
 }
 
-type Ticket struct {
-}
-
 // Required data for creating an order
 // (https://apps.ticketmatic.com/#/knowledgebase/api/types/Order).
 //
@@ -495,28 +602,39 @@ type AddTicketsResult struct {
 	Order *Order `json:"order,omitempty"`
 }
 
-type UpdateTickets struct {
-}
-
-// Used to update an order. Each of the fields is optional. Omitting a field will
-// leave it unchanged.
+// Request data used to delete tickets
+// (https://apps.ticketmatic.com/#/knowledgebase/api/orders/deletetickets) from an
+// order (https://apps.ticketmatic.com/#/knowledgebase/api/types/Order).
 //
 // Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
-// (https://apps.ticketmatic.com/#/knowledgebase/api/types/UpdateOrder).
-type UpdateOrder struct {
-	// New delivery scenario ID
-	Deliveryscenarioid int64 `json:"deliveryscenarioid,omitempty"`
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/DeleteTickets).
+type DeleteTickets struct {
+	// Ticket IDs
+	Tickets []int64 `json:"tickets,omitempty"`
+}
 
-	// New payment scenario ID
-	Paymentscenarioid int64 `json:"paymentscenarioid,omitempty"`
+// Used when requesting orders, to filter orders.
+//
+// Specify any of the supported fields to filter the list of orders.
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/OrderFilter).
+type OrderFilter struct {
+	// Only include orders older than the given timestamp
+	Createdsince Time `json:"createdsince,omitempty"`
 
-	// New customer ID
+	// Filter orders based on saleschannel
+	Saleschannelid int64 `json:"saleschannelid,omitempty"`
+
+	// Filter orders based on customer
 	Customerid int64 `json:"customerid,omitempty"`
 
-	// Change custom field values
-	Customfields map[string]interface{} `json:"customfields,omitempty"`
+	// Only include orders with a given status
+	Status int64 `json:"status,omitempty"`
 }
 
 // Filter parameters to fetch a list of orders
@@ -574,26 +692,62 @@ type OrderQuery struct {
 	Simplefilter *OrderFilter `json:"simplefilter,omitempty"`
 }
 
-// Used when requesting orders, to filter orders.
-//
-// Specify any of the supported fields to filter the list of orders.
+// Used to update an order. Each of the fields is optional. Omitting a field will
+// leave it unchanged.
 //
 // Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
-// (https://apps.ticketmatic.com/#/knowledgebase/api/types/OrderFilter).
-type OrderFilter struct {
-	// Only include orders older than the given timestamp
-	Createdsince Time `json:"createdsince,omitempty"`
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/UpdateOrder).
+type UpdateOrder struct {
+	// New delivery scenario ID
+	Deliveryscenarioid int64 `json:"deliveryscenarioid,omitempty"`
 
-	// Filter orders based on saleschannel
-	Saleschannelid int64 `json:"saleschannelid,omitempty"`
+	// Delivery address
+	Deliveryaddress *Address `json:"deliveryaddress,omitempty"`
 
-	// Filter orders based on customer
+	// New payment scenario ID
+	Paymentscenarioid int64 `json:"paymentscenarioid,omitempty"`
+
+	// New customer ID
 	Customerid int64 `json:"customerid,omitempty"`
 
-	// Only include orders with a given status
-	Status int64 `json:"status,omitempty"`
+	// Change custom field values
+	Customfields map[string]interface{} `json:"customfields,omitempty"`
+}
+
+// Individual tickets can be updated. Per call you can specify any number of ticket
+// IDs and one operation.
+//
+// Each operation accepts different parameters, dependent on the operation type:
+//
+// * Set ticket holders: an array of ticket holder IDs (see Contact
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/Contact)), one for each
+// ticket (ticketholderids).
+//
+// * Update price type: an array of ticket price type IDs (as can be found in the
+// Event pricing (https://apps.ticketmatic.com/#/knowledgebase/api/types/Event)),
+// one for each ticket (tickettypepriceids).
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/UpdateTickets).
+type UpdateTickets struct {
+	// Ticket IDs
+	Tickets []int64 `json:"tickets,omitempty"`
+
+	// Operation to execute.
+	//
+	// Supported values:
+	//
+	// * setticketholders
+	//
+	// * updatepricetype
+	Operation string `json:"operation,omitempty"`
+
+	// Operation parameters
+	Params map[string]interface{} `json:"params,omitempty"`
 }
 
 // Set of parameters used to filter order mail templates.
@@ -1936,5 +2090,5 @@ type QueryResult struct {
 	Nbrofresults int64 `json:"nbrofresults,omitempty"`
 
 	// The actual resulting rows
-	Results []interface{} `json:"results,omitempty"`
+	Results []map[string]interface{} `json:"results,omitempty"`
 }
