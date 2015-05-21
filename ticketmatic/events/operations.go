@@ -6,7 +6,22 @@ import (
 
 // List results
 type List struct {
+	// Result data
 	Data []*ticketmatic.Event `json:"data"`
+
+	// Lookup data
+	Lookups *Lookups `json:"lookups"`
+}
+
+type Lookups struct {
+	// Price types
+	Pricetypes []*ticketmatic.PriceType `json:"pricetypes"`
+
+	// Seat ranks
+	Seatranks []interface{} `json:"seatranks"`
+
+	// Event locations
+	Locations []*ticketmatic.EventLocation `json:"locations"`
 }
 
 // Get a list of events

@@ -6,7 +6,40 @@ import (
 
 // List results
 type List struct {
+	// Result data
 	Data []*ticketmatic.Order `json:"data"`
+
+	// Lookup data
+	Lookups *Lookups `json:"lookups"`
+}
+
+type Lookups struct {
+	// Contact details
+	Contacts []*ticketmatic.Contact `json:"contacts"`
+
+	// Service charges
+	Servicecharges []interface{} `json:"servicecharges"`
+
+	// Delivery scenarios
+	Deliveryscenarios []*ticketmatic.DeliveryScenario `json:"deliveryscenarios"`
+
+	// Payment methods
+	Paymentmethods []*ticketmatic.PaymentMethod `json:"paymentmethods"`
+
+	// Ticket types
+	Tickettypes []interface{} `json:"tickettypes"`
+
+	// events
+	Events []*ticketmatic.Event `json:"events"`
+
+	// Sales channels
+	Saleschannels []*ticketmatic.SalesChannel `json:"saleschannels"`
+
+	// Payment scenarios
+	Paymentscenarios []*ticketmatic.PaymentScenario `json:"paymentscenarios"`
+
+	// Price types
+	Pricetypes []*ticketmatic.PriceType `json:"pricetypes"`
 }
 
 // Get a list of orders

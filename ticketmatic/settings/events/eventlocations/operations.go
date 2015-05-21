@@ -6,6 +6,7 @@ import (
 
 // List results
 type List struct {
+	// Result data
 	Data []*ticketmatic.EventLocation `json:"data"`
 }
 
