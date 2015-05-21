@@ -14,20 +14,20 @@ type List struct {
 }
 
 type Lookups struct {
-	// Contact details
-	Contacts []*ticketmatic.Contact `json:"contacts"`
-
-	// Service charges
-	Servicecharges []interface{} `json:"servicecharges"`
-
 	// Delivery scenarios
 	Deliveryscenarios []*ticketmatic.DeliveryScenario `json:"deliveryscenarios"`
 
 	// Payment methods
 	Paymentmethods []*ticketmatic.PaymentMethod `json:"paymentmethods"`
 
+	// Service charges
+	Servicecharges []interface{} `json:"servicecharges"`
+
 	// Ticket types
 	Tickettypes []interface{} `json:"tickettypes"`
+
+	// Contact details
+	Contacts []*ticketmatic.Contact `json:"contacts"`
 
 	// events
 	Events []*ticketmatic.Event `json:"events"`

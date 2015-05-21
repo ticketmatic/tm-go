@@ -136,7 +136,7 @@ func (r *Request) prepareUrl() string {
 	}
 	u = strings.Replace(u, "{accountname}", r.client.AccountCode, 1)
 
-	result := fmt.Sprintf("%s%s", Server, u)
+	result := fmt.Sprintf("%s/1%s", Server, u)
 	if len(r.query) > 0 {
 		query := url.Values{}
 		for k, v := range r.query {
