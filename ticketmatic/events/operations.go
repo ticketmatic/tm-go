@@ -10,7 +10,7 @@ type List struct {
 	Data []*ticketmatic.Event `json:"data"`
 
 	// Lookup data
-	Lookups *Lookups `json:"lookups"`
+	Lookups *Lookups `json:"lookup"`
 }
 
 type Lookups struct {

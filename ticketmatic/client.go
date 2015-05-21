@@ -16,7 +16,7 @@ import (
 )
 
 // API server to use.
-var Server = "https://apps.ticketmatic.com/api"
+var Server = "https://apps.ticketmatic.com"
 
 // API version
 var Version = "1"
@@ -139,7 +139,7 @@ func (r *Request) prepareUrl() string {
 	}
 	u = strings.Replace(u, "{accountname}", r.client.AccountCode, 1)
 
-	result := fmt.Sprintf("%s/%s%s", Server, Version, u)
+	result := fmt.Sprintf("%s/api/%s%s", Server, Version, u)
 	if len(r.query) > 0 {
 		query := url.Values{}
 		for k, v := range r.query {
