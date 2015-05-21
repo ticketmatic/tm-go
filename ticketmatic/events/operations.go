@@ -15,13 +15,13 @@ type List struct {
 
 type Lookups struct {
 	// Event locations
-	Locations []*ticketmatic.EventLocation `json:"locations"`
+	Locations map[string]*ticketmatic.EventLocation `json:"locations"`
 
 	// Price types
-	Pricetypes []*ticketmatic.PriceType `json:"pricetypes"`
+	Pricetypes map[string]*ticketmatic.PriceType `json:"pricetypes"`
 
 	// Seat ranks
-	Seatranks []interface{} `json:"seatranks"`
+	Seatranks map[string]interface{} `json:"seatranks"`
 }
 
 // Get a list of events

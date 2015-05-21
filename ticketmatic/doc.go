@@ -14,7 +14,7 @@
 // The URIs for endpoints are served at
 //
 //
-//    https://apps.ticketmatic.com/api/{accountname}/
+//    https://apps.ticketmatic.com/api/1/{accountname}/
 //
 //
 //

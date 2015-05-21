@@ -368,16 +368,75 @@ type Order struct {
 type OrderFeeRule struct {
 }
 
-type PaymentmethodConfig struct {
-}
-
+// A PaymentscenarioAvailability configures in what saleschannels a payment
+// scenario is available.
+//
+// It can also further refine the availability based on a script written in
+// JavaScript.
+//
+// More information about writing order scripts can be found here
+// (https://apps.ticketmatic.com/#/knowledgebase/developer_writingorderscripts).
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/PaymentscenarioAvailability).
 type PaymentscenarioAvailability struct {
+	// The payment scenario will be available for these saleschannels. It this is empty
+	// the payment scenario will not be available.
+	Saleschannels []int64 `json:"saleschannels,omitempty"`
+
+	// Indicates if the script will be used.
+	Usescript bool `json:"usescript,omitempty"`
+
+	// A Javascript that needs to return a boolean. It has the current order and
+	// saleschannel available. More info
+	// (https://apps.ticketmatic.com/#/knowledgebase/developer_writingorderscripts)
+	Script string `json:"script,omitempty"`
 }
 
+// The PaymentscenarioExpiryParameters can only be set when the Paymentscenario is
+// of a type deferred payment.
+//
+// It determines the moment in time when an order expires. It's calculated as
+// MIN(<order creation date> + daysafterordercreation, <date of first event in
+// order> - daysbeforeevent). If deleteonexpiry is set to true, the order will be
+// deleted.
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/PaymentscenarioExpiryParameters).
 type PaymentscenarioExpiryParameters struct {
+	// The amount of days after an order has been created that the order becomes
+	// overdue.
+	Daysafterordercreation int64 `json:"daysafterordercreation,omitempty"`
+
+	// The number of days before an event that an order becomes overdue.
+	Daysbeforeevent int64 `json:"daysbeforeevent,omitempty"`
+
+	// Indicates is the order will be deleted when it's expired.
+	Deleteonexpiry bool `json:"deleteonexpiry,omitempty"`
 }
 
+// The PaymentscenarioOverdueParameters can only be set when the Paymentscenario is
+// of type deferred payment.
+//
+// It determines the moment in time when an order becomes overdue. It's calculated
+// as MIN(<order creation date> + daysafterordercreation, <date of first event in
+// order> - daysbeforeevent).
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/PaymentscenarioOverdueParameters).
 type PaymentscenarioOverdueParameters struct {
+	// The amount of days after an order has been created that the order becomes
+	// overdue.
+	Daysafterordercreation int64 `json:"daysafterordercreation,omitempty"`
+
+	// The number of days before an event that an order becomes overdue.
+	Daysbeforeevent int64 `json:"daysbeforeevent,omitempty"`
 }
 
 type PriceAvailabilityRules struct {
@@ -1458,7 +1517,8 @@ type FilterDefinition struct {
 	Sqlclause string `json:"sqlclause,omitempty"`
 
 	// The type of filter definition defines the UI and resulting parameters that will
-	// be used when a user selects the filter.
+	// be used when a user selects the filter. The possible values can be found here
+	// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_system_filterdefinitions).
 	Filtertype int64 `json:"filtertype,omitempty"`
 
 	// For certain filter types, the user must select a value from a list. The
@@ -1798,7 +1858,7 @@ type PaymentMethod struct {
 	// method type.
 	//
 	// Note: Not set when retrieving a list of payment methods.
-	Config *PaymentmethodConfig `json:"config,omitempty"`
+	Config map[string]interface{} `json:"config,omitempty"`
 
 	// Created timestamp
 	//
