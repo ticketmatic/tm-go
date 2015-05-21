@@ -16,8 +16,8 @@ func TestGet(t *testing.T) {
 	c := ticketmatic.NewClient(accountcode, accesskey, secretkey)
 
 	req, err := Queries(c, &ticketmatic.QueryRequest{
-		Query: "SELECT * FROM tm.paymentscenario",
 		Limit: 2,
+		Query: "SELECT * FROM tm.paymentscenario",
 	})
 	if err != nil {
 		t.Fatal(err)
