@@ -61,9 +61,9 @@ func TestCreate(t *testing.T) {
 	}
 
 	updated, err := Update(c, order.Orderid, &ticketmatic.UpdateOrder{
-		Customerid:         777701,
 		Deliveryscenarioid: 2,
 		Paymentscenarioid:  3,
+		Customerid:         777701,
 	})
 	if err != nil {
 		t.Fatal(err)
@@ -113,11 +113,11 @@ func TestCreate(t *testing.T) {
 	}
 
 	updated2, err := Updatetickets(c, order.Orderid, &ticketmatic.UpdateTickets{
+		Tickets:   ticketids,
+		Operation: "setticketholders",
 		Params: map[string]interface{}{
 			"ticketholderids": []interface{}{777701},
 		},
-		Tickets:   ticketids,
-		Operation: "setticketholders",
 	})
 	if err != nil {
 		t.Fatal(err)

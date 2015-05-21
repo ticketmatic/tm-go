@@ -14,32 +14,32 @@ type List struct {
 }
 
 type Lookups struct {
-	// Delivery scenarios
-	Deliveryscenarios []*ticketmatic.DeliveryScenario `json:"deliveryscenarios"`
-
-	// Payment methods
-	Paymentmethods []*ticketmatic.PaymentMethod `json:"paymentmethods"`
-
-	// Service charges
-	Servicecharges []interface{} `json:"servicecharges"`
-
-	// Ticket types
-	Tickettypes []interface{} `json:"tickettypes"`
-
 	// Contact details
 	Contacts []*ticketmatic.Contact `json:"contacts"`
+
+	// Delivery scenarios
+	Deliveryscenarios []*ticketmatic.DeliveryScenario `json:"deliveryscenarios"`
 
 	// events
 	Events []*ticketmatic.Event `json:"events"`
 
-	// Sales channels
-	Saleschannels []*ticketmatic.SalesChannel `json:"saleschannels"`
+	// Payment methods
+	Paymentmethods []*ticketmatic.PaymentMethod `json:"paymentmethods"`
 
 	// Payment scenarios
 	Paymentscenarios []*ticketmatic.PaymentScenario `json:"paymentscenarios"`
 
 	// Price types
 	Pricetypes []*ticketmatic.PriceType `json:"pricetypes"`
+
+	// Sales channels
+	Saleschannels []*ticketmatic.SalesChannel `json:"saleschannels"`
+
+	// Service charges
+	Servicecharges []interface{} `json:"servicecharges"`
+
+	// Ticket types
+	Tickettypes []interface{} `json:"tickettypes"`
 }
 
 // Get a list of orders
