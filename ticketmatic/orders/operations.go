@@ -190,3 +190,82 @@ func Deletetickets(client *ticketmatic.Client, id int64, data *ticketmatic.Delet
 	}
 	return obj, nil
 }
+
+// Add payments to order
+func Addpayments(client *ticketmatic.Client, id int64, data *ticketmatic.AddPayments) (*ticketmatic.Order, error) {
+	r := client.NewRequest("POST", "/{accountname}/orders/{id}/payments")
+	r.UrlParameters(map[string]interface{}{
+		"id": id,
+	})
+	r.Body(data)
+
+	var obj *ticketmatic.Order
+	err := r.Run(&obj)
+	if err != nil {
+		return nil, err
+	}
+	return obj, nil
+}
+
+// Add refund for payment for order
+func Addrefunds(client *ticketmatic.Client, id int64, data *ticketmatic.AddRefunds) (*ticketmatic.Order, error) {
+	r := client.NewRequest("POST", "/{accountname}/orders/{id}/refunds")
+	r.UrlParameters(map[string]interface{}{
+		"id": id,
+	})
+	r.Body(data)
+
+	var obj *ticketmatic.Order
+	err := r.Run(&obj)
+	if err != nil {
+		return nil, err
+	}
+	return obj, nil
+}
+
+// Get the log history for an order
+func Getlogs(client *ticketmatic.Client, id int64) ([]*ticketmatic.LogItem, error) {
+	r := client.NewRequest("GET", "/{accountname}/orders/{id}/logs")
+	r.UrlParameters(map[string]interface{}{
+		"id": id,
+	})
+
+	var obj []*ticketmatic.LogItem
+	err := r.Run(&obj)
+	if err != nil {
+		return nil, err
+	}
+	return obj, nil
+}
+
+// Get the PDF for (some or all) tickets in the order
+func Postticketspdf(client *ticketmatic.Client, id int64, data *ticketmatic.TicketsPdfRequest) (*ticketmatic.Url, error) {
+	r := client.NewRequest("POST", "/{accountname}/orders/{id}/tickets/pdf")
+	r.UrlParameters(map[string]interface{}{
+		"id": id,
+	})
+	r.Body(data)
+
+	var obj *ticketmatic.Url
+	err := r.Run(&obj)
+	if err != nil {
+		return nil, err
+	}
+	return obj, nil
+}
+
+// Send the delivery e-mail for the order
+func Postticketsemaildelivery(client *ticketmatic.Client, id int64, data *ticketmatic.TicketsEmaildeliveryRequest) (*ticketmatic.Order, error) {
+	r := client.NewRequest("POST", "/{accountname}/orders/{id}/tickets/emaildelivery")
+	r.UrlParameters(map[string]interface{}{
+		"id": id,
+	})
+	r.Body(data)
+
+	var obj *ticketmatic.Order
+	err := r.Run(&obj)
+	if err != nil {
+		return nil, err
+	}
+	return obj, nil
+}

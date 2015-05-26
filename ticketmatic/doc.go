@@ -28,14 +28,14 @@
 // * Authentication
 // (https://apps.ticketmatic.com/#/knowledgebase/api/coreconcepts_authentication)
 //
-// * Custom fields
-// (https://apps.ticketmatic.com/#/knowledgebase/api/coreconcepts_customfields)
-//
 // * Error handling
 // (https://apps.ticketmatic.com/#/knowledgebase/api/coreconcepts_errors)
 //
 // * Translations
 // (https://apps.ticketmatic.com/#/knowledgebase/api/coreconcepts_translations)
+//
+// * Custom fields
+// (https://apps.ticketmatic.com/#/knowledgebase/api/coreconcepts_customfields)
 //
 // Afterwards, check the pages of the individual endpoints you wish to use.
 //

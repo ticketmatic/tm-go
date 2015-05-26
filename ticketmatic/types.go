@@ -7,6 +7,18 @@ package ticketmatic
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://apps.ticketmatic.com/#/knowledgebase/api/types/Address).
 type Address struct {
+	// Address ID
+	//
+	// Note: Only available when used for a contact
+	// (https://apps.ticketmatic.com/#/knowledgebase/api/types/Contact) address.
+	Id int64 `json:"id,omitempty"`
+
+	// Contact this address belongs to
+	//
+	// Note: Only available when used for a contact
+	// (https://apps.ticketmatic.com/#/knowledgebase/api/types/Contact) address.
+	Customerid int64 `json:"customerid,omitempty"`
+
 	// Addressee
 	//
 	// Note: Only available when used as an order
@@ -16,6 +28,12 @@ type Address struct {
 	// ISO 3166-1 alpha-2 country code
 	// (http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)
 	Countrycode string `json:"countrycode,omitempty"`
+
+	// Country name (based on typeid, returned as a convenience).
+	//
+	// Note: Only available when used for a contact
+	// (https://apps.ticketmatic.com/#/knowledgebase/api/types/Contact) address.
+	Country string `json:"country,omitempty"`
 
 	// Zip code
 	Zip string `json:"zip,omitempty"`
@@ -34,9 +52,141 @@ type Address struct {
 
 	// Street field 4 (rarely used)
 	Street4 string `json:"street4,omitempty"`
+
+	// Address type ID
+	//
+	// Note: Only available when used for a contact
+	// (https://apps.ticketmatic.com/#/knowledgebase/api/types/Contact) address.
+	Typeid int64 `json:"typeid,omitempty"`
+
+	// Address type (based on typeid, returned as a convenience).
+	//
+	// Note: Only available when used for a contact
+	// (https://apps.ticketmatic.com/#/knowledgebase/api/types/Contact) address.
+	Type string `json:"type,omitempty"`
 }
 
+// A single contact.
+//
+// More info: see the get operation
+// (https://apps.ticketmatic.com/#/knowledgebase/api/contacts/get) and the contacts
+// endpoint (https://apps.ticketmatic.com/#/knowledgebase/api/contacts).
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/Contact).
 type Contact struct {
+	// Contact ID
+	//
+	// Note: Ignored when creating a new contact.
+	//
+	// Note: Ignored when updating an existing contact.
+	Id int64 `json:"id,omitempty"`
+
+	// E-mail address
+	Email string `json:"email,omitempty"`
+
+	// Customer title ID (also determines the gender of the contact)
+	Customertitleid int64 `json:"customertitleid,omitempty"`
+
+	// First name
+	Firstname string `json:"firstname,omitempty"`
+
+	// Middle name
+	Middlename string `json:"middlename,omitempty"`
+
+	// Last name
+	Lastname string `json:"lastname,omitempty"`
+
+	// Language (ISO 639-1 code (http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes))
+	Languagecode string `json:"languagecode,omitempty"`
+
+	// Birth date
+	Birthdate Time `json:"birthdate,omitempty"`
+
+	// Company
+	Company string `json:"company,omitempty"`
+
+	// Job function
+	Organizationfunction string `json:"organizationfunction,omitempty"`
+
+	// Addresses
+	Addresses []*Address `json:"addresses,omitempty"`
+
+	// VAT Number (for organizations)
+	Vatnumber string `json:"vatnumber,omitempty"`
+
+	// Phone numbers
+	Phonenumbers []*Phonenumber `json:"phonenumbers,omitempty"`
+
+	// Relation type IDs
+	Relationtypes []int64 `json:"relationtypes,omitempty"`
+
+	// Whether or not this contact is subscribed in the e-mail marketing integration
+	//
+	// Note: Ignored when creating a new contact.
+	//
+	// Note: Ignored when updating an existing contact.
+	Subscribed bool `json:"subscribed,omitempty"`
+
+	// Contact status
+	//
+	// Possible values:
+	//
+	// * deleted: Contact has been deleted
+	//
+	// * incomplete: Contact misses crucial account information
+	//
+	// * (blank): Normal contact
+	//
+	// Note: Ignored when creating a new contact.
+	//
+	// Note: Ignored when updating an existing contact.
+	Status string `json:"status,omitempty"`
+
+	// Account type.
+	//
+	// Indicates the authentication type supported for this contact (used when
+	// authentication is enabled in web sales).
+	//
+	// Possible values:
+	//
+	// * 0: No authentication
+	//
+	// * 1901: Password authentication
+	//
+	// * 1902: Facebook
+	//
+	// * 1903: Google
+	//
+	// * 1904: Twitter
+	//
+	// Note: Ignored when creating a new contact.
+	//
+	// Note: Ignored when updating an existing contact.
+	AccountType int64 `json:"account_type,omitempty"`
+
+	// Whether or not this contact has been deleted
+	//
+	// Note: Ignored when creating a new contact.
+	//
+	// Note: Ignored when updating an existing contact.
+	Isdeleted bool `json:"isdeleted,omitempty"`
+
+	// Created timestamp
+	//
+	// Note: Ignored when creating a new contact.
+	//
+	// Note: Ignored when updating an existing contact.
+	Createdts Time `json:"createdts,omitempty"`
+
+	// Last updated timestamp
+	//
+	// Note: Ignored when creating a new contact.
+	//
+	// Note: Ignored when updating an existing contact.
+	Lastupdatets Time `json:"lastupdatets,omitempty"`
 }
 
 // A DeliveryscenarioAvailability defines when a delivery scenario
@@ -352,11 +502,17 @@ type Order struct {
 	Rappelsent bool `json:"rappelsent,omitempty"`
 
 	// When the order will expire
-	Expiryts   Time        `json:"expiryts,omitempty"`
-	Tickets    []*Ticket   `json:"tickets,omitempty"`
-	Payments   interface{} `json:"payments,omitempty"`
-	Lookup     interface{} `json:"lookup,omitempty"`
-	Ordercosts interface{} `json:"ordercosts,omitempty"`
+	Expiryts Time        `json:"expiryts,omitempty"`
+	Tickets  []*Ticket   `json:"tickets,omitempty"`
+	Payments interface{} `json:"payments,omitempty"`
+
+	// Related objects
+	//
+	// See the lookup fields on the getlist operation
+	// (https://apps.ticketmatic.com/#/knowledgebase/api/orders/getlist) for a full
+	// description.
+	Lookup     map[string]interface{} `json:"lookup,omitempty"`
+	Ordercosts interface{}            `json:"ordercosts,omitempty"`
 
 	// Created timestamp
 	Createdts Time `json:"createdts,omitempty"`
@@ -439,13 +595,40 @@ type PaymentscenarioOverdueParameters struct {
 	Daysbeforeevent int64 `json:"daysbeforeevent,omitempty"`
 }
 
+// See contact (https://apps.ticketmatic.com/#/knowledgebase/api/types/Contact) for
+// more information.
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/Phonenumber).
+type Phonenumber struct {
+	// Address ID
+	//
+	// Note: Only available when used for a contact
+	// (https://apps.ticketmatic.com/#/knowledgebase/api/types/Contact) address.
+	Id int64 `json:"id,omitempty"`
+
+	// Contact this address belongs to
+	//
+	// Note: Only available when used for a contact
+	// (https://apps.ticketmatic.com/#/knowledgebase/api/types/Contact) address.
+	Customerid int64 `json:"customerid,omitempty"`
+
+	// Phone number
+	Number string `json:"number,omitempty"`
+
+	// Phone number type ID
+	Typeid int64 `json:"typeid,omitempty"`
+
+	// Phone number type (based on typeid, returned as a convenience)
+	Type string `json:"type,omitempty"`
+}
+
 type PriceAvailabilityRules struct {
 }
 
 type PricelistPrices struct {
-}
-
-type RevenuesplitRules struct {
 }
 
 type Ticket struct {
@@ -456,21 +639,78 @@ type Ticket struct {
 	Orderid                 int64       `json:"orderid,omitempty"`
 	Tickettypeid            interface{} `json:"tickettypeid,omitempty"`
 	Baskettickettypepriceid interface{} `json:"baskettickettypepriceid,omitempty"`
-	Price                   interface{} `json:"price,omitempty"`
-	Servicecharge           interface{} `json:"servicecharge,omitempty"`
+
+	// Ticket price
+	Price         float64     `json:"price,omitempty"`
+	Servicecharge interface{} `json:"servicecharge,omitempty"`
 
 	// Ticket holder ID
-	Ticketholderid  int64       `json:"ticketholderid,omitempty"`
-	Ticketname      interface{} `json:"ticketname,omitempty"`
-	Aboparentid     interface{} `json:"aboparentid,omitempty"`
-	Eventid         interface{} `json:"eventid,omitempty"`
-	Pricetypeid     interface{} `json:"pricetypeid,omitempty"`
+	Ticketholderid int64       `json:"ticketholderid,omitempty"`
+	Ticketname     interface{} `json:"ticketname,omitempty"`
+	Aboparentid    interface{} `json:"aboparentid,omitempty"`
+
+	// Event ID
+	Eventid int64 `json:"eventid,omitempty"`
+
+	// Price type ID
+	Pricetypeid     int64       `json:"pricetypeid,omitempty"`
 	Seatdescription interface{} `json:"seatdescription,omitempty"`
 	Seatname        interface{} `json:"seatname,omitempty"`
 	Tickettypename  interface{} `json:"tickettypename,omitempty"`
 }
 
+// Defines which fees are active for specific price types and sales channels. It's
+// possible to define a fixed fee and a percentage based fee. The default rule (if
+// none is specified for a specific sales channel) is always a fixed fee of 0.
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/TicketfeeRules).
 type TicketfeeRules struct {
+	// The default ticket fee rule, one rule for each saleschannel.
+	Default []*TicketfeeSaleschannelRule `json:"default,omitempty"`
+
+	// An array of exception rules for specific pricetypes.
+	Exceptions []*TicketfeeException `json:"exceptions,omitempty"`
+}
+
+// An exception to the default rule for a specific pricetype and a set of
+// saleschannels.
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/TicketfeeException).
+type TicketfeeException struct {
+	// The pricetype for which this exception is active.
+	Pricetypeid int64 `json:"pricetypeid,omitempty"`
+
+	// The set of rules (one for each saleschannel).
+	Saleschannels []*TicketfeeSaleschannelRule `json:"saleschannels,omitempty"`
+}
+
+// This is a rule for a specific saleschannel that indicates the fee based on a
+// fixed amount or a percentage.
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/TicketfeeSaleschannelRule).
+type TicketfeeSaleschannelRule struct {
+	// The saleschannel for which this rule is active.
+	Saleschannelid int64 `json:"saleschannelid,omitempty"`
+
+	// The status sets the type of rule. Possible values:
+	//
+	// * fixedfee: A fixed ticket fee.
+	//
+	// * percentagefee: A fee thats a percentage of the ticket.
+	Status string `json:"status,omitempty"`
+
+	// The value of this ticket fee. Can be an absolute amount (fixedfee) or a
+	// percentage (percentagefee). In both cases only provide a decimal.
+	Value float64 `json:"value,omitempty"`
 }
 
 // Configuration settings and parameters for a web sales skin
@@ -503,6 +743,54 @@ type WebSalesSkinConfiguration struct {
 
 	// Google Analytics tracking ID. Can be left blank.
 	Googleanalyticsid string `json:"googleanalyticsid,omitempty"`
+}
+
+// Filter parameters to fetch a list of contacts
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/ContactQuery).
+type ContactQuery struct {
+	// A SQL query that returns contact IDs
+	//
+	// Can be used to do arbitrary filtering. See the database documentation for
+	// contact (/db/contact) for more information.
+	Filter string `json:"filter,omitempty"`
+
+	// If this parameter is true, archived items will be returned as well.
+	Includearchived bool `json:"includearchived,omitempty"`
+
+	// Only include contacts that have been updated since the given timestamp.
+	Lastupdatesince Time `json:"lastupdatesince,omitempty"`
+
+	// Limit results to at most the given amount of contacts.
+	Limit int64 `json:"limit,omitempty"`
+
+	// Skip the first X contacts.
+	Offset int64 `json:"offset,omitempty"`
+
+	// Order by the given field.
+	//
+	// Supported values: name, lastupdatets, createdts.
+	Orderby string `json:"orderby,omitempty"`
+
+	// Output format.
+	//
+	// Possible values:
+	//
+	// * ids: Only fill the ID field
+	//
+	// * minimal: A minimal set of order fields
+	//
+	// * default: Return all order fields (also used when the output parameter is
+	// omitted)
+	Output string `json:"output,omitempty"`
+
+	// A text filter string.
+	//
+	// Matches against the contact name and contact details.
+	Searchterm string `json:"searchterm,omitempty"`
 }
 
 // A timestamp returned by the diagnostic /time call
@@ -630,6 +918,41 @@ type CreateOrder struct {
 type CreateTicket struct {
 	// The required ticket type price ID.
 	Tickettypepriceid int64 `json:"tickettypepriceid,omitempty"`
+}
+
+// Info for requesting a PDF ticket for one or more tickets in an order
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/Order).
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/TicketsPdfRequest).
+type TicketsPdfRequest struct {
+	// Ticketids
+	Ticketids []int64 `json:"ticketids,omitempty"`
+}
+
+// Info for requesting a e-mail delivery for an order
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/Order).
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/TicketsEmaildeliveryRequest).
+type TicketsEmaildeliveryRequest struct {
+	// Template id
+	Templateid int64 `json:"templateid,omitempty"`
+}
+
+// Url.
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/Url).
+type Url struct {
+	// Url.
+	Url string `json:"url,omitempty"`
 }
 
 // Request data used to add tickets
@@ -809,6 +1132,74 @@ type UpdateTickets struct {
 	Params map[string]interface{} `json:"params,omitempty"`
 }
 
+// Request data used to add a payment
+// (https://apps.ticketmatic.com/#/knowledgebase/api/orders/addpayments) to an
+// order (https://apps.ticketmatic.com/#/knowledgebase/api/types/Order).
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/AddPayments).
+type AddPayments struct {
+	// Id of the payment method to be used for the payment
+	Paymentmethodid int64 `json:"paymentmethodid,omitempty"`
+
+	// Amount for the payment
+	Amount float64 `json:"amount,omitempty"`
+}
+
+// Request data used to refund a payment
+// (https://apps.ticketmatic.com/#/knowledgebase/api/orders/addrefunds) for an
+// order (https://apps.ticketmatic.com/#/knowledgebase/api/types/Order).
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/AddRefunds).
+type AddRefunds struct {
+	// Id of the payment that needs to be refunded
+	Paymentid int64 `json:"paymentid,omitempty"`
+
+	// Amount that needs to be refunded
+	Amount float64 `json:"amount,omitempty"`
+}
+
+// Log item returned when requesting the log history of an order
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/Order).
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/LogItem).
+type LogItem struct {
+	// Id of the log item
+	Id int64 `json:"id,omitempty"`
+
+	// Log item timestamp
+	Ts Time `json:"ts,omitempty"`
+
+	// User id
+	Userid int64 `json:"userid,omitempty"`
+
+	// Log item type
+	Typeid int64 `json:"typeid,omitempty"`
+
+	// Order id
+	Orderid int64 `json:"orderid,omitempty"`
+
+	// User name
+	Username string `json:"username,omitempty"`
+
+	// Info
+	Info map[string]interface{} `json:"info,omitempty"`
+
+	// Model
+	Model map[string]interface{} `json:"model,omitempty"`
+
+	// Lookup info
+	Lookupinfo map[string]interface{} `json:"lookupinfo,omitempty"`
+}
+
 // Set of parameters used to filter order mail templates.
 //
 // More info: see order mail template
@@ -971,6 +1362,102 @@ type TicketLayout struct {
 	// Note: Ignored when creating a new ticket layout.
 	//
 	// Note: Ignored when updating an existing ticket layout.
+	Isarchived bool `json:"isarchived,omitempty"`
+}
+
+// Set of parameters used to filter ticket layout templates.
+//
+// More info: see ticket layout template
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/TicketLayoutTemplate),
+// the getlist operation
+// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_communicationanddesign_ticketlayouttemplates/getlist)
+// and the ticket layout templates endpoint
+// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_communicationanddesign_ticketlayouttemplates).
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/TicketLayoutTemplateQuery).
+type TicketLayoutTemplateQuery struct {
+	// If this parameter is true, archived items will be returned as well.
+	Includearchived bool `json:"includearchived,omitempty"`
+
+	// All items that were updated since this timestamp will be returned. Timestamp
+	// should be passed in YYYY-MM-DD hh:mm:ss format.
+	Lastupdatesince Time `json:"lastupdatesince,omitempty"`
+
+	// Filter the returned items by specifying a query on the public datamodel that
+	// returns the ids.
+	Filter string `json:"filter,omitempty"`
+
+	// Only return items with the given typeid.
+	Typeid int64 `json:"typeid,omitempty"`
+}
+
+// A single ticket layout template.
+//
+// More info: see the get operation
+// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_communicationanddesign_ticketlayouttemplates/get)
+// and the ticket layout templates endpoint
+// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_communicationanddesign_ticketlayouttemplates).
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/TicketLayoutTemplate).
+type TicketLayoutTemplate struct {
+	// Unique ID
+	//
+	// Note: Ignored when creating a new ticket layout template.
+	//
+	// Note: Ignored when updating an existing ticket layout template.
+	Id int64 `json:"id,omitempty"`
+
+	// Type ID
+	//
+	// Note: Ignored when updating an existing ticket layout template.
+	Typeid int64 `json:"typeid,omitempty"`
+
+	// Name for the ticket layout template
+	Name string `json:"name,omitempty"`
+
+	// Html template containing the definition for the ticket layout template
+	//
+	// Note: Not set when retrieving a list of ticket layout templates.
+	Htmltemplate string `json:"htmltemplate,omitempty"`
+
+	// Css classes for the ticket layout template
+	//
+	// Note: Not set when retrieving a list of ticket layout templates.
+	Css string `json:"css,omitempty"`
+
+	// Translations for the ticket layout template
+	//
+	// Note: Not set when retrieving a list of ticket layout templates.
+	Translations map[string]string `json:"translations,omitempty"`
+
+	// Deliveryscenario's for which this ticket layout template will be used
+	Deliveryscenarios []int64 `json:"deliveryscenarios,omitempty"`
+
+	// Created timestamp
+	//
+	// Note: Ignored when creating a new ticket layout template.
+	//
+	// Note: Ignored when updating an existing ticket layout template.
+	Createdts Time `json:"createdts,omitempty"`
+
+	// Last updated timestamp
+	//
+	// Note: Ignored when creating a new ticket layout template.
+	//
+	// Note: Ignored when updating an existing ticket layout template.
+	Lastupdatets Time `json:"lastupdatets,omitempty"`
+
+	// Whether or not this item is archived
+	//
+	// Note: Ignored when creating a new ticket layout template.
+	//
+	// Note: Ignored when updating an existing ticket layout template.
 	Isarchived bool `json:"isarchived,omitempty"`
 }
 
