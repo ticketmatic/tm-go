@@ -427,6 +427,14 @@ type Order struct {
 	Orderid int64 `json:"orderid,omitempty"`
 
 	// Order status
+	//
+	// Possible values:
+	//
+	// * 21001: Unconfirmed
+	//
+	// * 21002: Confirmed
+	//
+	// * 21003: Archived
 	Status int64 `json:"status,omitempty"`
 
 	// Order code
@@ -521,7 +529,51 @@ type Order struct {
 	Lastupdatets Time `json:"lastupdatets,omitempty"`
 }
 
-type OrderFeeRule struct {
+// More info about order fees can be found here
+// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_ticketsales_orderfees).
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/OrderfeeRule).
+type OrderfeeRule struct {
+	// This is required if the order fee type is set to automatic. It is a set of rules
+	// that define the order fee.
+	Auto []*OrderfeeAutoRule `json:"auto,omitempty"`
+
+	// This is required if the order fee type is set to script. The javascript needs to
+	// return a value.
+	Script string `json:"script,omitempty"`
+}
+
+// More info about order fees can be found here
+// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_ticketsales_orderfees).
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/OrderfeeAutoRule).
+type OrderfeeAutoRule struct {
+	// The sales channels that this order fee is applicable for. If not set it defaults
+	// to 'all'. This is only needed if the order fee type is set to automatic.
+	Saleschannelids []int64 `json:"saleschannelids,omitempty"`
+
+	// The delivery scenarios that this order fee is applicable for. If not set it
+	// defaults to 'all'. This is only needed if the order fee type is set to
+	// automatic.
+	Deliveryscenarioids []int64 `json:"deliveryscenarioids,omitempty"`
+
+	// The payment scenarios that this order fee is applicable for. If not set it
+	// default to 'all'. This is only needed if the order fee type is set to automatic.
+	Paymentscenarioids []int64 `json:"paymentscenarioids,omitempty"`
+
+	// Can be fixedfee or percentagefee. Defauls to fixedfee. This is only needed if
+	// the order fee type is set to automatic.
+	Status string `json:"status,omitempty"`
+
+	// The value (amount) that will be added to the order. Is required if the order fee
+	// type is set to automatic.
+	Value float64 `json:"value,omitempty"`
 }
 
 // A PaymentscenarioAvailability configures in what saleschannels a payment
@@ -1016,6 +1068,14 @@ type OrderFilter struct {
 	Customerid int64 `json:"customerid,omitempty"`
 
 	// Only include orders with a given status
+	//
+	// Possible values:
+	//
+	// * 21001: Unconfirmed orders
+	//
+	// * 21002: Confirmed orders
+	//
+	// * 21003: Archived orders
 	Status int64 `json:"status,omitempty"`
 }
 
@@ -2257,13 +2317,13 @@ type OrderFee struct {
 	// Name for the order fee
 	Name string `json:"name,omitempty"`
 
-	// Type of the order fee. Can be Automatic (2401) or Script (2403)
+	// Type of the order fee. Can be Automatic (2401) or Script (2402)
 	Typeid int64 `json:"typeid,omitempty"`
 
 	// Definition of the rule that defines when the order fee will be applied
 	//
 	// Note: Not set when retrieving a list of order fees.
-	Rule *OrderFeeRule `json:"rule,omitempty"`
+	Rule *OrderfeeRule `json:"rule,omitempty"`
 
 	// Created timestamp
 	//
