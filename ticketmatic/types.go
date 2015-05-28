@@ -677,7 +677,43 @@ type Phonenumber struct {
 	Type string `json:"type,omitempty"`
 }
 
+// The rules for a priceavailability determine which pricetypes are active for
+// which saleschannels.
+//
+// The defaultsaleschannelids propertys lists the saleschannels for which all
+// pricetypes are available.
+//
+// The exceptions property can be used to define exceptions. Every pricetype that
+// is listed in an exception is only available for the saleschannels that are
+// listed in that exception. Thus if you add an exception for a specific pricetype
+// and list no saleschannels, it will not be available.
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/PriceAvailabilityRules).
 type PriceAvailabilityRules struct {
+	// The saleschannels for which all pricetypes (which are not listed in exception)
+	// are available.
+	Defaultsaleschannelids []int64 `json:"defaultsaleschannelids,omitempty"`
+
+	// A list of pricetypes which are available for specific saleschannels.
+	Exceptions []*PriceAvailabilityRuleException `json:"exceptions,omitempty"`
+}
+
+// More information can be found here
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/PriceAvailabilityRules)
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/PriceAvailabilityRuleException).
+type PriceAvailabilityRuleException struct {
+	// The pricetype for this exception.
+	Pricetypeid int64 `json:"pricetypeid,omitempty"`
+
+	// The sales channels for which this pricetype will be available. Can be empty.
+	Saleschannelids []int64 `json:"saleschannelids,omitempty"`
 }
 
 type PricelistPrices struct {
@@ -1745,7 +1781,8 @@ type PriceAvailability struct {
 	// Name for the price availability
 	Name string `json:"name,omitempty"`
 
-	// Definition of the rules that define which prices will be available when
+	// Definition of the rules that define which price types will be available for
+	// which sals channels.
 	//
 	// Note: Not set when retrieving a list of price availabilities.
 	Rules *PriceAvailabilityRules `json:"rules,omitempty"`
@@ -2310,8 +2347,6 @@ type OrderFee struct {
 	// Unique ID
 	//
 	// Note: Ignored when creating a new order fee.
-	//
-	// Note: Ignored when updating an existing order fee.
 	Id int64 `json:"id,omitempty"`
 
 	// Name for the order fee
@@ -2328,23 +2363,22 @@ type OrderFee struct {
 	// Created timestamp
 	//
 	// Note: Ignored when creating a new order fee.
-	//
-	// Note: Ignored when updating an existing order fee.
 	Createdts Time `json:"createdts,omitempty"`
 
 	// Last updated timestamp
 	//
 	// Note: Ignored when creating a new order fee.
-	//
-	// Note: Ignored when updating an existing order fee.
 	Lastupdatets Time `json:"lastupdatets,omitempty"`
 
 	// Whether or not this item is archived
 	//
 	// Note: Ignored when creating a new order fee.
-	//
-	// Note: Ignored when updating an existing order fee.
 	Isarchived bool `json:"isarchived,omitempty"`
+
+	// Archived timestamp
+	//
+	// Note: Ignored when creating a new order fee.
+	Archivedts Time `json:"archivedts,omitempty"`
 }
 
 // Set of parameters used to filter payment methods.
@@ -2510,13 +2544,16 @@ type PaymentScenario struct {
 	// Set of payment methods that are linked to this payment scenario
 	Paymentmethods []int64 `json:"paymentmethods,omitempty"`
 
-	// Link to the order mail template that will be sent as payment instruction
+	// Link to the order mail template that will be sent as payment instruction. Can be
+	// 0 to indicate that no mail should be sent
 	OrdermailtemplateidPaymentinstruction int64 `json:"ordermailtemplateid_paymentinstruction,omitempty"`
 
-	// Link to the order mail template that will be sent when the order is overdue
+	// Link to the order mail template that will be sent when the order is overdue. Can
+	// be 0 to indicate that no mail should be sent
 	OrdermailtemplateidOverdue int64 `json:"ordermailtemplateid_overdue,omitempty"`
 
-	// Link to the order mail template that will be sent when the order is expired
+	// Link to the order mail template that will be sent when the order is expired. Can
+	// be 0 to indicate that no mail should be sent
 	OrdermailtemplateidExpiry int64 `json:"ordermailtemplateid_expiry,omitempty"`
 
 	// Created timestamp
@@ -2595,7 +2632,8 @@ type SalesChannel struct {
 	// page.
 	Typeid int64 `json:"typeid,omitempty"`
 
-	// The ID of the order mail template to use for sending confirmations
+	// The ID of the order mail template to use for sending confirmations. Can be 0 to
+	// indicate that no mail should be sent
 	OrdermailtemplateidConfirmation int64 `json:"ordermailtemplateid_confirmation,omitempty"`
 
 	// Always send the confirmation, regardless of the payment method configuration

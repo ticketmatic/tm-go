@@ -53,22 +53,6 @@ func Create(client *ticketmatic.Client, data *ticketmatic.OrderFee) (*ticketmati
 	return obj, nil
 }
 
-// Modify an existing order fee
-func Update(client *ticketmatic.Client, id int64, data *ticketmatic.OrderFee) (*ticketmatic.OrderFee, error) {
-	r := client.NewRequest("PUT", "/{accountname}/settings/ticketsales/orderfees/{id}")
-	r.UrlParameters(map[string]interface{}{
-		"id": id,
-	})
-	r.Body(data)
-
-	var obj *ticketmatic.OrderFee
-	err := r.Run(&obj)
-	if err != nil {
-		return nil, err
-	}
-	return obj, nil
-}
-
 // Remove an order fee
 //
 // Order fees are archivable: this call won't actually delete the object from the
