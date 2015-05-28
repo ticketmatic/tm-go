@@ -1,5 +1,10 @@
 package ticketmatic
 
+import (
+	"encoding/json"
+	"strings"
+)
+
 // Address, used for physical deliveries and contact details.
 //
 // Help Center
@@ -187,6 +192,113 @@ type Contact struct {
 	//
 	// Note: Ignored when updating an existing contact.
 	Lastupdatets Time `json:"lastupdatets,omitempty"`
+
+	// Custom fields
+	CustomFields map[string]interface{} `json:"-"`
+}
+
+// Custom unmarshaller with support for custom fields
+func (o *Contact) UnmarshalJSON(data []byte) error {
+	// Alias the type, to avoid calling UnmarshalJSON. Unpack it.
+	type tmp Contact
+	var obj tmp
+	err := json.Unmarshal(data, &obj)
+	if err != nil {
+		return err
+	}
+
+	*o = Contact(obj)
+
+	// Unpack it again, this time to a map, so we can pull out the custom fields.
+	var raw map[string]interface{}
+	err = json.Unmarshal(data, &raw)
+	if err != nil {
+		return err
+	}
+
+	o.CustomFields = make(map[string]interface{})
+	for key, val := range raw {
+		if strings.HasPrefix(key, "c_") {
+			o.CustomFields[key[2:]] = val
+		}
+	}
+
+	// Note: We're doing a double JSON decode here, I'd love to get rid of it
+	// but I'm not sure how we can do this easily. Suggestions welcome:
+	// developers@ticketmatic.com!
+
+	return nil
+}
+
+// Custom marshaller with support for custom fields
+func (o *Contact) MarshalJSON() ([]byte, error) {
+	// Use a custom type to avoid the custom marshaller, marshal the data.
+	type tmp struct {
+		Id                   int64          `json:"id,omitempty"`
+		Email                string         `json:"email,omitempty"`
+		Customertitleid      int64          `json:"customertitleid,omitempty"`
+		Firstname            string         `json:"firstname,omitempty"`
+		Middlename           string         `json:"middlename,omitempty"`
+		Lastname             string         `json:"lastname,omitempty"`
+		Languagecode         string         `json:"languagecode,omitempty"`
+		Birthdate            Time           `json:"birthdate,omitempty"`
+		Company              string         `json:"company,omitempty"`
+		Organizationfunction string         `json:"organizationfunction,omitempty"`
+		Addresses            []*Address     `json:"addresses,omitempty"`
+		Vatnumber            string         `json:"vatnumber,omitempty"`
+		Phonenumbers         []*Phonenumber `json:"phonenumbers,omitempty"`
+		Relationtypes        []int64        `json:"relationtypes,omitempty"`
+		Subscribed           bool           `json:"subscribed,omitempty"`
+		Status               string         `json:"status,omitempty"`
+		AccountType          int64          `json:"account_type,omitempty"`
+		Isdeleted            bool           `json:"isdeleted,omitempty"`
+		Createdts            Time           `json:"createdts,omitempty"`
+		Lastupdatets         Time           `json:"lastupdatets,omitempty"`
+	}
+
+	obj := tmp{
+		Id:                   o.Id,
+		Email:                o.Email,
+		Customertitleid:      o.Customertitleid,
+		Firstname:            o.Firstname,
+		Middlename:           o.Middlename,
+		Lastname:             o.Lastname,
+		Languagecode:         o.Languagecode,
+		Birthdate:            o.Birthdate,
+		Company:              o.Company,
+		Organizationfunction: o.Organizationfunction,
+		Addresses:            o.Addresses,
+		Vatnumber:            o.Vatnumber,
+		Phonenumbers:         o.Phonenumbers,
+		Relationtypes:        o.Relationtypes,
+		Subscribed:           o.Subscribed,
+		Status:               o.Status,
+		AccountType:          o.AccountType,
+		Isdeleted:            o.Isdeleted,
+		Createdts:            o.Createdts,
+		Lastupdatets:         o.Lastupdatets,
+	}
+	data, err := json.Marshal(obj)
+	if err != nil {
+		return nil, err
+	}
+
+	// Unpack it again, to get the wire representation
+	var raw map[string]interface{}
+	err = json.Unmarshal(data, &raw)
+	if err != nil {
+		return nil, err
+	}
+
+	for key, val := range o.CustomFields {
+		raw["c_"+key] = val
+	}
+
+	// Pack it again
+	return json.Marshal(raw)
+
+	// Note: Like UnmarshalJSON, this is quite crazy. But it works beautifully.
+	// Know a way to do this better? Get in touch!
 }
 
 // A DeliveryscenarioAvailability defines when a delivery scenario
@@ -395,6 +507,135 @@ type Event struct {
 
 	// Last updated timestamp
 	Lastupdatets Time `json:"lastupdatets,omitempty"`
+
+	// Custom fields
+	CustomFields map[string]interface{} `json:"-"`
+}
+
+// Custom unmarshaller with support for custom fields
+func (o *Event) UnmarshalJSON(data []byte) error {
+	// Alias the type, to avoid calling UnmarshalJSON. Unpack it.
+	type tmp Event
+	var obj tmp
+	err := json.Unmarshal(data, &obj)
+	if err != nil {
+		return err
+	}
+
+	*o = Event(obj)
+
+	// Unpack it again, this time to a map, so we can pull out the custom fields.
+	var raw map[string]interface{}
+	err = json.Unmarshal(data, &raw)
+	if err != nil {
+		return err
+	}
+
+	o.CustomFields = make(map[string]interface{})
+	for key, val := range raw {
+		if strings.HasPrefix(key, "c_") {
+			o.CustomFields[key[2:]] = val
+		}
+	}
+
+	// Note: We're doing a double JSON decode here, I'd love to get rid of it
+	// but I'm not sure how we can do this easily. Suggestions welcome:
+	// developers@ticketmatic.com!
+
+	return nil
+}
+
+// Custom marshaller with support for custom fields
+func (o *Event) MarshalJSON() ([]byte, error) {
+	// Use a custom type to avoid the custom marshaller, marshal the data.
+	type tmp struct {
+		Id                             int64                `json:"id,omitempty"`
+		Name                           string               `json:"name,omitempty"`
+		Subtitle                       string               `json:"subtitle,omitempty"`
+		Subtitle2                      string               `json:"subtitle2,omitempty"`
+		Webremark                      string               `json:"webremark,omitempty"`
+		Startts                        Time                 `json:"startts,omitempty"`
+		Salestartts                    Time                 `json:"salestartts,omitempty"`
+		Saleendts                      Time                 `json:"saleendts,omitempty"`
+		Publishedts                    Time                 `json:"publishedts,omitempty"`
+		Endts                          Time                 `json:"endts,omitempty"`
+		Code                           string               `json:"code,omitempty"`
+		Externalcode                   string               `json:"externalcode,omitempty"`
+		Productionid                   int64                `json:"productionid,omitempty"`
+		Locationid                     int64                `json:"locationid,omitempty"`
+		Locationname                   string               `json:"locationname,omitempty"`
+		Seatingplanid                  int64                `json:"seatingplanid,omitempty"`
+		Seatingplanpricelistid         int64                `json:"seatingplanpricelistid,omitempty"`
+		Seatingplaneventspecificprices interface{}          `json:"seatingplaneventspecificprices,omitempty"`
+		Seatingplancontingents         interface{}          `json:"seatingplancontingents,omitempty"`
+		Contingents                    interface{}          `json:"contingents,omitempty"`
+		Priceavailabilityid            int64                `json:"priceavailabilityid,omitempty"`
+		Ticketfeeid                    int64                `json:"ticketfeeid,omitempty"`
+		Revenuesplitid                 int64                `json:"revenuesplitid,omitempty"`
+		Ticketlayoutid                 int64                `json:"ticketlayoutid,omitempty"`
+		Maxnbrofticketsperbasket       int64                `json:"maxnbrofticketsperbasket,omitempty"`
+		Currentstatus                  int64                `json:"currentstatus,omitempty"`
+		Prices                         interface{}          `json:"prices,omitempty"`
+		Saleschannels                  []*EventSalesChannel `json:"saleschannels,omitempty"`
+		Availability                   interface{}          `json:"availability,omitempty"`
+		Createdts                      Time                 `json:"createdts,omitempty"`
+		Lastupdatets                   Time                 `json:"lastupdatets,omitempty"`
+	}
+
+	obj := tmp{
+		Id:                             o.Id,
+		Name:                           o.Name,
+		Subtitle:                       o.Subtitle,
+		Subtitle2:                      o.Subtitle2,
+		Webremark:                      o.Webremark,
+		Startts:                        o.Startts,
+		Salestartts:                    o.Salestartts,
+		Saleendts:                      o.Saleendts,
+		Publishedts:                    o.Publishedts,
+		Endts:                          o.Endts,
+		Code:                           o.Code,
+		Externalcode:                   o.Externalcode,
+		Productionid:                   o.Productionid,
+		Locationid:                     o.Locationid,
+		Locationname:                   o.Locationname,
+		Seatingplanid:                  o.Seatingplanid,
+		Seatingplanpricelistid:         o.Seatingplanpricelistid,
+		Seatingplaneventspecificprices: o.Seatingplaneventspecificprices,
+		Seatingplancontingents:         o.Seatingplancontingents,
+		Contingents:                    o.Contingents,
+		Priceavailabilityid:            o.Priceavailabilityid,
+		Ticketfeeid:                    o.Ticketfeeid,
+		Revenuesplitid:                 o.Revenuesplitid,
+		Ticketlayoutid:                 o.Ticketlayoutid,
+		Maxnbrofticketsperbasket:       o.Maxnbrofticketsperbasket,
+		Currentstatus:                  o.Currentstatus,
+		Prices:                         o.Prices,
+		Saleschannels:                  o.Saleschannels,
+		Availability:                   o.Availability,
+		Createdts:                      o.Createdts,
+		Lastupdatets:                   o.Lastupdatets,
+	}
+	data, err := json.Marshal(obj)
+	if err != nil {
+		return nil, err
+	}
+
+	// Unpack it again, to get the wire representation
+	var raw map[string]interface{}
+	err = json.Unmarshal(data, &raw)
+	if err != nil {
+		return nil, err
+	}
+
+	for key, val := range o.CustomFields {
+		raw["c_"+key] = val
+	}
+
+	// Pack it again
+	return json.Marshal(raw)
+
+	// Note: Like UnmarshalJSON, this is quite crazy. But it works beautifully.
+	// Know a way to do this better? Get in touch!
 }
 
 // Information about the sales period for a specific sales channel
@@ -527,6 +768,119 @@ type Order struct {
 
 	// Last updated timestamp
 	Lastupdatets Time `json:"lastupdatets,omitempty"`
+
+	// Custom fields
+	CustomFields map[string]interface{} `json:"-"`
+}
+
+// Custom unmarshaller with support for custom fields
+func (o *Order) UnmarshalJSON(data []byte) error {
+	// Alias the type, to avoid calling UnmarshalJSON. Unpack it.
+	type tmp Order
+	var obj tmp
+	err := json.Unmarshal(data, &obj)
+	if err != nil {
+		return err
+	}
+
+	*o = Order(obj)
+
+	// Unpack it again, this time to a map, so we can pull out the custom fields.
+	var raw map[string]interface{}
+	err = json.Unmarshal(data, &raw)
+	if err != nil {
+		return err
+	}
+
+	o.CustomFields = make(map[string]interface{})
+	for key, val := range raw {
+		if strings.HasPrefix(key, "c_") {
+			o.CustomFields[key[2:]] = val
+		}
+	}
+
+	// Note: We're doing a double JSON decode here, I'd love to get rid of it
+	// but I'm not sure how we can do this easily. Suggestions welcome:
+	// developers@ticketmatic.com!
+
+	return nil
+}
+
+// Custom marshaller with support for custom fields
+func (o *Order) MarshalJSON() ([]byte, error) {
+	// Use a custom type to avoid the custom marshaller, marshal the data.
+	type tmp struct {
+		Orderid                   int64                  `json:"orderid,omitempty"`
+		Status                    int64                  `json:"status,omitempty"`
+		Code                      string                 `json:"code,omitempty"`
+		Customerid                int64                  `json:"customerid,omitempty"`
+		Isauthenticatedcustomer   bool                   `json:"isauthenticatedcustomer,omitempty"`
+		Totalamount               float64                `json:"totalamount,omitempty"`
+		Amountpaid                float64                `json:"amountpaid,omitempty"`
+		Paymentstatus             int64                  `json:"paymentstatus,omitempty"`
+		Deliverystatus            int64                  `json:"deliverystatus,omitempty"`
+		Deliveryaddress           *Address               `json:"deliveryaddress,omitempty"`
+		Deferredpaymentproperties interface{}            `json:"deferredpaymentproperties,omitempty"`
+		Saleschannelid            int64                  `json:"saleschannelid,omitempty"`
+		Paymentscenarioid         int64                  `json:"paymentscenarioid,omitempty"`
+		Deliveryscenarioid        int64                  `json:"deliveryscenarioid,omitempty"`
+		Rappelts                  Time                   `json:"rappelts,omitempty"`
+		Rappelsent                bool                   `json:"rappelsent,omitempty"`
+		Expiryts                  Time                   `json:"expiryts,omitempty"`
+		Tickets                   []*Ticket              `json:"tickets,omitempty"`
+		Payments                  interface{}            `json:"payments,omitempty"`
+		Lookup                    map[string]interface{} `json:"lookup,omitempty"`
+		Ordercosts                interface{}            `json:"ordercosts,omitempty"`
+		Createdts                 Time                   `json:"createdts,omitempty"`
+		Lastupdatets              Time                   `json:"lastupdatets,omitempty"`
+	}
+
+	obj := tmp{
+		Orderid:                   o.Orderid,
+		Status:                    o.Status,
+		Code:                      o.Code,
+		Customerid:                o.Customerid,
+		Isauthenticatedcustomer:   o.Isauthenticatedcustomer,
+		Totalamount:               o.Totalamount,
+		Amountpaid:                o.Amountpaid,
+		Paymentstatus:             o.Paymentstatus,
+		Deliverystatus:            o.Deliverystatus,
+		Deliveryaddress:           o.Deliveryaddress,
+		Deferredpaymentproperties: o.Deferredpaymentproperties,
+		Saleschannelid:            o.Saleschannelid,
+		Paymentscenarioid:         o.Paymentscenarioid,
+		Deliveryscenarioid:        o.Deliveryscenarioid,
+		Rappelts:                  o.Rappelts,
+		Rappelsent:                o.Rappelsent,
+		Expiryts:                  o.Expiryts,
+		Tickets:                   o.Tickets,
+		Payments:                  o.Payments,
+		Lookup:                    o.Lookup,
+		Ordercosts:                o.Ordercosts,
+		Createdts:                 o.Createdts,
+		Lastupdatets:              o.Lastupdatets,
+	}
+	data, err := json.Marshal(obj)
+	if err != nil {
+		return nil, err
+	}
+
+	// Unpack it again, to get the wire representation
+	var raw map[string]interface{}
+	err = json.Unmarshal(data, &raw)
+	if err != nil {
+		return nil, err
+	}
+
+	for key, val := range o.CustomFields {
+		raw["c_"+key] = val
+	}
+
+	// Pack it again
+	return json.Marshal(raw)
+
+	// Note: Like UnmarshalJSON, this is quite crazy. But it works beautifully.
+	// Know a way to do this better? Get in touch!
 }
 
 // More info about order fees can be found here
