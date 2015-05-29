@@ -5,21 +5,8 @@
 // In each price list prices are defined for a selection of price types.
 // Additionally, conditions for each price type can be defined.
 //
-// The possible conditions are:
-//
-// * Ticketlimit: There is a limited amount of tickets available for the selected
-// price type.
-//
-// * Date validity: The price type is only available in this period.
-//
-// * Promocode: The price type is only available if the customer provides a
-// promocode.
-//
-// * Customers tagged as: The price type is only available if the customer is
-// authenticated and has a certain tag.
-//
-// * Max number of tickets per customer: the maximum number of tickets a customer
-// can buy of this specific price type.
+// The possible conditions are listed in PricelistPriceCondition
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/PricelistPriceCondition).
 //
 // The prices for an event are defined by linking a price list to the event. The
 // same price list can be linked to multiple events.

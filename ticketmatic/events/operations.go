@@ -21,7 +21,7 @@ type Lookups struct {
 	Pricetypes map[string]*ticketmatic.PriceType `json:"pricetypes"`
 
 	// Seat ranks
-	Seatranks map[string]interface{} `json:"seatranks"`
+	Seatranks map[string]*ticketmatic.SeatRank `json:"seatranks"`
 }
 
 // Get a list of events

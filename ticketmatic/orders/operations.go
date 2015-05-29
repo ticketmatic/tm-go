@@ -36,10 +36,10 @@ type Lookups struct {
 	Saleschannels map[string]*ticketmatic.SalesChannel `json:"saleschannels"`
 
 	// Service charges
-	Servicecharges map[string]interface{} `json:"servicecharges"`
+	Servicecharges map[string]*ticketmatic.OrderFeeDefinition `json:"servicecharges"`
 
 	// Ticket types
-	Tickettypes map[string]interface{} `json:"tickettypes"`
+	Tickettypes map[string]*ticketmatic.OrderTickettype `json:"tickettypes"`
 }
 
 // Get a list of orders
