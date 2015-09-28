@@ -269,3 +269,20 @@ func Postticketsemaildelivery(client *ticketmatic.Client, id int64, data *ticket
 	}
 	return obj, nil
 }
+
+// Send the payment instruction e-mail for the order that is linked to the payment
+// scenario. Will only be sent if saldo <> 0 and paymentinstruction contains a
+// valid payment instruction template
+func Postticketsemailpaymentinstruction(client *ticketmatic.Client, id int64) (*ticketmatic.Order, error) {
+	r := client.NewRequest("POST", "/{accountname}/orders/{id}/tickets/emailpaymentinstruction")
+	r.UrlParameters(map[string]interface{}{
+		"id": id,
+	})
+
+	var obj *ticketmatic.Order
+	err := r.Run(&obj)
+	if err != nil {
+		return nil, err
+	}
+	return obj, nil
+}

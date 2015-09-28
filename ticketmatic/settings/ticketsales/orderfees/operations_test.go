@@ -55,6 +55,13 @@ func TestCreateAndDelete(t *testing.T) {
 	orderfeescript, err := Create(c, &ticketmatic.OrderFee{
 		Name: "Order fee script test",
 		Rule: &ticketmatic.OrderfeeRule{
+			Context: []*ticketmatic.OrderfeeScriptContext{
+				&ticketmatic.OrderfeeScriptContext{
+					Cacheable: true,
+					Key:       "test",
+					Query:     "select 27 as nbroftickets",
+				},
+			},
 			Script: "return 2;",
 		},
 		Typeid: 2402,
@@ -77,6 +84,14 @@ func TestCreateAndDelete(t *testing.T) {
 
 	if orderfeescript.Rule.Script != "return 2;" {
 		t.Errorf("Unexpected orderfeescript.Rule.Script, got %#v, expected %#v", orderfeescript.Rule.Script, "return 2;")
+	}
+
+	if orderfeescript.Rule.Context[0].Key != "test" {
+		t.Errorf("Unexpected orderfeescript.Rule.Context[0].Key, got %#v, expected %#v", orderfeescript.Rule.Context[0].Key, "test")
+	}
+
+	if orderfeescript.Rule.Context[0].Query != "select 27 as nbroftickets" {
+		t.Errorf("Unexpected orderfeescript.Rule.Context[0].Query, got %#v, expected %#v", orderfeescript.Rule.Context[0].Query, "select 27 as nbroftickets")
 	}
 
 	list, err := Getlist(c, &ticketmatic.OrderFeeQuery{})
