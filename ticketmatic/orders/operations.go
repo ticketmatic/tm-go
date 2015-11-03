@@ -40,6 +40,9 @@ type Lookups struct {
 
 	// Ticket types
 	Tickettypes map[string]*ticketmatic.OrderTickettype `json:"tickettypes"`
+
+	// Voucher codes
+	Vouchercodes map[string]string `json:"vouchercodes"`
 }
 
 // Get a list of orders

@@ -16,6 +16,7 @@ func Getlist(client *ticketmatic.Client, params *ticketmatic.TicketLayoutQuery) 
 	r.AddParameter("includearchived", params.Includearchived)
 	r.AddParameter("lastupdatesince", params.Lastupdatesince)
 	r.AddParameter("filter", params.Filter)
+	r.AddParameter("typeid", params.Typeid)
 
 	var obj *List
 	err := r.Run(&obj)

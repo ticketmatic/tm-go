@@ -1010,6 +1010,9 @@ type Order struct {
 	// Payments for the order
 	Payments []*Payment `json:"payments"`
 
+	// Queue tokens for rate limiting
+	Queuetokens []int64 `json:"queuetokens"`
+
 	// Related objects
 	//
 	// See the lookup fields on the getlist operation
@@ -1088,6 +1091,7 @@ func (o *Order) MarshalJSON() ([]byte, error) {
 		Expiryhandled             bool                   `json:"expiryhandled,omitempty"`
 		Tickets                   []*OrderTicket         `json:"tickets,omitempty"`
 		Payments                  []*Payment             `json:"payments,omitempty"`
+		Queuetokens               []int64                `json:"queuetokens,omitempty"`
 		Lookup                    map[string]interface{} `json:"lookup,omitempty"`
 		Ordercosts                []*Ordercost           `json:"ordercosts,omitempty"`
 		Createdts                 Time                   `json:"createdts,omitempty"`
@@ -1116,6 +1120,7 @@ func (o *Order) MarshalJSON() ([]byte, error) {
 		Expiryhandled:             o.Expiryhandled,
 		Tickets:                   o.Tickets,
 		Payments:                  o.Payments,
+		Queuetokens:               o.Queuetokens,
 		Lookup:                    o.Lookup,
 		Ordercosts:                o.Ordercosts,
 		Createdts:                 o.Createdts,
@@ -1280,6 +1285,9 @@ type OrderTicket struct {
 
 	// Contingent name
 	Tickettypename string `json:"tickettypename,omitempty"`
+
+	// The voucher code that was linked to this ticket
+	Vouchercodeid int64 `json:"vouchercodeid,omitempty"`
 }
 
 // A single payment.
@@ -1530,6 +1538,19 @@ type PricelistPrice struct {
 //
 //
 //
+// Voucherids
+//
+// When buying a ticket of this pricetype, a valid vouchercode with voucherid one
+// of the values should be attached to the ticket.
+//
+//
+//    {
+//        "type": "voucherids",
+//        "value": [1,2,3]
+//    }
+//
+//
+//
 // Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
@@ -1544,6 +1565,8 @@ type PricelistPriceCondition struct {
 	// * promocode
 	//
 	// * orderticketlimit
+	//
+	// * voucherids
 	Type string `json:"type,omitempty"`
 
 	// The value of this condition. See type for info about what should be filled in.
@@ -1602,6 +1625,27 @@ type TicketfeeSaleschannelRule struct {
 	// The value of this ticket fee. Can be an absolute amount (fixedfee) or a
 	// percentage (percentagefee). In both cases only provide a decimal.
 	Value float64 `json:"value,omitempty"`
+}
+
+// The definition of the validity of a voucher.
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/VoucherValidity).
+type VoucherValidity struct {
+	// The max number of times the vouchercode can be used
+	Maxusages int64 `json:"maxusages,omitempty"`
+
+	// The max number of times the vouchercode can be used for a single event
+	Maxusagesperevent int64 `json:"maxusagesperevent,omitempty"`
+
+	// The fixed expiry date for a voucher
+	ExpiryFixeddate Time `json:"expiry_fixeddate,omitempty"`
+
+	// The relative expiry date for a voucher: voucher code expires this number of
+	// months after creation
+	ExpiryMonthsaftercreation int64 `json:"expiry_monthsaftercreation,omitempty"`
 }
 
 // Configuration settings and parameters for a web sales skin
@@ -2241,6 +2285,9 @@ type TicketLayoutQuery struct {
 	// Filter the returned items by specifying a query on the public datamodel that
 	// returns the ids.
 	Filter string `json:"filter,omitempty"`
+
+	// Only return items with the given typeid.
+	Typeid int64 `json:"typeid,omitempty"`
 }
 
 // A single ticket layout.
@@ -2261,6 +2308,11 @@ type TicketLayout struct {
 	//
 	// Note: Ignored when updating an existing ticket layout.
 	Id int64 `json:"id,omitempty"`
+
+	// Type ID
+	//
+	// Note: Ignored when updating an existing ticket layout.
+	Typeid int64 `json:"typeid,omitempty"`
 
 	// Name for the ticket layout
 	Name string `json:"name,omitempty"`
@@ -3441,16 +3493,17 @@ type PaymentScenario struct {
 	// named VISA, this field can be used to distinguish them.
 	Internalremark string `json:"internalremark,omitempty"`
 
-	// Type for the payment scenario. Can be 'Immediate payment' (2701) or 'Deffered
-	// payment' (2702)
+	// Type for the payment scenario. Can be 'Immediate payment' (2701), 'Mollie bank
+	// transfer' (2702), 'Regular bank transfer' (2703), 'Deferred online payment'
+	// (2704), 'Deferred other' (2705).
 	Typeid int64 `json:"typeid,omitempty"`
 
-	// Rules that define when an order becomes overdue
+	// Rules that define when an order becomes overdue. Not used for type 2701.
 	//
 	// Note: Not set when retrieving a list of payment scenarios.
 	Overdueparameters *PaymentscenarioOverdueParameters `json:"overdueparameters,omitempty"`
 
-	// Rules that define when an order becomes expired
+	// Rules that define when an order becomes expired. Not used for type 2701.
 	//
 	// Note: Not set when retrieving a list of payment scenarios.
 	Expiryparameters *PaymentscenarioExpiryParameters `json:"expiryparameters,omitempty"`
@@ -3460,20 +3513,32 @@ type PaymentScenario struct {
 	// Note: Not set when retrieving a list of payment scenarios.
 	Availability *PaymentscenarioAvailability `json:"availability,omitempty"`
 
-	// Set of payment methods that are linked to this payment scenario
+	// Set of payment methods that are linked to this payment scenario. Depending on
+	// the type, this field has different usage.
 	Paymentmethods []int64 `json:"paymentmethods"`
 
 	// Link to the order mail template that will be sent as payment instruction. Can be
-	// 0 to indicate that no mail should be sent
+	// 0 to indicate that no mail should be sent. Not used for type 2701.
 	OrdermailtemplateidPaymentinstruction int64 `json:"ordermailtemplateid_paymentinstruction,omitempty"`
 
 	// Link to the order mail template that will be sent when the order is overdue. Can
-	// be 0 to indicate that no mail should be sent
+	// be 0 to indicate that no mail should be sent. Not used for type 2701.
 	OrdermailtemplateidOverdue int64 `json:"ordermailtemplateid_overdue,omitempty"`
 
 	// Link to the order mail template that will be sent when the order is expired. Can
-	// be 0 to indicate that no mail should be sent
+	// be 0 to indicate that no mail should be sent. Not used for type 2701.
 	OrdermailtemplateidExpiry int64 `json:"ordermailtemplateid_expiry,omitempty"`
+
+	// Bank account number to be used. Only used for type 2703 (Regular bank transfer)
+	Bankaccountnumber string `json:"bankaccountnumber,omitempty"`
+
+	// BIC code for the bank account number. Only used for type 2703 (Regular bank
+	// transfer)
+	Bankaccountbic string `json:"bankaccountbic,omitempty"`
+
+	// Beneficiary for the bank account number. Only used for type 2703 (Regular bank
+	// transfer)
+	Bankaccountbeneficiary string `json:"bankaccountbeneficiary,omitempty"`
 
 	// Created timestamp
 	//

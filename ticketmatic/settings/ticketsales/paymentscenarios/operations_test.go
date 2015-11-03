@@ -37,7 +37,7 @@ func TestCreate(t *testing.T) {
 			2,
 		},
 		Shortdescription: "Short test",
-		Typeid:           2702,
+		Typeid:           2705,
 	})
 	if err != nil {
 		t.Fatal(err)
@@ -47,8 +47,8 @@ func TestCreate(t *testing.T) {
 		t.Errorf("Unexpected paymentscenario.Id, got %#v, expected different value", paymentscenario.Id)
 	}
 
-	if paymentscenario.Typeid != 2702 {
-		t.Errorf("Unexpected paymentscenario.Typeid, got %#v, expected %#v", paymentscenario.Typeid, 2702)
+	if paymentscenario.Typeid != 2705 {
+		t.Errorf("Unexpected paymentscenario.Typeid, got %#v, expected %#v", paymentscenario.Typeid, 2705)
 	}
 
 	if paymentscenario.Name != "Payment scenario test" {
