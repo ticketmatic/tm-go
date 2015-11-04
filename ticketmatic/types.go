@@ -1907,6 +1907,21 @@ type OrderTickettype struct {
 	Fulltypename string `json:"fulltypename,omitempty"`
 }
 
+// Info for requesting an immediate payment in an order
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/Order).
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/PaymentRequest).
+type PaymentRequest struct {
+	// The returnurl that will be called after the payment request was done.
+	Returnurl string `json:"returnurl,omitempty"`
+
+	// The language to be used during the payment processing
+	Language string `json:"language,omitempty"`
+}
+
 // Request data used to add tickets
 // (https://apps.ticketmatic.com/#/knowledgebase/api/orders/addtickets) to an order
 // (https://apps.ticketmatic.com/#/knowledgebase/api/types/Order).

@@ -289,3 +289,36 @@ func Postticketsemailpaymentinstruction(client *ticketmatic.Client, id int64) (*
 	}
 	return obj, nil
 }
+
+// Create a payment request for an online payment for the order
+func Postpaymentrequest(client *ticketmatic.Client, id int64, data *ticketmatic.PaymentRequest) (*ticketmatic.Url, error) {
+	r := client.NewRequest("POST", "/{accountname}/orders/{id}/paymentrequest")
+	r.UrlParameters(map[string]interface{}{
+		"id": id,
+	})
+	r.Body(data)
+
+	var obj *ticketmatic.Url
+	err := r.Run(&obj)
+	if err != nil {
+		return nil, err
+	}
+	return obj, nil
+}
+
+// Get the PDF for a document for the order
+func Getdocument(client *ticketmatic.Client, id int64, documentid string, language string) (*ticketmatic.Url, error) {
+	r := client.NewRequest("GET", "/{accountname}/orders/{id}/documents/{documentid}/{language}")
+	r.UrlParameters(map[string]interface{}{
+		"id":         id,
+		"documentid": documentid,
+		"language":   language,
+	})
+
+	var obj *ticketmatic.Url
+	err := r.Run(&obj)
+	if err != nil {
+		return nil, err
+	}
+	return obj, nil
+}
