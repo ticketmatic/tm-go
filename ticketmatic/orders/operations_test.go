@@ -139,3 +139,77 @@ func TestCreate(t *testing.T) {
 	}
 
 }
+
+func TestCreatequeued(t *testing.T) {
+	var err error
+
+	accountcode := os.Getenv("TM_TEST_ACCOUNTCODE")
+	accesskey := os.Getenv("TM_TEST_ACCESSKEY")
+	secretkey := os.Getenv("TM_TEST_SECRETKEY")
+	c := ticketmatic.NewClient(accountcode, accesskey, secretkey)
+
+	_, err = Create(c, &ticketmatic.CreateOrder{
+		Events: []int64{
+			777714,
+		},
+		Saleschannelid: 1,
+	})
+	var exc *ticketmatic.QueueStatus
+	if err != nil {
+		if e, ok := err.(*ticketmatic.RateLimitError); ok {
+			exc = e.Status
+		} else {
+			t.Fatal(err)
+		}
+	}
+
+	if exc.Id == "" {
+		t.Errorf("Unexpected exc.Id, got %#v, expected different value", exc.Id)
+	}
+
+}
+
+func TestAddticketsqueued(t *testing.T) {
+	var err error
+
+	accountcode := os.Getenv("TM_TEST_ACCOUNTCODE")
+	accesskey := os.Getenv("TM_TEST_ACCESSKEY")
+	secretkey := os.Getenv("TM_TEST_SECRETKEY")
+	c := ticketmatic.NewClient(accountcode, accesskey, secretkey)
+
+	order, err := Create(c, &ticketmatic.CreateOrder{
+		Saleschannelid: 1,
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if order.Orderid == 0 {
+		t.Errorf("Unexpected order.Orderid, got %#v, expected different value", order.Orderid)
+	}
+
+	if order.Saleschannelid != 1 {
+		t.Errorf("Unexpected order.Saleschannelid, got %#v, expected %#v", order.Saleschannelid, 1)
+	}
+
+	_, err = Addtickets(c, order.Orderid, &ticketmatic.AddTickets{
+		Tickets: []*ticketmatic.CreateTicket{
+			&ticketmatic.CreateTicket{
+				Tickettypepriceid: 662,
+			},
+		},
+	})
+	var exc *ticketmatic.QueueStatus
+	if err != nil {
+		if e, ok := err.(*ticketmatic.RateLimitError); ok {
+			exc = e.Status
+		} else {
+			t.Fatal(err)
+		}
+	}
+
+	if exc.Id == "" {
+		t.Errorf("Unexpected exc.Id, got %#v, expected different value", exc.Id)
+	}
+
+}

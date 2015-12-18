@@ -28,7 +28,6 @@ type Lookups struct {
 func Getlist(client *ticketmatic.Client, params *ticketmatic.EventQuery) (*List, error) {
 	r := client.NewRequest("GET", "/{accountname}/events")
 	r.AddParameter("filter", params.Filter)
-	r.AddParameter("includearchived", params.Includearchived)
 	r.AddParameter("lastupdatesince", params.Lastupdatesince)
 	r.AddParameter("limit", params.Limit)
 	r.AddParameter("offset", params.Offset)

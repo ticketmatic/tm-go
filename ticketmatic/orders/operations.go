@@ -32,6 +32,9 @@ type Lookups struct {
 	// Price types
 	Pricetypes map[string]*ticketmatic.PriceType `json:"pricetypes"`
 
+	// Products
+	Products map[string]*ticketmatic.Product `json:"products"`
+
 	// Sales channels
 	Saleschannels map[string]*ticketmatic.SalesChannel `json:"saleschannels"`
 
@@ -88,6 +91,10 @@ func Get(client *ticketmatic.Client, id int64) (*ticketmatic.Order, error) {
 // Each order is linked to a sales channel
 // (https://apps.ticketmatic.com/#/knowledgebase/api/types/SalesChannel), which
 // needs to be supplied when creating.
+//
+// Note: This method may return a 429 Rate Limit Exceeded status when there is too
+// much demand. See the article about rate limiting (/TODO) for more information on
+// how to handle this.
 func Create(client *ticketmatic.Client, data *ticketmatic.CreateOrder) (*ticketmatic.Order, error) {
 	r := client.NewRequest("POST", "/{accountname}/orders")
 	r.Body(data)
@@ -134,6 +141,10 @@ func Confirm(client *ticketmatic.Client, id int64) (*ticketmatic.Order, error) {
 }
 
 // Add tickets to order
+//
+// Note: This method may return a 429 Rate Limit Exceeded status when there is too
+// much demand. See the article about rate limiting (/TODO) for more information on
+// how to handle this.
 func Addtickets(client *ticketmatic.Client, id int64, data *ticketmatic.AddTickets) (*ticketmatic.AddTicketsResult, error) {
 	r := client.NewRequest("POST", "/{accountname}/orders/{id}/tickets")
 	r.UrlParameters(map[string]interface{}{
@@ -241,9 +252,26 @@ func Getlogs(client *ticketmatic.Client, id int64) ([]*ticketmatic.LogItem, erro
 	return obj, nil
 }
 
-// Get the PDF for (some or all) tickets in the order
+// Get the PDF for (some or all) tickets in the order. DEPRECATED: Use /{id}/pdf
+// instead.
 func Postticketspdf(client *ticketmatic.Client, id int64, data *ticketmatic.TicketsPdfRequest) (*ticketmatic.Url, error) {
 	r := client.NewRequest("POST", "/{accountname}/orders/{id}/tickets/pdf")
+	r.UrlParameters(map[string]interface{}{
+		"id": id,
+	})
+	r.Body(data)
+
+	var obj *ticketmatic.Url
+	err := r.Run(&obj)
+	if err != nil {
+		return nil, err
+	}
+	return obj, nil
+}
+
+// Get the PDF for (some or all) tickets and/or vouchercodes in the order
+func Postpdf(client *ticketmatic.Client, id int64, data *ticketmatic.TicketsPdfRequest) (*ticketmatic.Url, error) {
+	r := client.NewRequest("POST", "/{accountname}/orders/{id}/pdf")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
 	})

@@ -22,6 +22,15 @@ var Server = "https://apps.ticketmatic.com"
 // API version
 var Version = "1"
 
+// Rate limit error
+type RateLimitError struct {
+	Status *QueueStatus
+}
+
+func (r *RateLimitError) Error() string {
+	return "Rate Limit Exceeded"
+}
+
 func init() {
 	s := os.Getenv("TM_TEST_SERVER")
 	if s != "" {
@@ -112,7 +121,16 @@ func (r *Request) Run(obj interface{}) error {
 	}
 	defer resp.Body.Close()
 
-	if resp.StatusCode != 200 {
+	if resp.StatusCode == 429 {
+		status := &QueueStatus{}
+		err = json.NewDecoder(resp.Body).Decode(status)
+		if err != nil {
+			return err
+		}
+		return &RateLimitError{
+			Status: status,
+		}
+	} else if resp.StatusCode != 200 {
 		body, _ := ioutil.ReadAll(resp.Body)
 		return fmt.Errorf("Failed (%d): %s", resp.StatusCode, string(body))
 	}

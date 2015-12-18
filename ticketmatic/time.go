@@ -48,6 +48,11 @@ func (t *Time) MarshalJSON() ([]byte, error) {
 
 // Parse Ticketmatic timestamps
 func ParseTime(s string) (time.Time, error) {
+	t, err := time.Parse(time.RFC3339, s)
+	if err == nil {
+		return t, nil
+	}
+
 	if len(s) >= 19 {
 		if s[10] == ' ' {
 			// We're not always fully consistent in date outputs (for

@@ -897,6 +897,20 @@ type EventSeatingplanContingent struct {
 	Amount int64 `json:"amount,omitempty"`
 }
 
+// Key-value item
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/KeyValueItem).
+type KeyValueItem struct {
+	// Key
+	Key string `json:"key,omitempty"`
+
+	// Value
+	Value string `json:"value,omitempty"`
+}
+
 // A single Order.
 //
 // Help Center
@@ -1007,11 +1021,17 @@ type Order struct {
 	// Tickets in the order
 	Tickets []*OrderTicket `json:"tickets"`
 
+	// Products in the order
+	Products []*OrderProduct `json:"products"`
+
 	// Payments for the order
 	Payments []*Payment `json:"payments"`
 
 	// Queue tokens for rate limiting
 	Queuetokens []int64 `json:"queuetokens"`
+
+	// Promocodes active for the Order
+	Promocodes []string `json:"promocodes"`
 
 	// Related objects
 	//
@@ -1090,8 +1110,10 @@ func (o *Order) MarshalJSON() ([]byte, error) {
 		Expiryts                  Time                   `json:"expiryts,omitempty"`
 		Expiryhandled             bool                   `json:"expiryhandled,omitempty"`
 		Tickets                   []*OrderTicket         `json:"tickets,omitempty"`
+		Products                  []*OrderProduct        `json:"products,omitempty"`
 		Payments                  []*Payment             `json:"payments,omitempty"`
 		Queuetokens               []int64                `json:"queuetokens,omitempty"`
+		Promocodes                []string               `json:"promocodes,omitempty"`
 		Lookup                    map[string]interface{} `json:"lookup,omitempty"`
 		Ordercosts                []*Ordercost           `json:"ordercosts,omitempty"`
 		Createdts                 Time                   `json:"createdts,omitempty"`
@@ -1119,8 +1141,10 @@ func (o *Order) MarshalJSON() ([]byte, error) {
 		Expiryts:                  o.Expiryts,
 		Expiryhandled:             o.Expiryhandled,
 		Tickets:                   o.Tickets,
+		Products:                  o.Products,
 		Payments:                  o.Payments,
 		Queuetokens:               o.Queuetokens,
+		Promocodes:                o.Promocodes,
 		Lookup:                    o.Lookup,
 		Ordercosts:                o.Ordercosts,
 		Createdts:                 o.Createdts,
@@ -1235,6 +1259,35 @@ type OrderfeeAutoRule struct {
 	// The value (amount) that will be added to the order. Is required if the order fee
 	// type is set to automatic.
 	Value float64 `json:"value,omitempty"`
+}
+
+// A single product in an order.
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/OrderProduct).
+type OrderProduct struct {
+	// Orderproduct ID
+	Id int64 `json:"id,omitempty"`
+
+	// Unique code for this orderproduct
+	Code string `json:"code,omitempty"`
+
+	// Order ID
+	Orderid int64 `json:"orderid,omitempty"`
+
+	// Product ID
+	Productid int64 `json:"productid,omitempty"`
+
+	// Property values for this product
+	Properties map[string]string `json:"properties,omitempty"`
+
+	// Ticket price
+	Price float64 `json:"price,omitempty"`
+
+	// Vouchercode ID for the voucher that is linked to this orderproduct
+	Vouchercodeid int64 `json:"vouchercodeid,omitempty"`
 }
 
 // A single ticket in an order.
@@ -1573,6 +1626,96 @@ type PricelistPriceCondition struct {
 	Value interface{} `json:"value,omitempty"`
 }
 
+// Product price
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/ProductPrice).
+type ProductPrice struct {
+	// Default price
+	Default float64 `json:"default,omitempty"`
+
+	// Exceptions on the default price
+	Exceptions []*ProductPriceException `json:"exceptions"`
+}
+
+// Product price exception
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/ProductPriceException).
+type ProductPriceException struct {
+	// Properties for which this exception is valid
+	Properties map[string]string `json:"properties,omitempty"`
+
+	// Value for this exception
+	Value float64 `json:"value,omitempty"`
+}
+
+// Product property
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/ProductProperty).
+type ProductProperty struct {
+	// Key
+	Key string `json:"key,omitempty"`
+
+	// Name
+	Name string `json:"name,omitempty"`
+
+	// Values
+	Values []*KeyValueItem `json:"values"`
+
+	// Description
+	Description string `json:"description,omitempty"`
+}
+
+// Product voucher
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/ProductVoucher).
+type ProductVoucher struct {
+	// Default voucher
+	Default *ProductVoucherValue `json:"default,omitempty"`
+
+	// Exceptions on the default voucher
+	Exceptions []*ProductVoucherException `json:"exceptions"`
+}
+
+// Product voucher exception
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/ProductVoucherException).
+type ProductVoucherException struct {
+	// Properties for which this exception is valid
+	Properties map[string]string `json:"properties,omitempty"`
+
+	// Value for this exception
+	Value *ProductVoucherValue `json:"value,omitempty"`
+}
+
+// Product Voucher Value
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/ProductVoucherValue).
+type ProductVoucherValue struct {
+	// Voucher id
+	Voucherid int64 `json:"voucherid,omitempty"`
+
+	// Amount (only used for vouchers of type Payment)
+	Amount float64 `json:"amount,omitempty"`
+}
+
 // Defines which fees are active for specific price types and sales channels. It's
 // possible to define a fixed fee and a percentage based fee. The default rule (if
 // none is specified for a specific sales channel) is always a fixed fee of 0.
@@ -1753,9 +1896,6 @@ type EventQuery struct {
 	// (/db/event) for more information.
 	Filter string `json:"filter,omitempty"`
 
-	// If this parameter is true, archived items will be returned as well.
-	Includearchived bool `json:"includearchived,omitempty"`
-
 	// Only include events that have been updated since the given timestamp.
 	Lastupdatesince Time `json:"lastupdatesince,omitempty"`
 
@@ -1812,6 +1952,10 @@ type EventQuery struct {
 type EventFilter struct {
 	// The ID of the production
 	Productionid int64 `json:"productionid,omitempty"`
+
+	// The event status. By default, events with status Active or Closed will be
+	// returned
+	Status int64 `json:"status,omitempty"`
 }
 
 // Used when requesting events, to restrict the event information to a specific
@@ -1840,6 +1984,16 @@ type EventContext struct {
 type CreateOrder struct {
 	// Sales channel in which this order is created
 	Saleschannelid int64 `json:"saleschannelid,omitempty"`
+
+	// Event IDs that might end up in this order, used to hint the rate limiter
+	// (https://apps.ticketmatic.com/#/knowledgebase/api/ratelimiting) of what might
+	// come.
+	Events []int64 `json:"events"`
+
+	// Product IDs that might end up in this order, used to hint the rate limiter
+	// (https://apps.ticketmatic.com/#/knowledgebase/api/ratelimiting) of what might
+	// come.
+	Products []int64 `json:"products"`
 }
 
 // Info for adding a ticket
@@ -1855,8 +2009,8 @@ type CreateTicket struct {
 	Tickettypepriceid int64 `json:"tickettypepriceid,omitempty"`
 }
 
-// Info for requesting a PDF ticket for one or more tickets in an order
-// (https://apps.ticketmatic.com/#/knowledgebase/api/types/Order).
+// Info for requesting a PDF ticket for one or more tickets or vouchercodes in an
+// order (https://apps.ticketmatic.com/#/knowledgebase/api/types/Order).
 //
 // Help Center
 //
@@ -1864,7 +2018,10 @@ type CreateTicket struct {
 // (https://apps.ticketmatic.com/#/knowledgebase/api/types/TicketsPdfRequest).
 type TicketsPdfRequest struct {
 	// Ticketids
-	Ticketids []int64 `json:"ticketids"`
+	Tickets []int64 `json:"tickets"`
+
+	// Vouchercodeids
+	Vouchercodes []int64 `json:"vouchercodes"`
 }
 
 // Info for requesting a e-mail delivery for an order
@@ -2179,6 +2336,39 @@ type LogItem struct {
 
 	// Lookup info
 	Lookupinfo map[string]interface{} `json:"lookupinfo,omitempty"`
+}
+
+// Rate limiting status. See rate limiting
+// (https://apps.ticketmatic.com/#/knowledgebase/api/ratelimiting) for more details
+// on rate limiting.
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/QueueStatus).
+type QueueStatus struct {
+	// Queueing ID, used to request status updates
+	Id string `json:"id,omitempty"`
+
+	// Status code: 1: wait more, 2: ready to proceed
+	Progress int64 `json:"progress,omitempty"`
+
+	// Number of people waiting ahead. Might not be returned when the queue hasn't
+	// started yet.
+	Ahead int64 `json:"ahead,omitempty"`
+
+	// Number of milliseconds to wait before requesting a new status update
+	Backoff int64 `json:"backoff,omitempty"`
+
+	// Whether the queue has started
+	Started bool `json:"started,omitempty"`
+
+	// When the queue will start
+	Starttime Time `json:"starttime,omitempty"`
+
+	// The ID of the newly created order. Only returned when a throttled "create order"
+	// call has finished queueing.
+	Orderid int64 `json:"orderid,omitempty"`
 }
 
 // Set of parameters used to filter order mail templates.
@@ -2942,6 +3132,119 @@ type TicketFee struct {
 	// Note: Ignored when creating a new ticket fee.
 	//
 	// Note: Ignored when updating an existing ticket fee.
+	Isarchived bool `json:"isarchived,omitempty"`
+}
+
+// Set of parameters used to filter products.
+//
+// More info: see product
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/Product), the getlist
+// operation
+// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_products/getlist) and
+// the products endpoint
+// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_products).
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/ProductQuery).
+type ProductQuery struct {
+	// If this parameter is true, archived items will be returned as well.
+	Includearchived bool `json:"includearchived,omitempty"`
+
+	// All items that were updated since this timestamp will be returned. Timestamp
+	// should be passed in YYYY-MM-DD hh:mm:ss format.
+	Lastupdatesince Time `json:"lastupdatesince,omitempty"`
+
+	// Filter the returned items by specifying a query on the public datamodel that
+	// returns the ids.
+	Filter string `json:"filter,omitempty"`
+
+	// Only return items with the given typeid.
+	Typeid int64 `json:"typeid,omitempty"`
+}
+
+// A single product.
+//
+// More info: see the get operation
+// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_products/get) and the
+// products endpoint
+// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_products).
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/Product).
+type Product struct {
+	// Unique ID
+	//
+	// Note: Ignored when creating a new product.
+	//
+	// Note: Ignored when updating an existing product.
+	Id int64 `json:"id,omitempty"`
+
+	// Type ID
+	//
+	// Note: Ignored when updating an existing product.
+	Typeid int64 `json:"typeid,omitempty"`
+
+	// Unique 12-digit for the product
+	Code string `json:"code,omitempty"`
+
+	// Name for the product
+	Name string `json:"name,omitempty"`
+
+	// Description for the product
+	Description string `json:"description,omitempty"`
+
+	// Definition of possible properties for the product
+	Properties []*ProductProperty `json:"properties"`
+
+	// Definition of the price for the product
+	//
+	// Note: Not set when retrieving a list of products.
+	Price *ProductPrice `json:"price,omitempty"`
+
+	// Definition of the voucher that needs to be created for the product
+	//
+	// Note: Not set when retrieving a list of products.
+	Voucher *ProductVoucher `json:"voucher,omitempty"`
+
+	// Start of sales
+	Salestartts Time `json:"salestartts,omitempty"`
+
+	// End of sales
+	Saleendts Time `json:"saleendts,omitempty"`
+
+	// Sales is active for these saleschannels
+	//
+	// Note: Not set when retrieving a list of products.
+	Saleschannels []int64 `json:"saleschannels"`
+
+	// Translations for the product properties
+	//
+	// Note: Not set when retrieving a list of products.
+	Translations map[string]string `json:"translations,omitempty"`
+
+	// Created timestamp
+	//
+	// Note: Ignored when creating a new product.
+	//
+	// Note: Ignored when updating an existing product.
+	Createdts Time `json:"createdts,omitempty"`
+
+	// Last updated timestamp
+	//
+	// Note: Ignored when creating a new product.
+	//
+	// Note: Ignored when updating an existing product.
+	Lastupdatets Time `json:"lastupdatets,omitempty"`
+
+	// Whether or not this item is archived
+	//
+	// Note: Ignored when creating a new product.
+	//
+	// Note: Ignored when updating an existing product.
 	Isarchived bool `json:"isarchived,omitempty"`
 }
 
