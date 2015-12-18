@@ -160,6 +160,29 @@
 //
 // Rate limiting in libraries
 //
+// Go
+//
+// A rate limited call will return a RateLimitError. This error has a status field
+// which contains the rate limiting info.
+//
+//
+//    _, err = orders.Create(c, &ticketmatic.CreateOrder{
+//        Events: []int64{
+//            777714,
+//        },
+//        Saleschannelid: 1,
+//    })
+//    if err != nil {
+//        if e, ok := err.(*ticketmatic.RateLimitError); ok {
+//            // Do something useful with e:
+//            return fmt.Errorf("Need to queue with ID %s\n", e.Status.Id)
+//        } else {
+//            return err
+//        }
+//    }
+//
+//
+//
 // PHP
 //
 // A rate limited call will throw a RateLimitException. This exception has a data
