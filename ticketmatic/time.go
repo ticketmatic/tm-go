@@ -37,7 +37,7 @@ func (t *Time) UnmarshalJSON(data []byte) error {
 	if err != nil {
 		return err
 	}
-	t.ts = ts
+	t.ts = ts.In(time.Local)
 	return nil
 }
 
