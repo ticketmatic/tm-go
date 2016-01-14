@@ -61,8 +61,6 @@ func Get(client *ticketmatic.Client, id int64) (*ticketmatic.Event, error) {
 }
 
 // Create a new event
-//
-// Creates a new event.
 func Create(client *ticketmatic.Client, data *ticketmatic.Event) (*ticketmatic.Event, error) {
 	r := client.NewRequest("POST", "/{accountname}/events")
 	r.Body(data)
@@ -89,4 +87,14 @@ func Update(client *ticketmatic.Client, id int64, data *ticketmatic.Event) (*tic
 		return nil, err
 	}
 	return obj, nil
+}
+
+// Delete an event
+func Delete(client *ticketmatic.Client, id int64) error {
+	r := client.NewRequest("DELETE", "/{accountname}/events/{id}")
+	r.UrlParameters(map[string]interface{}{
+		"id": id,
+	})
+
+	return r.Run(nil)
 }
