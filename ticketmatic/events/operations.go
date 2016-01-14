@@ -59,3 +59,34 @@ func Get(client *ticketmatic.Client, id int64) (*ticketmatic.Event, error) {
 	}
 	return obj, nil
 }
+
+// Create a new event
+//
+// Creates a new event.
+func Create(client *ticketmatic.Client, data *ticketmatic.Event) (*ticketmatic.Event, error) {
+	r := client.NewRequest("POST", "/{accountname}/events")
+	r.Body(data)
+
+	var obj *ticketmatic.Event
+	err := r.Run(&obj)
+	if err != nil {
+		return nil, err
+	}
+	return obj, nil
+}
+
+// Update an event
+func Update(client *ticketmatic.Client, id int64, data *ticketmatic.Event) (*ticketmatic.Event, error) {
+	r := client.NewRequest("PUT", "/{accountname}/events/{id}")
+	r.UrlParameters(map[string]interface{}{
+		"id": id,
+	})
+	r.Body(data)
+
+	var obj *ticketmatic.Event
+	err := r.Run(&obj)
+	if err != nil {
+		return nil, err
+	}
+	return obj, nil
+}

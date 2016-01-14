@@ -423,6 +423,10 @@ type DeliveryscenarioAvailability struct {
 // (https://apps.ticketmatic.com/#/knowledgebase/api/types/Event).
 type Event struct {
 	// Event ID
+	//
+	// Note: Ignored when creating a new event.
+	//
+	// Note: Ignored when updating an existing event.
 	Id int64 `json:"id,omitempty"`
 
 	// Event name
@@ -451,6 +455,10 @@ type Event struct {
 	Saleendts Time `json:"saleendts,omitempty"`
 
 	// Event publish time
+	//
+	// Note: Ignored when creating a new event.
+	//
+	// Note: Ignored when updating an existing event.
 	Publishedts Time `json:"publishedts,omitempty"`
 
 	// Event end time
@@ -459,6 +467,10 @@ type Event struct {
 	// Event code.
 	//
 	// Used as a unique identifier in web sales.
+	//
+	// Note: Ignored when creating a new event.
+	//
+	// Note: Ignored when updating an existing event.
 	Code string `json:"code,omitempty"`
 
 	// External event code.
@@ -479,6 +491,10 @@ type Event struct {
 	// Event location name
 	//
 	// Automatically derived using locationid.
+	//
+	// Note: Ignored when creating a new event.
+	//
+	// Note: Ignored when updating an existing event.
 	Locationname string `json:"locationname,omitempty"`
 
 	// Seating plan ID
@@ -503,6 +519,10 @@ type Event struct {
 	Seatingplaneventspecificprices *PricelistPrices `json:"seatingplaneventspecificprices,omitempty"`
 
 	// Information about the contingents defined in the seatingplan. Read-only.
+	//
+	// Note: Ignored when creating a new event.
+	//
+	// Note: Ignored when updating an existing event.
 	Seatingplancontingents []*EventSeatingplanContingent `json:"seatingplancontingents"`
 
 	// Information about the contingents in the Event that are not in the seatingplan
@@ -542,18 +562,38 @@ type Event struct {
 	Currentstatus int64 `json:"currentstatus,omitempty"`
 
 	// Information on the available prices for the event
+	//
+	// Note: Ignored when creating a new event.
+	//
+	// Note: Ignored when updating an existing event.
 	Prices *EventPrices `json:"prices,omitempty"`
 
 	// Per-sales channel information about when this event is for sale.
+	//
+	// Note: Ignored when creating a new event.
+	//
+	// Note: Ignored when updating an existing event.
 	Saleschannels []*EventSalesChannel `json:"saleschannels"`
 
 	// Information on the availability of tickets per contingent. Read-only.
+	//
+	// Note: Ignored when creating a new event.
+	//
+	// Note: Ignored when updating an existing event.
 	Availability []*EventContingentAvailability `json:"availability"`
 
 	// Created timestamp
+	//
+	// Note: Ignored when creating a new event.
+	//
+	// Note: Ignored when updating an existing event.
 	Createdts Time `json:"createdts,omitempty"`
 
 	// Last updated timestamp
+	//
+	// Note: Ignored when creating a new event.
+	//
+	// Note: Ignored when updating an existing event.
 	Lastupdatets Time `json:"lastupdatets,omitempty"`
 
 	// Custom fields
