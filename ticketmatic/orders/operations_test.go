@@ -163,6 +163,10 @@ func TestCreatequeued(t *testing.T) {
 		}
 	}
 
+	if exc == nil {
+		t.Fatal("Expected a rate limiting error")
+	}
+
 	if exc.Id == "" {
 		t.Errorf("Unexpected exc.Id, got %#v, expected different value", exc.Id)
 	}
@@ -206,6 +210,10 @@ func TestAddticketsqueued(t *testing.T) {
 		} else {
 			t.Fatal(err)
 		}
+	}
+
+	if exc == nil {
+		t.Fatal("Expected a rate limiting error")
 	}
 
 	if exc.Id == "" {
