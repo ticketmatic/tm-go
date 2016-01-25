@@ -13,10 +13,12 @@ type List struct {
 // Get a list of products
 func Getlist(client *ticketmatic.Client, params *ticketmatic.ProductQuery) (*List, error) {
 	r := client.NewRequest("GET", "/{accountname}/settings/products")
-	r.AddParameter("includearchived", params.Includearchived)
-	r.AddParameter("lastupdatesince", params.Lastupdatesince)
-	r.AddParameter("filter", params.Filter)
-	r.AddParameter("typeid", params.Typeid)
+	if params != nil {
+		r.AddParameter("includearchived", params.Includearchived)
+		r.AddParameter("lastupdatesince", params.Lastupdatesince)
+		r.AddParameter("filter", params.Filter)
+		r.AddParameter("typeid", params.Typeid)
+	}
 
 	var obj *List
 	err := r.Run(&obj)

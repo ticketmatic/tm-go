@@ -13,8 +13,10 @@ type List struct {
 // Get a list of web sales skins
 func Getlist(client *ticketmatic.Client, params *ticketmatic.WebSalesSkinQuery) (*List, error) {
 	r := client.NewRequest("GET", "/{accountname}/settings/communicationanddesign/webskins")
-	r.AddParameter("lastupdatesince", params.Lastupdatesince)
-	r.AddParameter("filter", params.Filter)
+	if params != nil {
+		r.AddParameter("lastupdatesince", params.Lastupdatesince)
+		r.AddParameter("filter", params.Filter)
+	}
 
 	var obj *List
 	err := r.Run(&obj)

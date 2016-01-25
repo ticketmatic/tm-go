@@ -13,9 +13,11 @@ type List struct {
 // Get a list of event locations
 func Getlist(client *ticketmatic.Client, params *ticketmatic.EventLocationQuery) (*List, error) {
 	r := client.NewRequest("GET", "/{accountname}/settings/events/eventlocations")
-	r.AddParameter("includearchived", params.Includearchived)
-	r.AddParameter("lastupdatesince", params.Lastupdatesince)
-	r.AddParameter("filter", params.Filter)
+	if params != nil {
+		r.AddParameter("includearchived", params.Includearchived)
+		r.AddParameter("lastupdatesince", params.Lastupdatesince)
+		r.AddParameter("filter", params.Filter)
+	}
 
 	var obj *List
 	err := r.Run(&obj)

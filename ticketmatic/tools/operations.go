@@ -29,9 +29,11 @@ func Queries(client *ticketmatic.Client, data *ticketmatic.QueryRequest) (*ticke
 // month. These statistics are often used as basis for invoicing or reporting.
 func Ticketsprocessedstatistics(client *ticketmatic.Client, params *ticketmatic.TicketsprocessedRequest) (*ticketmatic.TicketsprocessedStatistics, error) {
 	r := client.NewRequest("GET", "/{accountname}/tools/ticketsprocessedstatistics")
-	r.AddParameter("startts", params.Startts)
-	r.AddParameter("endts", params.Endts)
-	r.AddParameter("groupby", params.Groupby)
+	if params != nil {
+		r.AddParameter("startts", params.Startts)
+		r.AddParameter("endts", params.Endts)
+		r.AddParameter("groupby", params.Groupby)
+	}
 
 	var obj *ticketmatic.TicketsprocessedStatistics
 	err := r.Run(&obj)

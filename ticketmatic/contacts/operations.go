@@ -13,14 +13,16 @@ type List struct {
 // Get a list of contacts
 func Getlist(client *ticketmatic.Client, params *ticketmatic.ContactQuery) (*List, error) {
 	r := client.NewRequest("GET", "/{accountname}/contacts")
-	r.AddParameter("filter", params.Filter)
-	r.AddParameter("includearchived", params.Includearchived)
-	r.AddParameter("lastupdatesince", params.Lastupdatesince)
-	r.AddParameter("limit", params.Limit)
-	r.AddParameter("offset", params.Offset)
-	r.AddParameter("orderby", params.Orderby)
-	r.AddParameter("output", params.Output)
-	r.AddParameter("searchterm", params.Searchterm)
+	if params != nil {
+		r.AddParameter("filter", params.Filter)
+		r.AddParameter("includearchived", params.Includearchived)
+		r.AddParameter("lastupdatesince", params.Lastupdatesince)
+		r.AddParameter("limit", params.Limit)
+		r.AddParameter("offset", params.Offset)
+		r.AddParameter("orderby", params.Orderby)
+		r.AddParameter("output", params.Output)
+		r.AddParameter("searchterm", params.Searchterm)
+	}
 
 	var obj *List
 	err := r.Run(&obj)

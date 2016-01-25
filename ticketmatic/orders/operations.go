@@ -51,15 +51,17 @@ type Lookups struct {
 // Get a list of orders
 func Getlist(client *ticketmatic.Client, params *ticketmatic.OrderQuery) (*List, error) {
 	r := client.NewRequest("GET", "/{accountname}/orders")
-	r.AddParameter("filter", params.Filter)
-	r.AddParameter("includearchived", params.Includearchived)
-	r.AddParameter("lastupdatesince", params.Lastupdatesince)
-	r.AddParameter("limit", params.Limit)
-	r.AddParameter("offset", params.Offset)
-	r.AddParameter("orderby", params.Orderby)
-	r.AddParameter("output", params.Output)
-	r.AddParameter("searchterm", params.Searchterm)
-	r.AddParameter("simplefilter", params.Simplefilter)
+	if params != nil {
+		r.AddParameter("filter", params.Filter)
+		r.AddParameter("includearchived", params.Includearchived)
+		r.AddParameter("lastupdatesince", params.Lastupdatesince)
+		r.AddParameter("limit", params.Limit)
+		r.AddParameter("offset", params.Offset)
+		r.AddParameter("orderby", params.Orderby)
+		r.AddParameter("output", params.Output)
+		r.AddParameter("searchterm", params.Searchterm)
+		r.AddParameter("simplefilter", params.Simplefilter)
+	}
 
 	var obj *List
 	err := r.Run(&obj)

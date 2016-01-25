@@ -13,9 +13,11 @@ type List struct {
 // Get a list of order fee definitions
 func Getlist(client *ticketmatic.Client, params *ticketmatic.OrderFeeDefinitionQuery) (*List, error) {
 	r := client.NewRequest("GET", "/{accountname}/settings/pricing/orderfeedefinitions")
-	r.AddParameter("includearchived", params.Includearchived)
-	r.AddParameter("lastupdatesince", params.Lastupdatesince)
-	r.AddParameter("filter", params.Filter)
+	if params != nil {
+		r.AddParameter("includearchived", params.Includearchived)
+		r.AddParameter("lastupdatesince", params.Lastupdatesince)
+		r.AddParameter("filter", params.Filter)
+	}
 
 	var obj *List
 	err := r.Run(&obj)

@@ -27,15 +27,17 @@ type Lookups struct {
 // Get a list of events
 func Getlist(client *ticketmatic.Client, params *ticketmatic.EventQuery) (*List, error) {
 	r := client.NewRequest("GET", "/{accountname}/events")
-	r.AddParameter("filter", params.Filter)
-	r.AddParameter("lastupdatesince", params.Lastupdatesince)
-	r.AddParameter("limit", params.Limit)
-	r.AddParameter("offset", params.Offset)
-	r.AddParameter("orderby", params.Orderby)
-	r.AddParameter("output", params.Output)
-	r.AddParameter("searchterm", params.Searchterm)
-	r.AddParameter("simplefilter", params.Simplefilter)
-	r.AddParameter("context", params.Context)
+	if params != nil {
+		r.AddParameter("filter", params.Filter)
+		r.AddParameter("lastupdatesince", params.Lastupdatesince)
+		r.AddParameter("limit", params.Limit)
+		r.AddParameter("offset", params.Offset)
+		r.AddParameter("orderby", params.Orderby)
+		r.AddParameter("output", params.Output)
+		r.AddParameter("searchterm", params.Searchterm)
+		r.AddParameter("simplefilter", params.Simplefilter)
+		r.AddParameter("context", params.Context)
+	}
 
 	var obj *List
 	err := r.Run(&obj)
