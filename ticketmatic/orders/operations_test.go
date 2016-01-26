@@ -5,6 +5,7 @@ import (
 	"testing"
 
 	"github.com/ticketmatic/tm-go/ticketmatic"
+	"github.com/ticketmatic/tm-go/ticketmatic/events"
 )
 
 func TestGet(t *testing.T) {
@@ -196,10 +197,19 @@ func TestAddticketsqueued(t *testing.T) {
 		t.Errorf("Unexpected order.Saleschannelid, got %#v, expected %#v", order.Saleschannelid, 1)
 	}
 
+	ttps, err := events.Get(c, 777713)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if ttps.Id == 0 {
+		t.Errorf("Unexpected ttps.Id, got %#v, expected different value", ttps.Id)
+	}
+
 	_, err = Addtickets(c, order.Orderid, &ticketmatic.AddTickets{
 		Tickets: []*ticketmatic.CreateTicket{
 			&ticketmatic.CreateTicket{
-				Tickettypepriceid: 662,
+				Tickettypepriceid: ttps.Prices.Contingents[0].Pricetypes[0].Tickettypepriceid,
 			},
 		},
 	})

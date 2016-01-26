@@ -417,6 +417,16 @@ type DeliveryscenarioAvailability struct {
 
 // A single Event.
 //
+// Status
+//
+// The currentstatus field of an event can have any of the following values:
+//
+// * Draft (19001)
+//
+// * Active (19002)
+//
+// * Closed (19003)
+//
 // Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
@@ -559,6 +569,9 @@ type Event struct {
 	Maxnbrofticketsperbasket int64 `json:"maxnbrofticketsperbasket,omitempty"`
 
 	// Event status
+	//
+	// The available values for this field can be found on the price type overview
+	// (https://apps.ticketmatic.com/#/knowledgebase/api/events) page.
 	Currentstatus int64 `json:"currentstatus,omitempty"`
 
 	// Information on the available prices for the event
@@ -867,6 +880,9 @@ type EventPricesCost struct {
 type EventPricesPricetype struct {
 	// Pricetype ID
 	Pricetypeid int64 `json:"pricetypeid,omitempty"`
+
+	// Ticket type price ID, used to add tickets to an order
+	Tickettypepriceid int64 `json:"tickettypepriceid,omitempty"`
 
 	// Price information for this pricetype for the different sales channels
 	Saleschannels []*EventPricesSaleschannel `json:"saleschannels"`
@@ -1389,6 +1405,9 @@ type OrderTicket struct {
 
 	// The voucher code that was linked to this ticket
 	Vouchercodeid int64 `json:"vouchercodeid,omitempty"`
+
+	// The id of the product this ticket is linked to
+	Bundleid int64 `json:"bundleid,omitempty"`
 }
 
 // A single payment.
@@ -1682,10 +1701,24 @@ type PricelistPriceCondition struct {
 // (https://apps.ticketmatic.com/#/knowledgebase/api/types/ProductInstanceException).
 type ProductInstanceException struct {
 	// Properties for which this exception is valid
-	Properties map[string]string `json:"properties,omitempty"`
+	Properties map[string][]string `json:"properties,omitempty"`
 
 	// Value for this exception
 	Value *ProductInstanceValue `json:"value,omitempty"`
+}
+
+// Product Instance Pricetype Value
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/ProductInstancePricetypeValue).
+type ProductInstancePricetypeValue struct {
+	// Min amount from which the pricetype will be applied
+	From int64 `json:"from,omitempty"`
+
+	// Pricetype id
+	Id int64 `json:"id,omitempty"`
 }
 
 // Product Instance Value
@@ -1700,6 +1733,15 @@ type ProductInstanceValue struct {
 
 	// Voucher
 	Voucher *ProductVoucherValue `json:"voucher,omitempty"`
+
+	// Set of tickettypeprices (used in fixedbundle products)
+	Tickettypeprices []int64 `json:"tickettypeprices"`
+
+	// Set of pricetype values (used in optionbundle products)
+	Pricetypes []*ProductInstancePricetypeValue `json:"pricetypes"`
+
+	// Set of tickettypes (used in optionbundle products)
+	Tickettypes []int64 `json:"tickettypes"`
 }
 
 // Product instancevalues
