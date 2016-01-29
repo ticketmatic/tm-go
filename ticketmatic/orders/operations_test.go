@@ -86,13 +86,22 @@ func TestCreate(t *testing.T) {
 		t.Errorf("Unexpected updated.Customerid, got %#v, expected %#v", updated.Customerid, 777701)
 	}
 
+	ttps, err := events.Get(c, 777701)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if ttps.Id == 0 {
+		t.Errorf("Unexpected ttps.Id, got %#v, expected different value", ttps.Id)
+	}
+
 	ticketsadded, err := Addtickets(c, order.Orderid, &ticketmatic.AddTickets{
 		Tickets: []*ticketmatic.CreateTicket{
 			&ticketmatic.CreateTicket{
-				Tickettypepriceid: 584,
+				Tickettypepriceid: ttps.Prices.Contingents[0].Pricetypes[0].Tickettypepriceid,
 			},
 			&ticketmatic.CreateTicket{
-				Tickettypepriceid: 584,
+				Tickettypepriceid: ttps.Prices.Contingents[0].Pricetypes[0].Tickettypepriceid,
 			},
 		},
 	})

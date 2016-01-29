@@ -1352,6 +1352,9 @@ type OrderProduct struct {
 
 	// Vouchercode ID for the voucher that is linked to this orderproduct
 	Vouchercodeid int64 `json:"vouchercodeid,omitempty"`
+
+	// Contact ID: the holder of this product
+	Contactid int64 `json:"contactid,omitempty"`
 }
 
 // A single ticket in an order.
@@ -2445,6 +2448,9 @@ type QueueStatus struct {
 	// The ID of the newly created order. Only returned when a throttled "create order"
 	// call has finished queueing.
 	Orderid int64 `json:"orderid,omitempty"`
+
+	// Further instructions on how to handle this error
+	Description string `json:"description,omitempty"`
 }
 
 // Set of parameters used to filter order mail templates.
