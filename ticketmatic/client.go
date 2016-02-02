@@ -22,6 +22,9 @@ var Server = "https://apps.ticketmatic.com"
 // API version
 var Version = "1"
 
+// Library Version
+const Build = "9e16d0f9d4a24d2d1f22627f7e33d628dfbcf4d2"
+
 // Rate limit error
 type RateLimitError struct {
 	Status *QueueStatus
@@ -113,7 +116,7 @@ func (r *Request) Run(obj interface{}) error {
 
 	req.Header.Add("Authorization", r.authHeader())
 	req.Header.Add("Content-Type", "application/json")
-	req.Header.Add("User-Agent", "ticketmatic/go")
+	req.Header.Add("User-Agent", fmt.Sprintf("ticketmatic/go (%s)", Build))
 
 	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
