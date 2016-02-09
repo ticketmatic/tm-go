@@ -7,11 +7,11 @@ import (
 // List results
 type List struct {
 	// Result data
-	Data []*ticketmatic.Productcategory `json:"data"`
+	Data []*ticketmatic.ProductCategory `json:"data"`
 }
 
-// Get a list of productcategories
-func Getlist(client *ticketmatic.Client, params *ticketmatic.ProductcategoryQuery) (*List, error) {
+// Get a list of product categories
+func Getlist(client *ticketmatic.Client, params *ticketmatic.ProductCategoryQuery) (*List, error) {
 	r := client.NewRequest("GET", "/{accountname}/settings/productcategories")
 	if params != nil {
 		r.AddParameter("includearchived", params.Includearchived)
@@ -27,14 +27,14 @@ func Getlist(client *ticketmatic.Client, params *ticketmatic.ProductcategoryQuer
 	return obj, nil
 }
 
-// Get a single productcategory
-func Get(client *ticketmatic.Client, id int64) (*ticketmatic.Productcategory, error) {
+// Get a single product category
+func Get(client *ticketmatic.Client, id int64) (*ticketmatic.ProductCategory, error) {
 	r := client.NewRequest("GET", "/{accountname}/settings/productcategories/{id}")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
 	})
 
-	var obj *ticketmatic.Productcategory
+	var obj *ticketmatic.ProductCategory
 	err := r.Run(&obj)
 	if err != nil {
 		return nil, err
@@ -42,12 +42,12 @@ func Get(client *ticketmatic.Client, id int64) (*ticketmatic.Productcategory, er
 	return obj, nil
 }
 
-// Create a new productcategory
-func Create(client *ticketmatic.Client, data *ticketmatic.Productcategory) (*ticketmatic.Productcategory, error) {
+// Create a new product category
+func Create(client *ticketmatic.Client, data *ticketmatic.ProductCategory) (*ticketmatic.ProductCategory, error) {
 	r := client.NewRequest("POST", "/{accountname}/settings/productcategories")
 	r.Body(data)
 
-	var obj *ticketmatic.Productcategory
+	var obj *ticketmatic.ProductCategory
 	err := r.Run(&obj)
 	if err != nil {
 		return nil, err
@@ -55,15 +55,15 @@ func Create(client *ticketmatic.Client, data *ticketmatic.Productcategory) (*tic
 	return obj, nil
 }
 
-// Modify an existing productcategory
-func Update(client *ticketmatic.Client, id int64, data *ticketmatic.Productcategory) (*ticketmatic.Productcategory, error) {
+// Modify an existing product category
+func Update(client *ticketmatic.Client, id int64, data *ticketmatic.ProductCategory) (*ticketmatic.ProductCategory, error) {
 	r := client.NewRequest("PUT", "/{accountname}/settings/productcategories/{id}")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
 	})
 	r.Body(data)
 
-	var obj *ticketmatic.Productcategory
+	var obj *ticketmatic.ProductCategory
 	err := r.Run(&obj)
 	if err != nil {
 		return nil, err
@@ -71,9 +71,9 @@ func Update(client *ticketmatic.Client, id int64, data *ticketmatic.Productcateg
 	return obj, nil
 }
 
-// Remove a productcategory
+// Remove a product category
 //
-// Productcategories are archivable: this call won't actually delete the object
+// Product categories are archivable: this call won't actually delete the object
 // from the database. Instead, it will mark the object as archived, which means it
 // won't show up anymore in most places.
 //

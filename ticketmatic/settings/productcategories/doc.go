@@ -1,6 +1,6 @@
-// Each Product belongs to a Product Category. A Product Category is used to define
+// Each product belongs to a product category. A product category is used to define
 // the name of the product item and the name of the contact that is owner or holder
-// of the Product.
+// of the product.
 //
 // Help Center
 //

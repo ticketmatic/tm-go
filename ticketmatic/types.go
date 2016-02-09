@@ -3217,20 +3217,20 @@ type TicketFee struct {
 	Isarchived bool `json:"isarchived,omitempty"`
 }
 
-// Set of parameters used to filter productcategories.
+// Set of parameters used to filter product categories.
 //
-// More info: see productcategory
-// (https://apps.ticketmatic.com/#/knowledgebase/api/types/Productcategory), the
+// More info: see product category
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/ProductCategory), the
 // getlist operation
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_productcategories/getlist)
-// and the productcategories endpoint
+// and the product categories endpoint
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_productcategories).
 //
 // Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
-// (https://apps.ticketmatic.com/#/knowledgebase/api/types/ProductcategoryQuery).
-type ProductcategoryQuery struct {
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/ProductCategoryQuery).
+type ProductCategoryQuery struct {
 	// If this parameter is true, archived items will be returned as well.
 	Includearchived bool `json:"includearchived,omitempty"`
 
@@ -3243,23 +3243,23 @@ type ProductcategoryQuery struct {
 	Filter string `json:"filter,omitempty"`
 }
 
-// A single productcategory.
+// A single product category.
 //
 // More info: see the get operation
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_productcategories/get)
-// and the productcategories endpoint
+// and the product categories endpoint
 // (https://apps.ticketmatic.com/#/knowledgebase/api/settings_productcategories).
 //
 // Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
-// (https://apps.ticketmatic.com/#/knowledgebase/api/types/Productcategory).
-type Productcategory struct {
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/ProductCategory).
+type ProductCategory struct {
 	// Unique ID
 	//
-	// Note: Ignored when creating a new productcategory.
+	// Note: Ignored when creating a new product category.
 	//
-	// Note: Ignored when updating an existing productcategory.
+	// Note: Ignored when updating an existing product category.
 	Id int64 `json:"id,omitempty"`
 
 	// Name for the product category
@@ -3276,23 +3276,23 @@ type Productcategory struct {
 
 	// Created timestamp
 	//
-	// Note: Ignored when creating a new productcategory.
+	// Note: Ignored when creating a new product category.
 	//
-	// Note: Ignored when updating an existing productcategory.
+	// Note: Ignored when updating an existing product category.
 	Createdts Time `json:"createdts,omitempty"`
 
 	// Last updated timestamp
 	//
-	// Note: Ignored when creating a new productcategory.
+	// Note: Ignored when creating a new product category.
 	//
-	// Note: Ignored when updating an existing productcategory.
+	// Note: Ignored when updating an existing product category.
 	Lastupdatets Time `json:"lastupdatets,omitempty"`
 
 	// Whether or not this item is archived
 	//
-	// Note: Ignored when creating a new productcategory.
+	// Note: Ignored when creating a new product category.
 	//
-	// Note: Ignored when updating an existing productcategory.
+	// Note: Ignored when updating an existing product category.
 	Isarchived bool `json:"isarchived,omitempty"`
 }
 
@@ -3569,6 +3569,79 @@ type FilterDefinition struct {
 	// Note: Ignored when creating a new filter definition.
 	//
 	// Note: Ignored when updating an existing filter definition.
+	Isarchived bool `json:"isarchived,omitempty"`
+}
+
+// Set of parameters used to filter relation types.
+//
+// More info: see relation type
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/RelationType), the
+// getlist operation
+// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_system_relationtypes/getlist)
+// and the relation types endpoint
+// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_system_relationtypes).
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/RelationTypeQuery).
+type RelationTypeQuery struct {
+	// If this parameter is true, archived items will be returned as well.
+	Includearchived bool `json:"includearchived,omitempty"`
+
+	// All items that were updated since this timestamp will be returned. Timestamp
+	// should be passed in YYYY-MM-DD hh:mm:ss format.
+	Lastupdatesince Time `json:"lastupdatesince,omitempty"`
+
+	// Filter the returned items by specifying a query on the public datamodel that
+	// returns the ids.
+	Filter string `json:"filter,omitempty"`
+}
+
+// A single relation type.
+//
+// More info: see the get operation
+// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_system_relationtypes/get)
+// and the relation types endpoint
+// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_system_relationtypes).
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/RelationType).
+type RelationType struct {
+	// Unique ID
+	//
+	// Note: Ignored when creating a new relation type.
+	//
+	// Note: Ignored when updating an existing relation type.
+	Id int64 `json:"id,omitempty"`
+
+	// Name of the relation type
+	Name string `json:"name,omitempty"`
+
+	// ID of the parent relation type.
+	Parentid int64 `json:"parentid,omitempty"`
+
+	// Created timestamp
+	//
+	// Note: Ignored when creating a new relation type.
+	//
+	// Note: Ignored when updating an existing relation type.
+	Createdts Time `json:"createdts,omitempty"`
+
+	// Last updated timestamp
+	//
+	// Note: Ignored when creating a new relation type.
+	//
+	// Note: Ignored when updating an existing relation type.
+	Lastupdatets Time `json:"lastupdatets,omitempty"`
+
+	// Whether or not this item is archived
+	//
+	// Note: Ignored when creating a new relation type.
+	//
+	// Note: Ignored when updating an existing relation type.
 	Isarchived bool `json:"isarchived,omitempty"`
 }
 

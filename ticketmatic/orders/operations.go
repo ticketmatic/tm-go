@@ -32,6 +32,9 @@ type Lookups struct {
 	// Price types
 	Pricetypes map[string]*ticketmatic.PriceType `json:"pricetypes"`
 
+	// Product categories
+	Productcategories map[string]*ticketmatic.ProductCategory `json:"productcategories"`
+
 	// Products
 	Products map[string]*ticketmatic.Product `json:"products"`
 
