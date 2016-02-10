@@ -110,6 +110,15 @@ func TestCreatecustom(t *testing.T) {
 		t.Errorf("Unexpected addrtypes.Data length, got %#v, expected greater than %#v", len(addrtypes.Data), 0)
 	}
 
+	ptypes, err := phonenumbertypes.Getlist(c, &ticketmatic.PhoneNumberTypeQuery{})
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if len(ptypes.Data) <= 1 {
+		t.Errorf("Unexpected ptypes.Data length, got %#v, expected greater than %#v", len(ptypes.Data), 1)
+	}
+
 	contact, err := Create(c, &ticketmatic.Contact{
 		Addresses: []*ticketmatic.Address{
 			&ticketmatic.Address{
@@ -121,12 +130,22 @@ func TestCreatecustom(t *testing.T) {
 				Zip:         "2914 AH",
 			},
 		},
-		Birthdate:       ticketmatic.NewTime(ticketmatic.MustParseTime("1959-05-05")),
+		Birthdate:       ticketmatic.NewTime(ticketmatic.MustParseTime("1959-09-21")),
 		Customertitleid: titles.Data[0].Id,
 		Email:           "john@worldonline.nl",
 		Firstname:       "John",
 		Lastname:        "Johns",
 		Middlename:      "J",
+		Phonenumbers: []*ticketmatic.Phonenumber{
+			&ticketmatic.Phonenumber{
+				Number: "+31222222222",
+				Typeid: ptypes.Data[0].Id,
+			},
+			&ticketmatic.Phonenumber{
+				Number: "+31222222222",
+				Typeid: ptypes.Data[1].Id,
+			},
+		},
 	})
 	if err != nil {
 		t.Fatal(err)

@@ -3826,6 +3826,76 @@ type FilterDefinition struct {
 	Isarchived bool `json:"isarchived,omitempty"`
 }
 
+// Set of parameters used to filter phone number types.
+//
+// More info: see phone number type
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/PhoneNumberType), the
+// getlist operation
+// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_system_phonenumbertypes/getlist)
+// and the phone number types endpoint
+// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_system_phonenumbertypes).
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/PhoneNumberTypeQuery).
+type PhoneNumberTypeQuery struct {
+	// If this parameter is true, archived items will be returned as well.
+	Includearchived bool `json:"includearchived,omitempty"`
+
+	// All items that were updated since this timestamp will be returned. Timestamp
+	// should be passed in YYYY-MM-DD hh:mm:ss format.
+	Lastupdatesince Time `json:"lastupdatesince,omitempty"`
+
+	// Filter the returned items by specifying a query on the public datamodel that
+	// returns the ids.
+	Filter string `json:"filter,omitempty"`
+}
+
+// A single phone number type.
+//
+// More info: see the get operation
+// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_system_phonenumbertypes/get)
+// and the phone number types endpoint
+// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_system_phonenumbertypes).
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/PhoneNumberType).
+type PhoneNumberType struct {
+	// Unique ID
+	//
+	// Note: Ignored when creating a new phone number type.
+	//
+	// Note: Ignored when updating an existing phone number type.
+	Id int64 `json:"id,omitempty"`
+
+	// Name of the phone number type
+	Name string `json:"name,omitempty"`
+
+	// Created timestamp
+	//
+	// Note: Ignored when creating a new phone number type.
+	//
+	// Note: Ignored when updating an existing phone number type.
+	Createdts Time `json:"createdts,omitempty"`
+
+	// Last updated timestamp
+	//
+	// Note: Ignored when creating a new phone number type.
+	//
+	// Note: Ignored when updating an existing phone number type.
+	Lastupdatets Time `json:"lastupdatets,omitempty"`
+
+	// Whether or not this item is archived
+	//
+	// Note: Ignored when creating a new phone number type.
+	//
+	// Note: Ignored when updating an existing phone number type.
+	Isarchived bool `json:"isarchived,omitempty"`
+}
+
 // Set of parameters used to filter relation types.
 //
 // More info: see relation type
