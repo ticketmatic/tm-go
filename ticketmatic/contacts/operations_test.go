@@ -5,6 +5,9 @@ import (
 	"testing"
 
 	"github.com/ticketmatic/tm-go/ticketmatic"
+	"github.com/ticketmatic/tm-go/ticketmatic/settings/system/contactaddresstypes"
+	"github.com/ticketmatic/tm-go/ticketmatic/settings/system/contacttitles"
+	"github.com/ticketmatic/tm-go/ticketmatic/settings/system/phonenumbertypes"
 )
 
 func TestGet(t *testing.T) {
