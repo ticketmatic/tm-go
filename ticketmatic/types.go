@@ -3482,6 +3482,190 @@ type SeatRank struct {
 	Isarchived bool `json:"isarchived,omitempty"`
 }
 
+// Set of parameters used to filter contact titles.
+//
+// More info: see contact title
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/ContactTitle), the
+// getlist operation
+// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_system_contacttitles/getlist)
+// and the contact titles endpoint
+// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_system_contacttitles).
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/ContactTitleQuery).
+type ContactTitleQuery struct {
+	// If this parameter is true, archived items will be returned as well.
+	Includearchived bool `json:"includearchived,omitempty"`
+
+	// All items that were updated since this timestamp will be returned. Timestamp
+	// should be passed in YYYY-MM-DD hh:mm:ss format.
+	Lastupdatesince Time `json:"lastupdatesince,omitempty"`
+
+	// Filter the returned items by specifying a query on the public datamodel that
+	// returns the ids.
+	Filter string `json:"filter,omitempty"`
+}
+
+// A single contact title.
+//
+// More info: see the get operation
+// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_system_contacttitles/get)
+// and the contact titles endpoint
+// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_system_contacttitles).
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/ContactTitle).
+type ContactTitle struct {
+	// Unique ID
+	//
+	// Note: Ignored when creating a new contact title.
+	//
+	// Note: Ignored when updating an existing contact title.
+	Id int64 `json:"id,omitempty"`
+
+	// Title name
+	Name string `json:"name,omitempty"`
+
+	// Gender associated with this title
+	Sex string `json:"sex,omitempty"`
+
+	// Language for this title
+	Languagecode string `json:"languagecode,omitempty"`
+
+	// Restricts this title from showing up on the websales pages
+	Isinternal bool `json:"isinternal,omitempty"`
+
+	// Created timestamp
+	//
+	// Note: Ignored when creating a new contact title.
+	//
+	// Note: Ignored when updating an existing contact title.
+	Createdts Time `json:"createdts,omitempty"`
+
+	// Last updated timestamp
+	//
+	// Note: Ignored when creating a new contact title.
+	//
+	// Note: Ignored when updating an existing contact title.
+	Lastupdatets Time `json:"lastupdatets,omitempty"`
+
+	// Whether or not this item is archived
+	//
+	// Note: Ignored when creating a new contact title.
+	//
+	// Note: Ignored when updating an existing contact title.
+	Isarchived bool `json:"isarchived,omitempty"`
+}
+
+// Set of parameters used to filter custom fields.
+//
+// More info: see custom field
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/CustomField), the
+// getlist operation
+// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_system_customfields/getlist)
+// and the custom fields endpoint
+// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_system_customfields).
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/CustomFieldQuery).
+type CustomFieldQuery struct {
+	// If this parameter is true, archived items will be returned as well.
+	Includearchived bool `json:"includearchived,omitempty"`
+
+	// All items that were updated since this timestamp will be returned. Timestamp
+	// should be passed in YYYY-MM-DD hh:mm:ss format.
+	Lastupdatesince Time `json:"lastupdatesince,omitempty"`
+
+	// Filter the returned items by specifying a query on the public datamodel that
+	// returns the ids.
+	Filter string `json:"filter,omitempty"`
+
+	// Only return items with the given typeid.
+	Typeid int64 `json:"typeid,omitempty"`
+}
+
+// A single custom field.
+//
+// More info: see the get operation
+// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_system_customfields/get)
+// and the custom fields endpoint
+// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_system_customfields).
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/CustomField).
+type CustomField struct {
+	// Unique ID
+	//
+	// Note: Ignored when creating a new custom field.
+	//
+	// Note: Ignored when updating an existing custom field.
+	Id int64 `json:"id,omitempty"`
+
+	// Type ID
+	//
+	// Note: Ignored when updating an existing custom field.
+	Typeid int64 `json:"typeid,omitempty"`
+
+	// The identifier for the custom field. Should contain only alphanumeric characters
+	// and no whitespace, max length is 20 characters. The custom field will be
+	// available in the api and the public data model as c_
+	Key string `json:"key,omitempty"`
+
+	// Human-readable name for the custom field
+	Caption string `json:"caption,omitempty"`
+
+	// Human-readable description for the custom field. Will be visible for end-users
+	// when edittype checkout is used
+	//
+	// Note: Not set when retrieving a list of custom fields.
+	Description string `json:"description,omitempty"`
+
+	// Type of the custom field. Links to systemtype category 12xxx
+	Fieldtypeid int64 `json:"fieldtypeid,omitempty"`
+
+	// Indicates whether the field is required
+	Required bool `json:"required,omitempty"`
+
+	// Type of editing that is allowed for the custom field. Links to systemtype
+	// category 22xxx
+	Edittypeid int64 `json:"edittypeid,omitempty"`
+
+	// Rules that define in what conditions this custom field is available when edit
+	// type is checkout
+	//
+	// Note: Not set when retrieving a list of custom fields.
+	Availability *CustomfieldAvailability `json:"availability,omitempty"`
+
+	// Created timestamp
+	//
+	// Note: Ignored when creating a new custom field.
+	//
+	// Note: Ignored when updating an existing custom field.
+	Createdts Time `json:"createdts,omitempty"`
+
+	// Last updated timestamp
+	//
+	// Note: Ignored when creating a new custom field.
+	//
+	// Note: Ignored when updating an existing custom field.
+	Lastupdatets Time `json:"lastupdatets,omitempty"`
+
+	// Whether or not this item is archived
+	//
+	// Note: Ignored when creating a new custom field.
+	//
+	// Note: Ignored when updating an existing custom field.
+	Isarchived bool `json:"isarchived,omitempty"`
+}
+
 // Set of parameters used to filter filter definitions.
 //
 // More info: see filter definition
