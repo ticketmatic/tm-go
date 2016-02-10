@@ -3482,6 +3482,76 @@ type SeatRank struct {
 	Isarchived bool `json:"isarchived,omitempty"`
 }
 
+// Set of parameters used to filter contact address types.
+//
+// More info: see contact address type
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/ContactAddressType), the
+// getlist operation
+// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_system_contactaddresstypes/getlist)
+// and the contact address types endpoint
+// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_system_contactaddresstypes).
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/ContactAddressTypeQuery).
+type ContactAddressTypeQuery struct {
+	// If this parameter is true, archived items will be returned as well.
+	Includearchived bool `json:"includearchived,omitempty"`
+
+	// All items that were updated since this timestamp will be returned. Timestamp
+	// should be passed in YYYY-MM-DD hh:mm:ss format.
+	Lastupdatesince Time `json:"lastupdatesince,omitempty"`
+
+	// Filter the returned items by specifying a query on the public datamodel that
+	// returns the ids.
+	Filter string `json:"filter,omitempty"`
+}
+
+// A single contact address type.
+//
+// More info: see the get operation
+// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_system_contactaddresstypes/get)
+// and the contact address types endpoint
+// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_system_contactaddresstypes).
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/ContactAddressType).
+type ContactAddressType struct {
+	// Unique ID
+	//
+	// Note: Ignored when creating a new contact address type.
+	//
+	// Note: Ignored when updating an existing contact address type.
+	Id int64 `json:"id,omitempty"`
+
+	// Name of the address type
+	Name string `json:"name,omitempty"`
+
+	// Created timestamp
+	//
+	// Note: Ignored when creating a new contact address type.
+	//
+	// Note: Ignored when updating an existing contact address type.
+	Createdts Time `json:"createdts,omitempty"`
+
+	// Last updated timestamp
+	//
+	// Note: Ignored when creating a new contact address type.
+	//
+	// Note: Ignored when updating an existing contact address type.
+	Lastupdatets Time `json:"lastupdatets,omitempty"`
+
+	// Whether or not this item is archived
+	//
+	// Note: Ignored when creating a new contact address type.
+	//
+	// Note: Ignored when updating an existing contact address type.
+	Isarchived bool `json:"isarchived,omitempty"`
+}
+
 // Set of parameters used to filter contact titles.
 //
 // More info: see contact title

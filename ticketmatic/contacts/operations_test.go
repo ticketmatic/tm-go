@@ -101,7 +101,26 @@ func TestCreatecustom(t *testing.T) {
 		t.Errorf("Unexpected titles.Data length, got %#v, expected greater than %#v", len(titles.Data), 0)
 	}
 
+	addrtypes, err := contactaddresstypes.Getlist(c, &ticketmatic.ContactAddressTypeQuery{})
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if len(addrtypes.Data) <= 0 {
+		t.Errorf("Unexpected addrtypes.Data length, got %#v, expected greater than %#v", len(addrtypes.Data), 0)
+	}
+
 	contact, err := Create(c, &ticketmatic.Contact{
+		Addresses: []*ticketmatic.Address{
+			&ticketmatic.Address{
+				City:        "Nieuwerkerk Aan Den Ijssel",
+				Countrycode: "NL",
+				Street1:     "Kerkstraat",
+				Street2:     "1",
+				Typeid:      addrtypes.Data[0].Id,
+				Zip:         "2914 AH",
+			},
+		},
 		Birthdate:       ticketmatic.NewTime(ticketmatic.MustParseTime("1959-05-05")),
 		Customertitleid: titles.Data[0].Id,
 		Email:           "john@worldonline.nl",
