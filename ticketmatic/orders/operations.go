@@ -150,14 +150,14 @@ func Confirm(client *ticketmatic.Client, id int64) (*ticketmatic.Order, error) {
 // Note: This method may return a 429 Rate Limit Exceeded status when there is too
 // much demand. See the article about rate limiting (/TODO) for more information on
 // how to handle this.
-func Addtickets(client *ticketmatic.Client, id int64, data *ticketmatic.AddTickets) (*ticketmatic.AddTicketsResult, error) {
+func Addtickets(client *ticketmatic.Client, id int64, data *ticketmatic.AddTickets) (*ticketmatic.AddItemsResult, error) {
 	r := client.NewRequest("POST", "/{accountname}/orders/{id}/tickets")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
 	})
 	r.Body(data)
 
-	var obj *ticketmatic.AddTicketsResult
+	var obj *ticketmatic.AddItemsResult
 	err := r.Run(&obj)
 	if err != nil {
 		return nil, err
@@ -197,6 +197,65 @@ func Updatetickets(client *ticketmatic.Client, id int64, data *ticketmatic.Updat
 // Remove tickets from order
 func Deletetickets(client *ticketmatic.Client, id int64, data *ticketmatic.DeleteTickets) (*ticketmatic.Order, error) {
 	r := client.NewRequest("DELETE", "/{accountname}/orders/{id}/tickets")
+	r.UrlParameters(map[string]interface{}{
+		"id": id,
+	})
+	r.Body(data)
+
+	var obj *ticketmatic.Order
+	err := r.Run(&obj)
+	if err != nil {
+		return nil, err
+	}
+	return obj, nil
+}
+
+// Add products to order
+//
+// Add products to order
+func Addproducts(client *ticketmatic.Client, id int64, data *ticketmatic.AddProducts) (*ticketmatic.AddItemsResult, error) {
+	r := client.NewRequest("POST", "/{accountname}/orders/{id}/products")
+	r.UrlParameters(map[string]interface{}{
+		"id": id,
+	})
+	r.Body(data)
+
+	var obj *ticketmatic.AddItemsResult
+	err := r.Run(&obj)
+	if err != nil {
+		return nil, err
+	}
+	return obj, nil
+}
+
+// Modify products in order
+//
+// Individual products can be updated. Per call you can specify any number of
+// product IDs and one operation.
+//
+// Each operation accepts different parameters, dependent on the operation type:
+//
+// * Set product holders: an array of ticket holder IDs (see Contact
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/Contact)), one for each
+// product (productholderids). *
+func Updateproducts(client *ticketmatic.Client, id int64, data *ticketmatic.UpdateProducts) (*ticketmatic.Order, error) {
+	r := client.NewRequest("PUT", "/{accountname}/orders/{id}/products")
+	r.UrlParameters(map[string]interface{}{
+		"id": id,
+	})
+	r.Body(data)
+
+	var obj *ticketmatic.Order
+	err := r.Run(&obj)
+	if err != nil {
+		return nil, err
+	}
+	return obj, nil
+}
+
+// Remove products from order
+func Deleteproducts(client *ticketmatic.Client, id int64, data *ticketmatic.DeleteProducts) (*ticketmatic.Order, error) {
+	r := client.NewRequest("DELETE", "/{accountname}/orders/{id}/products")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
 	})

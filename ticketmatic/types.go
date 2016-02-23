@@ -2034,7 +2034,7 @@ type EventFilter struct {
 
 	// The event status. By default, events with status Active or Closed will be
 	// returned
-	Status int64 `json:"status,omitempty"`
+	Status []int64 `json:"status"`
 }
 
 // Used when requesting events, to restrict the event information to a specific
@@ -2084,8 +2084,50 @@ type CreateOrder struct {
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://apps.ticketmatic.com/#/knowledgebase/api/types/CreateTicket).
 type CreateTicket struct {
-	// The required ticket type price ID.
+	// The ticket type price ID for the new ticket. Either tickettypepriceid or
+	// optionbundleid should be specified, not both.
 	Tickettypepriceid int64 `json:"tickettypepriceid,omitempty"`
+
+	// The id for the optionbundle you want to add a new ticket to. Either
+	// tickettypepriceid or optionbundleid should be specified, not both.
+	Optionbundleid int64 `json:"optionbundleid,omitempty"`
+
+	// Should only be specified when optionbundleid is specified. The tickettypeid for
+	// the ticket you want to add to the optionbundle.
+	Tickettypeid int64 `json:"tickettypeid,omitempty"`
+}
+
+// Info for adding a product
+// (https://apps.ticketmatic.com/#/knowledgebase/api/orders/addproducts) to an
+// order (https://apps.ticketmatic.com/#/knowledgebase/api/types/Order).
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/CreateProduct).
+type CreateProduct struct {
+	// The id for the product you want to add.
+	Productid int64 `json:"productid,omitempty"`
+
+	// The property values for the product.
+	Properties map[string]string `json:"properties,omitempty"`
+}
+
+// Result when adding tickets
+// (https://apps.ticketmatic.com/#/knowledgebase/api/orders/addtickets) or products
+// (https://apps.ticketmatic.com/#/knowledgebase/api/orders/addproducts) to an
+// order (https://apps.ticketmatic.com/#/knowledgebase/api/types/Order).
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/AddItemsResult).
+type AddItemsResult struct {
+	// Ids of the items that were added
+	Ids []int64 `json:"ids"`
+
+	// The modified order
+	Order *Order `json:"order,omitempty"`
 }
 
 // Info for requesting a PDF ticket for one or more tickets or vouchercodes in an
@@ -2171,20 +2213,17 @@ type AddTickets struct {
 	Tickets []*CreateTicket `json:"tickets"`
 }
 
-// Result when adding tickets
-// (https://apps.ticketmatic.com/#/knowledgebase/api/orders/addtickets) to an order
-// (https://apps.ticketmatic.com/#/knowledgebase/api/types/Order).
+// Request data used to add products
+// (https://apps.ticketmatic.com/#/knowledgebase/api/orders/addproducts) to an
+// order (https://apps.ticketmatic.com/#/knowledgebase/api/types/Order).
 //
 // Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
-// (https://apps.ticketmatic.com/#/knowledgebase/api/types/AddTicketsResult).
-type AddTicketsResult struct {
-	// Number of tickets added
-	Nbrofaddedtickets int64 `json:"nbrofaddedtickets,omitempty"`
-
-	// The modified order
-	Order *Order `json:"order,omitempty"`
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/AddProducts).
+type AddProducts struct {
+	// Product information
+	Products []*CreateProduct `json:"products"`
 }
 
 // Request data used to delete tickets
@@ -2198,6 +2237,19 @@ type AddTicketsResult struct {
 type DeleteTickets struct {
 	// Ticket IDs
 	Tickets []int64 `json:"tickets"`
+}
+
+// Request data used to delete products
+// (https://apps.ticketmatic.com/#/knowledgebase/api/orders/deleteproducts) from an
+// order (https://apps.ticketmatic.com/#/knowledgebase/api/types/Order).
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/DeleteProducts).
+type DeleteProducts struct {
+	// Product IDs
+	Products []int64 `json:"products"`
 }
 
 // Used when requesting orders, to filter orders.
@@ -2343,6 +2395,34 @@ type UpdateTickets struct {
 	// * setticketholders
 	//
 	// * updatepricetype
+	Operation string `json:"operation,omitempty"`
+
+	// Operation parameters
+	Params map[string]interface{} `json:"params,omitempty"`
+}
+
+// Individual products can be updated. Per call you can specify any number of
+// product IDs and one operation.
+//
+// Each operation accepts different parameters, dependent on the operation type:
+//
+// * Set product holders: an array of ticket holder IDs (see Contact
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/Contact)), one for each
+// product (productholderids). *
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/UpdateProducts).
+type UpdateProducts struct {
+	// Product IDs
+	Products []int64 `json:"products"`
+
+	// Operation to execute.
+	//
+	// Supported values:
+	//
+	// * setproductholders
 	Operation string `json:"operation,omitempty"`
 
 	// Operation parameters

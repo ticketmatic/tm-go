@@ -23,7 +23,7 @@ var Server = "https://apps.ticketmatic.com"
 var Version = "1"
 
 // Library Version
-const Build = "24110fcb9666fc52a84e1eef55bd713ffb01d375"
+const Build = "4e32ff15c506eddfde6af52a74c5eb23cffc3d20"
 
 // Rate limit error
 type RateLimitError struct {
@@ -107,7 +107,10 @@ func (r *Request) Run(obj interface{}) error {
 		body = bytes.NewReader(d)
 	}
 
-	u := r.prepareUrl()
+	u, err := r.prepareUrl()
+	if err != nil {
+		return err
+	}
 
 	req, err := http.NewRequest(r.method, u, body)
 	if err != nil {
@@ -154,7 +157,7 @@ func (r *Request) authHeader() string {
 	return fmt.Sprintf("TM-HMAC-SHA256 key=%s ts=%s sign=%s", r.client.AccessKey, ts, hash)
 }
 
-func (r *Request) prepareUrl() string {
+func (r *Request) prepareUrl() (string, error) {
 	u := r.url
 
 	for k, v := range r.params {
@@ -166,11 +169,20 @@ func (r *Request) prepareUrl() string {
 	if len(r.query) > 0 {
 		query := url.Values{}
 		for k, v := range r.query {
-			query.Add(k, fmt.Sprintf("%v", v))
+			kind := reflect.ValueOf(v).Kind()
+			if kind == reflect.Interface || kind == reflect.Map || kind == reflect.Ptr || kind == reflect.Slice || kind == reflect.Struct {
+				d, err := json.Marshal(v)
+				if err != nil {
+					return "", err
+				}
+				query.Add(k, fmt.Sprintf("%s", string(d)))
+			} else {
+				query.Add(k, fmt.Sprintf("%v", v))
+			}
 		}
 		result = fmt.Sprintf("%s?%s", result, query.Encode())
 	}
-	return result
+	return result, nil
 }
 
 // Generates a signed authentication hash
