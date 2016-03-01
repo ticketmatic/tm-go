@@ -2009,7 +2009,7 @@ type EventQuery struct {
 	Searchterm string `json:"searchterm,omitempty"`
 
 	// Filters the events based on a given set of fields. Currently supports:
-	// productionid.
+	// productionid, status and pricetypeids.
 	Simplefilter *EventFilter `json:"simplefilter,omitempty"`
 
 	// Restrict the event information to a specific context.
