@@ -24,7 +24,7 @@ func (t Time) Time() time.Time {
 
 // Custom unmarshalling to handle the different time formats that may be
 // returned by Ticketmatic.
-func (t Time) UnmarshalJSON(data []byte) error {
+func (t *Time) UnmarshalJSON(data []byte) error {
 	s := string(data)
 
 	// No date set
