@@ -43,6 +43,9 @@ func (t *Time) UnmarshalJSON(data []byte) error {
 
 // Marshal Time to JSON.
 func (t Time) MarshalJSON() ([]byte, error) {
+	if t.ts.IsZero() {
+		return []byte("null"), nil
+	}
 	return []byte(fmt.Sprintf(`"%s"`, t.ts.Format("2006-01-02T15:04:05.999999"))), nil
 }
 
