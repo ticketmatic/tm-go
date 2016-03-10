@@ -2525,6 +2525,9 @@ type QueueStatus struct {
 	// When the queue will start
 	Starttime Time `json:"starttime,omitempty"`
 
+	// Optional message shown to waiting customers
+	Message string `json:"message,omitempty"`
+
 	// The ID of the newly created order. Only returned when a throttled "create order"
 	// call has finished queueing.
 	Orderid int64 `json:"orderid,omitempty"`
