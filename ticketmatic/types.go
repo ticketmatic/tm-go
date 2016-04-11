@@ -55,9 +55,6 @@ type Address struct {
 	// Street field 3 (sometimes used for box numbers or suffixes)
 	Street3 string `json:"street3,omitempty"`
 
-	// Street field 4 (rarely used)
-	Street4 string `json:"street4,omitempty"`
-
 	// Address type ID
 	//
 	// Note: Only available when used for a contact

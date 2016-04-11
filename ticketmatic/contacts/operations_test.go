@@ -162,6 +162,14 @@ func TestCreatecustom(t *testing.T) {
 		t.Errorf("Unexpected contact.Firstname, got %#v, expected %#v", contact.Firstname, "John")
 	}
 
+	if contact.Addresses[0].Countrycode != "NL" {
+		t.Errorf("Unexpected contact.Addresses[0].Countrycode, got %#v, expected %#v", contact.Addresses[0].Countrycode, "NL")
+	}
+
+	if contact.Addresses[0].Country != "Netherlands" {
+		t.Errorf("Unexpected contact.Addresses[0].Country, got %#v, expected %#v", contact.Addresses[0].Country, "Netherlands")
+	}
+
 	err = Delete(c, contact.Id)
 	if err != nil {
 		t.Fatal(err)
