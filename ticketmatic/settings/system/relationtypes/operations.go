@@ -87,3 +87,37 @@ func Delete(client *ticketmatic.Client, id int64) error {
 
 	return r.Run(nil)
 }
+
+// Fetch translatable fields
+//
+// Returns a dictionary with string values in all languages for each translatable
+// field.
+func Translations(client *ticketmatic.Client, id int64) (map[string]string, error) {
+	r := client.NewRequest("GET", "/{accountname}/settings/system/relationtypes/{id}/translate")
+	r.UrlParameters(map[string]interface{}{
+		"id": id,
+	})
+
+	var obj map[string]string
+	err := r.Run(&obj)
+	if err != nil {
+		return nil, err
+	}
+	return obj, nil
+}
+
+// Update translations
+func Translate(client *ticketmatic.Client, id int64, data map[string]string) (map[string]string, error) {
+	r := client.NewRequest("PUT", "/{accountname}/settings/system/relationtypes/{id}/translate")
+	r.UrlParameters(map[string]interface{}{
+		"id": id,
+	})
+	r.Body(data)
+
+	var obj map[string]string
+	err := r.Run(&obj)
+	if err != nil {
+		return nil, err
+	}
+	return obj, nil
+}

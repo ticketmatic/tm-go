@@ -23,7 +23,7 @@ var Server = "https://apps.ticketmatic.com"
 var Version = "1"
 
 // Library Version
-const Build = "9603845ca8101dc43e0b8a7182d912d584a1724f"
+const Build = "f43206357f471ad6c3835329a96bb57d3c7e19a2"
 
 // Rate limit error
 type RateLimitError struct {
@@ -46,6 +46,7 @@ type Client struct {
 	AccountCode string
 	AccessKey   string
 	SecretKey   string
+	Language    string
 }
 
 // API Request
@@ -120,6 +121,9 @@ func (r *Request) Run(obj interface{}) error {
 	req.Header.Add("Authorization", r.authHeader())
 	req.Header.Add("Content-Type", "application/json")
 	req.Header.Add("User-Agent", fmt.Sprintf("ticketmatic/go (%s)", Build))
+	if r.client.Language != "" {
+		req.Header.Add("Accept-Language", r.client.Language)
+	}
 
 	resp, err := http.DefaultClient.Do(req)
 	if err != nil {

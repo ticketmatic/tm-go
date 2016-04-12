@@ -103,3 +103,78 @@ func TestCreatedelete(t *testing.T) {
 	}
 
 }
+
+func TestTranslations(t *testing.T) {
+	var err error
+
+	accountcode := os.Getenv("TM_TEST_ACCOUNTCODE")
+	accesskey := os.Getenv("TM_TEST_ACCESSKEY")
+	secretkey := os.Getenv("TM_TEST_SECRETKEY")
+	c := ticketmatic.NewClient(accountcode, accesskey, secretkey)
+
+	req, err := Get(c, 4)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if req.Name != "Free ticket" {
+		t.Errorf("Unexpected req.Name, got %#v, expected %#v", req.Name, "Free ticket")
+	}
+
+	c.Language = "nl"
+	req2, err := Get(c, 4)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if req2.Name != "Gratis ticket" {
+		t.Errorf("Unexpected req2.Name, got %#v, expected %#v", req2.Name, "Gratis ticket")
+	}
+
+	updated, err := Update(c, 4, &ticketmatic.PriceType{
+		Name: "Vrijkaart",
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if updated.Name != "Vrijkaart" {
+		t.Errorf("Unexpected updated.Name, got %#v, expected %#v", updated.Name, "Vrijkaart")
+	}
+
+	c.Language = "en"
+	req3, err := Get(c, 4)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if req3.Name != "Free ticket" {
+		t.Errorf("Unexpected req3.Name, got %#v, expected %#v", req3.Name, "Free ticket")
+	}
+
+	c.Language = "nl"
+	updated2, err := Update(c, 4, &ticketmatic.PriceType{
+		Name: "Gratis ticket",
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if updated2.Name != "Gratis ticket" {
+		t.Errorf("Unexpected updated2.Name, got %#v, expected %#v", updated2.Name, "Gratis ticket")
+	}
+
+	translations, err := Translations(c, 4)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if translations["nameen"] != "Free ticket" {
+		t.Errorf(`Unexpected translations["nameen"], got %#v, expected %#v`, translations["nameen"], "Free ticket")
+	}
+
+	if translations["namenl"] != "Gratis ticket" {
+		t.Errorf(`Unexpected translations["namenl"], got %#v, expected %#v`, translations["namenl"], "Gratis ticket")
+	}
+
+}
