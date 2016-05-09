@@ -23,14 +23,12 @@ func TestCreate(t *testing.T) {
 			Usescript: false,
 		},
 		Expiryparameters: &ticketmatic.PaymentscenarioExpiryParameters{
-			Daysafterordercreation: 24,
-			Daysbeforeevent:        2,
+			Daysaftercreation: 24,
 		},
 		Internalremark: "Testing",
 		Name:           "Payment scenario test",
 		Overdueparameters: &ticketmatic.PaymentscenarioOverdueParameters{
-			Daysafterordercreation: 12,
-			Daysbeforeevent:        5,
+			Daysaftercreation: 12,
 		},
 		Paymentmethods: []int64{
 			1,

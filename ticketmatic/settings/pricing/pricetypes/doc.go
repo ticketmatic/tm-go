@@ -7,7 +7,7 @@
 //
 // Types
 //
-// There are 4 categories of price types:
+// There are 5 categories of price types:
 //
 // * Normal (2301)
 //
@@ -16,6 +16,8 @@
 // * Special (2303)
 //
 // * Free (2304)
+//
+// * Subscription (2305)
 //
 // Prices are indicated with different colors based on these categories and help
 // users to quickly recognize the price type they're looking for.

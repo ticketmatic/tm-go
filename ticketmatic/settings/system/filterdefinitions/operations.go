@@ -93,6 +93,10 @@ func Delete(client *ticketmatic.Client, id int64) error {
 //
 // Returns a dictionary with string values in all languages for each translatable
 // field.
+//
+// See translations
+// (https://apps.ticketmatic.com/#/knowledgebase/api/coreconcepts_translations) for
+// more information.
 func Translations(client *ticketmatic.Client, id int64) (map[string]string, error) {
 	r := client.NewRequest("GET", "/{accountname}/settings/system/filterdefinitions/{id}/translate")
 	r.UrlParameters(map[string]interface{}{
@@ -108,6 +112,12 @@ func Translations(client *ticketmatic.Client, id int64) (map[string]string, erro
 }
 
 // Update translations
+//
+// Sets updated translation strings.
+//
+// See translations
+// (https://apps.ticketmatic.com/#/knowledgebase/api/coreconcepts_translations) for
+// more information.
 func Translate(client *ticketmatic.Client, id int64, data map[string]string) (map[string]string, error) {
 	r := client.NewRequest("PUT", "/{accountname}/settings/system/filterdefinitions/{id}/translate")
 	r.UrlParameters(map[string]interface{}{

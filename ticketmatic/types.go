@@ -579,10 +579,6 @@ type Event struct {
 	Prices *EventPrices `json:"prices,omitempty"`
 
 	// Per-sales channel information about when this event is for sale.
-	//
-	// Note: Ignored when creating a new event.
-	//
-	// Note: Ignored when updating an existing event.
 	Saleschannels []*EventSalesChannel `json:"saleschannels"`
 
 	// Information on the availability of tickets per contingent. Read-only.
@@ -956,6 +952,95 @@ type EventSeatingplanContingent struct {
 
 	// Number of tickets in the contingent
 	Amount int64 `json:"amount,omitempty"`
+}
+
+// A single ticket.
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/EventTicket).
+type EventTicket struct {
+	// Ticket ID
+	Id int64 `json:"id,omitempty"`
+
+	// Link to the contingent this ticket belongs to
+	//
+	// Note: Ignored in the result for updating tickets
+	//
+	// Note: Ignored when updating tickets
+	Tickettypeid int64 `json:"tickettypeid,omitempty"`
+
+	// Custom fields
+	CustomFields map[string]interface{} `json:"-"`
+}
+
+// Custom unmarshaller with support for custom fields
+func (o *EventTicket) UnmarshalJSON(data []byte) error {
+	// Alias the type, to avoid calling UnmarshalJSON. Unpack it.
+	type tmp EventTicket
+	var obj tmp
+	err := json.Unmarshal(data, &obj)
+	if err != nil {
+		return err
+	}
+
+	*o = EventTicket(obj)
+
+	// Unpack it again, this time to a map, so we can pull out the custom fields.
+	var raw map[string]interface{}
+	err = json.Unmarshal(data, &raw)
+	if err != nil {
+		return err
+	}
+
+	o.CustomFields = make(map[string]interface{})
+	for key, val := range raw {
+		if strings.HasPrefix(key, "c_") {
+			o.CustomFields[key[2:]] = val
+		}
+	}
+
+	// Note: We're doing a double JSON decode here, I'd love to get rid of it
+	// but I'm not sure how we can do this easily. Suggestions welcome:
+	// developers@ticketmatic.com!
+
+	return nil
+}
+
+// Custom marshaller with support for custom fields
+func (o *EventTicket) MarshalJSON() ([]byte, error) {
+	// Use a custom type to avoid the custom marshaller, marshal the data.
+	type tmp struct {
+		Id           int64 `json:"id,omitempty"`
+		Tickettypeid int64 `json:"tickettypeid,omitempty"`
+	}
+
+	obj := tmp{
+		Id:           o.Id,
+		Tickettypeid: o.Tickettypeid,
+	}
+	data, err := json.Marshal(obj)
+	if err != nil {
+		return nil, err
+	}
+
+	// Unpack it again, to get the wire representation
+	var raw map[string]interface{}
+	err = json.Unmarshal(data, &raw)
+	if err != nil {
+		return nil, err
+	}
+
+	for key, val := range o.CustomFields {
+		raw["c_"+key] = val
+	}
+
+	// Pack it again
+	return json.Marshal(raw)
+
+	// Note: Like UnmarshalJSON, this is quite crazy. But it works beautifully.
+	// Know a way to do this better? Get in touch!
 }
 
 // Key-value item
@@ -1479,11 +1564,16 @@ type PaymentscenarioAvailability struct {
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://apps.ticketmatic.com/#/knowledgebase/api/types/PaymentscenarioExpiryParameters).
 type PaymentscenarioExpiryParameters struct {
-	// The amount of days after an order has been created that the order becomes
+	// The amount of days after the paymentscenario was set that the order becomes
 	// overdue.
+	Daysaftercreation int64 `json:"daysaftercreation,omitempty"`
+
+	// DEPRECATED, use daysaftercreation. The amount of days after an order has been
+	// created that the order becomes overdue.
 	Daysafterordercreation int64 `json:"daysafterordercreation,omitempty"`
 
-	// The number of days before an event that an order becomes overdue.
+	// DEPRECATED, use daysaftercreation. The number of days before an event that an
+	// order becomes overdue.
 	Daysbeforeevent int64 `json:"daysbeforeevent,omitempty"`
 
 	// Indicates is the order will be deleted when it's expired.
@@ -1502,11 +1592,16 @@ type PaymentscenarioExpiryParameters struct {
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://apps.ticketmatic.com/#/knowledgebase/api/types/PaymentscenarioOverdueParameters).
 type PaymentscenarioOverdueParameters struct {
-	// The amount of days after an order has been created that the order becomes
+	// The amount of days after the paymentscenario was set that the order becomes
 	// overdue.
+	Daysaftercreation int64 `json:"daysaftercreation,omitempty"`
+
+	// DEPRECATED, use daysaftercreation. The amount of days after an order has been
+	// created that the order becomes overdue.
 	Daysafterordercreation int64 `json:"daysafterordercreation,omitempty"`
 
-	// The number of days before an event that an order becomes overdue.
+	// DEPRECATED, use daysaftercreation. The number of days before an event that an
+	// order becomes overdue.
 	Daysbeforeevent int64 `json:"daysbeforeevent,omitempty"`
 }
 
@@ -1895,8 +1990,11 @@ type WebSalesSkinConfiguration struct {
 	// The default Ticketmatic Facebook app will be used if you leave this field blank
 	Fbappid string `json:"fbappid,omitempty"`
 
-	// Google Analytics tracking ID. Can be left blank.
+	// Deprecated, use Google Tag Manager.
 	Googleanalyticsid string `json:"googleanalyticsid,omitempty"`
+
+	// Google Tag Manager ID. Can be left blank.
+	Googletagmanagerid string `json:"googletagmanagerid,omitempty"`
 }
 
 // Filter parameters to fetch a list of contacts
@@ -2048,6 +2146,35 @@ type EventFilter struct {
 type EventContext struct {
 	// The ID of the saleschannel used to restrict the event information
 	Saleschannelid int64 `json:"saleschannelid,omitempty"`
+}
+
+// Filter parameters to fetch a list of tickets for an event
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/EventTicketQuery).
+type EventTicketQuery struct {
+	// Limit results to at most the given amount of tickets. The default and maximum
+	// limit is 5000.
+	Limit int64 `json:"limit,omitempty"`
+
+	// Skip the first X tickets.
+	Offset int64 `json:"offset,omitempty"`
+
+	// Filters the tickets based on a given set of fields.
+	Simplefilter *EventTicketFilter `json:"simplefilter,omitempty"`
+}
+
+// Used when requesting tickets for an event, to filter the tickets.
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/EventTicketFilter).
+type EventTicketFilter struct {
+	// The ID of the tickettype (contingent)
+	Tickettypeid int64 `json:"tickettypeid,omitempty"`
 }
 
 // Required data for creating an order
@@ -3464,6 +3591,14 @@ type Product struct {
 	//
 	// Note: Not set when retrieving a list of products.
 	Saleschannels []int64 `json:"saleschannels"`
+
+	// Queue ID
+	//
+	// See rate limiting
+	// (https://apps.ticketmatic.com/#/knowledgebase/api/ratelimiting) for more info.
+	//
+	// Note: Not set when retrieving a list of products.
+	Queuetoken int64 `json:"queuetoken,omitempty"`
 
 	// Translations for the product properties
 	//

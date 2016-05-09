@@ -80,3 +80,27 @@ func TestGetdraft(t *testing.T) {
 	}
 
 }
+
+func TestGettickets(t *testing.T) {
+	var err error
+
+	accountcode := os.Getenv("TM_TEST_ACCOUNTCODE")
+	accesskey := os.Getenv("TM_TEST_ACCESSKEY")
+	secretkey := os.Getenv("TM_TEST_SECRETKEY")
+	c := ticketmatic.NewClient(accountcode, accesskey, secretkey)
+
+	_, err = Getlist(c, &ticketmatic.EventQuery{})
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	tickets, err := Gettickets(c, list.Data[0].Id, &ticketmatic.EventTicketQuery{})
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if len(tickets.Data) <= 0 {
+		t.Errorf("Unexpected tickets.Data length, got %#v, expected greater than %#v", len(tickets.Data), 0)
+	}
+
+}
