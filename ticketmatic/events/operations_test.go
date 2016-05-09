@@ -89,9 +89,13 @@ func TestGettickets(t *testing.T) {
 	secretkey := os.Getenv("TM_TEST_SECRETKEY")
 	c := ticketmatic.NewClient(accountcode, accesskey, secretkey)
 
-	_, err = Getlist(c, &ticketmatic.EventQuery{})
+	list, err := Getlist(c, &ticketmatic.EventQuery{})
 	if err != nil {
 		t.Fatal(err)
+	}
+
+	if len(list.Data) <= 0 {
+		t.Errorf("Unexpected list.Data length, got %#v, expected greater than %#v", len(list.Data), 0)
 	}
 
 	tickets, err := Gettickets(c, list.Data[0].Id, &ticketmatic.EventTicketQuery{})
