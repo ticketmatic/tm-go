@@ -1189,6 +1189,9 @@ type Order struct {
 	// Order fees for the order
 	Ordercosts []*Ordercost `json:"ordercosts"`
 
+	// Reference to the webskin that is used for showing the orderdetail page.
+	Webskinid int64 `json:"webskinid,omitempty"`
+
 	// Created timestamp
 	Createdts Time `json:"createdts,omitempty"`
 
@@ -1262,6 +1265,7 @@ func (o *Order) MarshalJSON() ([]byte, error) {
 		Promocodes                []string               `json:"promocodes,omitempty"`
 		Lookup                    map[string]interface{} `json:"lookup,omitempty"`
 		Ordercosts                []*Ordercost           `json:"ordercosts,omitempty"`
+		Webskinid                 int64                  `json:"webskinid,omitempty"`
 		Createdts                 Time                   `json:"createdts,omitempty"`
 		Lastupdatets              Time                   `json:"lastupdatets,omitempty"`
 	}
@@ -1293,6 +1297,7 @@ func (o *Order) MarshalJSON() ([]byte, error) {
 		Promocodes:                o.Promocodes,
 		Lookup:                    o.Lookup,
 		Ordercosts:                o.Ordercosts,
+		Webskinid:                 o.Webskinid,
 		Createdts:                 o.Createdts,
 		Lastupdatets:              o.Lastupdatets,
 	}

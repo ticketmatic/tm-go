@@ -8,6 +8,9 @@ import (
 type List struct {
 	// Result data
 	Data []*ticketmatic.LockType `json:"data"`
+
+	// The total number of results that are available without considering limit and offset, useful for paging.
+	NbrOfResults int `json:"nbrofresults"`
 }
 
 // Get a list of lock types

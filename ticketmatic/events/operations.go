@@ -9,6 +9,9 @@ type List struct {
 	// Result data
 	Data []*ticketmatic.Event `json:"data"`
 
+	// The total number of results that are available without considering limit and offset, useful for paging.
+	NbrOfResults int `json:"nbrofresults"`
+
 	// Lookup data
 	Lookups *Lookups `json:"lookup"`
 }
@@ -28,6 +31,9 @@ type Lookups struct {
 type EventTicketList struct {
 	// Result data
 	Data []*ticketmatic.EventTicket `json:"data"`
+
+	// The total number of results that are available without considering limit and offset, useful for paging.
+	NbrOfResults int `json:"nbrofresults"`
 }
 
 // Get a list of events
