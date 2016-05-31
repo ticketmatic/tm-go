@@ -56,7 +56,8 @@ func TestCreatedelete(t *testing.T) {
 	}
 
 	req2, err := Create(c, &ticketmatic.PriceType{
-		Name: "test",
+		Name:   "test",
+		Typeid: 2301,
 	})
 	if err != nil {
 		t.Fatal(err)

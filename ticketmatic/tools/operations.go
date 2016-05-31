@@ -27,7 +27,7 @@ func Queries(client *ticketmatic.Client, data *ticketmatic.QueryRequest) (*ticke
 // Use this method to retrieve the statistics on the number of tickets processed
 // and sold online during a certain period. The results can be grouped by day or
 // month. These statistics are often used as basis for invoicing or reporting.
-func Ticketsprocessedstatistics(client *ticketmatic.Client, params *ticketmatic.TicketsprocessedRequest) (*ticketmatic.TicketsprocessedStatistics, error) {
+func Ticketsprocessedstatistics(client *ticketmatic.Client, params *ticketmatic.TicketsprocessedRequest) ([]*ticketmatic.TicketsprocessedStatistics, error) {
 	r := client.NewRequest("GET", "/{accountname}/tools/ticketsprocessedstatistics")
 	if params != nil {
 		r.AddParameter("startts", params.Startts)
@@ -35,7 +35,7 @@ func Ticketsprocessedstatistics(client *ticketmatic.Client, params *ticketmatic.
 		r.AddParameter("groupby", params.Groupby)
 	}
 
-	var obj *ticketmatic.TicketsprocessedStatistics
+	var obj []*ticketmatic.TicketsprocessedStatistics
 	err := r.Run(&obj)
 	if err != nil {
 		return nil, err
