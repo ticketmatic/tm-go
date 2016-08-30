@@ -139,6 +139,9 @@ func Gettickets(client *ticketmatic.Client, id int64, params *ticketmatic.EventT
 //
 // Update the contents of one or more custom fields for multiple tickets in one
 // call. Batch update is limited to 5000 tickets per call.
+//
+// Warning: Do not change the barcode of a ticket that has been delivered: existing
+// printed tickets will no longer work.
 func Batchupdatetickets(client *ticketmatic.Client, id int64, data []*ticketmatic.EventTicket) error {
 	r := client.NewRequest("PUT", "/{accountname}/events/{id}/tickets/batch")
 	r.UrlParameters(map[string]interface{}{

@@ -319,8 +319,9 @@ func Getlogs(client *ticketmatic.Client, id int64) ([]*ticketmatic.LogItem, erro
 	return obj, nil
 }
 
-// Get the PDF for (some or all) tickets in the order. DEPRECATED: Use /{id}/pdf
-// instead.
+// [DEPRECATED] Export tickets to PDF
+//
+// DEPRECATED: Use /{id}/pdf instead.
 func Postticketspdf(client *ticketmatic.Client, id int64, data *ticketmatic.TicketsPdfRequest) (*ticketmatic.Url, error) {
 	r := client.NewRequest("POST", "/{accountname}/orders/{id}/tickets/pdf")
 	r.UrlParameters(map[string]interface{}{
@@ -336,7 +337,7 @@ func Postticketspdf(client *ticketmatic.Client, id int64, data *ticketmatic.Tick
 	return obj, nil
 }
 
-// Get the PDF for (some or all) tickets and/or vouchercodes in the order
+// Export tickets and/or vouchercodes to PDF
 func Postpdf(client *ticketmatic.Client, id int64, data *ticketmatic.TicketsPdfRequest) (*ticketmatic.Url, error) {
 	r := client.NewRequest("POST", "/{accountname}/orders/{id}/pdf")
 	r.UrlParameters(map[string]interface{}{
@@ -413,6 +414,39 @@ func Getdocument(client *ticketmatic.Client, id int64, documentid string, langua
 	})
 
 	var obj *ticketmatic.Url
+	err := r.Run(&obj)
+	if err != nil {
+		return nil, err
+	}
+	return obj, nil
+}
+
+// Import historic orders
+func Import(client *ticketmatic.Client, data []*ticketmatic.Order) ([]*ticketmatic.OrderImportStatus, error) {
+	r := client.NewRequest("POST", "/{accountname}/orders/import")
+	r.Body(data)
+
+	var obj []*ticketmatic.OrderImportStatus
+	err := r.Run(&obj)
+	if err != nil {
+		return nil, err
+	}
+	return obj, nil
+}
+
+// Reserve order IDs
+//
+// Importing orders with specified IDs is only possible when those IDs fall in the
+// reserved ID range.
+//
+// Use this call to reserve a range of order IDs. Any ID lower than or equal to the
+// specified ID will be reserved. New orders will receive IDs higher than the
+// specified ID.
+func Reserve(client *ticketmatic.Client, data *ticketmatic.OrderIdReservation) (*ticketmatic.OrderIdReservation, error) {
+	r := client.NewRequest("POST", "/{accountname}/orders/import/reserve")
+	r.Body(data)
+
+	var obj *ticketmatic.OrderIdReservation
 	err := r.Run(&obj)
 	if err != nil {
 		return nil, err

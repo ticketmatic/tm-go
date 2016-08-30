@@ -7,6 +7,36 @@ import (
 	"github.com/ticketmatic/tm-go/ticketmatic"
 )
 
+func TestCreate(t *testing.T) {
+	var err error
+
+	accountcode := os.Getenv("TM_TEST_ACCOUNTCODE")
+	accesskey := os.Getenv("TM_TEST_ACCESSKEY")
+	secretkey := os.Getenv("TM_TEST_SECRETKEY")
+	c := ticketmatic.NewClient(accountcode, accesskey, secretkey)
+
+	event, err := Create(c, &ticketmatic.Event{
+		Contingents: []*ticketmatic.EventContingent{
+			&ticketmatic.EventContingent{
+				Amount: 100,
+			},
+		},
+		Name: "Example",
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if event.Name != "Example" {
+		t.Errorf("Unexpected event.Name, got %#v, expected %#v", event.Name, "Example")
+	}
+
+	if event.Contingents[0].Amount != 100 {
+		t.Errorf("Unexpected event.Contingents[0].Amount, got %#v, expected %#v", event.Contingents[0].Amount, 100)
+	}
+
+}
+
 func TestGet(t *testing.T) {
 	var err error
 
@@ -105,6 +135,21 @@ func TestGettickets(t *testing.T) {
 
 	if len(tickets.Data) <= 0 {
 		t.Errorf("Unexpected tickets.Data length, got %#v, expected greater than %#v", len(tickets.Data), 0)
+	}
+
+}
+
+func TestDeletefixedbundleevent(t *testing.T) {
+	var err error
+
+	accountcode := os.Getenv("TM_TEST_ACCOUNTCODE")
+	accesskey := os.Getenv("TM_TEST_ACCESSKEY")
+	secretkey := os.Getenv("TM_TEST_SECRETKEY")
+	c := ticketmatic.NewClient(accountcode, accesskey, secretkey)
+
+	err = Delete(c, 777704)
+	if err != nil {
+		t.Fatal(err)
 	}
 
 }

@@ -40,6 +40,9 @@ type Address struct {
 	// (https://apps.ticketmatic.com/#/knowledgebase/api/types/Contact) address.
 	Country string `json:"country"`
 
+	// State
+	State string `json:"state"`
+
 	// Zip code
 	Zip string `json:"zip"`
 
@@ -492,7 +495,7 @@ type Event struct {
 	//
 	// See event locations
 	// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_events_eventlocations)
-	// for more info.
+	// for more information.
 	Locationid int64 `json:"locationid,omitempty"`
 
 	// Event location name
@@ -508,14 +511,14 @@ type Event struct {
 	//
 	// Only set for events with fixed seats. See seating plans
 	// (https://apps.ticketmatic.com/#/knowledgebase/api/types/Seatingplan) for more
-	// info.
+	// information.
 	Seatingplanid int64 `json:"seatingplanid,omitempty"`
 
 	// Price list ID for fixed seats.
 	//
 	// Only set for events with fixed seats. See price lists
 	// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_pricing_pricelists)
-	// for more info.
+	// for more information.
 	Seatingplanpricelistid int64 `json:"seatingplanpricelistid,omitempty"`
 
 	// Event specific prices in addition to the prices defined in the field
@@ -539,27 +542,28 @@ type Event struct {
 	//
 	// Determines which ticket fee rules are used for this event. See ticket fees
 	// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_pricing_ticketfees)
-	// for more info.
+	// for more information.
 	Ticketfeeid int64 `json:"ticketfeeid,omitempty"`
 
 	// Revenue split ID
 	//
 	// Determines which revenue split rules are used for this event. See revenue splits
 	// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_pricing_revenuesplits)
-	// for more info.
+	// for more information.
 	Revenuesplitid int64 `json:"revenuesplitid,omitempty"`
 
 	// Ticket layout ID
 	//
 	// See ticket layouts
 	// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_communicationanddesign_ticketlayouts)
-	// for more info.
+	// for more information.
 	Ticketlayoutid int64 `json:"ticketlayoutid,omitempty"`
 
 	// Queue ID
 	//
 	// See rate limiting
-	// (https://apps.ticketmatic.com/#/knowledgebase/api/ratelimiting) for more info.
+	// (https://apps.ticketmatic.com/#/knowledgebase/api/ratelimiting) for more
+	// information.
 	Queuetoken int64 `json:"queuetoken,omitempty"`
 
 	// Maximum number of tickets for this event that can be added to a basket
@@ -755,6 +759,10 @@ type EventContingent struct {
 	// Whether the barcodes for the tickets in this contingent were imported (true), or
 	// were generated internally (false)
 	Withimportedbarcodes bool `json:"withimportedbarcodes"`
+
+	// A set of predetermined barcodes to use for this contingent. Usually used when
+	// importing data from other systems.
+	Barcodes []string `json:"barcodes"`
 
 	// Price list ID for this contingent
 	Pricelistid int64 `json:"pricelistid"`
@@ -964,12 +972,22 @@ type EventTicket struct {
 	// Ticket ID
 	Id int64 `json:"id"`
 
+	// Ticket barcode
+	Barcode string `json:"barcode,omitempty"`
+
 	// Link to the contingent this ticket belongs to
 	//
 	// Note: Ignored in the result for updating tickets
 	//
 	// Note: Ignored when updating tickets
 	Tickettypeid int64 `json:"tickettypeid,omitempty"`
+
+	// Seat ID (for seated tickets)
+	//
+	// Note: Ignored in the result for updating tickets
+	//
+	// Note: Ignored when updating tickets
+	Seatid string `json:"seatid,omitempty"`
 
 	// Custom fields
 	CustomFields map[string]interface{} `json:"-"`
@@ -1012,13 +1030,17 @@ func (o *EventTicket) UnmarshalJSON(data []byte) error {
 func (o *EventTicket) MarshalJSON() ([]byte, error) {
 	// Use a custom type to avoid the custom marshaller, marshal the data.
 	type tmp struct {
-		Id           int64 `json:"id,omitempty"`
-		Tickettypeid int64 `json:"tickettypeid,omitempty"`
+		Id           int64  `json:"id,omitempty"`
+		Barcode      string `json:"barcode,omitempty"`
+		Tickettypeid int64  `json:"tickettypeid,omitempty"`
+		Seatid       string `json:"seatid,omitempty"`
 	}
 
 	obj := tmp{
 		Id:           o.Id,
+		Barcode:      o.Barcode,
 		Tickettypeid: o.Tickettypeid,
+		Seatid:       o.Seatid,
 	}
 	data, err := json.Marshal(obj)
 	if err != nil {
@@ -1065,7 +1087,7 @@ type KeyValueItem struct {
 // (https://apps.ticketmatic.com/#/knowledgebase/api/types/Order).
 type Order struct {
 	// Order ID
-	Orderid int64 `json:"orderid"`
+	Orderid int64 `json:"orderid,omitempty"`
 
 	// Order status
 	//
@@ -1076,25 +1098,33 @@ type Order struct {
 	// * 21002: Confirmed
 	//
 	// * 21003: Archived
+	//
+	// Note: Ignored when importing orders.
 	Status int64 `json:"status"`
 
 	// Order code
 	//
 	// Used as a unique identifier in web sales.
-	Code string `json:"code"`
+	Code string `json:"code,omitempty"`
 
 	// Customer ID
 	Customerid int64 `json:"customerid"`
 
 	// Has customer authenticated?
+	//
+	// Note: Ignored when importing orders.
 	Isauthenticatedcustomer bool `json:"isauthenticatedcustomer"`
 
 	// Total order amount
 	//
 	// Includes all costs and fees.
+	//
+	// Note: Ignored when importing orders.
 	Totalamount float64 `json:"totalamount"`
 
 	// Total amount paid
+	//
+	// Note: Ignored when importing orders.
 	Amountpaid float64 `json:"amountpaid"`
 
 	// Payment status
@@ -1106,9 +1136,13 @@ type Order struct {
 	// * 1: Fully paid
 	//
 	// * 2: Overpaid
+	//
+	// Note: Ignored when importing orders.
 	Paymentstatus int64 `json:"paymentstatus"`
 
 	// Number of tickets in the order. Read-only
+	//
+	// Note: Ignored when importing orders.
 	Nbroftickets int64 `json:"nbroftickets"`
 
 	// Delivery status
@@ -1120,6 +1154,8 @@ type Order struct {
 	// * 2602: Delivered
 	//
 	// * 2603: Changed after delivery
+	//
+	// Note: Ignored when importing orders.
 	Deliverystatus int64 `json:"deliverystatus"`
 
 	// Address used when delivering physically
@@ -1127,6 +1163,8 @@ type Order struct {
 
 	// Information on the deferred payment scenario. Structure depends on payment
 	// method
+	//
+	// Note: Ignored when importing orders.
 	Deferredpaymentproperties map[string]interface{} `json:"deferredpaymentproperties,omitempty"`
 
 	// Sales channel ID
@@ -1141,27 +1179,35 @@ type Order struct {
 	// See payment scenarios
 	// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_ticketsales_paymentscenarios)
 	// for more info.
-	Paymentscenarioid int64 `json:"paymentscenarioid"`
+	Paymentscenarioid int64 `json:"paymentscenarioid,omitempty"`
 
 	// Delivery scenario ID
 	//
 	// See delivery scenarios
 	// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_ticketsales_deliveryscenarios)
 	// for more info.
-	Deliveryscenarioid int64 `json:"deliveryscenarioid"`
+	Deliveryscenarioid int64 `json:"deliveryscenarioid,omitempty"`
 
 	// When the reminder mail will be sent
+	//
+	// Note: Ignored when importing orders.
 	Rappelts Time `json:"rappelts"`
 
 	// Whether the overdue order has been handled (and optionally reminder mail has
 	// been sent)
+	//
+	// Note: Ignored when importing orders.
 	Rappelhandled bool `json:"rappelhandled"`
 
 	// When the order will expire
+	//
+	// Note: Ignored when importing orders.
 	Expiryts Time `json:"expiryts"`
 
 	// Whether the expired order has been handled (and optionally expiry mail has been
 	// sent)
+	//
+	// Note: Ignored when importing orders.
 	Expiryhandled bool `json:"expiryhandled"`
 
 	// Tickets in the order
@@ -1174,9 +1220,13 @@ type Order struct {
 	Payments []*Payment `json:"payments"`
 
 	// Queue tokens for rate limiting
+	//
+	// Note: Ignored when importing orders.
 	Queuetokens []int64 `json:"queuetokens"`
 
 	// Promocodes active for the Order
+	//
+	// Note: Ignored when importing orders.
 	Promocodes []string `json:"promocodes"`
 
 	// Related objects
@@ -1184,19 +1234,25 @@ type Order struct {
 	// See the lookup fields on the getlist operation
 	// (https://apps.ticketmatic.com/#/knowledgebase/api/orders/getlist) for a full
 	// description.
+	//
+	// Note: Ignored when importing orders.
 	Lookup map[string]interface{} `json:"lookup,omitempty"`
 
 	// Order fees for the order
+	//
+	// Note: Ignored when importing orders.
 	Ordercosts []*Ordercost `json:"ordercosts"`
 
 	// Reference to the webskin that is used for showing the orderdetail page.
+	//
+	// Note: Ignored when importing orders.
 	Webskinid int64 `json:"webskinid"`
 
 	// Created timestamp
-	Createdts Time `json:"createdts"`
+	Createdts Time `json:"createdts,omitempty"`
 
 	// Last updated timestamp
-	Lastupdatets Time `json:"lastupdatets"`
+	Lastupdatets Time `json:"lastupdatets,omitempty"`
 
 	// Custom fields
 	CustomFields map[string]interface{} `json:"-"`
@@ -1459,6 +1515,9 @@ type OrderTicket struct {
 
 	// Contingent ID
 	Tickettypeid int64 `json:"tickettypeid"`
+
+	// Seatzone ID
+	Seatzoneid int64 `json:"seatzoneid"`
 
 	// Id for the tickettypeprice of this ticket for the order
 	Baskettickettypepriceid int64 `json:"baskettickettypepriceid"`
@@ -2224,6 +2283,12 @@ type CreateTicket struct {
 	// Should only be specified when optionbundleid is specified. The tickettypeid for
 	// the ticket you want to add to the optionbundle.
 	Tickettypeid int64 `json:"tickettypeid,omitempty"`
+
+	// Voucher code to use (if any)
+	Vouchercode string `json:"vouchercode,omitempty"`
+
+	// Manually select a specific ticket.
+	Ticketid int64 `json:"ticketid,omitempty"`
 }
 
 // Info for adding a product
@@ -2329,17 +2394,31 @@ type PaymentRequest struct {
 	Language string `json:"language"`
 }
 
-// Request data used to add tickets
-// (https://apps.ticketmatic.com/#/knowledgebase/api/orders/addtickets) to an order
-// (https://apps.ticketmatic.com/#/knowledgebase/api/types/Order).
+// Order ID reservation
 //
 // Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
-// (https://apps.ticketmatic.com/#/knowledgebase/api/types/AddTickets).
-type AddTickets struct {
-	// Ticket information
-	Tickets []*CreateTicket `json:"tickets"`
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/OrderIdReservation).
+type OrderIdReservation struct {
+	// Maximum ID to reserve
+	Id int64 `json:"id"`
+}
+
+// Request data used to add a payment
+// (https://apps.ticketmatic.com/#/knowledgebase/api/orders/addpayments) to an
+// order (https://apps.ticketmatic.com/#/knowledgebase/api/types/Order).
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/AddPayments).
+type AddPayments struct {
+	// Id of the payment method to be used for the payment
+	Paymentmethodid int64 `json:"paymentmethodid"`
+
+	// Amount for the payment
+	Amount float64 `json:"amount"`
 }
 
 // Request data used to add products
@@ -2355,17 +2434,33 @@ type AddProducts struct {
 	Products []*CreateProduct `json:"products"`
 }
 
-// Request data used to delete tickets
-// (https://apps.ticketmatic.com/#/knowledgebase/api/orders/deletetickets) from an
+// Request data used to refund a payment
+// (https://apps.ticketmatic.com/#/knowledgebase/api/orders/addrefunds) for an
 // order (https://apps.ticketmatic.com/#/knowledgebase/api/types/Order).
 //
 // Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
-// (https://apps.ticketmatic.com/#/knowledgebase/api/types/DeleteTickets).
-type DeleteTickets struct {
-	// Ticket IDs
-	Tickets []int64 `json:"tickets"`
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/AddRefunds).
+type AddRefunds struct {
+	// Id of the payment that needs to be refunded
+	Paymentid int64 `json:"paymentid"`
+
+	// Amount that needs to be refunded
+	Amount float64 `json:"amount"`
+}
+
+// Request data used to add tickets
+// (https://apps.ticketmatic.com/#/knowledgebase/api/orders/addtickets) to an order
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/Order).
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/AddTickets).
+type AddTickets struct {
+	// Ticket information
+	Tickets []*CreateTicket `json:"tickets"`
 }
 
 // Request data used to delete products
@@ -2379,6 +2474,55 @@ type DeleteTickets struct {
 type DeleteProducts struct {
 	// Product IDs
 	Products []int64 `json:"products"`
+}
+
+// Request data used to delete tickets
+// (https://apps.ticketmatic.com/#/knowledgebase/api/orders/deletetickets) from an
+// order (https://apps.ticketmatic.com/#/knowledgebase/api/types/Order).
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/DeleteTickets).
+type DeleteTickets struct {
+	// Ticket IDs
+	Tickets []int64 `json:"tickets"`
+}
+
+// Log item returned when requesting the log history of an order
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/Order).
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/LogItem).
+type LogItem struct {
+	// Id of the log item
+	Id int64 `json:"id"`
+
+	// Log item timestamp
+	Ts Time `json:"ts"`
+
+	// User id
+	Userid int64 `json:"userid"`
+
+	// Log item type
+	Typeid int64 `json:"typeid"`
+
+	// Order id
+	Orderid int64 `json:"orderid"`
+
+	// User name
+	Username string `json:"username"`
+
+	// Info
+	Info map[string]interface{} `json:"info,omitempty"`
+
+	// Model
+	Model map[string]interface{} `json:"model,omitempty"`
+
+	// Lookup info
+	Lookupinfo map[string]interface{} `json:"lookupinfo,omitempty"`
 }
 
 // Used when requesting orders, to filter orders.
@@ -2409,6 +2553,23 @@ type OrderFilter struct {
 	//
 	// * 21003: Archived orders
 	Status int64 `json:"status,omitempty"`
+}
+
+// Import status per order
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/OrderImportStatus).
+type OrderImportStatus struct {
+	// Whether the import succeeded
+	Ok bool `json:"ok"`
+
+	// Order ID
+	Id int64 `json:"id"`
+
+	// Error message, if failed
+	Error string `json:"error"`
 }
 
 // Filter parameters to fetch a list of orders
@@ -2496,6 +2657,34 @@ type UpdateOrder struct {
 	Expiryts string `json:"expiryts,omitempty"`
 }
 
+// Individual products can be updated. Per call you can specify any number of
+// product IDs and one operation.
+//
+// Each operation accepts different parameters, dependent on the operation type:
+//
+// * Set product holders: an array of ticket holder IDs (see Contact
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/Contact)), one for each
+// product (productholderids). *
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/UpdateProducts).
+type UpdateProducts struct {
+	// Product IDs
+	Products []int64 `json:"products"`
+
+	// Operation to execute.
+	//
+	// Supported values:
+	//
+	// * setproductholders
+	Operation string `json:"operation"`
+
+	// Operation parameters
+	Params map[string]interface{} `json:"params,omitempty"`
+}
+
 // Individual tickets can be updated. Per call you can specify any number of ticket
 // IDs and one operation.
 //
@@ -2528,102 +2717,6 @@ type UpdateTickets struct {
 
 	// Operation parameters
 	Params map[string]interface{} `json:"params,omitempty"`
-}
-
-// Individual products can be updated. Per call you can specify any number of
-// product IDs and one operation.
-//
-// Each operation accepts different parameters, dependent on the operation type:
-//
-// * Set product holders: an array of ticket holder IDs (see Contact
-// (https://apps.ticketmatic.com/#/knowledgebase/api/types/Contact)), one for each
-// product (productholderids). *
-//
-// Help Center
-//
-// Full documentation can be found in the Ticketmatic Help Center
-// (https://apps.ticketmatic.com/#/knowledgebase/api/types/UpdateProducts).
-type UpdateProducts struct {
-	// Product IDs
-	Products []int64 `json:"products"`
-
-	// Operation to execute.
-	//
-	// Supported values:
-	//
-	// * setproductholders
-	Operation string `json:"operation"`
-
-	// Operation parameters
-	Params map[string]interface{} `json:"params,omitempty"`
-}
-
-// Request data used to add a payment
-// (https://apps.ticketmatic.com/#/knowledgebase/api/orders/addpayments) to an
-// order (https://apps.ticketmatic.com/#/knowledgebase/api/types/Order).
-//
-// Help Center
-//
-// Full documentation can be found in the Ticketmatic Help Center
-// (https://apps.ticketmatic.com/#/knowledgebase/api/types/AddPayments).
-type AddPayments struct {
-	// Id of the payment method to be used for the payment
-	Paymentmethodid int64 `json:"paymentmethodid"`
-
-	// Amount for the payment
-	Amount float64 `json:"amount"`
-}
-
-// Request data used to refund a payment
-// (https://apps.ticketmatic.com/#/knowledgebase/api/orders/addrefunds) for an
-// order (https://apps.ticketmatic.com/#/knowledgebase/api/types/Order).
-//
-// Help Center
-//
-// Full documentation can be found in the Ticketmatic Help Center
-// (https://apps.ticketmatic.com/#/knowledgebase/api/types/AddRefunds).
-type AddRefunds struct {
-	// Id of the payment that needs to be refunded
-	Paymentid int64 `json:"paymentid"`
-
-	// Amount that needs to be refunded
-	Amount float64 `json:"amount"`
-}
-
-// Log item returned when requesting the log history of an order
-// (https://apps.ticketmatic.com/#/knowledgebase/api/types/Order).
-//
-// Help Center
-//
-// Full documentation can be found in the Ticketmatic Help Center
-// (https://apps.ticketmatic.com/#/knowledgebase/api/types/LogItem).
-type LogItem struct {
-	// Id of the log item
-	Id int64 `json:"id"`
-
-	// Log item timestamp
-	Ts Time `json:"ts"`
-
-	// User id
-	Userid int64 `json:"userid"`
-
-	// Log item type
-	Typeid int64 `json:"typeid"`
-
-	// Order id
-	Orderid int64 `json:"orderid"`
-
-	// User name
-	Username string `json:"username"`
-
-	// Info
-	Info map[string]interface{} `json:"info,omitempty"`
-
-	// Model
-	Model map[string]interface{} `json:"model,omitempty"`
-
-	// Lookup info
-	Lookupinfo map[string]interface{} `json:"lookupinfo,omitempty"`
 }
 
 // Rate limiting status. See rate limiting
@@ -3083,6 +3176,9 @@ type EventLocation struct {
 
 	// City
 	City string `json:"city"`
+
+	// State
+	State string `json:"state"`
 
 	// Country code. Should be an ISO 3166-1 alpha-2
 	// (http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) two-letter code.
@@ -4741,6 +4837,140 @@ type SalesChannel struct {
 	// Note: Ignored when creating a new sales channel.
 	//
 	// Note: Ignored when updating an existing sales channel.
+	Isarchived bool `json:"isarchived"`
+}
+
+// Parameters used to create voucher codes
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/AddVoucherCodes).
+type AddVoucherCodes struct {
+	// Number of codes to create
+	Count int64 `json:"count"`
+
+	// Value of the voucher
+	Amount float64 `json:"amount,omitempty"`
+
+	// Code IDs (optional). Random codes will be generated when omittd.
+	Codes []string `json:"codes"`
+}
+
+// Voucher code
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/VoucherCode).
+type VoucherCode struct {
+	// Code to use voucher
+	Code string `json:"code"`
+}
+
+// Set of parameters used to filter vouchers.
+//
+// More info: see voucher
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/Voucher), the getlist
+// operation
+// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_vouchers/getlist) and
+// the vouchers endpoint
+// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_vouchers).
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/VoucherQuery).
+type VoucherQuery struct {
+	// If this parameter is true, archived items will be returned as well.
+	Includearchived bool `json:"includearchived,omitempty"`
+
+	// All items that were updated since this timestamp will be returned. Timestamp
+	// should be passed in YYYY-MM-DD hh:mm:ss format.
+	Lastupdatesince Time `json:"lastupdatesince,omitempty"`
+
+	// Filter the returned items by specifying a query on the public datamodel that
+	// returns the ids.
+	Filter string `json:"filter,omitempty"`
+
+	// Only return items with the given typeid.
+	Typeid int64 `json:"typeid,omitempty"`
+}
+
+// A single voucher.
+//
+// More info: see the get operation
+// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_vouchers/get) and the
+// vouchers endpoint
+// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_vouchers).
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://apps.ticketmatic.com/#/knowledgebase/api/types/Voucher).
+type Voucher struct {
+	// Unique ID
+	//
+	// Note: Ignored when creating a new voucher.
+	//
+	// Note: Ignored when updating an existing voucher.
+	Id int64 `json:"id"`
+
+	// Type ID
+	//
+	// Note: Ignored when updating an existing voucher.
+	Typeid int64 `json:"typeid"`
+
+	// Name of the voucher
+	Name string `json:"name"`
+
+	// Description of the voucher
+	Description string `json:"description"`
+
+	// Definition of the validity of this voucher. Depends on the typeid.
+	//
+	// Note: Not set when retrieving a list of vouchers.
+	Validity *VoucherValidity `json:"validity,omitempty"`
+
+	// Ticketlayout to be used for this voucher.
+	Ticketlayoutid int64 `json:"ticketlayoutid"`
+
+	// Paymentmethod to use when creating payments for vouchers of type payment.
+	Paymentmethodid int64 `json:"paymentmethodid"`
+
+	// The number of codes that were created for this voucher.
+	//
+	// Note: Ignored when creating a new voucher.
+	//
+	// Note: Ignored when updating an existing voucher.
+	Nbrofcodes int64 `json:"nbrofcodes"`
+
+	// Format for the codes for the voucher
+	Codeformatid int64 `json:"codeformatid"`
+
+	// A validation script that is used for vouchers of type order. For each order with
+	// a voucher of this type attached, the script will be run to validate the contents
+	Ordervalidationscript string `json:"ordervalidationscript"`
+
+	// Created timestamp
+	//
+	// Note: Ignored when creating a new voucher.
+	//
+	// Note: Ignored when updating an existing voucher.
+	Createdts Time `json:"createdts"`
+
+	// Last updated timestamp
+	//
+	// Note: Ignored when creating a new voucher.
+	//
+	// Note: Ignored when updating an existing voucher.
+	Lastupdatets Time `json:"lastupdatets"`
+
+	// Whether or not this item is archived
+	//
+	// Note: Ignored when creating a new voucher.
+	//
+	// Note: Ignored when updating an existing voucher.
 	Isarchived bool `json:"isarchived"`
 }
 

@@ -23,7 +23,7 @@ var Server = "https://apps.ticketmatic.com"
 var Version = "1"
 
 // Library Version
-const Build = "0ae810107b292ac80712d91afd2cf7be3af5f830"
+const Build = "fbac1ca6f156e34b6f02e4d9a2277a48e8372b97"
 
 // Rate limit error
 type RateLimitError struct {
