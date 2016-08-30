@@ -422,6 +422,8 @@ func Getdocument(client *ticketmatic.Client, id int64, documentid string, langua
 }
 
 // Import historic orders
+//
+// Up to 100 orders can be sent per call.
 func Import(client *ticketmatic.Client, data []*ticketmatic.Order) ([]*ticketmatic.OrderImportStatus, error) {
 	r := client.NewRequest("POST", "/{accountname}/orders/import")
 	r.Body(data)

@@ -760,10 +760,6 @@ type EventContingent struct {
 	// were generated internally (false)
 	Withimportedbarcodes bool `json:"withimportedbarcodes"`
 
-	// A set of predetermined barcodes to use for this contingent. Usually used when
-	// importing data from other systems.
-	Barcodes []string `json:"barcodes"`
-
 	// Price list ID for this contingent
 	Pricelistid int64 `json:"pricelistid"`
 
