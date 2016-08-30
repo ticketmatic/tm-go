@@ -148,8 +148,9 @@ func TestDeletefixedbundleevent(t *testing.T) {
 	c := ticketmatic.NewClient(accountcode, accesskey, secretkey)
 
 	err = Delete(c, 777704)
-	if err != nil {
-		t.Fatal(err)
+
+	if err == nil {
+		t.Fatal("Expected an error!")
 	}
 
 }
