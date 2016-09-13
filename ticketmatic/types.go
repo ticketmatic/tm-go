@@ -1516,7 +1516,7 @@ type OrderTicket struct {
 	Seatzoneid int64 `json:"seatzoneid"`
 
 	// Id for the tickettypeprice of this ticket for the order
-	Baskettickettypepriceid int64 `json:"baskettickettypepriceid"`
+	Tickettypepriceid int64 `json:"tickettypepriceid"`
 
 	// Ticket price
 	Price float64 `json:"price"`
