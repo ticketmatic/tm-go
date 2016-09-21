@@ -205,6 +205,23 @@ func TestCreateunicode(t *testing.T) {
 		t.Errorf("Unexpected contact.Lastname, got %#v, expected %#v", contact.Lastname, "ポテト 👌 ไก่")
 	}
 
+	contact2, err := Get(c, contact.Id)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if contact2.Id == 0 {
+		t.Errorf("Unexpected contact2.Id, got %#v, expected different value", contact2.Id)
+	}
+
+	if contact2.Firstname != "JØhñ" {
+		t.Errorf("Unexpected contact2.Firstname, got %#v, expected %#v", contact2.Firstname, "JØhñ")
+	}
+
+	if contact2.Lastname != "ポテト 👌 ไก่" {
+		t.Errorf("Unexpected contact2.Lastname, got %#v, expected %#v", contact2.Lastname, "ポテト 👌 ไก่")
+	}
+
 	err = Delete(c, contact.Id)
 	if err != nil {
 		t.Fatal(err)
