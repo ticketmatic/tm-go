@@ -177,6 +177,41 @@ func TestCreatecustom(t *testing.T) {
 
 }
 
+func TestCreateunicode(t *testing.T) {
+	var err error
+
+	accountcode := os.Getenv("TM_TEST_ACCOUNTCODE")
+	accesskey := os.Getenv("TM_TEST_ACCESSKEY")
+	secretkey := os.Getenv("TM_TEST_SECRETKEY")
+	c := ticketmatic.NewClient(accountcode, accesskey, secretkey)
+
+	contact, err := Create(c, &ticketmatic.Contact{
+		Firstname: "JØhñ",
+		Lastname:  "ポテト 👌 ไก่",
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if contact.Id == 0 {
+		t.Errorf("Unexpected contact.Id, got %#v, expected different value", contact.Id)
+	}
+
+	if contact.Firstname != "JØhñ" {
+		t.Errorf("Unexpected contact.Firstname, got %#v, expected %#v", contact.Firstname, "JØhñ")
+	}
+
+	if contact.Lastname != "ポテト 👌 ไก่" {
+		t.Errorf("Unexpected contact.Lastname, got %#v, expected %#v", contact.Lastname, "ポテト 👌 ไก่")
+	}
+
+	err = Delete(c, contact.Id)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+}
+
 func TestArchived(t *testing.T) {
 	var err error
 
