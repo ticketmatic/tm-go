@@ -16,7 +16,8 @@ func TestCreateAndDelete(t *testing.T) {
 	c := ticketmatic.NewClient(accountcode, accesskey, secretkey)
 
 	orderfee, err := Create(c, &ticketmatic.OrderFee{
-		Name: "Order fee test",
+		Typeid: 2401,
+		Name:   "Order fee test",
 		Rule: &ticketmatic.OrderfeeRule{
 			Auto: []*ticketmatic.OrderfeeAutoRule{
 				&ticketmatic.OrderfeeAutoRule{
@@ -34,7 +35,6 @@ func TestCreateAndDelete(t *testing.T) {
 				},
 			},
 		},
-		Typeid: 2401,
 	})
 	if err != nil {
 		t.Fatal(err)
@@ -53,7 +53,8 @@ func TestCreateAndDelete(t *testing.T) {
 	}
 
 	orderfeescript, err := Create(c, &ticketmatic.OrderFee{
-		Name: "Order fee script test",
+		Typeid: 2402,
+		Name:   "Order fee script test",
 		Rule: &ticketmatic.OrderfeeRule{
 			Context: []*ticketmatic.OrderfeeScriptContext{
 				&ticketmatic.OrderfeeScriptContext{
@@ -64,7 +65,6 @@ func TestCreateAndDelete(t *testing.T) {
 			},
 			Script: "return 2;",
 		},
-		Typeid: 2402,
 	})
 	if err != nil {
 		t.Fatal(err)

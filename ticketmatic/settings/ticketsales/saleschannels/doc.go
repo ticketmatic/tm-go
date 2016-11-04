@@ -1,7 +1,5 @@
-// In Ticketmatic, each order is created in the context of a sales channel.
-//
-// For an overview of ticket sales concepts, check the ticket sales setup guide
-// (https://apps.ticketmatic.com/#/knowledgebase/setupexpert_ticketsales).
+// In Ticketmatic, each order is created in the context of a sales channel
+// (https://www.ticketmatic.com/docs/tickets/configure_ticket_sales/saleschannels).
 //
 // Types
 //
@@ -25,5 +23,5 @@
 // Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
-// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_ticketsales_saleschannels).
+// (https://www.ticketmatic.com/docs/api/settings/ticketsales/saleschannels).
 package saleschannels

@@ -3,5 +3,5 @@
 // Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
-// (https://apps.ticketmatic.com/#/knowledgebase/api/contacts).
+// (https://www.ticketmatic.com/docs/api/contacts).
 package contacts

@@ -6,7 +6,7 @@
 // Additionally, conditions for each price type can be defined.
 //
 // The possible conditions are listed in PricelistPriceCondition
-// (https://apps.ticketmatic.com/#/knowledgebase/api/types/PricelistPriceCondition).
+// (https://www.ticketmatic.com/docs/api/types/PricelistPriceCondition).
 //
 // The prices for an event are defined by linking a price list to the event. The
 // same price list can be linked to multiple events.
@@ -19,5 +19,5 @@
 // Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
-// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_pricing_pricelists).
+// (https://www.ticketmatic.com/docs/api/settings/pricing/pricelists).
 package pricelists

@@ -1,8 +1,8 @@
 // You can find more information about vouchers here
-// (https://apps.ticketmatic.com/#/knowledgebase/setupexpert_products).
+// (https://www.ticketmatic.com/docs/events/vouchers).
 //
 // Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
-// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_vouchers).
+// (https://www.ticketmatic.com/docs/api/settings/vouchers).
 package vouchers

@@ -17,8 +17,8 @@ type List struct {
 func Getlist(client *ticketmatic.Client, params *ticketmatic.WebSalesSkinQuery) (*List, error) {
 	r := client.NewRequest("GET", "/{accountname}/settings/communicationanddesign/webskins")
 	if params != nil {
-		r.AddParameter("lastupdatesince", params.Lastupdatesince)
 		r.AddParameter("filter", params.Filter)
+		r.AddParameter("lastupdatesince", params.Lastupdatesince)
 	}
 
 	var obj *List

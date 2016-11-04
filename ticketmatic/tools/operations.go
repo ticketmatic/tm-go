@@ -30,9 +30,9 @@ func Queries(client *ticketmatic.Client, data *ticketmatic.QueryRequest) (*ticke
 func Ticketsprocessedstatistics(client *ticketmatic.Client, params *ticketmatic.TicketsprocessedRequest) ([]*ticketmatic.TicketsprocessedStatistics, error) {
 	r := client.NewRequest("GET", "/{accountname}/tools/ticketsprocessedstatistics")
 	if params != nil {
-		r.AddParameter("startts", params.Startts)
 		r.AddParameter("endts", params.Endts)
 		r.AddParameter("groupby", params.Groupby)
+		r.AddParameter("startts", params.Startts)
 	}
 
 	var obj []*ticketmatic.TicketsprocessedStatistics

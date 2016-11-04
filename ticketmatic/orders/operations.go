@@ -97,12 +97,13 @@ func Get(client *ticketmatic.Client, id int64) (*ticketmatic.Order, error) {
 // Creates a new empty order.
 //
 // Each order is linked to a sales channel
-// (https://apps.ticketmatic.com/#/knowledgebase/api/types/SalesChannel), which
-// needs to be supplied when creating.
+// (https://www.ticketmatic.com/docs/api/types/SalesChannel), which needs to be
+// supplied when creating.
 //
 // Note: This method may return a 429 Rate Limit Exceeded status when there is too
-// much demand. See the article about rate limiting (/TODO) for more information on
-// how to handle this.
+// much demand. See the article about rate limiting
+// (https://www.ticketmatic.com/docs/api/ratelimiting) for more information on how
+// to handle this.
 func Create(client *ticketmatic.Client, data *ticketmatic.CreateOrder) (*ticketmatic.Order, error) {
 	r := client.NewRequest("POST", "/{accountname}/orders")
 	r.Body(data)
@@ -151,8 +152,9 @@ func Confirm(client *ticketmatic.Client, id int64) (*ticketmatic.Order, error) {
 // Add tickets to order
 //
 // Note: This method may return a 429 Rate Limit Exceeded status when there is too
-// much demand. See the article about rate limiting (/TODO) for more information on
-// how to handle this.
+// much demand. See the article about rate limiting
+// (https://www.ticketmatic.com/docs/api/ratelimiting) for more information on how
+// to handle this.
 func Addtickets(client *ticketmatic.Client, id int64, data *ticketmatic.AddTickets) (*ticketmatic.AddItemsResult, error) {
 	r := client.NewRequest("POST", "/{accountname}/orders/{id}/tickets")
 	r.UrlParameters(map[string]interface{}{
@@ -176,12 +178,12 @@ func Addtickets(client *ticketmatic.Client, id int64, data *ticketmatic.AddTicke
 // Each operation accepts different parameters, dependent on the operation type:
 //
 // * Set ticket holders: an array of ticket holder IDs (see Contact
-// (https://apps.ticketmatic.com/#/knowledgebase/api/types/Contact)), one for each
-// ticket (ticketholderids).
+// (https://www.ticketmatic.com/docs/api/types/Contact)), one for each ticket
+// (ticketholderids).
 //
 // * Update price type: an array of ticket price type IDs (as can be found in the
-// Event pricing (https://apps.ticketmatic.com/#/knowledgebase/api/types/Event)),
-// one for each ticket (tickettypepriceids).
+// Event pricing (https://www.ticketmatic.com/docs/api/types/Event)), one for each
+// ticket (tickettypepriceids).
 func Updatetickets(client *ticketmatic.Client, id int64, data *ticketmatic.UpdateTickets) (*ticketmatic.Order, error) {
 	r := client.NewRequest("PUT", "/{accountname}/orders/{id}/tickets")
 	r.UrlParameters(map[string]interface{}{
@@ -239,8 +241,8 @@ func Addproducts(client *ticketmatic.Client, id int64, data *ticketmatic.AddProd
 // Each operation accepts different parameters, dependent on the operation type:
 //
 // * Set product holders: an array of ticket holder IDs (see Contact
-// (https://apps.ticketmatic.com/#/knowledgebase/api/types/Contact)), one for each
-// product (productholderids). *
+// (https://www.ticketmatic.com/docs/api/types/Contact)), one for each product
+// (productholderids). *
 func Updateproducts(client *ticketmatic.Client, id int64, data *ticketmatic.UpdateProducts) (*ticketmatic.Order, error) {
 	r := client.NewRequest("PUT", "/{accountname}/orders/{id}/products")
 	r.UrlParameters(map[string]interface{}{

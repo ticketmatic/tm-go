@@ -40,6 +40,7 @@ type EventTicketList struct {
 func Getlist(client *ticketmatic.Client, params *ticketmatic.EventQuery) (*List, error) {
 	r := client.NewRequest("GET", "/{accountname}/events")
 	if params != nil {
+		r.AddParameter("context", params.Context)
 		r.AddParameter("filter", params.Filter)
 		r.AddParameter("lastupdatesince", params.Lastupdatesince)
 		r.AddParameter("limit", params.Limit)
@@ -48,7 +49,6 @@ func Getlist(client *ticketmatic.Client, params *ticketmatic.EventQuery) (*List,
 		r.AddParameter("output", params.Output)
 		r.AddParameter("searchterm", params.Searchterm)
 		r.AddParameter("simplefilter", params.Simplefilter)
-		r.AddParameter("context", params.Context)
 	}
 
 	var obj *List
@@ -144,6 +144,34 @@ func Gettickets(client *ticketmatic.Client, id int64, params *ticketmatic.EventT
 // printed tickets will no longer work.
 func Batchupdatetickets(client *ticketmatic.Client, id int64, data []*ticketmatic.EventTicket) error {
 	r := client.NewRequest("PUT", "/{accountname}/events/{id}/tickets/batch")
+	r.UrlParameters(map[string]interface{}{
+		"id": id,
+	})
+	r.Body(data)
+
+	return r.Run(nil)
+}
+
+// Lock a set of tickets for an event (only for events with seatingplans)
+//
+// Lock a set of tickets for a seating plan. The lock call is limited to 100
+// tickets per call.
+func Locktickets(client *ticketmatic.Client, id int64, data *ticketmatic.EventLockTickets) error {
+	r := client.NewRequest("PUT", "/{accountname}/events/{id}/tickets/lock")
+	r.UrlParameters(map[string]interface{}{
+		"id": id,
+	})
+	r.Body(data)
+
+	return r.Run(nil)
+}
+
+// Unlock a set of tickets for an event (only for events with seatingplans)
+//
+// Unlock a set of tickets for an event with a seating plan. The unlock call is
+// limited to 100 tickets per call.
+func Unlocktickets(client *ticketmatic.Client, id int64, data *ticketmatic.EventUnlockTickets) error {
+	r := client.NewRequest("PUT", "/{accountname}/events/{id}/tickets/unlock")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
 	})

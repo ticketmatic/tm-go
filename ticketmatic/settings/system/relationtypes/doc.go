@@ -3,5 +3,5 @@
 // Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
-// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_system_relationtypes).
+// (https://www.ticketmatic.com/docs/api/settings/system/relationtypes).
 package relationtypes

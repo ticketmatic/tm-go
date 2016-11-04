@@ -24,10 +24,10 @@
 //
 // The full rules for defining when a delivery scenario can be used are defined in
 // DeliveryscenarioAvailability
-// (https://apps.ticketmatic.com/#/knowledgebase/api/types/DeliveryscenarioAvailability).
+// (https://www.ticketmatic.com/docs/api/types/DeliveryscenarioAvailability).
 //
 // Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
-// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_ticketsales_deliveryscenarios).
+// (https://www.ticketmatic.com/docs/api/settings/ticketsales/deliveryscenarios).
 package deliveryscenarios

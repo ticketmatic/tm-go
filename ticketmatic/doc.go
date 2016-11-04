@@ -9,6 +9,8 @@
 // Your preferred coding language should include libraries to support making HTTP
 // requests and parsing responses.
 //
+// ---
+//
 // URI
 //
 // The URIs for endpoints are served at
@@ -21,23 +23,38 @@
 // Note that Ticketmatic API is secure, so use HTTPS whenever you access any
 // endpoints. Calls made over plain HTTP will fail.
 //
+// ---
+//
+// Libraries
+//
+// The recommended way to integrate with the Ticketmatic API is to use a library.
+// The following languages are currently supported:
+//
+// * PHP (https://www.ticketmatic.com/docs/api/libraries/php)
+//
+// * Go (https://www.ticketmatic.com/docs/api/libraries/go)
+//
+// If you're preferred language is not on this list, please let us know
+// (mailto:help@ticketmatic.com)
+//
+// ---
+//
 // Getting started
 //
 // Be sure to read up on the core concepts first:
 //
 // * Authentication
-// (https://apps.ticketmatic.com/#/knowledgebase/api/coreconcepts_authentication)
+// (https://www.ticketmatic.com/docs/api/coreconcepts/authentication)
 //
-// * Error handling
-// (https://apps.ticketmatic.com/#/knowledgebase/api/coreconcepts_errors)
+// * Error handling (https://www.ticketmatic.com/docs/api/coreconcepts/errors)
 //
-// * Translations
-// (https://apps.ticketmatic.com/#/knowledgebase/api/coreconcepts_translations)
+// * Translations (https://www.ticketmatic.com/docs/api/coreconcepts/translations)
 //
-// * Custom fields
-// (https://apps.ticketmatic.com/#/knowledgebase/api/coreconcepts_customfields)
+// * Custom fields (https://www.ticketmatic.com/docs/api/coreconcepts/customfields)
 //
 // Afterwards, check the pages of the individual endpoints you wish to use.
+//
+// ---
 //
 // Audit log
 //
@@ -47,5 +64,5 @@
 // Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
-// (https://apps.ticketmatic.com/#/knowledgebase/api/).
+// (https://www.ticketmatic.com/docs/api/).
 package ticketmatic

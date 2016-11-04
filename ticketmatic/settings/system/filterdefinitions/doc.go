@@ -31,10 +31,10 @@
 // The field sqlclause defines the actual filter
 //
 // You can find more information about setting up filter definitions here
-// (https://apps.ticketmatic.com/#/knowledgebase/developer_filterdefinitions)
+// (https://www.ticketmatic.com/docs/setup/filterdefinitions)
 //
 // Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
-// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_system_filterdefinitions).
+// (https://www.ticketmatic.com/docs/api/settings/system/filterdefinitions).
 package filterdefinitions

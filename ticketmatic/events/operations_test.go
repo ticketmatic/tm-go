@@ -16,12 +16,12 @@ func TestCreate(t *testing.T) {
 	c := ticketmatic.NewClient(accountcode, accesskey, secretkey)
 
 	event, err := Create(c, &ticketmatic.Event{
+		Name: "Example",
 		Contingents: []*ticketmatic.EventContingent{
 			&ticketmatic.EventContingent{
 				Amount: 100,
 			},
 		},
-		Name: "Example",
 	})
 	if err != nil {
 		t.Fatal(err)
@@ -151,6 +151,60 @@ func TestDeletefixedbundleevent(t *testing.T) {
 
 	if err == nil {
 		t.Fatal("Expected an error!")
+	}
+
+}
+
+func TestLockunlocktickets(t *testing.T) {
+	var err error
+
+	accountcode := os.Getenv("TM_TEST_ACCOUNTCODE")
+	accesskey := os.Getenv("TM_TEST_ACCESSKEY")
+	secretkey := os.Getenv("TM_TEST_SECRETKEY")
+	c := ticketmatic.NewClient(accountcode, accesskey, secretkey)
+
+	list, err := Getlist(c, &ticketmatic.EventQuery{
+		Filter:  "select id from tm.event where seatingplanid is not null",
+		Limit:   1,
+		Orderby: "name",
+		Output:  "ids",
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if len(list.Data) <= 0 {
+		t.Errorf("Unexpected list.Data length, got %#v, expected greater than %#v", len(list.Data), 0)
+	}
+
+	tickets, err := Gettickets(c, list.Data[0].Id, &ticketmatic.EventTicketQuery{})
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if len(tickets.Data) <= 0 {
+		t.Errorf("Unexpected tickets.Data length, got %#v, expected greater than %#v", len(tickets.Data), 0)
+	}
+
+	err = Locktickets(c, list.Data[0].Id, &ticketmatic.EventLockTickets{
+		Locktypeid: 1,
+		Ticketids: []int64{
+			tickets.Data[0].Id,
+			tickets.Data[1].Id,
+		},
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	err = Unlocktickets(c, list.Data[0].Id, &ticketmatic.EventUnlockTickets{
+		Ticketids: []int64{
+			tickets.Data[0].Id,
+			tickets.Data[1].Id,
+		},
+	})
+	if err != nil {
+		t.Fatal(err)
 	}
 
 }

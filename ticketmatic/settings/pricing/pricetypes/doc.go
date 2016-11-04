@@ -3,7 +3,7 @@
 // account.
 //
 // For an overview of pricing concepts, check the pricing configuration guide
-// (https://apps.ticketmatic.com/#/knowledgebase/setupexpert_pricingconfiguration).
+// (https://www.ticketmatic.com/docs/events/pricingconfiguration).
 //
 // Types
 //
@@ -25,5 +25,5 @@
 // Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
-// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_pricing_pricetypes).
+// (https://www.ticketmatic.com/docs/api/settings/pricing/pricetypes).
 package pricetypes

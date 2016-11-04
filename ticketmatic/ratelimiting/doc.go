@@ -85,7 +85,7 @@
 //
 // Requesting a new status is done by sending a POST request to
 // /ratelimiting/status/{id}
-// (https://apps.ticketmatic.com/#/knowledgebase/api/ratelimiting/status).
+// (https://www.ticketmatic.com/docs/api/ratelimiting/status).
 //
 // Once the returned progress equals 2, it is safe to proceed.
 //
@@ -207,5 +207,5 @@
 // Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
-// (https://apps.ticketmatic.com/#/knowledgebase/api/ratelimiting).
+// (https://www.ticketmatic.com/docs/api/ratelimiting).
 package ratelimiting

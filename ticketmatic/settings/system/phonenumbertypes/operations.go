@@ -17,9 +17,9 @@ type List struct {
 func Getlist(client *ticketmatic.Client, params *ticketmatic.PhoneNumberTypeQuery) (*List, error) {
 	r := client.NewRequest("GET", "/{accountname}/settings/system/phonenumbertypes")
 	if params != nil {
+		r.AddParameter("filter", params.Filter)
 		r.AddParameter("includearchived", params.Includearchived)
 		r.AddParameter("lastupdatesince", params.Lastupdatesince)
-		r.AddParameter("filter", params.Filter)
 	}
 
 	var obj *List
@@ -97,8 +97,8 @@ func Delete(client *ticketmatic.Client, id int64) error {
 // field.
 //
 // See translations
-// (https://apps.ticketmatic.com/#/knowledgebase/api/coreconcepts_translations) for
-// more information.
+// (https://www.ticketmatic.com/docs/api/coreconcepts/translations) for more
+// information.
 func Translations(client *ticketmatic.Client, id int64) (map[string]string, error) {
 	r := client.NewRequest("GET", "/{accountname}/settings/system/phonenumbertypes/{id}/translate")
 	r.UrlParameters(map[string]interface{}{
@@ -118,8 +118,8 @@ func Translations(client *ticketmatic.Client, id int64) (map[string]string, erro
 // Sets updated translation strings.
 //
 // See translations
-// (https://apps.ticketmatic.com/#/knowledgebase/api/coreconcepts_translations) for
-// more information.
+// (https://www.ticketmatic.com/docs/api/coreconcepts/translations) for more
+// information.
 func Translate(client *ticketmatic.Client, id int64, data map[string]string) (map[string]string, error) {
 	r := client.NewRequest("PUT", "/{accountname}/settings/system/phonenumbertypes/{id}/translate")
 	r.UrlParameters(map[string]interface{}{

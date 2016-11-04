@@ -5,5 +5,5 @@
 // Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
-// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_events_eventlocations).
+// (https://www.ticketmatic.com/docs/api/settings/events/eventlocations).
 package eventlocations

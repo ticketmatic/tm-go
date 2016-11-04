@@ -17,9 +17,9 @@ type List struct {
 func Getlist(client *ticketmatic.Client, params *ticketmatic.ContactTitleQuery) (*List, error) {
 	r := client.NewRequest("GET", "/{accountname}/settings/system/contacttitles")
 	if params != nil {
+		r.AddParameter("filter", params.Filter)
 		r.AddParameter("includearchived", params.Includearchived)
 		r.AddParameter("lastupdatesince", params.Lastupdatesince)
-		r.AddParameter("filter", params.Filter)
 	}
 
 	var obj *List

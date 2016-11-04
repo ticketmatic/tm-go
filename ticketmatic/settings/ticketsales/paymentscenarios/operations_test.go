@@ -16,6 +16,8 @@ func TestCreate(t *testing.T) {
 	c := ticketmatic.NewClient(accountcode, accesskey, secretkey)
 
 	paymentscenario, err := Create(c, &ticketmatic.PaymentScenario{
+		Typeid: 2705,
+		Name:   "Payment scenario test",
 		Availability: &ticketmatic.PaymentscenarioAvailability{
 			Saleschannels: []int64{
 				1,
@@ -26,7 +28,6 @@ func TestCreate(t *testing.T) {
 			Daysaftercreation: 24,
 		},
 		Internalremark: "Testing",
-		Name:           "Payment scenario test",
 		Overdueparameters: &ticketmatic.PaymentscenarioOverdueParameters{
 			Daysaftercreation: 12,
 		},
@@ -35,7 +36,6 @@ func TestCreate(t *testing.T) {
 			2,
 		},
 		Shortdescription: "Short test",
-		Typeid:           2705,
 	})
 	if err != nil {
 		t.Fatal(err)

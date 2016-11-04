@@ -125,11 +125,11 @@ func TestCreatecustom(t *testing.T) {
 	contact, err := Create(c, &ticketmatic.Contact{
 		Addresses: []*ticketmatic.Address{
 			&ticketmatic.Address{
+				Typeid:      addrtypes.Data[0].Id,
 				City:        "Nieuwerkerk Aan Den Ijssel",
 				Countrycode: "NL",
 				Street1:     "Kerkstraat",
 				Street2:     "1",
-				Typeid:      addrtypes.Data[0].Id,
 				Zip:         "2914 AH",
 			},
 		},
@@ -141,12 +141,12 @@ func TestCreatecustom(t *testing.T) {
 		Middlename:      "J",
 		Phonenumbers: []*ticketmatic.Phonenumber{
 			&ticketmatic.Phonenumber{
-				Number: "+31222222222",
 				Typeid: ptypes.Data[0].Id,
+				Number: "+31222222222",
 			},
 			&ticketmatic.Phonenumber{
-				Number: "+31222222222",
 				Typeid: ptypes.Data[1].Id,
+				Number: "+31222222222",
 			},
 		},
 	})

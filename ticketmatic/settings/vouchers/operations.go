@@ -17,10 +17,10 @@ type List struct {
 func Getlist(client *ticketmatic.Client, params *ticketmatic.VoucherQuery) (*List, error) {
 	r := client.NewRequest("GET", "/{accountname}/settings/vouchers")
 	if params != nil {
+		r.AddParameter("typeid", params.Typeid)
+		r.AddParameter("filter", params.Filter)
 		r.AddParameter("includearchived", params.Includearchived)
 		r.AddParameter("lastupdatesince", params.Lastupdatesince)
-		r.AddParameter("filter", params.Filter)
-		r.AddParameter("typeid", params.Typeid)
 	}
 
 	var obj *List
@@ -98,8 +98,8 @@ func Delete(client *ticketmatic.Client, id int64) error {
 // field.
 //
 // See translations
-// (https://apps.ticketmatic.com/#/knowledgebase/api/coreconcepts_translations) for
-// more information.
+// (https://www.ticketmatic.com/docs/api/coreconcepts/translations) for more
+// information.
 func Translations(client *ticketmatic.Client, id int64) (map[string]string, error) {
 	r := client.NewRequest("GET", "/{accountname}/settings/vouchers/{id}/translate")
 	r.UrlParameters(map[string]interface{}{
@@ -119,8 +119,8 @@ func Translations(client *ticketmatic.Client, id int64) (map[string]string, erro
 // Sets updated translation strings.
 //
 // See translations
-// (https://apps.ticketmatic.com/#/knowledgebase/api/coreconcepts_translations) for
-// more information.
+// (https://www.ticketmatic.com/docs/api/coreconcepts/translations) for more
+// information.
 func Translate(client *ticketmatic.Client, id int64, data map[string]string) (map[string]string, error) {
 	r := client.NewRequest("PUT", "/{accountname}/settings/vouchers/{id}/translate")
 	r.UrlParameters(map[string]interface{}{

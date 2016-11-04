@@ -11,10 +11,10 @@
 // * Option bundle (26004)
 //
 // You can find more information about these types here
-// (https://apps.ticketmatic.com/#/knowledgebase/setupexpert_products).
+// (https://www.ticketmatic.com/docs/events/products).
 //
 // Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
-// (https://apps.ticketmatic.com/#/knowledgebase/api/settings_products).
+// (https://www.ticketmatic.com/docs/api/settings/products).
 package products
