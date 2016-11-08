@@ -4783,7 +4783,7 @@ type View struct {
 	Columns []*ViewColumn `json:"columns"`
 
 	// The field definitions to order the results on.
-	Orderby string `json:"orderby"`
+	Orderby int64 `json:"orderby"`
 
 	// Indicates whether the results should be ordered ascending or descending.
 	OrderbyAsc bool `json:"orderby_asc"`
