@@ -1979,10 +1979,10 @@ type ProductVoucherValue struct {
 // (https://www.ticketmatic.com/docs/api/types/ReportOptions).
 type ReportOptions struct {
 	// The pagesize for the report when exported as Excel.
-	Excelpagewidth string `json:"excelpagewidth"`
+	Excelpagewidth int64 `json:"excelpagewidth"`
 
 	// Excel-specific option for scaling the width
-	Excelscaling string `json:"excelscaling"`
+	Excelscaling float64 `json:"excelscaling"`
 
 	// The pagesize for the report: A4 landscape, Letter landscape, ...
 	Pdfpagesize string `json:"pdfpagesize"`
