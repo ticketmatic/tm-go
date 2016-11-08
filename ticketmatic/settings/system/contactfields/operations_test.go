@@ -29,8 +29,8 @@ func TestGet(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	if reqget.Id <= "0" {
-		t.Errorf("Unexpected reqget.Id, got %#v, expected > %#v", reqget.Id, "0")
+	if reqget.Id <= 0 {
+		t.Errorf("Unexpected reqget.Id, got %#v, expected > %#v", reqget.Id, 0)
 	}
 
 	_, err = Translations(c, reqget.Id)
