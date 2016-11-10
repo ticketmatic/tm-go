@@ -5371,8 +5371,8 @@ type AddVoucherCodes struct {
 	// Value of the voucher
 	Amount float64 `json:"amount,omitempty"`
 
-	// Code IDs (optional). Random codes will be generated when omitted.
-	Codes []string `json:"codes"`
+	// List of voucher codes, can also (optionally) contain expiry timestamps.
+	Codes []*VoucherCode `json:"codes"`
 
 	// Number of codes to create
 	Count int64 `json:"count"`
@@ -5387,6 +5387,11 @@ type AddVoucherCodes struct {
 type VoucherCode struct {
 	// Code to use voucher
 	Code string `json:"code"`
+
+	// Expiry timestamp for this code
+	//
+	// Note: Only used when creating codes
+	Expiryts Time `json:"expiryts,omitempty"`
 }
 
 // Set of parameters used to filter vouchers.
