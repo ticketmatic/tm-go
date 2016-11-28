@@ -1148,19 +1148,13 @@ type Order struct {
 	// * 2602: Delivered
 	//
 	// * 2603: Changed after delivery
-	//
-	// Note: Ignored when importing orders.
 	Deliverystatus int64 `json:"deliverystatus"`
 
 	// Whether the expired order has been handled (and optionally expiry mail has been
 	// sent)
-	//
-	// Note: Ignored when importing orders.
 	Expiryhandled bool `json:"expiryhandled"`
 
 	// When the order will expire
-	//
-	// Note: Ignored when importing orders.
 	Expiryts Time `json:"expiryts"`
 
 	// Has customer authenticated?
@@ -1222,13 +1216,9 @@ type Order struct {
 
 	// Whether the overdue order has been handled (and optionally reminder mail has
 	// been sent)
-	//
-	// Note: Ignored when importing orders.
 	Rappelhandled bool `json:"rappelhandled"`
 
 	// When the reminder mail will be sent
-	//
-	// Note: Ignored when importing orders.
 	Rappelts Time `json:"rappelts"`
 
 	// Sales channel ID
@@ -1606,6 +1596,11 @@ type Payment struct {
 
 	// Id for the original payment if this payment is a refund
 	Refundpaymentid int64 `json:"refundpaymentid"`
+
+	// Id of the vouchercode to use for this payment
+	//
+	// Note: Ignored when importing orders.
+	Vouchercodeid int64 `json:"vouchercodeid"`
 }
 
 // A PaymentscenarioAvailability configures in what saleschannels a payment
@@ -2527,7 +2522,8 @@ type AddRefunds struct {
 
 // Request data used to add tickets
 // (https://www.ticketmatic.com/docs/api/orders/addtickets) to an order
-// (https://www.ticketmatic.com/docs/api/types/Order).
+// (https://www.ticketmatic.com/docs/api/types/Order). The amount of tickets that
+// can be added is limited to 50 per call.
 //
 // Help Center
 //
@@ -2792,6 +2788,199 @@ type UpdateTickets struct {
 
 	// Ticket IDs
 	Tickets []int64 `json:"tickets"`
+}
+
+// Used to import an order.
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/ImportOrder).
+type ImportOrder struct {
+	// Order ID
+	Orderid int64 `json:"orderid"`
+
+	// Order code
+	//
+	// Used as a unique identifier in web sales.
+	Code string `json:"code,omitempty"`
+
+	// Customer ID
+	Customerid int64 `json:"customerid,omitempty"`
+
+	// Address used when delivering physically
+	Deliveryaddress *Address `json:"deliveryaddress,omitempty"`
+
+	// See delivery scenarios
+	// (https://www.ticketmatic.com/docs/api/settings/ticketsales/deliveryscenarios)
+	// for more info.
+	Deliveryscenarioid int64 `json:"deliveryscenarioid,omitempty"`
+
+	// Delivery status
+	//
+	// Possible values:
+	//
+	// * 2601: Not delivered
+	//
+	// * 2602: Delivered
+	//
+	// * 2603: Changed after delivery
+	Deliverystatus int64 `json:"deliverystatus,omitempty"`
+
+	// Indicates if the expired order has been handled. If set to false when importing,
+	// Ticketmatic will send our expiry mails if configured.
+	Expiryhandled bool `json:"expiryhandled,omitempty"`
+
+	// When the order will expire. If this is specified expiryhandled should also be
+	// specified.
+	Expiryts Time `json:"expiryts,omitempty"`
+
+	// Order fees for the order
+	Ordercosts []*ImportOrdercost `json:"ordercosts"`
+
+	// Payments in the order
+	Payments []*ImportPayment `json:"payments"`
+
+	// See payment scenarios
+	// (https://www.ticketmatic.com/docs/api/settings/ticketsales/paymentscenarios) for
+	// more info.
+	Paymentscenarioid int64 `json:"paymentscenarioid,omitempty"`
+
+	// Products in the order
+	Products []*ImportProduct `json:"products"`
+
+	// Indicates if the overdue order has been handled. If set to false when importing,
+	// Ticketmatic will send our reminder mails if configured.
+	Rappelhandled bool `json:"rappelhandled,omitempty"`
+
+	// When a reminder mail will be sent. If this is specified rappelhandled should
+	// also be specified.
+	Rappelts Time `json:"rappelts,omitempty"`
+
+	// See sales channels
+	// (https://www.ticketmatic.com/docs/api/settings/ticketsales/saleschannels) for
+	// more info.
+	Saleschannelid int64 `json:"saleschannelid"`
+
+	// Tickets in the order
+	Tickets []*ImportTicket `json:"tickets"`
+
+	// Created timestamp
+	Createdts Time `json:"createdts,omitempty"`
+
+	// Last updated timestamp
+	Lastupdatets Time `json:"lastupdatets,omitempty"`
+}
+
+// Used when importing order.
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/ImportTicket).
+type ImportTicket struct {
+	// Manually select a specific ticket.
+	Id int64 `json:"id,omitempty"`
+
+	// Ticket price
+	Price float64 `json:"price,omitempty"`
+
+	// Seatzone ID
+	Seatzoneid int64 `json:"seatzoneid,omitempty"`
+
+	// Service charge for this ticket
+	Servicecharge float64 `json:"servicecharge,omitempty"`
+
+	// If this ticket should be linked to a contact, set the ticketholderid
+	Ticketholderid int64 `json:"ticketholderid,omitempty"`
+
+	// The tickettype ID for the ticket.
+	Tickettypeid int64 `json:"tickettypeid"`
+
+	// The ticket type price ID for the new ticket. Either tickettypepriceid or
+	// optionbundleid should be specified, not both.
+	Tickettypepriceid int64 `json:"tickettypepriceid,omitempty"`
+
+	// Voucher code to use (if any)
+	Vouchercode string `json:"vouchercode,omitempty"`
+
+	// The voucher code to link to this ticket
+	Vouchercodeid int64 `json:"vouchercodeid,omitempty"`
+}
+
+// Used when importing orders.
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/ImportProduct).
+type ImportProduct struct {
+	// List of tickets that belong to this bundle.
+	Bundletickets []*ImportBundleTicket `json:"bundletickets"`
+
+	// Indicate which contact is the holder of this product. Currently only used with
+	// bundles.
+	Productholderid int64 `json:"productholderid,omitempty"`
+
+	// The id for the product you want to add.
+	Productid int64 `json:"productid"`
+
+	// The property values for the product.
+	Properties map[string]string `json:"properties,omitempty"`
+}
+
+// Used when importing an order.
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/ImportPayment).
+type ImportPayment struct {
+	// Amount
+	Amount float64 `json:"amount"`
+
+	// Timestamp of payment
+	Paidts Time `json:"paidts"`
+
+	// Payment method id
+	Paymentmethodid int64 `json:"paymentmethodid"`
+
+	// Additional properties for the payment. Can contain a variable structure.
+	Properties map[string]interface{} `json:"properties,omitempty"`
+
+	// Voucher code that was used for this payment
+	Vouchercodeid int64 `json:"vouchercodeid,omitempty"`
+}
+
+// Used when importing orders.
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/ImportOrdercost).
+type ImportOrdercost struct {
+	// The amount for this ordercost, can only be specified with manual ordercosts
+	Amount float64 `json:"amount,omitempty"`
+
+	// Id of the service charge to use for this ordercost
+	Servicechargedefinitionid int64 `json:"servicechargedefinitionid"`
+}
+
+// Used when importing an order with optiondbundle tickets
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/ImportBundleTicket).
+type ImportBundleTicket struct {
+	// Manually select a specific ticket.
+	Id int64 `json:"id,omitempty"`
+
+	// Seatzone ID
+	Seatzoneid int64 `json:"seatzoneid,omitempty"`
+
+	// The tickettype ID for the ticket.
+	Tickettypeid int64 `json:"tickettypeid"`
 }
 
 // Rate limiting status. See rate limiting
