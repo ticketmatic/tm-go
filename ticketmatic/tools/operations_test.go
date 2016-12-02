@@ -32,3 +32,36 @@ func TestGet(t *testing.T) {
 	}
 
 }
+
+func TestExport(t *testing.T) {
+	var err error
+
+	accountcode := os.Getenv("TM_TEST_ACCOUNTCODE")
+	accesskey := os.Getenv("TM_TEST_ACCESSKEY")
+	secretkey := os.Getenv("TM_TEST_SECRETKEY")
+	c := ticketmatic.NewClient(accountcode, accesskey, secretkey)
+
+	req, err := Export(c, &ticketmatic.QueryRequest{
+		Query: "SELECT * FROM tm.contact LIMIT 3",
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	reqcount := 0
+	defer req.Close()
+	for {
+		n, err := req.Next()
+		if err != nil {
+			t.Fatal(err)
+		}
+		if n == nil {
+			break
+		}
+		reqcount += 1
+	}
+	if reqcount != 3 {
+		t.Errorf("Unexpected reqcount, got %#v, expected %#v", reqcount, 3)
+	}
+
+}

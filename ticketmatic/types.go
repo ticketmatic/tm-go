@@ -2927,6 +2927,14 @@ type ImportProduct struct {
 
 	// The property values for the product.
 	Properties map[string]string `json:"properties,omitempty"`
+
+	// If this product references a voucher, set the amount to reserve for this
+	// voucher.
+	Voucheramount float64 `json:"voucheramount,omitempty"`
+
+	// If this product references a voucher, set the code for the voucher that will be
+	// created. If not set, the code will be generated.
+	Vouchercode string `json:"vouchercode"`
 }
 
 // Used when importing an order.
@@ -5740,9 +5748,13 @@ type SubscriberCommunication struct {
 // (https://www.ticketmatic.com/docs/api/types/QueryRequest).
 type QueryRequest struct {
 	// Optional limit for the result. Default 100
+	//
+	// Note: Ignored when exporting a query
 	Limit int64 `json:"limit"`
 
 	// Optional offset for the result. Default 0
+	//
+	// Note: Ignored when exporting a query
 	Offset int64 `json:"offset"`
 
 	// Actual query to execute

@@ -23,7 +23,7 @@ var Server = "https://apps.ticketmatic.com"
 var Version = "1"
 
 // Library Version
-const Build = "ec4001f4b244e30c9b2f80798c9bf5c25880f806"
+const Build = "61ae9be4b22d4cd926271e0ab2f9e450ea537a14"
 
 // Rate limit error
 type RateLimitError struct {
@@ -98,24 +98,49 @@ func (r *Request) Body(body interface{}) {
 }
 
 func (r *Request) Run(obj interface{}) error {
+	resp, err := r.prepareRequest()
+	defer resp.Body.Close()
+	if err != nil {
+		return err
+	}
+
+	if obj != nil {
+		err = json.NewDecoder(resp.Body).Decode(obj)
+		if err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+func (r *Request) Stream() (*Stream, error) {
+	resp, err := r.prepareRequest()
+	if err != nil {
+		return nil, err
+	}
+
+	return NewStream(resp), nil
+}
+
+func (r *Request) prepareRequest() (*http.Response, error) {
 	var body io.Reader
 
 	if r.body != nil {
 		d, err := json.Marshal(r.body)
 		if err != nil {
-			return err
+			return nil, err
 		}
 		body = bytes.NewReader(d)
 	}
 
 	u, err := r.prepareUrl()
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	req, err := http.NewRequest(r.method, u, body)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	req.Header.Add("Authorization", r.authHeader())
@@ -127,31 +152,26 @@ func (r *Request) Run(obj interface{}) error {
 
 	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
-		return err
+		return nil, err
 	}
-	defer resp.Body.Close()
 
 	if resp.StatusCode == 429 {
 		status := &QueueStatus{}
 		err = json.NewDecoder(resp.Body).Decode(status)
+		defer resp.Body.Close()
 		if err != nil {
-			return err
+			return nil, err
 		}
-		return &RateLimitError{
+		return nil, &RateLimitError{
 			Status: status,
 		}
 	} else if resp.StatusCode != 200 {
 		body, _ := ioutil.ReadAll(resp.Body)
-		return fmt.Errorf("Failed (%d): %s", resp.StatusCode, string(body))
+		resp.Body.Close()
+		return nil, fmt.Errorf("Failed (%d): %s", resp.StatusCode, string(body))
 	}
 
-	if obj != nil {
-		err = json.NewDecoder(resp.Body).Decode(obj)
-		if err != nil {
-			return err
-		}
-	}
-	return nil
+	return resp, nil
 }
 
 func (r *Request) authHeader() string {
