@@ -99,10 +99,10 @@ func (r *Request) Body(body interface{}) {
 
 func (r *Request) Run(obj interface{}) error {
 	resp, err := r.prepareRequest()
-	defer resp.Body.Close()
 	if err != nil {
 		return err
 	}
+	defer resp.Body.Close()
 
 	if obj != nil {
 		err = json.NewDecoder(resp.Body).Decode(obj)
