@@ -2918,6 +2918,9 @@ type ImportProduct struct {
 	// List of tickets that belong to this bundle.
 	Bundletickets []*ImportBundleTicket `json:"bundletickets"`
 
+	// The price this product was sold for.
+	Price float64 `json:"price,omitempty"`
+
 	// Indicate which contact is the holder of this product. Currently only used with
 	// bundles.
 	Productholderid int64 `json:"productholderid,omitempty"`
@@ -2934,7 +2937,12 @@ type ImportProduct struct {
 
 	// If this product references a voucher, set the code for the voucher that will be
 	// created. If not set, the code will be generated.
-	Vouchercode string `json:"vouchercode"`
+	Vouchercode string `json:"vouchercode,omitempty"`
+
+	// If this product references a voucher, set the expiry timestamp for the
+	// vouchercode that will be created. If not set, the default timestamp configured
+	// in the voucher will be set.
+	Voucherexpiryts Time `json:"voucherexpiryts,omitempty"`
 }
 
 // Used when importing an order.
@@ -2957,6 +2965,9 @@ type ImportPayment struct {
 	Properties map[string]interface{} `json:"properties,omitempty"`
 
 	// Voucher code that was used for this payment
+	Vouchercode string `json:"vouchercode,omitempty"`
+
+	// Voucher code id that was used for this payment
 	Vouchercodeid int64 `json:"vouchercodeid,omitempty"`
 }
 
@@ -3090,7 +3101,7 @@ type Document struct {
 	// Description of the document
 	Description string `json:"description"`
 
-	// Html content for the document template
+	// HTML content for the document template
 	//
 	// Note: Not set when retrieving a list of documents.
 	Htmltemplate string `json:"htmltemplate"`
@@ -3351,7 +3362,7 @@ type TicketLayoutTemplate struct {
 	// Deliveryscenario's for which this ticket layout template will be used
 	Deliveryscenarios []int64 `json:"deliveryscenarios"`
 
-	// Html template containing the definition for the ticket layout template
+	// HTML template containing the definition for the ticket layout template
 	//
 	// Note: Not set when retrieving a list of ticket layout templates.
 	Htmltemplate string `json:"htmltemplate"`
