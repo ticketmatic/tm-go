@@ -1,6 +1,8 @@
 package events
 
 import (
+	"io"
+
 	"github.com/ticketmatic/tm-go/ticketmatic"
 )
 
@@ -27,13 +29,25 @@ type Lookups struct {
 	Seatranks map[string]*ticketmatic.SeatRank `json:"seatranks"`
 }
 
-// List results
-type EventTicketList struct {
-	// Result data
-	Data []*ticketmatic.EventTicket `json:"data"`
+type TicketStream struct {
+	stream *ticketmatic.Stream
+}
 
-	// The total number of results that are available without considering limit and offset, useful for paging.
-	NbrOfResults int `json:"nbrofresults"`
+func (s *TicketStream) Next() (*ticketmatic.EventTicket, error) {
+	var obj *ticketmatic.EventTicket
+	err := s.stream.Next(&obj)
+	if err != nil {
+		if err == io.EOF {
+			err = nil
+		}
+		return nil, err
+	}
+	return obj, nil
+}
+
+func (s *TicketStream) Close() {
+	s.stream.Close()
+
 }
 
 // Get a list of events
@@ -116,23 +130,20 @@ func Delete(client *ticketmatic.Client, id int64) error {
 // Get all tickets for an event
 //
 // Returns the list of all tickets that are part of this event.
-func Gettickets(client *ticketmatic.Client, id int64, params *ticketmatic.EventTicketQuery) (*EventTicketList, error) {
+func Gettickets(client *ticketmatic.Client, id int64, params *ticketmatic.EventTicketQuery) (*TicketStream, error) {
 	r := client.NewRequest("GET", "/{accountname}/events/{id}/tickets")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
 	})
 	if params != nil {
-		r.AddParameter("limit", params.Limit)
-		r.AddParameter("offset", params.Offset)
 		r.AddParameter("simplefilter", params.Simplefilter)
 	}
 
-	var obj *EventTicketList
-	err := r.Run(&obj)
+	stream, err := r.Stream()
 	if err != nil {
 		return nil, err
 	}
-	return obj, nil
+	return &TicketStream{stream}, nil
 }
 
 // Batch update tickets for an event

@@ -2265,13 +2265,6 @@ type EventContext struct {
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/EventTicketQuery).
 type EventTicketQuery struct {
-	// Limit results to at most the given amount of tickets. The default and maximum
-	// limit is 5000.
-	Limit int64 `json:"limit,omitempty"`
-
-	// Skip the first X tickets.
-	Offset int64 `json:"offset,omitempty"`
-
 	// Filters the tickets based on a given set of fields.
 	Simplefilter *EventTicketFilter `json:"simplefilter,omitempty"`
 }

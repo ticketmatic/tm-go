@@ -48,8 +48,7 @@ func TestExport(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	reqcount := 0
-	defer req.Close()
+	stream := make([]map[string]interface{}, 0)
 	for {
 		n, err := req.Next()
 		if err != nil {
@@ -58,10 +57,11 @@ func TestExport(t *testing.T) {
 		if n == nil {
 			break
 		}
-		reqcount += 1
+		stream = append(stream, n)
 	}
-	if reqcount != 3 {
-		t.Errorf("Unexpected reqcount, got %#v, expected %#v", reqcount, 3)
+
+	if len(stream) != 3 {
+		t.Errorf("Unexpected stream length, got %#v, expected %#v", len(stream), 3)
 	}
 
 }
