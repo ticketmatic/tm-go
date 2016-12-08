@@ -133,7 +133,7 @@ func TestGettickets(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	tickets := make([]*EventTicket, 0)
+	tickets := make([]*ticketmatic.EventTicket, 0)
 	for {
 		n, err := stream.Next()
 		if err != nil {
@@ -190,7 +190,7 @@ func TestLockunlocktickets(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	tickets := make([]*EventTicket, 0)
+	tickets := make([]*ticketmatic.EventTicket, 0)
 	for {
 		n, err := stream.Next()
 		if err != nil {
