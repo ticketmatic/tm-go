@@ -36,11 +36,17 @@ func Getlist(client *ticketmatic.Client, params *ticketmatic.ContactQuery) (*Lis
 }
 
 // Get a single contact
-func Get(client *ticketmatic.Client, id int64) (*ticketmatic.Contact, error) {
+//
+// To retrieve a contact based on the e-mail address, pass 0 as the id and supply
+// an email parameter.
+func Get(client *ticketmatic.Client, id int64, params *ticketmatic.ContactGetQuery) (*ticketmatic.Contact, error) {
 	r := client.NewRequest("GET", "/{accountname}/contacts/{id}")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
 	})
+	if params != nil {
+		r.AddParameter("email", params.Email)
+	}
 
 	var obj *ticketmatic.Contact
 	err := r.Run(&obj)
@@ -94,6 +100,65 @@ func Delete(client *ticketmatic.Client, id int64) error {
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
 	})
+
+	return r.Run(nil)
+}
+
+// Batch operations
+//
+// Apply batch operations to a set of contacts.
+//
+// The parameters required are specific to the type of operation.
+//
+// What will be affected?
+//
+// If you don't specify anything, the batch operation will be applied to all
+// contacts.
+//
+// To restrict the operation to a strict set of contacts, pass in the IDs:
+//
+//
+//    ids: [1, 2, 3]
+//
+//
+//
+// This will only apply the operation to contacts with ID 1, 2 and 3.
+//
+// You can also apply the operation to all contacts except for a set of IDs, using
+// excludeids:
+//
+//
+//    excludeids: [4, 5]
+//
+//
+//
+// This will apply the operation to all contacts, except for contacts with ID 4 and
+// 5.
+//
+// Batch operations
+//
+// The following operations are supported:
+//
+// * addrelationtypes: Adds the specified relation types to the selection of
+// contacts. The parameters object should contain an ids field with a set of
+// relation type IDs.
+//
+// * removerelationtypes: Remove the specified relation types from the selection of
+// contacts. The parameters object should contain an ids field with a set of
+// relation type IDs.
+//
+// * delete: Deletes the selection of contacts.
+//
+// * subscribe: Subscribes the selected contacts using the mailing tool.
+//
+// * unsubscribe: Unsubscribes the selected contacts using the mailing tool.
+//
+// * sendselection: Send a selection of contacts to the mailing tool. These
+// contacts can then be used to send out a mailing. The parameters object can
+// optionally contain a name field that will be used to identify the selection.
+func Batch(client *ticketmatic.Client, data *ticketmatic.BatchContactOperation) error {
+	r := client.NewRequest("POST", "/{accountname}/contacts/batch")
+	r.Body(data)
 
 	return r.Run(nil)
 }

@@ -988,8 +988,86 @@ type EventTicket struct {
 	// Ticket ID
 	Id int64 `json:"id"`
 
+	// Link to the order the ticket is contained in
+	//
+	// Note: Ignored in the result for updating tickets
+	//
+	// Note: Ignored when updating tickets
+	Orderid int64 `json:"orderid,omitempty"`
+
+	// The id of the scanner used for the last succesful entry
+	//
+	// Note: Ignored in the result for updating tickets
+	//
+	// Note: Ignored when updating tickets
+	Accesscontrollastenteredscandeviceid int64 `json:"accesscontrollastenteredscandeviceid,omitempty"`
+
+	// The timestamp of the last succesful entry with this ticket
+	//
+	// Note: Ignored in the result for updating tickets
+	//
+	// Note: Ignored when updating tickets
+	Accesscontrollastenteredts Time `json:"accesscontrollastenteredts,omitempty"`
+
+	// The id of the scanner used for the last succesful exit
+	//
+	// Note: Ignored in the result for updating tickets
+	//
+	// Note: Ignored when updating tickets
+	Accesscontrollastexitscandeviceid int64 `json:"accesscontrollastexitscandeviceid,omitempty"`
+
+	// The timestamp of the last succesful exit with this ticket
+	//
+	// Note: Ignored in the result for updating tickets
+	//
+	// Note: Ignored when updating tickets
+	Accesscontrollastexitts Time `json:"accesscontrollastexitts,omitempty"`
+
+	// The access control status for this ticket. 0 means not scanned, 1 means
+	// succesful entry, 2 means succesful exit
+	//
+	// Note: Ignored in the result for updating tickets
+	//
+	// Note: Ignored when updating tickets
+	Accesscontrolstatus int64 `json:"accesscontrolstatus,omitempty"`
+
 	// Ticket barcode
 	Barcode string `json:"barcode,omitempty"`
+
+	// Link to the bundle (orderproduct) that this ticket belongs to.
+	//
+	// Note: Ignored in the result for updating tickets
+	//
+	// Note: Ignored when updating tickets
+	Bundleid int64 `json:"bundleid,omitempty"`
+
+	// Link to the locktype used for locking the ticket
+	//
+	// Note: Ignored in the result for updating tickets
+	//
+	// Note: Ignored when updating tickets
+	Locktypeid int64 `json:"locktypeid,omitempty"`
+
+	// Fee for the ticket in the order
+	//
+	// Note: Ignored in the result for updating tickets
+	//
+	// Note: Ignored when updating tickets
+	Orderfee float64 `json:"orderfee,omitempty"`
+
+	// Price for the ticket in the order (without fee)
+	//
+	// Note: Ignored in the result for updating tickets
+	//
+	// Note: Ignored when updating tickets
+	Price float64 `json:"price,omitempty"`
+
+	// The seat description for this ticket (only for seated tickets)
+	//
+	// Note: Ignored in the result for updating tickets
+	//
+	// Note: Ignored when updating tickets
+	Seatdescription string `json:"seatdescription,omitempty"`
 
 	// Seat ID (for seated tickets)
 	//
@@ -998,12 +1076,78 @@ type EventTicket struct {
 	// Note: Ignored when updating tickets
 	Seatid string `json:"seatid,omitempty"`
 
+	// Number indicating the priority for this ticket for the best available algorithm.
+	// Tickets with a higher priority will be considered first when performing a best
+	// available allocation.
+	//
+	// Note: Ignored in the result for updating tickets
+	//
+	// Note: Ignored when updating tickets
+	Seatpriority int64 `json:"seatpriority,omitempty"`
+
+	// Row number for the ticket (only for seated tickets)
+	//
+	// Note: Ignored in the result for updating tickets
+	//
+	// Note: Ignored when updating tickets
+	Seatrownumber string `json:"seatrownumber,omitempty"`
+
+	// Seat number for the ticket (only for seated tickets)
+	//
+	// Note: Ignored in the result for updating tickets
+	//
+	// Note: Ignored when updating tickets
+	Seatseatnumber string `json:"seatseatnumber,omitempty"`
+
+	// Optional seatzone for the ticket
+	//
+	// Note: Ignored in the result for updating tickets
+	//
+	// Note: Ignored when updating tickets
+	Seatzoneid int64 `json:"seatzoneid,omitempty"`
+
+	// Zone name for the ticket (only for seated tickets)
+	//
+	// Note: Ignored in the result for updating tickets
+	//
+	// Note: Ignored when updating tickets
+	Seatzonename string `json:"seatzonename,omitempty"`
+
+	// Optional link to the contact that is the ticketholder for this ticket
+	//
+	// Note: Ignored in the result for updating tickets
+	//
+	// Note: Ignored when updating tickets
+	Ticketholderid int64 `json:"ticketholderid,omitempty"`
+
+	// Optional name on the ticket
+	//
+	// Note: Ignored in the result for updating tickets
+	//
+	// Note: Ignored when updating tickets
+	Ticketname string `json:"ticketname,omitempty"`
+
 	// Link to the contingent this ticket belongs to
 	//
 	// Note: Ignored in the result for updating tickets
 	//
 	// Note: Ignored when updating tickets
 	Tickettypeid int64 `json:"tickettypeid,omitempty"`
+
+	// Link to the tickettypeprice that is assigned to this ticket for the order.
+	// Through the tickettypeprice you can retrieve the pricetype
+	//
+	// Note: Ignored in the result for updating tickets
+	//
+	// Note: Ignored when updating tickets
+	Tickettypepriceid int64 `json:"tickettypepriceid,omitempty"`
+
+	// Link to the vouchercode that was used to reserve this ticket.
+	//
+	// Note: Ignored in the result for updating tickets
+	//
+	// Note: Ignored when updating tickets
+	Vouchercodeid int64 `json:"vouchercodeid,omitempty"`
 
 	// Custom fields
 	CustomFields map[string]interface{} `json:"-"`
@@ -1046,17 +1190,57 @@ func (o *EventTicket) UnmarshalJSON(data []byte) error {
 func (o *EventTicket) MarshalJSON() ([]byte, error) {
 	// Use a custom type to avoid the custom marshaller, marshal the data.
 	type tmp struct {
-		Id           int64  `json:"id,omitempty"`
-		Barcode      string `json:"barcode,omitempty"`
-		Seatid       string `json:"seatid,omitempty"`
-		Tickettypeid int64  `json:"tickettypeid,omitempty"`
+		Id                                   int64   `json:"id,omitempty"`
+		Orderid                              int64   `json:"orderid,omitempty"`
+		Accesscontrollastenteredscandeviceid int64   `json:"accesscontrollastenteredscandeviceid,omitempty"`
+		Accesscontrollastenteredts           Time    `json:"accesscontrollastenteredts,omitempty"`
+		Accesscontrollastexitscandeviceid    int64   `json:"accesscontrollastexitscandeviceid,omitempty"`
+		Accesscontrollastexitts              Time    `json:"accesscontrollastexitts,omitempty"`
+		Accesscontrolstatus                  int64   `json:"accesscontrolstatus,omitempty"`
+		Barcode                              string  `json:"barcode,omitempty"`
+		Bundleid                             int64   `json:"bundleid,omitempty"`
+		Locktypeid                           int64   `json:"locktypeid,omitempty"`
+		Orderfee                             float64 `json:"orderfee,omitempty"`
+		Price                                float64 `json:"price,omitempty"`
+		Seatdescription                      string  `json:"seatdescription,omitempty"`
+		Seatid                               string  `json:"seatid,omitempty"`
+		Seatpriority                         int64   `json:"seatpriority,omitempty"`
+		Seatrownumber                        string  `json:"seatrownumber,omitempty"`
+		Seatseatnumber                       string  `json:"seatseatnumber,omitempty"`
+		Seatzoneid                           int64   `json:"seatzoneid,omitempty"`
+		Seatzonename                         string  `json:"seatzonename,omitempty"`
+		Ticketholderid                       int64   `json:"ticketholderid,omitempty"`
+		Ticketname                           string  `json:"ticketname,omitempty"`
+		Tickettypeid                         int64   `json:"tickettypeid,omitempty"`
+		Tickettypepriceid                    int64   `json:"tickettypepriceid,omitempty"`
+		Vouchercodeid                        int64   `json:"vouchercodeid,omitempty"`
 	}
 
 	obj := tmp{
-		Id:           o.Id,
-		Barcode:      o.Barcode,
-		Seatid:       o.Seatid,
-		Tickettypeid: o.Tickettypeid,
+		Id:      o.Id,
+		Orderid: o.Orderid,
+		Accesscontrollastenteredscandeviceid: o.Accesscontrollastenteredscandeviceid,
+		Accesscontrollastenteredts:           o.Accesscontrollastenteredts,
+		Accesscontrollastexitscandeviceid:    o.Accesscontrollastexitscandeviceid,
+		Accesscontrollastexitts:              o.Accesscontrollastexitts,
+		Accesscontrolstatus:                  o.Accesscontrolstatus,
+		Barcode:                              o.Barcode,
+		Bundleid:                             o.Bundleid,
+		Locktypeid:                           o.Locktypeid,
+		Orderfee:                             o.Orderfee,
+		Price:                                o.Price,
+		Seatdescription:                      o.Seatdescription,
+		Seatid:                               o.Seatid,
+		Seatpriority:                         o.Seatpriority,
+		Seatrownumber:                        o.Seatrownumber,
+		Seatseatnumber:                       o.Seatseatnumber,
+		Seatzoneid:                           o.Seatzoneid,
+		Seatzonename:                         o.Seatzonename,
+		Ticketholderid:                       o.Ticketholderid,
+		Ticketname:                           o.Ticketname,
+		Tickettypeid:                         o.Tickettypeid,
+		Tickettypepriceid:                    o.Tickettypepriceid,
+		Vouchercodeid:                        o.Vouchercodeid,
 	}
 	data, err := json.Marshal(obj)
 	if err != nil {
@@ -2107,6 +2291,40 @@ type WebSalesSkinConfiguration struct {
 	Title string `json:"title"`
 }
 
+// Batch operations performed on contacts
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/BatchContactOperation).
+type BatchContactOperation struct {
+	// Apply operation to all contacts except for the supplied IDs
+	Excludeids []int64 `json:"excludeids"`
+
+	// Restrict operation to supplied IDs
+	Ids []int64 `json:"ids"`
+
+	// Operation to perform
+	Operation string `json:"operation"`
+
+	// Operation-specific parameters
+	Parameters *BatchContactParameters `json:"parameters,omitempty"`
+}
+
+// Parameters for batch operations performed on contacts
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/BatchContactParameters).
+type BatchContactParameters struct {
+	// Selection name
+	Name string `json:"name"`
+
+	// Relation type IDs
+	Ids []int64 `json:"ids"`
+}
+
 // Filter parameters to fetch a list of contacts
 //
 // Help Center
@@ -2153,6 +2371,17 @@ type ContactQuery struct {
 	//
 	// Matches against the contact name and contact details.
 	Searchterm string `json:"searchterm,omitempty"`
+}
+
+// Optional alternative methods to retrieve a contact
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/ContactGetQuery).
+type ContactGetQuery struct {
+	// Contact e-mail address
+	Email string `json:"email,omitempty"`
 }
 
 // A timestamp returned by the diagnostic /time call
@@ -3032,6 +3261,20 @@ type QueueStatus struct {
 
 	// When the queue will start
 	Starttime Time `json:"starttime"`
+}
+
+// An account parameter defines general behavior of your account
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/AccountParameter).
+type AccountParameter struct {
+	// The name of the account parameter
+	Key string `json:"key"`
+
+	// Value
+	Value interface{} `json:"value,omitempty"`
 }
 
 // Set of parameters used to filter documents.

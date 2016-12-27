@@ -27,13 +27,64 @@ func TestGet(t *testing.T) {
 		t.Errorf("Unexpected list.Data length, got %#v, expected greater than %#v", len(list.Data), 0)
 	}
 
-	contact, err := Get(c, list.Data[0].Id)
+	contact, err := Get(c, list.Data[0].Id, &ticketmatic.ContactGetQuery{})
 	if err != nil {
 		t.Fatal(err)
 	}
 
 	if contact.Id != list.Data[0].Id {
 		t.Errorf("Unexpected contact.Id, got %#v, expected %#v", contact.Id, list.Data[0].Id)
+	}
+
+}
+
+func TestBatch(t *testing.T) {
+	var err error
+
+	accountcode := os.Getenv("TM_TEST_ACCOUNTCODE")
+	accesskey := os.Getenv("TM_TEST_ACCESSKEY")
+	secretkey := os.Getenv("TM_TEST_SECRETKEY")
+	c := ticketmatic.NewClient(accountcode, accesskey, secretkey)
+
+	contact, err := Create(c, &ticketmatic.Contact{
+		Firstname: "John",
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if contact.Id == 0 {
+		t.Errorf("Unexpected contact.Id, got %#v, expected different value", contact.Id)
+	}
+
+	if contact.Firstname != "John" {
+		t.Errorf("Unexpected contact.Firstname, got %#v, expected %#v", contact.Firstname, "John")
+	}
+
+	contact2, err := Create(c, &ticketmatic.Contact{
+		Firstname: "Bob",
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if contact2.Id == 0 {
+		t.Errorf("Unexpected contact2.Id, got %#v, expected different value", contact2.Id)
+	}
+
+	if contact2.Firstname != "Bob" {
+		t.Errorf("Unexpected contact2.Firstname, got %#v, expected %#v", contact2.Firstname, "Bob")
+	}
+
+	err = Batch(c, &ticketmatic.BatchContactOperation{
+		Ids: []int64{
+			contact.Id,
+			contact2.Id,
+		},
+		Operation: "delete",
+	})
+	if err != nil {
+		t.Fatal(err)
 	}
 
 }
@@ -186,6 +237,7 @@ func TestCreateunicode(t *testing.T) {
 	c := ticketmatic.NewClient(accountcode, accesskey, secretkey)
 
 	contact, err := Create(c, &ticketmatic.Contact{
+		Email:     "john@test.com",
 		Firstname: "JØhñ",
 		Lastname:  "ポテト 👌 ไก่",
 	})
@@ -205,7 +257,7 @@ func TestCreateunicode(t *testing.T) {
 		t.Errorf("Unexpected contact.Lastname, got %#v, expected %#v", contact.Lastname, "ポテト 👌 ไก่")
 	}
 
-	contact2, err := Get(c, contact.Id)
+	contact2, err := Get(c, contact.Id, &ticketmatic.ContactGetQuery{})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -220,6 +272,17 @@ func TestCreateunicode(t *testing.T) {
 
 	if contact2.Lastname != "ポテト 👌 ไก่" {
 		t.Errorf("Unexpected contact2.Lastname, got %#v, expected %#v", contact2.Lastname, "ポテト 👌 ไก่")
+	}
+
+	contact3, err := Get(c, 0, &ticketmatic.ContactGetQuery{
+		Email: "john@test.com",
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if contact3.Id == 0 {
+		t.Errorf("Unexpected contact3.Id, got %#v, expected different value", contact3.Id)
 	}
 
 	err = Delete(c, contact.Id)

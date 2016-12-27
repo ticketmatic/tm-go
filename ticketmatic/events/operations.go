@@ -163,10 +163,9 @@ func Batchupdatetickets(client *ticketmatic.Client, id int64, data []*ticketmati
 	return r.Run(nil)
 }
 
-// Lock a set of tickets for an event (only for events with seatingplans)
+// Lock a set of tickets
 //
-// Lock a set of tickets for a seating plan. The lock call is limited to 100
-// tickets per call.
+// The lock call is limited to 100 tickets per call.
 func Locktickets(client *ticketmatic.Client, id int64, data *ticketmatic.EventLockTickets) error {
 	r := client.NewRequest("PUT", "/{accountname}/events/{id}/tickets/lock")
 	r.UrlParameters(map[string]interface{}{
@@ -177,10 +176,9 @@ func Locktickets(client *ticketmatic.Client, id int64, data *ticketmatic.EventLo
 	return r.Run(nil)
 }
 
-// Unlock a set of tickets for an event (only for events with seatingplans)
+// Unlock a set of tickets
 //
-// Unlock a set of tickets for an event with a seating plan. The unlock call is
-// limited to 100 tickets per call.
+// The unlock call is limited to 100 tickets per call.
 func Unlocktickets(client *ticketmatic.Client, id int64, data *ticketmatic.EventUnlockTickets) error {
 	r := client.NewRequest("PUT", "/{accountname}/events/{id}/tickets/unlock")
 	r.UrlParameters(map[string]interface{}{
