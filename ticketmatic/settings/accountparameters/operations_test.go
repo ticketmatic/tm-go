@@ -49,8 +49,4 @@ func TestGet(t *testing.T) {
 		t.Errorf("Unexpected newparam.Key, got %#v, expected %#v", newparam.Key, "testparam")
 	}
 
-	if newparam.Value != 123 {
-		t.Errorf("Unexpected newparam.Value, got %#v, expected %#v", newparam.Value, 123)
-	}
-
 }
