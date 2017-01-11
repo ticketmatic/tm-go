@@ -5,6 +5,113 @@ import (
 	"strings"
 )
 
+// An account parameter defines general behavior of your account
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/AccountParameter).
+type AccountParameter struct {
+	// The name of the account parameter
+	Key string `json:"key"`
+
+	// Value
+	Value interface{} `json:"value,omitempty"`
+}
+
+// Result when adding tickets
+// (https://www.ticketmatic.com/docs/api/orders/addtickets) or products
+// (https://www.ticketmatic.com/docs/api/orders/addproducts) to an order
+// (https://www.ticketmatic.com/docs/api/types/Order).
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/AddItemsResult).
+type AddItemsResult struct {
+	// Ids of the items that were added
+	Ids []int64 `json:"ids"`
+
+	// The modified order
+	Order *Order `json:"order,omitempty"`
+}
+
+// Request data used to add a payment
+// (https://www.ticketmatic.com/docs/api/orders/addpayments) to an order
+// (https://www.ticketmatic.com/docs/api/types/Order).
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/AddPayments).
+type AddPayments struct {
+	// Amount for the payment
+	Amount float64 `json:"amount"`
+
+	// Id of the payment method to be used for the payment
+	Paymentmethodid int64 `json:"paymentmethodid"`
+}
+
+// Request data used to add products
+// (https://www.ticketmatic.com/docs/api/orders/addproducts) to an order
+// (https://www.ticketmatic.com/docs/api/types/Order).
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/AddProducts).
+type AddProducts struct {
+	// Product information
+	Products []*CreateProduct `json:"products"`
+}
+
+// Request data used to refund a payment
+// (https://www.ticketmatic.com/docs/api/orders/addrefunds) for an order
+// (https://www.ticketmatic.com/docs/api/types/Order).
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/AddRefunds).
+type AddRefunds struct {
+	// Amount that needs to be refunded
+	Amount float64 `json:"amount"`
+
+	// Id of the payment that needs to be refunded
+	Paymentid int64 `json:"paymentid"`
+}
+
+// Request data used to add tickets
+// (https://www.ticketmatic.com/docs/api/orders/addtickets) to an order
+// (https://www.ticketmatic.com/docs/api/types/Order). The amount of tickets that
+// can be added is limited to 50 per call.
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/AddTickets).
+type AddTickets struct {
+	// Ticket information
+	Tickets []*CreateTicket `json:"tickets"`
+}
+
+// Parameters used to create voucher codes
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/AddVoucherCodes).
+type AddVoucherCodes struct {
+	// Value of the voucher
+	Amount float64 `json:"amount,omitempty"`
+
+	// List of voucher codes, can also (optionally) contain expiry timestamps.
+	Codes []*VoucherCode `json:"codes"`
+
+	// Number of codes to create
+	Count int64 `json:"count"`
+}
+
 // Address, used for physical deliveries and contact details.
 //
 // Help Center
@@ -69,6 +176,40 @@ type Address struct {
 
 	// Zip code
 	Zip string `json:"zip"`
+}
+
+// Batch operations performed on contacts
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/BatchContactOperation).
+type BatchContactOperation struct {
+	// Apply operation to all contacts except for the supplied IDs
+	Excludeids []int64 `json:"excludeids"`
+
+	// Restrict operation to supplied IDs
+	Ids []int64 `json:"ids"`
+
+	// Operation to perform
+	Operation string `json:"operation"`
+
+	// Operation-specific parameters
+	Parameters *BatchContactParameters `json:"parameters,omitempty"`
+}
+
+// Parameters for batch operations performed on contacts
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/BatchContactParameters).
+type BatchContactParameters struct {
+	// Selection name
+	Name string `json:"name"`
+
+	// Relation type IDs
+	Ids []int64 `json:"ids"`
 }
 
 // A single contact.
@@ -306,6 +447,76 @@ func (o *Contact) MarshalJSON() ([]byte, error) {
 	// Know a way to do this better? Get in touch!
 }
 
+// A single contact address type.
+//
+// More info: see the get operation
+// (https://www.ticketmatic.com/docs/api/settings/system/contactaddresstypes/get)
+// and the contact address types endpoint
+// (https://www.ticketmatic.com/docs/api/settings/system/contactaddresstypes).
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/ContactAddressType).
+type ContactAddressType struct {
+	// Unique ID
+	//
+	// Note: Ignored when creating a new contact address type.
+	//
+	// Note: Ignored when updating an existing contact address type.
+	Id int64 `json:"id"`
+
+	// Name of the address type
+	Name string `json:"name"`
+
+	// Whether or not this item is archived
+	//
+	// Note: Ignored when creating a new contact address type.
+	//
+	// Note: Ignored when updating an existing contact address type.
+	Isarchived bool `json:"isarchived"`
+
+	// Created timestamp
+	//
+	// Note: Ignored when creating a new contact address type.
+	//
+	// Note: Ignored when updating an existing contact address type.
+	Createdts Time `json:"createdts"`
+
+	// Last updated timestamp
+	//
+	// Note: Ignored when creating a new contact address type.
+	//
+	// Note: Ignored when updating an existing contact address type.
+	Lastupdatets Time `json:"lastupdatets"`
+}
+
+// Set of parameters used to filter contact address types.
+//
+// More info: see contact address type
+// (https://www.ticketmatic.com/docs/api/types/ContactAddressType), the getlist
+// operation
+// (https://www.ticketmatic.com/docs/api/settings/system/contactaddresstypes/getlist)
+// and the contact address types endpoint
+// (https://www.ticketmatic.com/docs/api/settings/system/contactaddresstypes).
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/ContactAddressTypeQuery).
+type ContactAddressTypeQuery struct {
+	// Filter the returned items by specifying a query on the public datamodel that
+	// returns the ids.
+	Filter string `json:"filter,omitempty"`
+
+	// If this parameter is true, archived items will be returned as well.
+	Includearchived bool `json:"includearchived,omitempty"`
+
+	// All items that were updated since this timestamp will be returned. Timestamp
+	// should be passed in YYYY-MM-DD hh:mm:ss format.
+	Lastupdatesince Time `json:"lastupdatesince,omitempty"`
+}
+
 // Contact field is a list of field that are asked upon registration
 //
 // Help Center
@@ -321,6 +532,389 @@ type ContactField struct {
 
 	// Caption of this contactfield
 	Caption string `json:"caption"`
+}
+
+// Optional alternative methods to retrieve a contact
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/ContactGetQuery).
+type ContactGetQuery struct {
+	// Contact e-mail address
+	Email string `json:"email,omitempty"`
+}
+
+// Filter parameters to fetch a list of contacts
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/ContactQuery).
+type ContactQuery struct {
+	// A SQL query that returns contact IDs
+	//
+	// Can be used to do arbitrary filtering. See the database documentation for
+	// contact (https://www.ticketmatic.com/docs/db/contact) for more information.
+	Filter string `json:"filter,omitempty"`
+
+	// If this parameter is true, archived items will be returned as well.
+	Includearchived bool `json:"includearchived,omitempty"`
+
+	// Only include contacts that have been updated since the given timestamp.
+	Lastupdatesince Time `json:"lastupdatesince,omitempty"`
+
+	// Limit results to at most the given amount of contacts.
+	Limit int64 `json:"limit,omitempty"`
+
+	// Skip the first X contacts.
+	Offset int64 `json:"offset,omitempty"`
+
+	// Order by the given field.
+	//
+	// Supported values: name, lastupdatets, createdts.
+	Orderby string `json:"orderby,omitempty"`
+
+	// Output format.
+	//
+	// Possible values:
+	//
+	// * ids: Only fill the ID field
+	//
+	// * minimal: A minimal set of order fields
+	//
+	// * default: Return all order fields (also used when the output parameter is
+	// omitted)
+	Output string `json:"output,omitempty"`
+
+	// A text filter string.
+	//
+	// Matches against the contact name and contact details.
+	Searchterm string `json:"searchterm,omitempty"`
+}
+
+// A single contact title.
+//
+// More info: see the get operation
+// (https://www.ticketmatic.com/docs/api/settings/system/contacttitles/get) and the
+// contact titles endpoint
+// (https://www.ticketmatic.com/docs/api/settings/system/contacttitles).
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/ContactTitle).
+type ContactTitle struct {
+	// Unique ID
+	//
+	// Note: Ignored when creating a new contact title.
+	//
+	// Note: Ignored when updating an existing contact title.
+	Id int64 `json:"id"`
+
+	// Title name
+	Name string `json:"name"`
+
+	// Restricts this title from showing up on the websales pages
+	Isinternal bool `json:"isinternal"`
+
+	// Language for this title
+	Languagecode string `json:"languagecode"`
+
+	// Gender associated with this title
+	Sex string `json:"sex"`
+
+	// Whether or not this item is archived
+	//
+	// Note: Ignored when creating a new contact title.
+	//
+	// Note: Ignored when updating an existing contact title.
+	Isarchived bool `json:"isarchived"`
+
+	// Created timestamp
+	//
+	// Note: Ignored when creating a new contact title.
+	//
+	// Note: Ignored when updating an existing contact title.
+	Createdts Time `json:"createdts"`
+
+	// Last updated timestamp
+	//
+	// Note: Ignored when creating a new contact title.
+	//
+	// Note: Ignored when updating an existing contact title.
+	Lastupdatets Time `json:"lastupdatets"`
+}
+
+// Set of parameters used to filter contact titles.
+//
+// More info: see contact title
+// (https://www.ticketmatic.com/docs/api/types/ContactTitle), the getlist operation
+// (https://www.ticketmatic.com/docs/api/settings/system/contacttitles/getlist) and
+// the contact titles endpoint
+// (https://www.ticketmatic.com/docs/api/settings/system/contacttitles).
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/ContactTitleQuery).
+type ContactTitleQuery struct {
+	// Filter the returned items by specifying a query on the public datamodel that
+	// returns the ids.
+	Filter string `json:"filter,omitempty"`
+
+	// If this parameter is true, archived items will be returned as well.
+	Includearchived bool `json:"includearchived,omitempty"`
+
+	// All items that were updated since this timestamp will be returned. Timestamp
+	// should be passed in YYYY-MM-DD hh:mm:ss format.
+	Lastupdatesince Time `json:"lastupdatesince,omitempty"`
+}
+
+// Required data for creating an order
+// (https://www.ticketmatic.com/docs/api/types/Order).
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/CreateOrder).
+type CreateOrder struct {
+	// Event IDs that might end up in this order, used to hint the rate limiter
+	// (https://www.ticketmatic.com/docs/api/ratelimiting) of what might come.
+	Events []int64 `json:"events"`
+
+	// Product IDs that might end up in this order, used to hint the rate limiter
+	// (https://www.ticketmatic.com/docs/api/ratelimiting) of what might come.
+	Products []int64 `json:"products"`
+
+	// Sales channel in which this order is created
+	Saleschannelid int64 `json:"saleschannelid"`
+}
+
+// Info for adding a product
+// (https://www.ticketmatic.com/docs/api/orders/addproducts) to an order
+// (https://www.ticketmatic.com/docs/api/types/Order).
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/CreateProduct).
+type CreateProduct struct {
+	// The id for the product you want to add.
+	Productid int64 `json:"productid"`
+
+	// The property values for the product.
+	Properties map[string]string `json:"properties,omitempty"`
+}
+
+// Info for adding a ticket
+// (https://www.ticketmatic.com/docs/api/orders/addtickets) to an order
+// (https://www.ticketmatic.com/docs/api/types/Order).
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/CreateTicket).
+type CreateTicket struct {
+	// The id for the optionbundle you want to add a new ticket to. Either
+	// tickettypepriceid or optionbundleid should be specified, not both.
+	Optionbundleid int64 `json:"optionbundleid,omitempty"`
+
+	// Manually select a specific ticket.
+	Ticketid int64 `json:"ticketid,omitempty"`
+
+	// Should only be specified when optionbundleid is specified. The tickettypeid for
+	// the ticket you want to add to the optionbundle.
+	Tickettypeid int64 `json:"tickettypeid,omitempty"`
+
+	// The ticket type price ID for the new ticket. Either tickettypepriceid or
+	// optionbundleid should be specified, not both.
+	Tickettypepriceid int64 `json:"tickettypepriceid,omitempty"`
+
+	// Voucher code to use (if any)
+	Vouchercode string `json:"vouchercode,omitempty"`
+}
+
+// A single custom field.
+//
+// More info: see the get operation
+// (https://www.ticketmatic.com/docs/api/settings/system/customfields/get) and the
+// custom fields endpoint
+// (https://www.ticketmatic.com/docs/api/settings/system/customfields).
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/CustomField).
+type CustomField struct {
+	// Unique ID
+	//
+	// Note: Ignored when creating a new custom field.
+	//
+	// Note: Ignored when updating an existing custom field.
+	Id int64 `json:"id"`
+
+	// Type ID
+	//
+	// Note: Ignored when updating an existing custom field.
+	Typeid int64 `json:"typeid"`
+
+	// Rules that define in what conditions this custom field is available when edit
+	// type is checkout
+	//
+	// Note: Not set when retrieving a list of custom fields.
+	Availability *CustomfieldAvailability `json:"availability,omitempty"`
+
+	// Human-readable name for the custom field
+	Caption string `json:"caption"`
+
+	// Human-readable description for the custom field. Will be visible for end-users
+	// when edittype checkout is used
+	//
+	// Note: Not set when retrieving a list of custom fields.
+	Description string `json:"description"`
+
+	// Type of editing that is allowed for the custom field. Links to systemtype
+	// category 22xxx
+	Edittypeid int64 `json:"edittypeid"`
+
+	// Type of the custom field. Links to systemtype category 12xxx
+	Fieldtypeid int64 `json:"fieldtypeid"`
+
+	// The identifier for the custom field. Should contain only alphanumeric characters
+	// and no whitespace, max length is 20 characters. The custom field will be
+	// available in the api and the public data model as c_
+	Key string `json:"key"`
+
+	// Indicates whether the field is required
+	Required bool `json:"required"`
+
+	// Whether or not this item is archived
+	//
+	// Note: Ignored when creating a new custom field.
+	//
+	// Note: Ignored when updating an existing custom field.
+	Isarchived bool `json:"isarchived"`
+
+	// Created timestamp
+	//
+	// Note: Ignored when creating a new custom field.
+	//
+	// Note: Ignored when updating an existing custom field.
+	Createdts Time `json:"createdts"`
+
+	// Last updated timestamp
+	//
+	// Note: Ignored when creating a new custom field.
+	//
+	// Note: Ignored when updating an existing custom field.
+	Lastupdatets Time `json:"lastupdatets"`
+}
+
+// Set of parameters used to filter custom fields.
+//
+// More info: see custom field
+// (https://www.ticketmatic.com/docs/api/types/CustomField), the getlist operation
+// (https://www.ticketmatic.com/docs/api/settings/system/customfields/getlist) and
+// the custom fields endpoint
+// (https://www.ticketmatic.com/docs/api/settings/system/customfields).
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/CustomFieldQuery).
+type CustomFieldQuery struct {
+	// Only return items with the given typeid.
+	Typeid int64 `json:"typeid"`
+
+	// Filter the returned items by specifying a query on the public datamodel that
+	// returns the ids.
+	Filter string `json:"filter,omitempty"`
+
+	// If this parameter is true, archived items will be returned as well.
+	Includearchived bool `json:"includearchived,omitempty"`
+
+	// All items that were updated since this timestamp will be returned. Timestamp
+	// should be passed in YYYY-MM-DD hh:mm:ss format.
+	Lastupdatesince Time `json:"lastupdatesince,omitempty"`
+}
+
+// A single custom field value.
+//
+// More info: see the get operation
+// (https://www.ticketmatic.com/docs/api/settings/system/customfieldvalues/get) and
+// the custom field values endpoint
+// (https://www.ticketmatic.com/docs/api/settings/system/customfieldvalues).
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/CustomFieldValue).
+type CustomFieldValue struct {
+	// Unique ID
+	//
+	// Note: Ignored when creating a new custom field value.
+	//
+	// Note: Ignored when updating an existing custom field value.
+	Id int64 `json:"id"`
+
+	// Type ID
+	//
+	// Note: Ignored when updating an existing custom field value.
+	Typeid int64 `json:"typeid"`
+
+	// Human-readable name for the value
+	Caption string `json:"caption"`
+
+	// Whether or not this item is archived
+	//
+	// Note: Ignored when creating a new custom field value.
+	//
+	// Note: Ignored when updating an existing custom field value.
+	Isarchived bool `json:"isarchived"`
+
+	// Created timestamp
+	//
+	// Note: Ignored when creating a new custom field value.
+	//
+	// Note: Ignored when updating an existing custom field value.
+	Createdts Time `json:"createdts"`
+
+	// Last updated timestamp
+	//
+	// Note: Ignored when creating a new custom field value.
+	//
+	// Note: Ignored when updating an existing custom field value.
+	Lastupdatets Time `json:"lastupdatets"`
+}
+
+// Set of parameters used to filter custom field values.
+//
+// More info: see custom field value
+// (https://www.ticketmatic.com/docs/api/types/CustomFieldValue), the getlist
+// operation
+// (https://www.ticketmatic.com/docs/api/settings/system/customfieldvalues/getlist)
+// and the custom field values endpoint
+// (https://www.ticketmatic.com/docs/api/settings/system/customfieldvalues).
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/CustomFieldValueQuery).
+type CustomFieldValueQuery struct {
+	// Only return items with the given typeid.
+	Typeid int64 `json:"typeid,omitempty"`
+
+	// Filter the returned items by specifying a query on the public datamodel that
+	// returns the ids.
+	Filter string `json:"filter,omitempty"`
+
+	// If this parameter is true, archived items will be returned as well.
+	Includearchived bool `json:"includearchived,omitempty"`
+
+	// All items that were updated since this timestamp will be returned. Timestamp
+	// should be passed in YYYY-MM-DD hh:mm:ss format.
+	Lastupdatesince Time `json:"lastupdatesince,omitempty"`
 }
 
 // A CustomfieldAvailability configures in what saleschannels a custom field is
@@ -346,6 +940,133 @@ type CustomfieldAvailability struct {
 
 	// Indicates if the script will be used.
 	Usescript bool `json:"usescript"`
+}
+
+// Request data used to delete products
+// (https://www.ticketmatic.com/docs/api/orders/deleteproducts) from an order
+// (https://www.ticketmatic.com/docs/api/types/Order).
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/DeleteProducts).
+type DeleteProducts struct {
+	// Product IDs
+	Products []int64 `json:"products"`
+}
+
+// Request data used to delete tickets
+// (https://www.ticketmatic.com/docs/api/orders/deletetickets) from an order
+// (https://www.ticketmatic.com/docs/api/types/Order).
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/DeleteTickets).
+type DeleteTickets struct {
+	// Ticket IDs
+	Tickets []int64 `json:"tickets"`
+}
+
+// A single delivery scenario.
+//
+// More info: see the get operation
+// (https://www.ticketmatic.com/docs/api/settings/ticketsales/deliveryscenarios/get)
+// and the delivery scenarios endpoint
+// (https://www.ticketmatic.com/docs/api/settings/ticketsales/deliveryscenarios).
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/DeliveryScenario).
+type DeliveryScenario struct {
+	// Unique ID
+	//
+	// Note: Ignored when creating a new delivery scenario.
+	//
+	// Note: Ignored when updating an existing delivery scenario.
+	Id int64 `json:"id"`
+
+	// The type of this delivery scenario, defines when this delivery scenario is
+	// triggered. The available values for this field can be found on the delivery
+	// scenario overview
+	// (https://www.ticketmatic.com/docs/api/settings/ticketsales/deliveryscenarios)
+	// page.
+	Typeid int64 `json:"typeid"`
+
+	// Name of the delivery scenario
+	Name string `json:"name"`
+
+	// Are e-tickets allowed with this delivery scenario?
+	Allowetickets int64 `json:"allowetickets"`
+
+	// The rules that define when this scenario is available. See the delivery scenario
+	// overview
+	// (https://www.ticketmatic.com/docs/api/settings/ticketsales/deliveryscenarios)
+	// page for a description of this field
+	//
+	// Note: Not set when retrieving a list of delivery scenarios.
+	Availability *DeliveryscenarioAvailability `json:"availability,omitempty"`
+
+	// An internal description field. Will not be shown to customers.
+	Internalremark string `json:"internalremark,omitempty"`
+
+	// A physical address is required
+	Needsaddress bool `json:"needsaddress"`
+
+	// The ID of the order mail template that will be used for sending out this
+	// delivery scenario. Can be 0 to indicate that no mail should be sent
+	OrdermailtemplateidDelivery int64 `json:"ordermailtemplateid_delivery"`
+
+	// A short description of the deilvery scenario. Will be shown to customers.
+	Shortdescription string `json:"shortdescription"`
+
+	// Whether or not this item is archived
+	//
+	// Note: Ignored when creating a new delivery scenario.
+	//
+	// Note: Ignored when updating an existing delivery scenario.
+	Isarchived bool `json:"isarchived"`
+
+	// Created timestamp
+	//
+	// Note: Ignored when creating a new delivery scenario.
+	//
+	// Note: Ignored when updating an existing delivery scenario.
+	Createdts Time `json:"createdts"`
+
+	// Last updated timestamp
+	//
+	// Note: Ignored when creating a new delivery scenario.
+	//
+	// Note: Ignored when updating an existing delivery scenario.
+	Lastupdatets Time `json:"lastupdatets"`
+}
+
+// Set of parameters used to filter delivery scenarios.
+//
+// More info: see delivery scenario
+// (https://www.ticketmatic.com/docs/api/types/DeliveryScenario), the getlist
+// operation
+// (https://www.ticketmatic.com/docs/api/settings/ticketsales/deliveryscenarios/getlist)
+// and the delivery scenarios endpoint
+// (https://www.ticketmatic.com/docs/api/settings/ticketsales/deliveryscenarios).
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/DeliveryScenarioQuery).
+type DeliveryScenarioQuery struct {
+	// Filter the returned items by specifying a query on the public datamodel that
+	// returns the ids.
+	Filter string `json:"filter,omitempty"`
+
+	// If this parameter is true, archived items will be returned as well.
+	Includearchived bool `json:"includearchived,omitempty"`
+
+	// All items that were updated since this timestamp will be returned. Timestamp
+	// should be passed in YYYY-MM-DD hh:mm:ss format.
+	Lastupdatesince Time `json:"lastupdatesince,omitempty"`
 }
 
 // A DeliveryscenarioAvailability defines when a delivery scenario
@@ -429,6 +1150,91 @@ type DeliveryscenarioAvailability struct {
 
 	// Use a script to refine the set of sales channels?
 	Usescript bool `json:"usescript"`
+}
+
+// A single document.
+//
+// More info: see the get operation
+// (https://www.ticketmatic.com/docs/api/settings/communicationanddesign/documents/get)
+// and the documents endpoint
+// (https://www.ticketmatic.com/docs/api/settings/communicationanddesign/documents).
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/Document).
+type Document struct {
+	// Unique ID
+	//
+	// Note: Ignored when creating a new document.
+	//
+	// Note: Ignored when updating an existing document.
+	Id int64 `json:"id"`
+
+	// Type ID
+	//
+	// Note: Ignored when updating an existing document.
+	Typeid int64 `json:"typeid"`
+
+	// Name of the document
+	Name string `json:"name"`
+
+	// Css content for the document template
+	//
+	// Note: Not set when retrieving a list of documents.
+	Css string `json:"css"`
+
+	// Description of the document
+	Description string `json:"description"`
+
+	// HTML content for the document template
+	//
+	// Note: Not set when retrieving a list of documents.
+	Htmltemplate string `json:"htmltemplate"`
+
+	// Translations for the document template
+	//
+	// Note: Not set when retrieving a list of documents.
+	Translations map[string]string `json:"translations,omitempty"`
+
+	// Created timestamp
+	//
+	// Note: Ignored when creating a new document.
+	//
+	// Note: Ignored when updating an existing document.
+	Createdts Time `json:"createdts"`
+
+	// Last updated timestamp
+	//
+	// Note: Ignored when creating a new document.
+	//
+	// Note: Ignored when updating an existing document.
+	Lastupdatets Time `json:"lastupdatets"`
+}
+
+// Set of parameters used to filter documents.
+//
+// More info: see document (https://www.ticketmatic.com/docs/api/types/Document),
+// the getlist operation
+// (https://www.ticketmatic.com/docs/api/settings/communicationanddesign/documents/getlist)
+// and the documents endpoint
+// (https://www.ticketmatic.com/docs/api/settings/communicationanddesign/documents).
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/DocumentQuery).
+type DocumentQuery struct {
+	// Only return items with the given typeid.
+	Typeid int64 `json:"typeid,omitempty"`
+
+	// Filter the returned items by specifying a query on the public datamodel that
+	// returns the ids.
+	Filter string `json:"filter,omitempty"`
+
+	// All items that were updated since this timestamp will be returned. Timestamp
+	// should be passed in YYYY-MM-DD hh:mm:ss format.
+	Lastupdatesince Time `json:"lastupdatesince,omitempty"`
 }
 
 // A single Event.
@@ -756,6 +1562,22 @@ func (o *Event) MarshalJSON() ([]byte, error) {
 	// Know a way to do this better? Get in touch!
 }
 
+// Used when requesting events, to restrict the event information to a specific
+// context.
+//
+// Currently allows you to filter the event information (both the events and the
+// pricing information within each event) to a specific saleschannel. This makes it
+// very easy to show the correct information on a website.
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/EventContext).
+type EventContext struct {
+	// The ID of the saleschannel used to restrict the event information
+	Saleschannelid int64 `json:"saleschannelid,omitempty"`
+}
+
 // Information about a contingent for an event
 // (https://www.ticketmatic.com/docs/api/types/Event).
 //
@@ -848,6 +1670,127 @@ type EventContingentLock struct {
 	Tickettypeid int64 `json:"tickettypeid"`
 }
 
+// Used when requesting events, to filter events.
+//
+// Currently allows you to filter based on the production ID.
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/EventFilter).
+type EventFilter struct {
+	// The ID of the production
+	Productionid int64 `json:"productionid,omitempty"`
+
+	// The event status. By default, events with status Active or Closed will be
+	// returned
+	Status []int64 `json:"status"`
+}
+
+// A single event location.
+//
+// More info: see the get operation
+// (https://www.ticketmatic.com/docs/api/settings/events/eventlocations/get) and
+// the event locations endpoint
+// (https://www.ticketmatic.com/docs/api/settings/events/eventlocations).
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/EventLocation).
+type EventLocation struct {
+	// Unique ID
+	//
+	// Note: Ignored when creating a new event location.
+	//
+	// Note: Ignored when updating an existing event location.
+	Id int64 `json:"id"`
+
+	// Name of the location
+	Name string `json:"name"`
+
+	// City
+	City string `json:"city"`
+
+	// Country code. Should be an ISO 3166-1 alpha-2
+	// (http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) two-letter code.
+	Countrycode string `json:"countrycode"`
+
+	// State
+	State string `json:"state"`
+
+	// Street name
+	Street1 string `json:"street1"`
+
+	// Nr. + Box
+	Street2 string `json:"street2"`
+
+	// Zipcode
+	Zip string `json:"zip"`
+
+	// Whether or not this item is archived
+	//
+	// Note: Ignored when creating a new event location.
+	//
+	// Note: Ignored when updating an existing event location.
+	Isarchived bool `json:"isarchived"`
+
+	// Created timestamp
+	//
+	// Note: Ignored when creating a new event location.
+	//
+	// Note: Ignored when updating an existing event location.
+	Createdts Time `json:"createdts"`
+
+	// Last updated timestamp
+	//
+	// Note: Ignored when creating a new event location.
+	//
+	// Note: Ignored when updating an existing event location.
+	Lastupdatets Time `json:"lastupdatets"`
+}
+
+// Set of parameters used to filter event locations.
+//
+// More info: see event location
+// (https://www.ticketmatic.com/docs/api/types/EventLocation), the getlist
+// operation
+// (https://www.ticketmatic.com/docs/api/settings/events/eventlocations/getlist)
+// and the event locations endpoint
+// (https://www.ticketmatic.com/docs/api/settings/events/eventlocations).
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/EventLocationQuery).
+type EventLocationQuery struct {
+	// Filter the returned items by specifying a query on the public datamodel that
+	// returns the ids.
+	Filter string `json:"filter,omitempty"`
+
+	// If this parameter is true, archived items will be returned as well.
+	Includearchived bool `json:"includearchived,omitempty"`
+
+	// All items that were updated since this timestamp will be returned. Timestamp
+	// should be passed in YYYY-MM-DD hh:mm:ss format.
+	Lastupdatesince Time `json:"lastupdatesince,omitempty"`
+}
+
+// Used when locking a set of tickets. Contains the locktypeid and the set of
+// ticketids
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/EventLockTickets).
+type EventLockTickets struct {
+	// Id of the locktype to use for the lock.
+	Locktypeid int64 `json:"locktypeid"`
+
+	// Array of ticketids to lock.
+	Ticketids []int64 `json:"ticketids"`
+}
+
 // Information about the prices for an event.
 //
 // Help Center
@@ -927,6 +1870,64 @@ type EventPricesSaleschannel struct {
 
 	// Tickettypeprice ID
 	Tickettypepriceid int64 `json:"tickettypepriceid"`
+}
+
+// Filter parameters to fetch a list of events
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/EventQuery).
+type EventQuery struct {
+	// Restrict the event information to a specific context.
+	//
+	// Currently allows you to filter the event information (both the events and the
+	// pricing information within each event) to a specific saleschannel. This makes it
+	// very easy to show the correct information on a website.
+	Context *EventContext `json:"context,omitempty"`
+
+	// A SQL query that returns event IDs
+	//
+	// Can be used to do arbitrary filtering. See the database documentation for event
+	// (https://www.ticketmatic.com/docs/db/event) for more information.
+	Filter string `json:"filter,omitempty"`
+
+	// Only include events that have been updated since the given timestamp.
+	Lastupdatesince Time `json:"lastupdatesince,omitempty"`
+
+	// Limit results to at most the given amount of events.
+	Limit int64 `json:"limit,omitempty"`
+
+	// Skip the first X events.
+	Offset int64 `json:"offset,omitempty"`
+
+	// Order by the given field.
+	//
+	// Supported values: name, startts.
+	Orderby string `json:"orderby,omitempty"`
+
+	// Output format.
+	//
+	// Possible values:
+	//
+	// * ids: Only fill the ID field
+	//
+	// * default: Return all event fields (also used when the output parameter is
+	// omitted)
+	//
+	// * withlookup: Returns all event fields and an additional lookup field which
+	// contains all dependent objects
+	Output string `json:"output,omitempty"`
+
+	// A text filter string.
+	//
+	// Matches against the start of the event name, the production name or the
+	// subtitle.
+	Searchterm string `json:"searchterm,omitempty"`
+
+	// Filters the events based on a given set of fields. Currently supports:
+	// productionid, status and pricetypeids.
+	Simplefilter *EventFilter `json:"simplefilter,omitempty"`
 }
 
 // Information about the sales period for a specific sales channel
@@ -1265,6 +2266,442 @@ func (o *EventTicket) MarshalJSON() ([]byte, error) {
 	// Know a way to do this better? Get in touch!
 }
 
+// Used when requesting tickets for an event, to filter the tickets.
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/EventTicketFilter).
+type EventTicketFilter struct {
+	// The ID of the tickettype (contingent)
+	Tickettypeid int64 `json:"tickettypeid,omitempty"`
+}
+
+// Filter parameters to fetch a list of tickets for an event
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/EventTicketQuery).
+type EventTicketQuery struct {
+	// Filters the tickets based on a given set of fields.
+	Simplefilter *EventTicketFilter `json:"simplefilter,omitempty"`
+}
+
+// Used when unlocking a set of tickets.
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/EventUnlockTickets).
+type EventUnlockTickets struct {
+	// Array of ticketids to unlock.
+	Ticketids []int64 `json:"ticketids"`
+}
+
+// A single field definition.
+//
+// More info: see the get operation
+// (https://www.ticketmatic.com/docs/api/settings/system/fielddefinitions/get) and
+// the field definitions endpoint
+// (https://www.ticketmatic.com/docs/api/settings/system/fielddefinitions).
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/FieldDefinition).
+type FieldDefinition struct {
+	// Unique ID
+	//
+	// Note: Ignored when creating a new field definition.
+	//
+	// Note: Ignored when updating an existing field definition.
+	Id int64 `json:"id"`
+
+	// Type ID
+	//
+	// Note: Ignored when updating an existing field definition.
+	Typeid int64 `json:"typeid"`
+
+	// Alignment of the field definition, when used in a view. Values can be 'left',
+	// 'right' or 'center'
+	Align string `json:"align"`
+
+	// Human-readable name for the field definition
+	Description string `json:"description"`
+
+	// Key for the field definition. Should only consist of lowercase alphanumeric
+	// characters
+	Key string `json:"key"`
+
+	// The actual definition of the field definition. Contains the sql clause that will
+	// retrieve the information element in the database.
+	Sqlclause string `json:"sqlclause"`
+
+	// Will decide how the field will be rendered when used in a view.
+	Uitype string `json:"uitype"`
+
+	// Indicates whether the width for the field definition can be adapted when
+	// stretching a view that includes the field definition across the whole available
+	// width.
+	Variablewidth bool `json:"variablewidth"`
+
+	// Width of the field definition, when used in a view
+	Width int64 `json:"width"`
+
+	// Whether or not this item is archived
+	//
+	// Note: Ignored when creating a new field definition.
+	//
+	// Note: Ignored when updating an existing field definition.
+	Isarchived bool `json:"isarchived"`
+
+	// Created timestamp
+	//
+	// Note: Ignored when creating a new field definition.
+	//
+	// Note: Ignored when updating an existing field definition.
+	Createdts Time `json:"createdts"`
+
+	// Last updated timestamp
+	//
+	// Note: Ignored when creating a new field definition.
+	//
+	// Note: Ignored when updating an existing field definition.
+	Lastupdatets Time `json:"lastupdatets"`
+}
+
+// Set of parameters used to filter field definitions.
+//
+// More info: see field definition
+// (https://www.ticketmatic.com/docs/api/types/FieldDefinition), the getlist
+// operation
+// (https://www.ticketmatic.com/docs/api/settings/system/fielddefinitions/getlist)
+// and the field definitions endpoint
+// (https://www.ticketmatic.com/docs/api/settings/system/fielddefinitions).
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/FieldDefinitionQuery).
+type FieldDefinitionQuery struct {
+	// Only return items with the given typeid.
+	Typeid int64 `json:"typeid,omitempty"`
+
+	// Filter the returned items by specifying a query on the public datamodel that
+	// returns the ids.
+	Filter string `json:"filter,omitempty"`
+
+	// If this parameter is true, archived items will be returned as well.
+	Includearchived bool `json:"includearchived,omitempty"`
+
+	// All items that were updated since this timestamp will be returned. Timestamp
+	// should be passed in YYYY-MM-DD hh:mm:ss format.
+	Lastupdatesince Time `json:"lastupdatesince,omitempty"`
+}
+
+// A single filter definition.
+//
+// More info: see the get operation
+// (https://www.ticketmatic.com/docs/api/settings/system/filterdefinitions/get) and
+// the filter definitions endpoint
+// (https://www.ticketmatic.com/docs/api/settings/system/filterdefinitions).
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/FilterDefinition).
+type FilterDefinition struct {
+	// Unique ID
+	//
+	// Note: Ignored when creating a new filter definition.
+	//
+	// Note: Ignored when updating an existing filter definition.
+	Id int64 `json:"id"`
+
+	// Type ID
+	//
+	// Note: Ignored when updating an existing filter definition.
+	Typeid int64 `json:"typeid"`
+
+	// For certain filter types, the user must select a value from a list. The
+	// checklistquery contains the sql clause to retrieve the list of available values.
+	Checklistquery string `json:"checklistquery"`
+
+	// Name for the filter
+	Description string `json:"description"`
+
+	// The type of filter definition defines the UI and resulting parameters that will
+	// be used when a user selects the filter. The possible values can be found here
+	// (https://www.ticketmatic.com/docs/api/settings/system/filterdefinitions).
+	Filtertype int64 `json:"filtertype"`
+
+	// The sql clause that defines how the filter will work
+	Sqlclause string `json:"sqlclause"`
+
+	// Whether or not this item is archived
+	//
+	// Note: Ignored when creating a new filter definition.
+	//
+	// Note: Ignored when updating an existing filter definition.
+	Isarchived bool `json:"isarchived"`
+
+	// Created timestamp
+	//
+	// Note: Ignored when creating a new filter definition.
+	//
+	// Note: Ignored when updating an existing filter definition.
+	Createdts Time `json:"createdts"`
+
+	// Last updated timestamp
+	//
+	// Note: Ignored when creating a new filter definition.
+	//
+	// Note: Ignored when updating an existing filter definition.
+	Lastupdatets Time `json:"lastupdatets"`
+}
+
+// Set of parameters used to filter filter definitions.
+//
+// More info: see filter definition
+// (https://www.ticketmatic.com/docs/api/types/FilterDefinition), the getlist
+// operation
+// (https://www.ticketmatic.com/docs/api/settings/system/filterdefinitions/getlist)
+// and the filter definitions endpoint
+// (https://www.ticketmatic.com/docs/api/settings/system/filterdefinitions).
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/FilterDefinitionQuery).
+type FilterDefinitionQuery struct {
+	// Only return items with the given typeid.
+	Typeid int64 `json:"typeid"`
+
+	// Filter the returned items by specifying a query on the public datamodel that
+	// returns the ids.
+	Filter string `json:"filter,omitempty"`
+
+	// If this parameter is true, archived items will be returned as well.
+	Includearchived bool `json:"includearchived,omitempty"`
+
+	// All items that were updated since this timestamp will be returned. Timestamp
+	// should be passed in YYYY-MM-DD hh:mm:ss format.
+	Lastupdatesince Time `json:"lastupdatesince,omitempty"`
+}
+
+// Used when importing an order with optiondbundle tickets
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/ImportBundleTicket).
+type ImportBundleTicket struct {
+	// Manually select a specific ticket.
+	Id int64 `json:"id,omitempty"`
+
+	// Seatzone ID
+	Seatzoneid int64 `json:"seatzoneid,omitempty"`
+
+	// The tickettype ID for the ticket.
+	Tickettypeid int64 `json:"tickettypeid"`
+}
+
+// Used to import an order.
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/ImportOrder).
+type ImportOrder struct {
+	// Order ID
+	Orderid int64 `json:"orderid"`
+
+	// Order code
+	//
+	// Used as a unique identifier in web sales.
+	Code string `json:"code,omitempty"`
+
+	// Customer ID
+	Customerid int64 `json:"customerid,omitempty"`
+
+	// Address used when delivering physically
+	Deliveryaddress *Address `json:"deliveryaddress,omitempty"`
+
+	// See delivery scenarios
+	// (https://www.ticketmatic.com/docs/api/settings/ticketsales/deliveryscenarios)
+	// for more info.
+	Deliveryscenarioid int64 `json:"deliveryscenarioid,omitempty"`
+
+	// Delivery status
+	//
+	// Possible values:
+	//
+	// * 2601: Not delivered
+	//
+	// * 2602: Delivered
+	//
+	// * 2603: Changed after delivery
+	Deliverystatus int64 `json:"deliverystatus,omitempty"`
+
+	// Indicates if the expired order has been handled. If set to false when importing,
+	// Ticketmatic will send our expiry mails if configured.
+	Expiryhandled bool `json:"expiryhandled,omitempty"`
+
+	// When the order will expire. If this is specified expiryhandled should also be
+	// specified.
+	Expiryts Time `json:"expiryts,omitempty"`
+
+	// Order fees for the order
+	Ordercosts []*ImportOrdercost `json:"ordercosts"`
+
+	// Payments in the order
+	Payments []*ImportPayment `json:"payments"`
+
+	// See payment scenarios
+	// (https://www.ticketmatic.com/docs/api/settings/ticketsales/paymentscenarios) for
+	// more info.
+	Paymentscenarioid int64 `json:"paymentscenarioid,omitempty"`
+
+	// Products in the order
+	Products []*ImportProduct `json:"products"`
+
+	// Indicates if the overdue order has been handled. If set to false when importing,
+	// Ticketmatic will send our reminder mails if configured.
+	Rappelhandled bool `json:"rappelhandled,omitempty"`
+
+	// When a reminder mail will be sent. If this is specified rappelhandled should
+	// also be specified.
+	Rappelts Time `json:"rappelts,omitempty"`
+
+	// See sales channels
+	// (https://www.ticketmatic.com/docs/api/settings/ticketsales/saleschannels) for
+	// more info.
+	Saleschannelid int64 `json:"saleschannelid"`
+
+	// Tickets in the order
+	Tickets []*ImportTicket `json:"tickets"`
+
+	// Created timestamp
+	Createdts Time `json:"createdts,omitempty"`
+
+	// Last updated timestamp
+	Lastupdatets Time `json:"lastupdatets,omitempty"`
+}
+
+// Used when importing orders.
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/ImportOrdercost).
+type ImportOrdercost struct {
+	// The amount for this ordercost, can only be specified with manual ordercosts
+	Amount float64 `json:"amount,omitempty"`
+
+	// Id of the service charge to use for this ordercost
+	Servicechargedefinitionid int64 `json:"servicechargedefinitionid"`
+}
+
+// Used when importing an order.
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/ImportPayment).
+type ImportPayment struct {
+	// Amount
+	Amount float64 `json:"amount"`
+
+	// Timestamp of payment
+	Paidts Time `json:"paidts"`
+
+	// Payment method id
+	Paymentmethodid int64 `json:"paymentmethodid"`
+
+	// Additional properties for the payment. Can contain a variable structure.
+	Properties map[string]interface{} `json:"properties,omitempty"`
+
+	// Voucher code that was used for this payment
+	Vouchercode string `json:"vouchercode,omitempty"`
+
+	// Voucher code id that was used for this payment
+	Vouchercodeid int64 `json:"vouchercodeid,omitempty"`
+}
+
+// Used when importing orders.
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/ImportProduct).
+type ImportProduct struct {
+	// List of tickets that belong to this bundle.
+	Bundletickets []*ImportBundleTicket `json:"bundletickets"`
+
+	// The price this product was sold for.
+	Price float64 `json:"price,omitempty"`
+
+	// Indicate which contact is the holder of this product. Currently only used with
+	// bundles.
+	Productholderid int64 `json:"productholderid,omitempty"`
+
+	// The id for the product you want to add.
+	Productid int64 `json:"productid"`
+
+	// The property values for the product.
+	Properties map[string]string `json:"properties,omitempty"`
+
+	// If this product references a voucher, set the amount to reserve for this
+	// voucher.
+	Voucheramount float64 `json:"voucheramount,omitempty"`
+
+	// If this product references a voucher, set the code for the voucher that will be
+	// created. If not set, the code will be generated.
+	Vouchercode string `json:"vouchercode,omitempty"`
+
+	// If this product references a voucher, set the expiry timestamp for the
+	// vouchercode that will be created. If not set, the default timestamp configured
+	// in the voucher will be set.
+	Voucherexpiryts Time `json:"voucherexpiryts,omitempty"`
+}
+
+// Used when importing order.
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/ImportTicket).
+type ImportTicket struct {
+	// Manually select a specific ticket.
+	Id int64 `json:"id,omitempty"`
+
+	// Ticket price
+	Price float64 `json:"price,omitempty"`
+
+	// Seatzone ID
+	Seatzoneid int64 `json:"seatzoneid,omitempty"`
+
+	// Service charge for this ticket
+	Servicecharge float64 `json:"servicecharge,omitempty"`
+
+	// If this ticket should be linked to a contact, set the ticketholderid
+	Ticketholderid int64 `json:"ticketholderid,omitempty"`
+
+	// The tickettype ID for the ticket.
+	Tickettypeid int64 `json:"tickettypeid"`
+
+	// The ticket type price ID for the new ticket. Either tickettypepriceid or
+	// optionbundleid should be specified, not both.
+	Tickettypepriceid int64 `json:"tickettypepriceid,omitempty"`
+
+	// Voucher code to use (if any)
+	Vouchercode string `json:"vouchercode,omitempty"`
+
+	// The voucher code to link to this ticket
+	Vouchercodeid int64 `json:"vouchercodeid,omitempty"`
+}
+
 // Key-value item
 //
 // Help Center
@@ -1277,6 +2714,115 @@ type KeyValueItem struct {
 
 	// Value
 	Value string `json:"value"`
+}
+
+// A single lock type.
+//
+// More info: see the get operation
+// (https://www.ticketmatic.com/docs/api/settings/ticketsales/locktypes/get) and
+// the lock types endpoint
+// (https://www.ticketmatic.com/docs/api/settings/ticketsales/locktypes).
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/LockType).
+type LockType struct {
+	// Unique ID
+	//
+	// Note: Ignored when creating a new lock type.
+	//
+	// Note: Ignored when updating an existing lock type.
+	Id int64 `json:"id"`
+
+	// Name for the lock type
+	Name string `json:"name"`
+
+	// Indicates whether this lock is a hard lock (meaning that it normally never will
+	// be released and does not count for the inventory) or a soft lock
+	Ishardlock bool `json:"ishardlock"`
+
+	// Whether or not this item is archived
+	//
+	// Note: Ignored when creating a new lock type.
+	//
+	// Note: Ignored when updating an existing lock type.
+	Isarchived bool `json:"isarchived"`
+
+	// Created timestamp
+	//
+	// Note: Ignored when creating a new lock type.
+	//
+	// Note: Ignored when updating an existing lock type.
+	Createdts Time `json:"createdts"`
+
+	// Last updated timestamp
+	//
+	// Note: Ignored when creating a new lock type.
+	//
+	// Note: Ignored when updating an existing lock type.
+	Lastupdatets Time `json:"lastupdatets"`
+}
+
+// Set of parameters used to filter lock types.
+//
+// More info: see lock type (https://www.ticketmatic.com/docs/api/types/LockType),
+// the getlist operation
+// (https://www.ticketmatic.com/docs/api/settings/ticketsales/locktypes/getlist)
+// and the lock types endpoint
+// (https://www.ticketmatic.com/docs/api/settings/ticketsales/locktypes).
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/LockTypeQuery).
+type LockTypeQuery struct {
+	// Filter the returned items by specifying a query on the public datamodel that
+	// returns the ids.
+	Filter string `json:"filter,omitempty"`
+
+	// If this parameter is true, archived items will be returned as well.
+	Includearchived bool `json:"includearchived,omitempty"`
+
+	// All items that were updated since this timestamp will be returned. Timestamp
+	// should be passed in YYYY-MM-DD hh:mm:ss format.
+	Lastupdatesince Time `json:"lastupdatesince,omitempty"`
+}
+
+// Log item returned when requesting the log history of an order
+// (https://www.ticketmatic.com/docs/api/types/Order).
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/LogItem).
+type LogItem struct {
+	// Id of the log item
+	Id int64 `json:"id"`
+
+	// Order id
+	Orderid int64 `json:"orderid"`
+
+	// Log item type
+	Typeid int64 `json:"typeid"`
+
+	// Info
+	Info map[string]interface{} `json:"info,omitempty"`
+
+	// Lookup info
+	Lookupinfo map[string]interface{} `json:"lookupinfo,omitempty"`
+
+	// Model
+	Model map[string]interface{} `json:"model,omitempty"`
+
+	// Log item timestamp
+	Ts Time `json:"ts"`
+
+	// User id
+	Userid int64 `json:"userid"`
+
+	// User name
+	Username string `json:"username"`
 }
 
 // A single Order.
@@ -1574,92 +3120,330 @@ func (o *Order) MarshalJSON() ([]byte, error) {
 	// Know a way to do this better? Get in touch!
 }
 
-// A single order fee for an order.
+// A single order fee.
+//
+// More info: see the get operation
+// (https://www.ticketmatic.com/docs/api/settings/ticketsales/orderfees/get) and
+// the order fees endpoint
+// (https://www.ticketmatic.com/docs/api/settings/ticketsales/orderfees).
 //
 // Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/Ordercost).
-type Ordercost struct {
+// (https://www.ticketmatic.com/docs/api/types/OrderFee).
+type OrderFee struct {
+	// Unique ID
+	//
+	// Note: Ignored when creating a new order fee definition.
+	//
+	// Note: Ignored when creating a new order fee.
+	Id int64 `json:"id"`
+
+	// Type of the order fee. Can be Automatic (2401), Script (2402) or Manual (2403)
+	Typeid int64 `json:"typeid"`
+
+	// Name for the order fee
+	Name string `json:"name"`
+
+	// Definition of the rule that defines when the order fee will be applied
+	//
+	// Note: Not set when retrieving a list of order fee definitions.
+	//
+	// Note: Not set when retrieving a list of order fees.
+	Rule *OrderfeeRule `json:"rule,omitempty"`
+
+	// Whether or not this item is archived
+	//
+	// Note: Ignored when creating a new order fee definition.
+	//
+	// Note: Ignored when creating a new order fee.
+	Isarchived bool `json:"isarchived"`
+
+	// Archived timestamp
+	//
+	// Note: Ignored when creating a new order fee definition.
+	//
+	// Note: Ignored when creating a new order fee.
+	Archivedts Time `json:"archivedts"`
+
+	// Created timestamp
+	//
+	// Note: Ignored when creating a new order fee definition.
+	//
+	// Note: Ignored when creating a new order fee.
+	Createdts Time `json:"createdts"`
+
+	// Last updated timestamp
+	//
+	// Note: Ignored when creating a new order fee definition.
+	//
+	// Note: Ignored when creating a new order fee.
+	Lastupdatets Time `json:"lastupdatets"`
+}
+
+// A single order fee definition.
+//
+// More info: see the get operation
+// (https://www.ticketmatic.com/docs/api/settings/pricing/orderfeedefinitions/get)
+// and the order fee definitions endpoint
+// (https://www.ticketmatic.com/docs/api/settings/pricing/orderfeedefinitions).
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/OrderFeeDefinition).
+type OrderFeeDefinition struct {
+	// Unique ID
+	//
+	// Note: Ignored when creating a new order fee definition.
+	//
+	// Note: Ignored when creating a new order fee.
+	Id int64 `json:"id"`
+
+	// Type of the order fee. Can be Automatic (2401), Script (2402) or Manual (2403)
+	Typeid int64 `json:"typeid"`
+
+	// Name for the order fee
+	Name string `json:"name"`
+
+	// Definition of the rule that defines when the order fee will be applied
+	//
+	// Note: Not set when retrieving a list of order fee definitions.
+	//
+	// Note: Not set when retrieving a list of order fees.
+	Rule *OrderfeeRule `json:"rule,omitempty"`
+
+	// Whether or not this item is archived
+	//
+	// Note: Ignored when creating a new order fee definition.
+	//
+	// Note: Ignored when creating a new order fee.
+	Isarchived bool `json:"isarchived"`
+
+	// Archived timestamp
+	//
+	// Note: Ignored when creating a new order fee definition.
+	//
+	// Note: Ignored when creating a new order fee.
+	Archivedts Time `json:"archivedts"`
+
+	// Created timestamp
+	//
+	// Note: Ignored when creating a new order fee definition.
+	//
+	// Note: Ignored when creating a new order fee.
+	Createdts Time `json:"createdts"`
+
+	// Last updated timestamp
+	//
+	// Note: Ignored when creating a new order fee definition.
+	//
+	// Note: Ignored when creating a new order fee.
+	Lastupdatets Time `json:"lastupdatets"`
+}
+
+// Set of parameters used to filter order fee definitions.
+//
+// More info: see order fee definition
+// (https://www.ticketmatic.com/docs/api/types/OrderFeeDefinition), the getlist
+// operation
+// (https://www.ticketmatic.com/docs/api/settings/pricing/orderfeedefinitions/getlist)
+// and the order fee definitions endpoint
+// (https://www.ticketmatic.com/docs/api/settings/pricing/orderfeedefinitions).
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/OrderFeeDefinitionQuery).
+type OrderFeeDefinitionQuery struct {
+	// Filter the returned items by specifying a query on the public datamodel that
+	// returns the ids.
+	Filter string `json:"filter,omitempty"`
+
+	// If this parameter is true, archived items will be returned as well.
+	Includearchived bool `json:"includearchived,omitempty"`
+
+	// All items that were updated since this timestamp will be returned. Timestamp
+	// should be passed in YYYY-MM-DD hh:mm:ss format.
+	Lastupdatesince Time `json:"lastupdatesince,omitempty"`
+}
+
+// Set of parameters used to filter order fees.
+//
+// More info: see order fee (https://www.ticketmatic.com/docs/api/types/OrderFee),
+// the getlist operation
+// (https://www.ticketmatic.com/docs/api/settings/ticketsales/orderfees/getlist)
+// and the order fees endpoint
+// (https://www.ticketmatic.com/docs/api/settings/ticketsales/orderfees).
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/OrderFeeQuery).
+type OrderFeeQuery struct {
+	// Filter the returned items by specifying a query on the public datamodel that
+	// returns the ids.
+	Filter string `json:"filter,omitempty"`
+
+	// If this parameter is true, archived items will be returned as well.
+	Includearchived bool `json:"includearchived,omitempty"`
+
+	// All items that were updated since this timestamp will be returned. Timestamp
+	// should be passed in YYYY-MM-DD hh:mm:ss format.
+	Lastupdatesince Time `json:"lastupdatesince,omitempty"`
+}
+
+// Used when requesting orders, to filter orders.
+//
+// Specify any of the supported fields to filter the list of orders.
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/OrderFilter).
+type OrderFilter struct {
+	// Only include orders older than the given timestamp
+	Createdsince Time `json:"createdsince,omitempty"`
+
+	// Filter orders based on customer
+	Customerid int64 `json:"customerid,omitempty"`
+
+	// Filter orders based on saleschannel
+	Saleschannelid int64 `json:"saleschannelid,omitempty"`
+
+	// Only include orders with a given status
+	//
+	// Possible values:
+	//
+	// * 21001: Unconfirmed orders
+	//
+	// * 21002: Confirmed orders
+	//
+	// * 21003: Archived orders
+	Status int64 `json:"status,omitempty"`
+}
+
+// Order ID reservation
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/OrderIdReservation).
+type OrderIdReservation struct {
+	// Maximum ID to reserve
+	Id int64 `json:"id"`
+}
+
+// Import status per order
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/OrderImportStatus).
+type OrderImportStatus struct {
 	// Order ID
-	Orderid int64 `json:"orderid"`
+	Id int64 `json:"id"`
 
-	// Payment amount
-	Amount float64 `json:"amount"`
+	// Error message, if failed
+	Error string `json:"error"`
 
-	// Order fee ID
-	Servicechargedefinitionid int64 `json:"servicechargedefinitionid"`
+	// Whether the import succeeded
+	Ok bool `json:"ok"`
 }
 
-// More info about order fees can be found here
-// (https://www.ticketmatic.com/docs/api/settings/ticketsales/orderfees).
+// A single order mail template.
+//
+// More info: see the get operation
+// (https://www.ticketmatic.com/docs/api/settings/communicationanddesign/ordermails/get)
+// and the order mail templates endpoint
+// (https://www.ticketmatic.com/docs/api/settings/communicationanddesign/ordermails).
 //
 // Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/OrderfeeRule).
-type OrderfeeRule struct {
-	// This is required if the order fee type is set to automatic. It is a set of rules
-	// that define the order fee.
-	Auto []*OrderfeeAutoRule `json:"auto"`
+// (https://www.ticketmatic.com/docs/api/types/OrderMailTemplate).
+type OrderMailTemplate struct {
+	// Unique ID
+	//
+	// Note: Ignored when creating a new order mail template.
+	//
+	// Note: Ignored when updating an existing order mail template.
+	Id int64 `json:"id"`
 
-	// This can be set if the order fee type is set to script. It allows adding extra
-	// information to the script environment.
-	Context []*OrderfeeScriptContext `json:"context"`
+	// The type of this order mail template, defines where this template is used. The
+	// available values for this field can be found on the order mail template overview
+	// (https://www.ticketmatic.com/docs/api/settings/communicationanddesign/ordermails)
+	// page.
+	Typeid int64 `json:"typeid"`
 
-	// This is required if the order fee type is set to script. The javascript needs to
-	// return a value.
-	Script string `json:"script"`
+	// Name of the order mail template
+	Name string `json:"name"`
+
+	// Message body
+	//
+	// Note: Not set when retrieving a list of order mail templates.
+	Body string `json:"body"`
+
+	// Subject line for the order mail template
+	//
+	// Note: Not set when retrieving a list of order mail templates.
+	Subject string `json:"subject"`
+
+	// A map of language codes to gettext .po files
+	// (http://en.wikipedia.org/wiki/Gettext). More info can be found on the order mail
+	// template overview
+	// (https://www.ticketmatic.com/docs/api/settings/communicationanddesign/ordermails)
+	// page.
+	//
+	// Note: Not set when retrieving a list of order mail templates.
+	Translations map[string]string `json:"translations,omitempty"`
+
+	// Whether or not this item is archived
+	//
+	// Note: Ignored when creating a new order mail template.
+	//
+	// Note: Ignored when updating an existing order mail template.
+	Isarchived bool `json:"isarchived"`
+
+	// Created timestamp
+	//
+	// Note: Ignored when creating a new order mail template.
+	//
+	// Note: Ignored when updating an existing order mail template.
+	Createdts Time `json:"createdts"`
+
+	// Last updated timestamp
+	//
+	// Note: Ignored when creating a new order mail template.
+	//
+	// Note: Ignored when updating an existing order mail template.
+	Lastupdatets Time `json:"lastupdatets"`
 }
 
-// More info about order fees can be found here
-// (https://www.ticketmatic.com/docs/api/settings/ticketsales/orderfees).
+// Set of parameters used to filter order mail templates.
+//
+// More info: see order mail template
+// (https://www.ticketmatic.com/docs/api/types/OrderMailTemplate), the getlist
+// operation
+// (https://www.ticketmatic.com/docs/api/settings/communicationanddesign/ordermails/getlist)
+// and the order mail templates endpoint
+// (https://www.ticketmatic.com/docs/api/settings/communicationanddesign/ordermails).
 //
 // Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/OrderfeeScriptContext).
-type OrderfeeScriptContext struct {
-	// If set to true the query will be cached for 60 seconds. If not set the query
-	// will be executed again every time a script is executed.
-	Cacheable bool `json:"cacheable"`
+// (https://www.ticketmatic.com/docs/api/types/OrderMailTemplateQuery).
+type OrderMailTemplateQuery struct {
+	// Filter the returned items by specifying a query on the public datamodel that
+	// returns the ids.
+	Filter string `json:"filter,omitempty"`
 
-	// The name of the variable that will be added to the script environment.
-	Key string `json:"key"`
+	// If this parameter is true, archived items will be returned as well.
+	Includearchived bool `json:"includearchived,omitempty"`
 
-	// The query that will be executed on the public data model. The result will be
-	// available in the script environment.
-	Query string `json:"query"`
-}
-
-// More info about order fees can be found here
-// (https://www.ticketmatic.com/docs/api/settings/ticketsales/orderfees).
-//
-// Help Center
-//
-// Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/OrderfeeAutoRule).
-type OrderfeeAutoRule struct {
-	// The delivery scenarios that this order fee is applicable for. If not set it
-	// defaults to 'all'. This is only needed if the order fee type is set to
-	// automatic.
-	Deliveryscenarioids []int64 `json:"deliveryscenarioids"`
-
-	// The payment scenarios that this order fee is applicable for. If not set it
-	// default to 'all'. This is only needed if the order fee type is set to automatic.
-	Paymentscenarioids []int64 `json:"paymentscenarioids"`
-
-	// The sales channels that this order fee is applicable for. If not set it defaults
-	// to 'all'. This is only needed if the order fee type is set to automatic.
-	Saleschannelids []int64 `json:"saleschannelids"`
-
-	// Can be fixedfee or percentagefee. Defauls to fixedfee. This is only needed if
-	// the order fee type is set to automatic.
-	Status string `json:"status"`
-
-	// The value (amount) that will be added to the order. Is required if the order fee
-	// type is set to automatic.
-	Value float64 `json:"value"`
+	// All items that were updated since this timestamp will be returned. Timestamp
+	// should be passed in YYYY-MM-DD hh:mm:ss format.
+	Lastupdatesince Time `json:"lastupdatesince,omitempty"`
 }
 
 // A single product in an order.
@@ -1692,6 +3476,61 @@ type OrderProduct struct {
 
 	// Vouchercode ID for the voucher that is linked to this orderproduct
 	Vouchercodeid int64 `json:"vouchercodeid"`
+}
+
+// Filter parameters to fetch a list of orders
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/OrderQuery).
+type OrderQuery struct {
+	// A SQL query that returns order IDs
+	//
+	// Can be used to do arbitrary filtering. See the database documentation for order
+	// (https://www.ticketmatic.com/docs/db/order) for more information.
+	Filter string `json:"filter,omitempty"`
+
+	// If this parameter is true, archived items will be returned as well.
+	Includearchived bool `json:"includearchived,omitempty"`
+
+	// Only include orders that have been updated since the given timestamp.
+	Lastupdatesince Time `json:"lastupdatesince,omitempty"`
+
+	// Limit results to at most the given amount of orders.
+	Limit int64 `json:"limit,omitempty"`
+
+	// Skip the first X orders.
+	Offset int64 `json:"offset,omitempty"`
+
+	// Order by the given field.
+	//
+	// Supported values: createdts, lastupdatets.
+	Orderby string `json:"orderby,omitempty"`
+
+	// Output format.
+	//
+	// Possible values:
+	//
+	// * ids: Only fill the ID field
+	//
+	// * minimal: A minimal set of order fields
+	//
+	// * default: Return all order fields (also used when the output parameter is
+	// omitted)
+	//
+	// * withlookup: Returns all order fields and an additional lookup field which
+	// contains all dependent objects
+	Output string `json:"output,omitempty"`
+
+	// A text filter string.
+	//
+	// Matches against the order ID or the customer details..
+	Searchterm string `json:"searchterm,omitempty"`
+
+	// Filters the orders based on a given set of fields. Currently supports:
+	// createdsince, saleschannelid, customerid, status.
+	Simplefilter *OrderFilter `json:"simplefilter,omitempty"`
 }
 
 // A single ticket in an order.
@@ -1753,6 +3592,111 @@ type OrderTicket struct {
 	Vouchercodeid int64 `json:"vouchercodeid"`
 }
 
+// Order tickettype
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/OrderTickettype).
+type OrderTickettype struct {
+	// Tickettype id
+	Id int64 `json:"id"`
+
+	// Tickettype name
+	Name string `json:"name"`
+
+	// Tickettype full name
+	Fulltypename string `json:"fulltypename"`
+}
+
+// A single order fee for an order.
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/Ordercost).
+type Ordercost struct {
+	// Order ID
+	Orderid int64 `json:"orderid"`
+
+	// Payment amount
+	Amount float64 `json:"amount"`
+
+	// Order fee ID
+	Servicechargedefinitionid int64 `json:"servicechargedefinitionid"`
+}
+
+// More info about order fees can be found here
+// (https://www.ticketmatic.com/docs/api/settings/ticketsales/orderfees).
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/OrderfeeAutoRule).
+type OrderfeeAutoRule struct {
+	// The delivery scenarios that this order fee is applicable for. If not set it
+	// defaults to 'all'. This is only needed if the order fee type is set to
+	// automatic.
+	Deliveryscenarioids []int64 `json:"deliveryscenarioids"`
+
+	// The payment scenarios that this order fee is applicable for. If not set it
+	// default to 'all'. This is only needed if the order fee type is set to automatic.
+	Paymentscenarioids []int64 `json:"paymentscenarioids"`
+
+	// The sales channels that this order fee is applicable for. If not set it defaults
+	// to 'all'. This is only needed if the order fee type is set to automatic.
+	Saleschannelids []int64 `json:"saleschannelids"`
+
+	// Can be fixedfee or percentagefee. Defauls to fixedfee. This is only needed if
+	// the order fee type is set to automatic.
+	Status string `json:"status"`
+
+	// The value (amount) that will be added to the order. Is required if the order fee
+	// type is set to automatic.
+	Value float64 `json:"value"`
+}
+
+// More info about order fees can be found here
+// (https://www.ticketmatic.com/docs/api/settings/ticketsales/orderfees).
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/OrderfeeRule).
+type OrderfeeRule struct {
+	// This is required if the order fee type is set to automatic. It is a set of rules
+	// that define the order fee.
+	Auto []*OrderfeeAutoRule `json:"auto"`
+
+	// This can be set if the order fee type is set to script. It allows adding extra
+	// information to the script environment.
+	Context []*OrderfeeScriptContext `json:"context"`
+
+	// This is required if the order fee type is set to script. The javascript needs to
+	// return a value.
+	Script string `json:"script"`
+}
+
+// More info about order fees can be found here
+// (https://www.ticketmatic.com/docs/api/settings/ticketsales/orderfees).
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/OrderfeeScriptContext).
+type OrderfeeScriptContext struct {
+	// If set to true the query will be cached for 60 seconds. If not set the query
+	// will be executed again every time a script is executed.
+	Cacheable bool `json:"cacheable"`
+
+	// The name of the variable that will be added to the script environment.
+	Key string `json:"key"`
+
+	// The query that will be executed on the public data model. The result will be
+	// available in the script environment.
+	Query string `json:"query"`
+}
+
 // A single payment.
 //
 // Help Center
@@ -1785,6 +3729,231 @@ type Payment struct {
 	//
 	// Note: Ignored when importing orders.
 	Vouchercodeid int64 `json:"vouchercodeid"`
+}
+
+// A single payment method.
+//
+// More info: see the get operation
+// (https://www.ticketmatic.com/docs/api/settings/ticketsales/paymentmethods/get)
+// and the payment methods endpoint
+// (https://www.ticketmatic.com/docs/api/settings/ticketsales/paymentmethods).
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/PaymentMethod).
+type PaymentMethod struct {
+	// Unique ID
+	//
+	// Note: Ignored when creating a new payment method.
+	//
+	// Note: Ignored when updating an existing payment method.
+	Id int64 `json:"id"`
+
+	// Name of the payment method
+	Name string `json:"name"`
+
+	// Specific configuration for the payment method, content depends on the payment
+	// method type.
+	//
+	// Note: Not set when retrieving a list of payment methods.
+	Config map[string]interface{} `json:"config,omitempty"`
+
+	// Internal remark, will not be shown to customers
+	Internalremark string `json:"internalremark"`
+
+	// Type of the paymentmethod.
+	Paymentmethodtypeid int64 `json:"paymentmethodtypeid"`
+
+	// Whether or not this item is archived
+	//
+	// Note: Ignored when creating a new payment method.
+	//
+	// Note: Ignored when updating an existing payment method.
+	Isarchived bool `json:"isarchived"`
+
+	// Created timestamp
+	//
+	// Note: Ignored when creating a new payment method.
+	//
+	// Note: Ignored when updating an existing payment method.
+	Createdts Time `json:"createdts"`
+
+	// Last updated timestamp
+	//
+	// Note: Ignored when creating a new payment method.
+	//
+	// Note: Ignored when updating an existing payment method.
+	Lastupdatets Time `json:"lastupdatets"`
+}
+
+// Set of parameters used to filter payment methods.
+//
+// More info: see payment method
+// (https://www.ticketmatic.com/docs/api/types/PaymentMethod), the getlist
+// operation
+// (https://www.ticketmatic.com/docs/api/settings/ticketsales/paymentmethods/getlist)
+// and the payment methods endpoint
+// (https://www.ticketmatic.com/docs/api/settings/ticketsales/paymentmethods).
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/PaymentMethodQuery).
+type PaymentMethodQuery struct {
+	// Filter the returned items by specifying a query on the public datamodel that
+	// returns the ids.
+	Filter string `json:"filter,omitempty"`
+
+	// If this parameter is true, archived items will be returned as well.
+	Includearchived bool `json:"includearchived,omitempty"`
+
+	// All items that were updated since this timestamp will be returned. Timestamp
+	// should be passed in YYYY-MM-DD hh:mm:ss format.
+	Lastupdatesince Time `json:"lastupdatesince,omitempty"`
+}
+
+// Info for requesting an immediate payment in an order
+// (https://www.ticketmatic.com/docs/api/types/Order).
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/PaymentRequest).
+type PaymentRequest struct {
+	// The language to be used during the payment processing
+	Language string `json:"language"`
+
+	// The returnurl that will be called after the payment request was done.
+	Returnurl string `json:"returnurl"`
+}
+
+// A single payment scenario.
+//
+// More info: see the get operation
+// (https://www.ticketmatic.com/docs/api/settings/ticketsales/paymentscenarios/get)
+// and the payment scenarios endpoint
+// (https://www.ticketmatic.com/docs/api/settings/ticketsales/paymentscenarios).
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/PaymentScenario).
+type PaymentScenario struct {
+	// Unique ID
+	//
+	// Note: Ignored when creating a new payment scenario.
+	//
+	// Note: Ignored when updating an existing payment scenario.
+	Id int64 `json:"id"`
+
+	// Type for the payment scenario. Can be 'Immediate payment' (2701), 'Mollie bank
+	// transfer' (2702), 'Regular bank transfer' (2703), 'Deferred online payment'
+	// (2704), 'Deferred other' (2705).
+	Typeid int64 `json:"typeid"`
+
+	// Name of the payment scenario
+	Name string `json:"name"`
+
+	// Rules that define in what conditions this payment scenario is available
+	//
+	// Note: Not set when retrieving a list of payment scenarios.
+	Availability *PaymentscenarioAvailability `json:"availability,omitempty"`
+
+	// Beneficiary for the bank account number. Only used for type 2703 (Regular bank
+	// transfer)
+	Bankaccountbeneficiary string `json:"bankaccountbeneficiary,omitempty"`
+
+	// BIC code for the bank account number. Only used for type 2703 (Regular bank
+	// transfer)
+	Bankaccountbic string `json:"bankaccountbic,omitempty"`
+
+	// Bank account number to be used. Only used for type 2703 (Regular bank transfer)
+	Bankaccountnumber string `json:"bankaccountnumber,omitempty"`
+
+	// Rules that define when an order becomes expired. Not used for type 2701.
+	//
+	// Note: Not set when retrieving a list of payment scenarios.
+	Expiryparameters *PaymentscenarioExpiryParameters `json:"expiryparameters,omitempty"`
+
+	// An internal remark, which is never shown to customers. Can be used to
+	// distinguish identically named payment scenarios.
+	//
+	// For example: You could have two VISA scenarios, one for the web sales and one
+	// for the box office, each will have different fee configurations. Both will be
+	// named VISA, this field can be used to distinguish them.
+	Internalremark string `json:"internalremark,omitempty"`
+
+	// Link to the order mail template that will be sent when the order is expired. Can
+	// be 0 to indicate that no mail should be sent. Not used for type 2701.
+	OrdermailtemplateidExpiry int64 `json:"ordermailtemplateid_expiry"`
+
+	// Link to the order mail template that will be sent when the order is overdue. Can
+	// be 0 to indicate that no mail should be sent. Not used for type 2701.
+	OrdermailtemplateidOverdue int64 `json:"ordermailtemplateid_overdue"`
+
+	// Link to the order mail template that will be sent as payment instruction. Can be
+	// 0 to indicate that no mail should be sent. Not used for type 2701.
+	OrdermailtemplateidPaymentinstruction int64 `json:"ordermailtemplateid_paymentinstruction"`
+
+	// Rules that define when an order becomes overdue. Not used for type 2701.
+	//
+	// Note: Not set when retrieving a list of payment scenarios.
+	Overdueparameters *PaymentscenarioOverdueParameters `json:"overdueparameters,omitempty"`
+
+	// Set of payment methods that are linked to this payment scenario. Depending on
+	// the type, this field has different usage.
+	Paymentmethods []int64 `json:"paymentmethods"`
+
+	// Short description of the payment scenario, will be shown to customers
+	Shortdescription string `json:"shortdescription,omitempty"`
+
+	// Whether or not this item is archived
+	//
+	// Note: Ignored when creating a new payment scenario.
+	//
+	// Note: Ignored when updating an existing payment scenario.
+	Isarchived bool `json:"isarchived"`
+
+	// Created timestamp
+	//
+	// Note: Ignored when creating a new payment scenario.
+	//
+	// Note: Ignored when updating an existing payment scenario.
+	Createdts Time `json:"createdts"`
+
+	// Last updated timestamp
+	//
+	// Note: Ignored when creating a new payment scenario.
+	//
+	// Note: Ignored when updating an existing payment scenario.
+	Lastupdatets Time `json:"lastupdatets"`
+}
+
+// Set of parameters used to filter payment scenarios.
+//
+// More info: see payment scenario
+// (https://www.ticketmatic.com/docs/api/types/PaymentScenario), the getlist
+// operation
+// (https://www.ticketmatic.com/docs/api/settings/ticketsales/paymentscenarios/getlist)
+// and the payment scenarios endpoint
+// (https://www.ticketmatic.com/docs/api/settings/ticketsales/paymentscenarios).
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/PaymentScenarioQuery).
+type PaymentScenarioQuery struct {
+	// Filter the returned items by specifying a query on the public datamodel that
+	// returns the ids.
+	Filter string `json:"filter,omitempty"`
+
+	// If this parameter is true, archived items will be returned as well.
+	Includearchived bool `json:"includearchived,omitempty"`
+
+	// All items that were updated since this timestamp will be returned. Timestamp
+	// should be passed in YYYY-MM-DD hh:mm:ss format.
+	Lastupdatesince Time `json:"lastupdatesince,omitempty"`
 }
 
 // A PaymentscenarioAvailability configures in what saleschannels a payment
@@ -1868,6 +4037,76 @@ type PaymentscenarioOverdueParameters struct {
 	Daysbeforeevent int64 `json:"daysbeforeevent"`
 }
 
+// A single phone number type.
+//
+// More info: see the get operation
+// (https://www.ticketmatic.com/docs/api/settings/system/phonenumbertypes/get) and
+// the phone number types endpoint
+// (https://www.ticketmatic.com/docs/api/settings/system/phonenumbertypes).
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/PhoneNumberType).
+type PhoneNumberType struct {
+	// Unique ID
+	//
+	// Note: Ignored when creating a new phone number type.
+	//
+	// Note: Ignored when updating an existing phone number type.
+	Id int64 `json:"id"`
+
+	// Name of the phone number type
+	Name string `json:"name"`
+
+	// Whether or not this item is archived
+	//
+	// Note: Ignored when creating a new phone number type.
+	//
+	// Note: Ignored when updating an existing phone number type.
+	Isarchived bool `json:"isarchived"`
+
+	// Created timestamp
+	//
+	// Note: Ignored when creating a new phone number type.
+	//
+	// Note: Ignored when updating an existing phone number type.
+	Createdts Time `json:"createdts"`
+
+	// Last updated timestamp
+	//
+	// Note: Ignored when creating a new phone number type.
+	//
+	// Note: Ignored when updating an existing phone number type.
+	Lastupdatets Time `json:"lastupdatets"`
+}
+
+// Set of parameters used to filter phone number types.
+//
+// More info: see phone number type
+// (https://www.ticketmatic.com/docs/api/types/PhoneNumberType), the getlist
+// operation
+// (https://www.ticketmatic.com/docs/api/settings/system/phonenumbertypes/getlist)
+// and the phone number types endpoint
+// (https://www.ticketmatic.com/docs/api/settings/system/phonenumbertypes).
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/PhoneNumberTypeQuery).
+type PhoneNumberTypeQuery struct {
+	// Filter the returned items by specifying a query on the public datamodel that
+	// returns the ids.
+	Filter string `json:"filter,omitempty"`
+
+	// If this parameter is true, archived items will be returned as well.
+	Includearchived bool `json:"includearchived,omitempty"`
+
+	// All items that were updated since this timestamp will be returned. Timestamp
+	// should be passed in YYYY-MM-DD hh:mm:ss format.
+	Lastupdatesince Time `json:"lastupdatesince,omitempty"`
+}
+
 // See contact (https://www.ticketmatic.com/docs/api/types/Contact) for more
 // information.
 //
@@ -1898,19 +4137,158 @@ type Phonenumber struct {
 	Type string `json:"type"`
 }
 
-// You can find more information about prices in the endpoint documentation
+// A single price list.
+//
+// More info: see the get operation
+// (https://www.ticketmatic.com/docs/api/settings/pricing/pricelists/get) and the
+// price lists endpoint
 // (https://www.ticketmatic.com/docs/api/settings/pricing/pricelists).
 //
 // Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/PricelistPrices).
-type PricelistPrices struct {
-	// The set of prices for this pricelist.
-	Prices []*PricelistPrice `json:"prices"`
+// (https://www.ticketmatic.com/docs/api/types/PriceList).
+type PriceList struct {
+	// Unique ID
+	//
+	// Note: Ignored when creating a new price list.
+	//
+	// Note: Ignored when updating an existing price list.
+	Id int64 `json:"id"`
 
-	// The seatranks for which this pricelist lists prices.
-	Seatrankids []int64 `json:"seatrankids"`
+	// Name for the pricelist
+	Name string `json:"name"`
+
+	// Boolean indicating whether this pricelist has ranks or not
+	Hasranks bool `json:"hasranks"`
+
+	// Definition of the actual prices and conditions for the pricelist
+	//
+	// Note: Not set when retrieving a list of price lists.
+	Prices *PricelistPrices `json:"prices,omitempty"`
+
+	// Whether or not this item is archived
+	//
+	// Note: Ignored when creating a new price list.
+	//
+	// Note: Ignored when updating an existing price list.
+	Isarchived bool `json:"isarchived"`
+
+	// Created timestamp
+	//
+	// Note: Ignored when creating a new price list.
+	//
+	// Note: Ignored when updating an existing price list.
+	Createdts Time `json:"createdts"`
+
+	// Last updated timestamp
+	//
+	// Note: Ignored when creating a new price list.
+	//
+	// Note: Ignored when updating an existing price list.
+	Lastupdatets Time `json:"lastupdatets"`
+}
+
+// Set of parameters used to filter price lists.
+//
+// More info: see price list
+// (https://www.ticketmatic.com/docs/api/types/PriceList), the getlist operation
+// (https://www.ticketmatic.com/docs/api/settings/pricing/pricelists/getlist) and
+// the price lists endpoint
+// (https://www.ticketmatic.com/docs/api/settings/pricing/pricelists).
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/PriceListQuery).
+type PriceListQuery struct {
+	// Filter the returned items by specifying a query on the public datamodel that
+	// returns the ids.
+	Filter string `json:"filter,omitempty"`
+
+	// If this parameter is true, archived items will be returned as well.
+	Includearchived bool `json:"includearchived,omitempty"`
+
+	// All items that were updated since this timestamp will be returned. Timestamp
+	// should be passed in YYYY-MM-DD hh:mm:ss format.
+	Lastupdatesince Time `json:"lastupdatesince,omitempty"`
+}
+
+// A single price type.
+//
+// More info: see the get operation
+// (https://www.ticketmatic.com/docs/api/settings/pricing/pricetypes/get) and the
+// price types endpoint
+// (https://www.ticketmatic.com/docs/api/settings/pricing/pricetypes).
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/PriceType).
+type PriceType struct {
+	// Unique ID
+	//
+	// Note: Ignored when creating a new price type.
+	//
+	// Note: Ignored when updating an existing price type.
+	Id int64 `json:"id"`
+
+	// The category of this price type, defines how the price is displayed. The
+	// available values for this field can be found on the price type overview
+	// (https://www.ticketmatic.com/docs/api/settings/pricing/pricetypes) page.
+	Typeid int64 `json:"typeid"`
+
+	// Name of the price type
+	Name string `json:"name"`
+
+	// A remark that describes the price type. Will be shown to customers.
+	Remark string `json:"remark"`
+
+	// Whether or not this item is archived
+	//
+	// Note: Ignored when creating a new price type.
+	//
+	// Note: Ignored when updating an existing price type.
+	Isarchived bool `json:"isarchived"`
+
+	// Created timestamp
+	//
+	// Note: Ignored when creating a new price type.
+	//
+	// Note: Ignored when updating an existing price type.
+	Createdts Time `json:"createdts"`
+
+	// Last updated timestamp
+	//
+	// Note: Ignored when creating a new price type.
+	//
+	// Note: Ignored when updating an existing price type.
+	Lastupdatets Time `json:"lastupdatets"`
+}
+
+// Set of parameters used to filter price types.
+//
+// More info: see price type
+// (https://www.ticketmatic.com/docs/api/types/PriceType), the getlist operation
+// (https://www.ticketmatic.com/docs/api/settings/pricing/pricetypes/getlist) and
+// the price types endpoint
+// (https://www.ticketmatic.com/docs/api/settings/pricing/pricetypes).
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/PriceTypeQuery).
+type PriceTypeQuery struct {
+	// Filter the returned items by specifying a query on the public datamodel that
+	// returns the ids.
+	Filter string `json:"filter,omitempty"`
+
+	// If this parameter is true, archived items will be returned as well.
+	Includearchived bool `json:"includearchived,omitempty"`
+
+	// All items that were updated since this timestamp will be returned. Timestamp
+	// should be passed in YYYY-MM-DD hh:mm:ss format.
+	Lastupdatesince Time `json:"lastupdatesince,omitempty"`
 }
 
 // You can find more information about price in the endpoint documentation
@@ -2051,2182 +4429,19 @@ type PricelistPriceCondition struct {
 	Value interface{} `json:"value,omitempty"`
 }
 
-// Product instancevalue exception
-//
-// Help Center
-//
-// Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/ProductInstanceException).
-type ProductInstanceException struct {
-	// Properties for which this exception is valid
-	Properties map[string][]string `json:"properties,omitempty"`
-
-	// Value for this exception
-	Value *ProductInstanceValue `json:"value,omitempty"`
-}
-
-// Product Instance Pricetype Value
-//
-// Help Center
-//
-// Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/ProductInstancePricetypeValue).
-type ProductInstancePricetypeValue struct {
-	// Pricetype id
-	Id int64 `json:"id"`
-
-	// Min amount from which the pricetype will be applied
-	From int64 `json:"from"`
-}
-
-// Product Instance Value
-//
-// Help Center
-//
-// Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/ProductInstanceValue).
-type ProductInstanceValue struct {
-	// Price
-	Price float64 `json:"price"`
-
-	// Set of pricetype values (used in optionbundle products)
-	Pricetypes []*ProductInstancePricetypeValue `json:"pricetypes"`
-
-	// Set of tickettypeprices (used in fixedbundle products)
-	Tickettypeprices []int64 `json:"tickettypeprices"`
-
-	// Set of tickettypes (used in optionbundle products)
-	Tickettypes []int64 `json:"tickettypes"`
-
-	// Voucher
-	Voucher *ProductVoucherValue `json:"voucher,omitempty"`
-}
-
-// Product instancevalues
-//
-// Help Center
-//
-// Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/ProductInstancevalues).
-type ProductInstancevalues struct {
-	// Default values
-	Default *ProductInstanceValue `json:"default,omitempty"`
-
-	// Exceptions on the default values
-	Exceptions []*ProductInstanceException `json:"exceptions"`
-}
-
-// Product property
-//
-// Help Center
-//
-// Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/ProductProperty).
-type ProductProperty struct {
-	// Name
-	Name string `json:"name"`
-
-	// Description
-	Description string `json:"description"`
-
-	// Key
-	Key string `json:"key"`
-
-	// Values
-	Values []*KeyValueItem `json:"values"`
-}
-
-// Product Voucher Value
-//
-// Help Center
-//
-// Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/ProductVoucherValue).
-type ProductVoucherValue struct {
-	// Amount (only used for vouchers of type Payment)
-	Amount float64 `json:"amount"`
-
-	// Voucher id
-	Voucherid int64 `json:"voucherid"`
-}
-
-// Report Options
-//
-// Help Center
-//
-// Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/ReportOptions).
-type ReportOptions struct {
-	// The pagesize for the report when exported as Excel.
-	Excelpagewidth int64 `json:"excelpagewidth"`
-
-	// Excel-specific option for scaling the width
-	Excelscaling float64 `json:"excelscaling"`
-
-	// The pagesize for the report: A4 landscape, Letter landscape, ...
-	Pdfpagesize string `json:"pdfpagesize"`
-
-	// Indicates if a system font should be used.
-	Usesystemfont bool `json:"usesystemfont"`
-}
-
-// Defines which fees are active for specific price types and sales channels. It's
-// possible to define a fixed fee and a percentage based fee. The default rule (if
-// none is specified for a specific sales channel) is always a fixed fee of 0.
-//
-// Help Center
-//
-// Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/TicketfeeRules).
-type TicketfeeRules struct {
-	// The default ticket fee rule, one rule for each saleschannel.
-	Default []*TicketfeeSaleschannelRule `json:"default"`
-
-	// An array of exception rules for specific pricetypes.
-	Exceptions []*TicketfeeException `json:"exceptions"`
-}
-
-// An exception to the default rule for a specific pricetype and a set of
-// saleschannels.
-//
-// Help Center
-//
-// Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/TicketfeeException).
-type TicketfeeException struct {
-	// The pricetype for which this exception is active.
-	Pricetypeid int64 `json:"pricetypeid"`
-
-	// The set of rules (one for each saleschannel).
-	Saleschannels []*TicketfeeSaleschannelRule `json:"saleschannels"`
-}
-
-// This is a rule for a specific saleschannel that indicates the fee based on a
-// fixed amount or a percentage.
-//
-// Help Center
-//
-// Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/TicketfeeSaleschannelRule).
-type TicketfeeSaleschannelRule struct {
-	// The saleschannel for which this rule is active.
-	Saleschannelid int64 `json:"saleschannelid"`
-
-	// The status sets the type of rule. Possible values:
-	//
-	// * fixedfee: A fixed ticket fee.
-	//
-	// * percentagefee: A fee thats a percentage of the ticket.
-	Status string `json:"status"`
-
-	// The value of this ticket fee. Can be an absolute amount (fixedfee) or a
-	// percentage (percentagefee). In both cases only provide a decimal.
-	Value float64 `json:"value"`
-}
-
-// View column for a view.
-//
-// Help Center
-//
-// Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/ViewColumn).
-type ViewColumn struct {
-	// ID of the field definition for this column.
-	Id int64 `json:"id"`
-}
-
-// The definition of the validity of a voucher.
-//
-// Help Center
-//
-// Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/VoucherValidity).
-type VoucherValidity struct {
-	// The fixed expiry date for a voucher
-	ExpiryFixeddate Time `json:"expiry_fixeddate"`
-
-	// The relative expiry date for a voucher: voucher code expires this number of
-	// months after creation
-	ExpiryMonthsaftercreation int64 `json:"expiry_monthsaftercreation"`
-
-	// The max number of times the vouchercode can be used
-	Maxusages int64 `json:"maxusages"`
-
-	// The max number of times the vouchercode can be used for a single event
-	Maxusagesperevent int64 `json:"maxusagesperevent"`
-}
-
-// Configuration settings and parameters for a web sales skin
-// (https://www.ticketmatic.com/docs/api/types/WebSalesSkin).
-//
-// Page titles
-//
-// The title field contains a template for the page title. The same variables as in
-// the HTML of the skin itself can be used.
-//
-// Check the web sales skin setup guide
-// (https://www.ticketmatic.com/docs/tickets/configure_ticket_sales/webskin) for
-// more information.
-//
-// Help Center
-//
-// Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/WebSalesSkinConfiguration).
-type WebSalesSkinConfiguration struct {
-	// Asset path to favicon image.
-	Favicon string `json:"favicon"`
-
-	// Facebook app ID to use for Facebook authentication.
-	//
-	// The default Ticketmatic Facebook app will be used if you leave this field blank
-	Fbappid string `json:"fbappid"`
-
-	// Deprecated, use Google Tag Manager.
-	Googleanalyticsid string `json:"googleanalyticsid"`
-
-	// Google Tag Manager ID. Can be left blank.
-	Googletagmanagerid string `json:"googletagmanagerid"`
-
-	// Page title
-	Title string `json:"title"`
-}
-
-// Batch operations performed on contacts
-//
-// Help Center
-//
-// Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/BatchContactOperation).
-type BatchContactOperation struct {
-	// Apply operation to all contacts except for the supplied IDs
-	Excludeids []int64 `json:"excludeids"`
-
-	// Restrict operation to supplied IDs
-	Ids []int64 `json:"ids"`
-
-	// Operation to perform
-	Operation string `json:"operation"`
-
-	// Operation-specific parameters
-	Parameters *BatchContactParameters `json:"parameters,omitempty"`
-}
-
-// Parameters for batch operations performed on contacts
-//
-// Help Center
-//
-// Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/BatchContactParameters).
-type BatchContactParameters struct {
-	// Selection name
-	Name string `json:"name"`
-
-	// Relation type IDs
-	Ids []int64 `json:"ids"`
-}
-
-// Filter parameters to fetch a list of contacts
-//
-// Help Center
-//
-// Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/ContactQuery).
-type ContactQuery struct {
-	// A SQL query that returns contact IDs
-	//
-	// Can be used to do arbitrary filtering. See the database documentation for
-	// contact (https://www.ticketmatic.com/docs/db/contact) for more information.
-	Filter string `json:"filter,omitempty"`
-
-	// If this parameter is true, archived items will be returned as well.
-	Includearchived bool `json:"includearchived,omitempty"`
-
-	// Only include contacts that have been updated since the given timestamp.
-	Lastupdatesince Time `json:"lastupdatesince,omitempty"`
-
-	// Limit results to at most the given amount of contacts.
-	Limit int64 `json:"limit,omitempty"`
-
-	// Skip the first X contacts.
-	Offset int64 `json:"offset,omitempty"`
-
-	// Order by the given field.
-	//
-	// Supported values: name, lastupdatets, createdts.
-	Orderby string `json:"orderby,omitempty"`
-
-	// Output format.
-	//
-	// Possible values:
-	//
-	// * ids: Only fill the ID field
-	//
-	// * minimal: A minimal set of order fields
-	//
-	// * default: Return all order fields (also used when the output parameter is
-	// omitted)
-	Output string `json:"output,omitempty"`
-
-	// A text filter string.
-	//
-	// Matches against the contact name and contact details.
-	Searchterm string `json:"searchterm,omitempty"`
-}
-
-// Optional alternative methods to retrieve a contact
-//
-// Help Center
-//
-// Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/ContactGetQuery).
-type ContactGetQuery struct {
-	// Contact e-mail address
-	Email string `json:"email,omitempty"`
-}
-
-// A timestamp returned by the diagnostic /time call
-// (https://www.ticketmatic.com/docs/api/diagnostics/time).
-//
-// Help Center
-//
-// Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/Timestamp).
-type Timestamp struct {
-	// Current system time
-	Systemtime Time `json:"systemtime,omitempty"`
-}
-
-// Filter parameters to fetch a list of events
-//
-// Help Center
-//
-// Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/EventQuery).
-type EventQuery struct {
-	// Restrict the event information to a specific context.
-	//
-	// Currently allows you to filter the event information (both the events and the
-	// pricing information within each event) to a specific saleschannel. This makes it
-	// very easy to show the correct information on a website.
-	Context *EventContext `json:"context,omitempty"`
-
-	// A SQL query that returns event IDs
-	//
-	// Can be used to do arbitrary filtering. See the database documentation for event
-	// (https://www.ticketmatic.com/docs/db/event) for more information.
-	Filter string `json:"filter,omitempty"`
-
-	// Only include events that have been updated since the given timestamp.
-	Lastupdatesince Time `json:"lastupdatesince,omitempty"`
-
-	// Limit results to at most the given amount of events.
-	Limit int64 `json:"limit,omitempty"`
-
-	// Skip the first X events.
-	Offset int64 `json:"offset,omitempty"`
-
-	// Order by the given field.
-	//
-	// Supported values: name, startts.
-	Orderby string `json:"orderby,omitempty"`
-
-	// Output format.
-	//
-	// Possible values:
-	//
-	// * ids: Only fill the ID field
-	//
-	// * default: Return all event fields (also used when the output parameter is
-	// omitted)
-	//
-	// * withlookup: Returns all event fields and an additional lookup field which
-	// contains all dependent objects
-	Output string `json:"output,omitempty"`
-
-	// A text filter string.
-	//
-	// Matches against the start of the event name, the production name or the
-	// subtitle.
-	Searchterm string `json:"searchterm,omitempty"`
-
-	// Filters the events based on a given set of fields. Currently supports:
-	// productionid, status and pricetypeids.
-	Simplefilter *EventFilter `json:"simplefilter,omitempty"`
-}
-
-// Used when requesting events, to filter events.
-//
-// Currently allows you to filter based on the production ID.
-//
-// Help Center
-//
-// Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/EventFilter).
-type EventFilter struct {
-	// The ID of the production
-	Productionid int64 `json:"productionid,omitempty"`
-
-	// The event status. By default, events with status Active or Closed will be
-	// returned
-	Status []int64 `json:"status"`
-}
-
-// Used when requesting events, to restrict the event information to a specific
-// context.
-//
-// Currently allows you to filter the event information (both the events and the
-// pricing information within each event) to a specific saleschannel. This makes it
-// very easy to show the correct information on a website.
-//
-// Help Center
-//
-// Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/EventContext).
-type EventContext struct {
-	// The ID of the saleschannel used to restrict the event information
-	Saleschannelid int64 `json:"saleschannelid,omitempty"`
-}
-
-// Filter parameters to fetch a list of tickets for an event
-//
-// Help Center
-//
-// Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/EventTicketQuery).
-type EventTicketQuery struct {
-	// Filters the tickets based on a given set of fields.
-	Simplefilter *EventTicketFilter `json:"simplefilter,omitempty"`
-}
-
-// Used when requesting tickets for an event, to filter the tickets.
-//
-// Help Center
-//
-// Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/EventTicketFilter).
-type EventTicketFilter struct {
-	// The ID of the tickettype (contingent)
-	Tickettypeid int64 `json:"tickettypeid,omitempty"`
-}
-
-// Used when locking a set of tickets. Contains the locktypeid and the set of
-// ticketids
-//
-// Help Center
-//
-// Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/EventLockTickets).
-type EventLockTickets struct {
-	// Id of the locktype to use for the lock.
-	Locktypeid int64 `json:"locktypeid"`
-
-	// Array of ticketids to lock.
-	Ticketids []int64 `json:"ticketids"`
-}
-
-// Used when unlocking a set of tickets.
-//
-// Help Center
-//
-// Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/EventUnlockTickets).
-type EventUnlockTickets struct {
-	// Array of ticketids to unlock.
-	Ticketids []int64 `json:"ticketids"`
-}
-
-// Required data for creating an order
-// (https://www.ticketmatic.com/docs/api/types/Order).
-//
-// Help Center
-//
-// Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/CreateOrder).
-type CreateOrder struct {
-	// Event IDs that might end up in this order, used to hint the rate limiter
-	// (https://www.ticketmatic.com/docs/api/ratelimiting) of what might come.
-	Events []int64 `json:"events"`
-
-	// Product IDs that might end up in this order, used to hint the rate limiter
-	// (https://www.ticketmatic.com/docs/api/ratelimiting) of what might come.
-	Products []int64 `json:"products"`
-
-	// Sales channel in which this order is created
-	Saleschannelid int64 `json:"saleschannelid"`
-}
-
-// Info for adding a ticket
-// (https://www.ticketmatic.com/docs/api/orders/addtickets) to an order
-// (https://www.ticketmatic.com/docs/api/types/Order).
-//
-// Help Center
-//
-// Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/CreateTicket).
-type CreateTicket struct {
-	// The id for the optionbundle you want to add a new ticket to. Either
-	// tickettypepriceid or optionbundleid should be specified, not both.
-	Optionbundleid int64 `json:"optionbundleid,omitempty"`
-
-	// Manually select a specific ticket.
-	Ticketid int64 `json:"ticketid,omitempty"`
-
-	// Should only be specified when optionbundleid is specified. The tickettypeid for
-	// the ticket you want to add to the optionbundle.
-	Tickettypeid int64 `json:"tickettypeid,omitempty"`
-
-	// The ticket type price ID for the new ticket. Either tickettypepriceid or
-	// optionbundleid should be specified, not both.
-	Tickettypepriceid int64 `json:"tickettypepriceid,omitempty"`
-
-	// Voucher code to use (if any)
-	Vouchercode string `json:"vouchercode,omitempty"`
-}
-
-// Info for adding a product
-// (https://www.ticketmatic.com/docs/api/orders/addproducts) to an order
-// (https://www.ticketmatic.com/docs/api/types/Order).
-//
-// Help Center
-//
-// Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/CreateProduct).
-type CreateProduct struct {
-	// The id for the product you want to add.
-	Productid int64 `json:"productid"`
-
-	// The property values for the product.
-	Properties map[string]string `json:"properties,omitempty"`
-}
-
-// Result when adding tickets
-// (https://www.ticketmatic.com/docs/api/orders/addtickets) or products
-// (https://www.ticketmatic.com/docs/api/orders/addproducts) to an order
-// (https://www.ticketmatic.com/docs/api/types/Order).
-//
-// Help Center
-//
-// Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/AddItemsResult).
-type AddItemsResult struct {
-	// Ids of the items that were added
-	Ids []int64 `json:"ids"`
-
-	// The modified order
-	Order *Order `json:"order,omitempty"`
-}
-
-// Info for requesting a PDF ticket for one or more tickets or vouchercodes in an
-// order (https://www.ticketmatic.com/docs/api/types/Order).
-//
-// Help Center
-//
-// Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/TicketsPdfRequest).
-type TicketsPdfRequest struct {
-	// Ticketids
-	Tickets []int64 `json:"tickets"`
-
-	// Vouchercodeids
-	Vouchercodes []int64 `json:"vouchercodes"`
-}
-
-// Info for requesting a e-mail delivery for an order
-// (https://www.ticketmatic.com/docs/api/types/Order).
-//
-// Help Center
-//
-// Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/TicketsEmaildeliveryRequest).
-type TicketsEmaildeliveryRequest struct {
-	// Template id
-	Templateid int64 `json:"templateid"`
-}
-
-// Url.
-//
-// Help Center
-//
-// Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/Url).
-type Url struct {
-	// Url.
-	Url string `json:"url"`
-}
-
-// Order tickettype
-//
-// Help Center
-//
-// Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/OrderTickettype).
-type OrderTickettype struct {
-	// Tickettype id
-	Id int64 `json:"id"`
-
-	// Tickettype name
-	Name string `json:"name"`
-
-	// Tickettype full name
-	Fulltypename string `json:"fulltypename"`
-}
-
-// Info for requesting an immediate payment in an order
-// (https://www.ticketmatic.com/docs/api/types/Order).
-//
-// Help Center
-//
-// Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/PaymentRequest).
-type PaymentRequest struct {
-	// The language to be used during the payment processing
-	Language string `json:"language"`
-
-	// The returnurl that will be called after the payment request was done.
-	Returnurl string `json:"returnurl"`
-}
-
-// Order ID reservation
-//
-// Help Center
-//
-// Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/OrderIdReservation).
-type OrderIdReservation struct {
-	// Maximum ID to reserve
-	Id int64 `json:"id"`
-}
-
-// Request data used to add a payment
-// (https://www.ticketmatic.com/docs/api/orders/addpayments) to an order
-// (https://www.ticketmatic.com/docs/api/types/Order).
-//
-// Help Center
-//
-// Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/AddPayments).
-type AddPayments struct {
-	// Amount for the payment
-	Amount float64 `json:"amount"`
-
-	// Id of the payment method to be used for the payment
-	Paymentmethodid int64 `json:"paymentmethodid"`
-}
-
-// Request data used to add products
-// (https://www.ticketmatic.com/docs/api/orders/addproducts) to an order
-// (https://www.ticketmatic.com/docs/api/types/Order).
-//
-// Help Center
-//
-// Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/AddProducts).
-type AddProducts struct {
-	// Product information
-	Products []*CreateProduct `json:"products"`
-}
-
-// Request data used to refund a payment
-// (https://www.ticketmatic.com/docs/api/orders/addrefunds) for an order
-// (https://www.ticketmatic.com/docs/api/types/Order).
-//
-// Help Center
-//
-// Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/AddRefunds).
-type AddRefunds struct {
-	// Amount that needs to be refunded
-	Amount float64 `json:"amount"`
-
-	// Id of the payment that needs to be refunded
-	Paymentid int64 `json:"paymentid"`
-}
-
-// Request data used to add tickets
-// (https://www.ticketmatic.com/docs/api/orders/addtickets) to an order
-// (https://www.ticketmatic.com/docs/api/types/Order). The amount of tickets that
-// can be added is limited to 50 per call.
-//
-// Help Center
-//
-// Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/AddTickets).
-type AddTickets struct {
-	// Ticket information
-	Tickets []*CreateTicket `json:"tickets"`
-}
-
-// Request data used to delete products
-// (https://www.ticketmatic.com/docs/api/orders/deleteproducts) from an order
-// (https://www.ticketmatic.com/docs/api/types/Order).
-//
-// Help Center
-//
-// Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/DeleteProducts).
-type DeleteProducts struct {
-	// Product IDs
-	Products []int64 `json:"products"`
-}
-
-// Request data used to delete tickets
-// (https://www.ticketmatic.com/docs/api/orders/deletetickets) from an order
-// (https://www.ticketmatic.com/docs/api/types/Order).
-//
-// Help Center
-//
-// Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/DeleteTickets).
-type DeleteTickets struct {
-	// Ticket IDs
-	Tickets []int64 `json:"tickets"`
-}
-
-// Log item returned when requesting the log history of an order
-// (https://www.ticketmatic.com/docs/api/types/Order).
-//
-// Help Center
-//
-// Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/LogItem).
-type LogItem struct {
-	// Id of the log item
-	Id int64 `json:"id"`
-
-	// Order id
-	Orderid int64 `json:"orderid"`
-
-	// Log item type
-	Typeid int64 `json:"typeid"`
-
-	// Info
-	Info map[string]interface{} `json:"info,omitempty"`
-
-	// Lookup info
-	Lookupinfo map[string]interface{} `json:"lookupinfo,omitempty"`
-
-	// Model
-	Model map[string]interface{} `json:"model,omitempty"`
-
-	// Log item timestamp
-	Ts Time `json:"ts"`
-
-	// User id
-	Userid int64 `json:"userid"`
-
-	// User name
-	Username string `json:"username"`
-}
-
-// Used when requesting orders, to filter orders.
-//
-// Specify any of the supported fields to filter the list of orders.
-//
-// Help Center
-//
-// Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/OrderFilter).
-type OrderFilter struct {
-	// Only include orders older than the given timestamp
-	Createdsince Time `json:"createdsince,omitempty"`
-
-	// Filter orders based on customer
-	Customerid int64 `json:"customerid,omitempty"`
-
-	// Filter orders based on saleschannel
-	Saleschannelid int64 `json:"saleschannelid,omitempty"`
-
-	// Only include orders with a given status
-	//
-	// Possible values:
-	//
-	// * 21001: Unconfirmed orders
-	//
-	// * 21002: Confirmed orders
-	//
-	// * 21003: Archived orders
-	Status int64 `json:"status,omitempty"`
-}
-
-// Import status per order
-//
-// Help Center
-//
-// Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/OrderImportStatus).
-type OrderImportStatus struct {
-	// Order ID
-	Id int64 `json:"id"`
-
-	// Error message, if failed
-	Error string `json:"error"`
-
-	// Whether the import succeeded
-	Ok bool `json:"ok"`
-}
-
-// Filter parameters to fetch a list of orders
-//
-// Help Center
-//
-// Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/OrderQuery).
-type OrderQuery struct {
-	// A SQL query that returns order IDs
-	//
-	// Can be used to do arbitrary filtering. See the database documentation for order
-	// (https://www.ticketmatic.com/docs/db/order) for more information.
-	Filter string `json:"filter,omitempty"`
-
-	// If this parameter is true, archived items will be returned as well.
-	Includearchived bool `json:"includearchived,omitempty"`
-
-	// Only include orders that have been updated since the given timestamp.
-	Lastupdatesince Time `json:"lastupdatesince,omitempty"`
-
-	// Limit results to at most the given amount of orders.
-	Limit int64 `json:"limit,omitempty"`
-
-	// Skip the first X orders.
-	Offset int64 `json:"offset,omitempty"`
-
-	// Order by the given field.
-	//
-	// Supported values: createdts, lastupdatets.
-	Orderby string `json:"orderby,omitempty"`
-
-	// Output format.
-	//
-	// Possible values:
-	//
-	// * ids: Only fill the ID field
-	//
-	// * minimal: A minimal set of order fields
-	//
-	// * default: Return all order fields (also used when the output parameter is
-	// omitted)
-	//
-	// * withlookup: Returns all order fields and an additional lookup field which
-	// contains all dependent objects
-	Output string `json:"output,omitempty"`
-
-	// A text filter string.
-	//
-	// Matches against the order ID or the customer details..
-	Searchterm string `json:"searchterm,omitempty"`
-
-	// Filters the orders based on a given set of fields. Currently supports:
-	// createdsince, saleschannelid, customerid, status.
-	Simplefilter *OrderFilter `json:"simplefilter,omitempty"`
-}
-
-// Used to update an order. Each of the fields is optional. Omitting a field will
-// leave it unchanged.
-//
-// Help Center
-//
-// Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/UpdateOrder).
-type UpdateOrder struct {
-	// New customer ID
-	Customerid int64 `json:"customerid,omitempty"`
-
-	// Change custom field values
-	Customfields map[string]interface{} `json:"customfields,omitempty"`
-
-	// Delivery address
-	Deliveryaddress *Address `json:"deliveryaddress,omitempty"`
-
-	// New delivery scenario ID
-	Deliveryscenarioid int64 `json:"deliveryscenarioid,omitempty"`
-
-	// Expiry timestamp, as string in ISO 8601 format. Cannot be in the past.
-	Expiryts string `json:"expiryts,omitempty"`
-
-	// New payment scenario ID
-	Paymentscenarioid int64 `json:"paymentscenarioid,omitempty"`
-
-	// Rappel timestamp, as string in ISO 8601 format. Cannot be in the past.
-	Rappelts string `json:"rappelts,omitempty"`
-}
-
-// Individual products can be updated. Per call you can specify any number of
-// product IDs and one operation.
-//
-// Each operation accepts different parameters, dependent on the operation type:
-//
-// * Set product holders: an array of ticket holder IDs (see Contact
-// (https://www.ticketmatic.com/docs/api/types/Contact)), one for each product
-// (productholderids). *
-//
-// Help Center
-//
-// Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/UpdateProducts).
-type UpdateProducts struct {
-	// Operation to execute.
-	//
-	// Supported values:
-	//
-	// * setproductholders
-	Operation string `json:"operation"`
-
-	// Operation parameters
-	Params map[string]interface{} `json:"params,omitempty"`
-
-	// Product IDs
-	Products []int64 `json:"products"`
-}
-
-// Individual tickets can be updated. Per call you can specify any number of ticket
-// IDs and one operation.
-//
-// Each operation accepts different parameters, dependent on the operation type:
-//
-// * Set ticket holders: an array of ticket holder IDs (see Contact
-// (https://www.ticketmatic.com/docs/api/types/Contact)), one for each ticket
-// (ticketholderids).
-//
-// * Update price type: an array of ticket price type IDs (as can be found in the
-// Event pricing (https://www.ticketmatic.com/docs/api/types/Event)), one for each
-// ticket (tickettypepriceids).
-//
-// Help Center
-//
-// Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/UpdateTickets).
-type UpdateTickets struct {
-	// Operation to execute.
-	//
-	// Supported values:
-	//
-	// * setticketholders
-	//
-	// * updatepricetype
-	Operation string `json:"operation"`
-
-	// Operation parameters
-	Params map[string]interface{} `json:"params,omitempty"`
-
-	// Ticket IDs
-	Tickets []int64 `json:"tickets"`
-}
-
-// Used to import an order.
-//
-// Help Center
-//
-// Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/ImportOrder).
-type ImportOrder struct {
-	// Order ID
-	Orderid int64 `json:"orderid"`
-
-	// Order code
-	//
-	// Used as a unique identifier in web sales.
-	Code string `json:"code,omitempty"`
-
-	// Customer ID
-	Customerid int64 `json:"customerid,omitempty"`
-
-	// Address used when delivering physically
-	Deliveryaddress *Address `json:"deliveryaddress,omitempty"`
-
-	// See delivery scenarios
-	// (https://www.ticketmatic.com/docs/api/settings/ticketsales/deliveryscenarios)
-	// for more info.
-	Deliveryscenarioid int64 `json:"deliveryscenarioid,omitempty"`
-
-	// Delivery status
-	//
-	// Possible values:
-	//
-	// * 2601: Not delivered
-	//
-	// * 2602: Delivered
-	//
-	// * 2603: Changed after delivery
-	Deliverystatus int64 `json:"deliverystatus,omitempty"`
-
-	// Indicates if the expired order has been handled. If set to false when importing,
-	// Ticketmatic will send our expiry mails if configured.
-	Expiryhandled bool `json:"expiryhandled,omitempty"`
-
-	// When the order will expire. If this is specified expiryhandled should also be
-	// specified.
-	Expiryts Time `json:"expiryts,omitempty"`
-
-	// Order fees for the order
-	Ordercosts []*ImportOrdercost `json:"ordercosts"`
-
-	// Payments in the order
-	Payments []*ImportPayment `json:"payments"`
-
-	// See payment scenarios
-	// (https://www.ticketmatic.com/docs/api/settings/ticketsales/paymentscenarios) for
-	// more info.
-	Paymentscenarioid int64 `json:"paymentscenarioid,omitempty"`
-
-	// Products in the order
-	Products []*ImportProduct `json:"products"`
-
-	// Indicates if the overdue order has been handled. If set to false when importing,
-	// Ticketmatic will send our reminder mails if configured.
-	Rappelhandled bool `json:"rappelhandled,omitempty"`
-
-	// When a reminder mail will be sent. If this is specified rappelhandled should
-	// also be specified.
-	Rappelts Time `json:"rappelts,omitempty"`
-
-	// See sales channels
-	// (https://www.ticketmatic.com/docs/api/settings/ticketsales/saleschannels) for
-	// more info.
-	Saleschannelid int64 `json:"saleschannelid"`
-
-	// Tickets in the order
-	Tickets []*ImportTicket `json:"tickets"`
-
-	// Created timestamp
-	Createdts Time `json:"createdts,omitempty"`
-
-	// Last updated timestamp
-	Lastupdatets Time `json:"lastupdatets,omitempty"`
-}
-
-// Used when importing order.
-//
-// Help Center
-//
-// Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/ImportTicket).
-type ImportTicket struct {
-	// Manually select a specific ticket.
-	Id int64 `json:"id,omitempty"`
-
-	// Ticket price
-	Price float64 `json:"price,omitempty"`
-
-	// Seatzone ID
-	Seatzoneid int64 `json:"seatzoneid,omitempty"`
-
-	// Service charge for this ticket
-	Servicecharge float64 `json:"servicecharge,omitempty"`
-
-	// If this ticket should be linked to a contact, set the ticketholderid
-	Ticketholderid int64 `json:"ticketholderid,omitempty"`
-
-	// The tickettype ID for the ticket.
-	Tickettypeid int64 `json:"tickettypeid"`
-
-	// The ticket type price ID for the new ticket. Either tickettypepriceid or
-	// optionbundleid should be specified, not both.
-	Tickettypepriceid int64 `json:"tickettypepriceid,omitempty"`
-
-	// Voucher code to use (if any)
-	Vouchercode string `json:"vouchercode,omitempty"`
-
-	// The voucher code to link to this ticket
-	Vouchercodeid int64 `json:"vouchercodeid,omitempty"`
-}
-
-// Used when importing orders.
-//
-// Help Center
-//
-// Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/ImportProduct).
-type ImportProduct struct {
-	// List of tickets that belong to this bundle.
-	Bundletickets []*ImportBundleTicket `json:"bundletickets"`
-
-	// The price this product was sold for.
-	Price float64 `json:"price,omitempty"`
-
-	// Indicate which contact is the holder of this product. Currently only used with
-	// bundles.
-	Productholderid int64 `json:"productholderid,omitempty"`
-
-	// The id for the product you want to add.
-	Productid int64 `json:"productid"`
-
-	// The property values for the product.
-	Properties map[string]string `json:"properties,omitempty"`
-
-	// If this product references a voucher, set the amount to reserve for this
-	// voucher.
-	Voucheramount float64 `json:"voucheramount,omitempty"`
-
-	// If this product references a voucher, set the code for the voucher that will be
-	// created. If not set, the code will be generated.
-	Vouchercode string `json:"vouchercode,omitempty"`
-
-	// If this product references a voucher, set the expiry timestamp for the
-	// vouchercode that will be created. If not set, the default timestamp configured
-	// in the voucher will be set.
-	Voucherexpiryts Time `json:"voucherexpiryts,omitempty"`
-}
-
-// Used when importing an order.
-//
-// Help Center
-//
-// Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/ImportPayment).
-type ImportPayment struct {
-	// Amount
-	Amount float64 `json:"amount"`
-
-	// Timestamp of payment
-	Paidts Time `json:"paidts"`
-
-	// Payment method id
-	Paymentmethodid int64 `json:"paymentmethodid"`
-
-	// Additional properties for the payment. Can contain a variable structure.
-	Properties map[string]interface{} `json:"properties,omitempty"`
-
-	// Voucher code that was used for this payment
-	Vouchercode string `json:"vouchercode,omitempty"`
-
-	// Voucher code id that was used for this payment
-	Vouchercodeid int64 `json:"vouchercodeid,omitempty"`
-}
-
-// Used when importing orders.
-//
-// Help Center
-//
-// Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/ImportOrdercost).
-type ImportOrdercost struct {
-	// The amount for this ordercost, can only be specified with manual ordercosts
-	Amount float64 `json:"amount,omitempty"`
-
-	// Id of the service charge to use for this ordercost
-	Servicechargedefinitionid int64 `json:"servicechargedefinitionid"`
-}
-
-// Used when importing an order with optiondbundle tickets
-//
-// Help Center
-//
-// Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/ImportBundleTicket).
-type ImportBundleTicket struct {
-	// Manually select a specific ticket.
-	Id int64 `json:"id,omitempty"`
-
-	// Seatzone ID
-	Seatzoneid int64 `json:"seatzoneid,omitempty"`
-
-	// The tickettype ID for the ticket.
-	Tickettypeid int64 `json:"tickettypeid"`
-}
-
-// Rate limiting status. See rate limiting
-// (https://www.ticketmatic.com/docs/api/ratelimiting) for more details on rate
-// limiting.
-//
-// Help Center
-//
-// Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/QueueStatus).
-type QueueStatus struct {
-	// Queueing ID, used to request status updates
-	Id string `json:"id"`
-
-	// The ID of the newly created order. Only returned when a throttled "create order"
-	// call has finished queueing.
-	Orderid int64 `json:"orderid"`
-
-	// Number of people waiting ahead. Might not be returned when the queue hasn't
-	// started yet.
-	Ahead int64 `json:"ahead"`
-
-	// Number of milliseconds to wait before requesting a new status update
-	Backoff int64 `json:"backoff"`
-
-	// Further instructions on how to handle this error
-	Description string `json:"description"`
-
-	// Optional message shown to waiting customers
-	Message string `json:"message"`
-
-	// Status code: 1: wait more, 2: ready to proceed
-	Progress int64 `json:"progress"`
-
-	// Whether the queue has started
-	Started bool `json:"started"`
-
-	// When the queue will start
-	Starttime Time `json:"starttime"`
-}
-
-// An account parameter defines general behavior of your account
-//
-// Help Center
-//
-// Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/AccountParameter).
-type AccountParameter struct {
-	// The name of the account parameter
-	Key string `json:"key"`
-
-	// Value
-	Value interface{} `json:"value,omitempty"`
-}
-
-// Set of parameters used to filter documents.
-//
-// More info: see document (https://www.ticketmatic.com/docs/api/types/Document),
-// the getlist operation
-// (https://www.ticketmatic.com/docs/api/settings/communicationanddesign/documents/getlist)
-// and the documents endpoint
-// (https://www.ticketmatic.com/docs/api/settings/communicationanddesign/documents).
-//
-// Help Center
-//
-// Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/DocumentQuery).
-type DocumentQuery struct {
-	// Only return items with the given typeid.
-	Typeid int64 `json:"typeid,omitempty"`
-
-	// Filter the returned items by specifying a query on the public datamodel that
-	// returns the ids.
-	Filter string `json:"filter,omitempty"`
-
-	// All items that were updated since this timestamp will be returned. Timestamp
-	// should be passed in YYYY-MM-DD hh:mm:ss format.
-	Lastupdatesince Time `json:"lastupdatesince,omitempty"`
-}
-
-// A single document.
-//
-// More info: see the get operation
-// (https://www.ticketmatic.com/docs/api/settings/communicationanddesign/documents/get)
-// and the documents endpoint
-// (https://www.ticketmatic.com/docs/api/settings/communicationanddesign/documents).
-//
-// Help Center
-//
-// Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/Document).
-type Document struct {
-	// Unique ID
-	//
-	// Note: Ignored when creating a new document.
-	//
-	// Note: Ignored when updating an existing document.
-	Id int64 `json:"id"`
-
-	// Type ID
-	//
-	// Note: Ignored when updating an existing document.
-	Typeid int64 `json:"typeid"`
-
-	// Name of the document
-	Name string `json:"name"`
-
-	// Css content for the document template
-	//
-	// Note: Not set when retrieving a list of documents.
-	Css string `json:"css"`
-
-	// Description of the document
-	Description string `json:"description"`
-
-	// HTML content for the document template
-	//
-	// Note: Not set when retrieving a list of documents.
-	Htmltemplate string `json:"htmltemplate"`
-
-	// Translations for the document template
-	//
-	// Note: Not set when retrieving a list of documents.
-	Translations map[string]string `json:"translations,omitempty"`
-
-	// Created timestamp
-	//
-	// Note: Ignored when creating a new document.
-	//
-	// Note: Ignored when updating an existing document.
-	Createdts Time `json:"createdts"`
-
-	// Last updated timestamp
-	//
-	// Note: Ignored when creating a new document.
-	//
-	// Note: Ignored when updating an existing document.
-	Lastupdatets Time `json:"lastupdatets"`
-}
-
-// Set of parameters used to filter order mail templates.
-//
-// More info: see order mail template
-// (https://www.ticketmatic.com/docs/api/types/OrderMailTemplate), the getlist
-// operation
-// (https://www.ticketmatic.com/docs/api/settings/communicationanddesign/ordermails/getlist)
-// and the order mail templates endpoint
-// (https://www.ticketmatic.com/docs/api/settings/communicationanddesign/ordermails).
-//
-// Help Center
-//
-// Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/OrderMailTemplateQuery).
-type OrderMailTemplateQuery struct {
-	// Filter the returned items by specifying a query on the public datamodel that
-	// returns the ids.
-	Filter string `json:"filter,omitempty"`
-
-	// If this parameter is true, archived items will be returned as well.
-	Includearchived bool `json:"includearchived,omitempty"`
-
-	// All items that were updated since this timestamp will be returned. Timestamp
-	// should be passed in YYYY-MM-DD hh:mm:ss format.
-	Lastupdatesince Time `json:"lastupdatesince,omitempty"`
-}
-
-// A single order mail template.
-//
-// More info: see the get operation
-// (https://www.ticketmatic.com/docs/api/settings/communicationanddesign/ordermails/get)
-// and the order mail templates endpoint
-// (https://www.ticketmatic.com/docs/api/settings/communicationanddesign/ordermails).
-//
-// Help Center
-//
-// Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/OrderMailTemplate).
-type OrderMailTemplate struct {
-	// Unique ID
-	//
-	// Note: Ignored when creating a new order mail template.
-	//
-	// Note: Ignored when updating an existing order mail template.
-	Id int64 `json:"id"`
-
-	// The type of this order mail template, defines where this template is used. The
-	// available values for this field can be found on the order mail template overview
-	// (https://www.ticketmatic.com/docs/api/settings/communicationanddesign/ordermails)
-	// page.
-	Typeid int64 `json:"typeid"`
-
-	// Name of the order mail template
-	Name string `json:"name"`
-
-	// Message body
-	//
-	// Note: Not set when retrieving a list of order mail templates.
-	Body string `json:"body"`
-
-	// Subject line for the order mail template
-	//
-	// Note: Not set when retrieving a list of order mail templates.
-	Subject string `json:"subject"`
-
-	// A map of language codes to gettext .po files
-	// (http://en.wikipedia.org/wiki/Gettext). More info can be found on the order mail
-	// template overview
-	// (https://www.ticketmatic.com/docs/api/settings/communicationanddesign/ordermails)
-	// page.
-	//
-	// Note: Not set when retrieving a list of order mail templates.
-	Translations map[string]string `json:"translations,omitempty"`
-
-	// Whether or not this item is archived
-	//
-	// Note: Ignored when creating a new order mail template.
-	//
-	// Note: Ignored when updating an existing order mail template.
-	Isarchived bool `json:"isarchived"`
-
-	// Created timestamp
-	//
-	// Note: Ignored when creating a new order mail template.
-	//
-	// Note: Ignored when updating an existing order mail template.
-	Createdts Time `json:"createdts"`
-
-	// Last updated timestamp
-	//
-	// Note: Ignored when creating a new order mail template.
-	//
-	// Note: Ignored when updating an existing order mail template.
-	Lastupdatets Time `json:"lastupdatets"`
-}
-
-// Set of parameters used to filter ticket layouts.
-//
-// More info: see ticket layout
-// (https://www.ticketmatic.com/docs/api/types/TicketLayout), the getlist operation
-// (https://www.ticketmatic.com/docs/api/settings/communicationanddesign/ticketlayouts/getlist)
-// and the ticket layouts endpoint
-// (https://www.ticketmatic.com/docs/api/settings/communicationanddesign/ticketlayouts).
-//
-// Help Center
-//
-// Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/TicketLayoutQuery).
-type TicketLayoutQuery struct {
-	// Only return items with the given typeid.
-	Typeid int64 `json:"typeid,omitempty"`
-
-	// Filter the returned items by specifying a query on the public datamodel that
-	// returns the ids.
-	Filter string `json:"filter,omitempty"`
-
-	// If this parameter is true, archived items will be returned as well.
-	Includearchived bool `json:"includearchived,omitempty"`
-
-	// All items that were updated since this timestamp will be returned. Timestamp
-	// should be passed in YYYY-MM-DD hh:mm:ss format.
-	Lastupdatesince Time `json:"lastupdatesince,omitempty"`
-}
-
-// A single ticket layout.
-//
-// More info: see the get operation
-// (https://www.ticketmatic.com/docs/api/settings/communicationanddesign/ticketlayouts/get)
-// and the ticket layouts endpoint
-// (https://www.ticketmatic.com/docs/api/settings/communicationanddesign/ticketlayouts).
-//
-// Help Center
-//
-// Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/TicketLayout).
-type TicketLayout struct {
-	// Unique ID
-	//
-	// Note: Ignored when creating a new ticket layout.
-	//
-	// Note: Ignored when updating an existing ticket layout.
-	Id int64 `json:"id"`
-
-	// Type ID
-	//
-	// Note: Ignored when updating an existing ticket layout.
-	Typeid int64 `json:"typeid"`
-
-	// Name for the ticket layout
-	Name string `json:"name"`
-
-	// Whether or not this item is archived
-	//
-	// Note: Ignored when creating a new ticket layout.
-	//
-	// Note: Ignored when updating an existing ticket layout.
-	Isarchived bool `json:"isarchived"`
-
-	// Created timestamp
-	//
-	// Note: Ignored when creating a new ticket layout.
-	//
-	// Note: Ignored when updating an existing ticket layout.
-	Createdts Time `json:"createdts"`
-
-	// Last updated timestamp
-	//
-	// Note: Ignored when creating a new ticket layout.
-	//
-	// Note: Ignored when updating an existing ticket layout.
-	Lastupdatets Time `json:"lastupdatets"`
-}
-
-// Set of parameters used to filter ticket layout templates.
-//
-// More info: see ticket layout template
-// (https://www.ticketmatic.com/docs/api/types/TicketLayoutTemplate), the getlist
-// operation
-// (https://www.ticketmatic.com/docs/api/settings/communicationanddesign/ticketlayouttemplates/getlist)
-// and the ticket layout templates endpoint
-// (https://www.ticketmatic.com/docs/api/settings/communicationanddesign/ticketlayouttemplates).
-//
-// Help Center
-//
-// Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/TicketLayoutTemplateQuery).
-type TicketLayoutTemplateQuery struct {
-	// Only return items with the given typeid.
-	Typeid int64 `json:"typeid,omitempty"`
-
-	// Filter the returned items by specifying a query on the public datamodel that
-	// returns the ids.
-	Filter string `json:"filter,omitempty"`
-
-	// If this parameter is true, archived items will be returned as well.
-	Includearchived bool `json:"includearchived,omitempty"`
-
-	// All items that were updated since this timestamp will be returned. Timestamp
-	// should be passed in YYYY-MM-DD hh:mm:ss format.
-	Lastupdatesince Time `json:"lastupdatesince,omitempty"`
-}
-
-// A single ticket layout template.
-//
-// More info: see the get operation
-// (https://www.ticketmatic.com/docs/api/settings/communicationanddesign/ticketlayouttemplates/get)
-// and the ticket layout templates endpoint
-// (https://www.ticketmatic.com/docs/api/settings/communicationanddesign/ticketlayouttemplates).
-//
-// Help Center
-//
-// Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/TicketLayoutTemplate).
-type TicketLayoutTemplate struct {
-	// Unique ID
-	//
-	// Note: Ignored when creating a new ticket layout template.
-	//
-	// Note: Ignored when updating an existing ticket layout template.
-	Id int64 `json:"id"`
-
-	// Type ID
-	//
-	// Note: Ignored when updating an existing ticket layout template.
-	Typeid int64 `json:"typeid"`
-
-	// Name for the ticket layout template
-	Name string `json:"name"`
-
-	// Css classes for the ticket layout template
-	//
-	// Note: Not set when retrieving a list of ticket layout templates.
-	Css string `json:"css"`
-
-	// Deliveryscenario's for which this ticket layout template will be used
-	Deliveryscenarios []int64 `json:"deliveryscenarios"`
-
-	// HTML template containing the definition for the ticket layout template
-	//
-	// Note: Not set when retrieving a list of ticket layout templates.
-	Htmltemplate string `json:"htmltemplate"`
-
-	// Translations for the ticket layout template
-	//
-	// Note: Not set when retrieving a list of ticket layout templates.
-	Translations map[string]string `json:"translations,omitempty"`
-
-	// Whether or not this item is archived
-	//
-	// Note: Ignored when creating a new ticket layout template.
-	//
-	// Note: Ignored when updating an existing ticket layout template.
-	Isarchived bool `json:"isarchived"`
-
-	// Created timestamp
-	//
-	// Note: Ignored when creating a new ticket layout template.
-	//
-	// Note: Ignored when updating an existing ticket layout template.
-	Createdts Time `json:"createdts"`
-
-	// Last updated timestamp
-	//
-	// Note: Ignored when creating a new ticket layout template.
-	//
-	// Note: Ignored when updating an existing ticket layout template.
-	Lastupdatets Time `json:"lastupdatets"`
-}
-
-// Set of parameters used to filter web sales skins.
-//
-// More info: see web sales skin
-// (https://www.ticketmatic.com/docs/api/types/WebSalesSkin), the getlist operation
-// (https://www.ticketmatic.com/docs/api/settings/communicationanddesign/webskins/getlist)
-// and the web sales skins endpoint
-// (https://www.ticketmatic.com/docs/api/settings/communicationanddesign/webskins).
-//
-// Help Center
-//
-// Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/WebSalesSkinQuery).
-type WebSalesSkinQuery struct {
-	// Filter the returned items by specifying a query on the public datamodel that
-	// returns the ids.
-	Filter string `json:"filter,omitempty"`
-
-	// All items that were updated since this timestamp will be returned. Timestamp
-	// should be passed in YYYY-MM-DD hh:mm:ss format.
-	Lastupdatesince Time `json:"lastupdatesince,omitempty"`
-}
-
-// A single web sales skin.
-//
-// More info: see the get operation
-// (https://www.ticketmatic.com/docs/api/settings/communicationanddesign/webskins/get)
-// and the web sales skins endpoint
-// (https://www.ticketmatic.com/docs/api/settings/communicationanddesign/webskins).
-//
-// Help Center
-//
-// Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/WebSalesSkin).
-type WebSalesSkin struct {
-	// Unique ID
-	//
-	// Note: Ignored when creating a new web sales skin.
-	//
-	// Note: Ignored when updating an existing web sales skin.
-	Id int64 `json:"id"`
-
-	// Name of the web sales skin
-	Name string `json:"name"`
-
-	// Skin configuration.
-	//
-	// See the WebSalesSkinConfiguration reference
-	// (https://www.ticketmatic.com/docs/api/types/WebSalesSkinConfiguration) for an
-	// overview of all possible options.
-	//
-	// Note: Not set when retrieving a list of web sales skins.
-	Configuration *WebSalesSkinConfiguration `json:"configuration,omitempty"`
-
-	// CSS style rules. Should always include the style import.
-	//
-	// Note: Not set when retrieving a list of web sales skins.
-	Css string `json:"css"`
-
-	// HTML template of the skin. See the web skin setup guide
-	// (https://www.ticketmatic.com/docs/tickets/configure_ticket_sales/webskin) for
-	// more information.
-	//
-	// Note: Not set when retrieving a list of web sales skins.
-	Html string `json:"html"`
-
-	// A map of language codes to gettext .po files
-	// (http://en.wikipedia.org/wiki/Gettext). More info can be found on the web skin
-	// overview
-	// (https://www.ticketmatic.com/docs/api/settings/communicationanddesign/webskins)
-	// page.
-	//
-	// Note: Not set when retrieving a list of web sales skins.
-	Translations map[string]string `json:"translations,omitempty"`
-
-	// Created timestamp
-	//
-	// Note: Ignored when creating a new web sales skin.
-	//
-	// Note: Ignored when updating an existing web sales skin.
-	Createdts Time `json:"createdts"`
-
-	// Last updated timestamp
-	//
-	// Note: Ignored when creating a new web sales skin.
-	//
-	// Note: Ignored when updating an existing web sales skin.
-	Lastupdatets Time `json:"lastupdatets"`
-}
-
-// Set of parameters used to filter event locations.
-//
-// More info: see event location
-// (https://www.ticketmatic.com/docs/api/types/EventLocation), the getlist
-// operation
-// (https://www.ticketmatic.com/docs/api/settings/events/eventlocations/getlist)
-// and the event locations endpoint
-// (https://www.ticketmatic.com/docs/api/settings/events/eventlocations).
-//
-// Help Center
-//
-// Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/EventLocationQuery).
-type EventLocationQuery struct {
-	// Filter the returned items by specifying a query on the public datamodel that
-	// returns the ids.
-	Filter string `json:"filter,omitempty"`
-
-	// If this parameter is true, archived items will be returned as well.
-	Includearchived bool `json:"includearchived,omitempty"`
-
-	// All items that were updated since this timestamp will be returned. Timestamp
-	// should be passed in YYYY-MM-DD hh:mm:ss format.
-	Lastupdatesince Time `json:"lastupdatesince,omitempty"`
-}
-
-// A single event location.
-//
-// More info: see the get operation
-// (https://www.ticketmatic.com/docs/api/settings/events/eventlocations/get) and
-// the event locations endpoint
-// (https://www.ticketmatic.com/docs/api/settings/events/eventlocations).
-//
-// Help Center
-//
-// Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/EventLocation).
-type EventLocation struct {
-	// Unique ID
-	//
-	// Note: Ignored when creating a new event location.
-	//
-	// Note: Ignored when updating an existing event location.
-	Id int64 `json:"id"`
-
-	// Name of the location
-	Name string `json:"name"`
-
-	// City
-	City string `json:"city"`
-
-	// Country code. Should be an ISO 3166-1 alpha-2
-	// (http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) two-letter code.
-	Countrycode string `json:"countrycode"`
-
-	// State
-	State string `json:"state"`
-
-	// Street name
-	Street1 string `json:"street1"`
-
-	// Nr. + Box
-	Street2 string `json:"street2"`
-
-	// Zipcode
-	Zip string `json:"zip"`
-
-	// Whether or not this item is archived
-	//
-	// Note: Ignored when creating a new event location.
-	//
-	// Note: Ignored when updating an existing event location.
-	Isarchived bool `json:"isarchived"`
-
-	// Created timestamp
-	//
-	// Note: Ignored when creating a new event location.
-	//
-	// Note: Ignored when updating an existing event location.
-	Createdts Time `json:"createdts"`
-
-	// Last updated timestamp
-	//
-	// Note: Ignored when creating a new event location.
-	//
-	// Note: Ignored when updating an existing event location.
-	Lastupdatets Time `json:"lastupdatets"`
-}
-
-// Set of parameters used to filter order fee definitions.
-//
-// More info: see order fee definition
-// (https://www.ticketmatic.com/docs/api/types/OrderFeeDefinition), the getlist
-// operation
-// (https://www.ticketmatic.com/docs/api/settings/pricing/orderfeedefinitions/getlist)
-// and the order fee definitions endpoint
-// (https://www.ticketmatic.com/docs/api/settings/pricing/orderfeedefinitions).
-//
-// Help Center
-//
-// Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/OrderFeeDefinitionQuery).
-type OrderFeeDefinitionQuery struct {
-	// Filter the returned items by specifying a query on the public datamodel that
-	// returns the ids.
-	Filter string `json:"filter,omitempty"`
-
-	// If this parameter is true, archived items will be returned as well.
-	Includearchived bool `json:"includearchived,omitempty"`
-
-	// All items that were updated since this timestamp will be returned. Timestamp
-	// should be passed in YYYY-MM-DD hh:mm:ss format.
-	Lastupdatesince Time `json:"lastupdatesince,omitempty"`
-}
-
-// A single order fee definition.
-//
-// More info: see the get operation
-// (https://www.ticketmatic.com/docs/api/settings/pricing/orderfeedefinitions/get)
-// and the order fee definitions endpoint
-// (https://www.ticketmatic.com/docs/api/settings/pricing/orderfeedefinitions).
-//
-// Help Center
-//
-// Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/OrderFeeDefinition).
-type OrderFeeDefinition struct {
-	// Unique ID
-	//
-	// Note: Ignored when creating a new order fee definition.
-	//
-	// Note: Ignored when creating a new order fee.
-	Id int64 `json:"id"`
-
-	// Type of the order fee. Can be Automatic (2401), Script (2402) or Manual (2403)
-	Typeid int64 `json:"typeid"`
-
-	// Name for the order fee
-	Name string `json:"name"`
-
-	// Definition of the rule that defines when the order fee will be applied
-	//
-	// Note: Not set when retrieving a list of order fee definitions.
-	//
-	// Note: Not set when retrieving a list of order fees.
-	Rule *OrderfeeRule `json:"rule,omitempty"`
-
-	// Whether or not this item is archived
-	//
-	// Note: Ignored when creating a new order fee definition.
-	//
-	// Note: Ignored when creating a new order fee.
-	Isarchived bool `json:"isarchived"`
-
-	// Archived timestamp
-	//
-	// Note: Ignored when creating a new order fee definition.
-	//
-	// Note: Ignored when creating a new order fee.
-	Archivedts Time `json:"archivedts"`
-
-	// Created timestamp
-	//
-	// Note: Ignored when creating a new order fee definition.
-	//
-	// Note: Ignored when creating a new order fee.
-	Createdts Time `json:"createdts"`
-
-	// Last updated timestamp
-	//
-	// Note: Ignored when creating a new order fee definition.
-	//
-	// Note: Ignored when creating a new order fee.
-	Lastupdatets Time `json:"lastupdatets"`
-}
-
-// Set of parameters used to filter price lists.
-//
-// More info: see price list
-// (https://www.ticketmatic.com/docs/api/types/PriceList), the getlist operation
-// (https://www.ticketmatic.com/docs/api/settings/pricing/pricelists/getlist) and
-// the price lists endpoint
+// You can find more information about prices in the endpoint documentation
 // (https://www.ticketmatic.com/docs/api/settings/pricing/pricelists).
 //
 // Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/PriceListQuery).
-type PriceListQuery struct {
-	// Filter the returned items by specifying a query on the public datamodel that
-	// returns the ids.
-	Filter string `json:"filter,omitempty"`
+// (https://www.ticketmatic.com/docs/api/types/PricelistPrices).
+type PricelistPrices struct {
+	// The set of prices for this pricelist.
+	Prices []*PricelistPrice `json:"prices"`
 
-	// If this parameter is true, archived items will be returned as well.
-	Includearchived bool `json:"includearchived,omitempty"`
-
-	// All items that were updated since this timestamp will be returned. Timestamp
-	// should be passed in YYYY-MM-DD hh:mm:ss format.
-	Lastupdatesince Time `json:"lastupdatesince,omitempty"`
-}
-
-// A single price list.
-//
-// More info: see the get operation
-// (https://www.ticketmatic.com/docs/api/settings/pricing/pricelists/get) and the
-// price lists endpoint
-// (https://www.ticketmatic.com/docs/api/settings/pricing/pricelists).
-//
-// Help Center
-//
-// Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/PriceList).
-type PriceList struct {
-	// Unique ID
-	//
-	// Note: Ignored when creating a new price list.
-	//
-	// Note: Ignored when updating an existing price list.
-	Id int64 `json:"id"`
-
-	// Name for the pricelist
-	Name string `json:"name"`
-
-	// Boolean indicating whether this pricelist has ranks or not
-	Hasranks bool `json:"hasranks"`
-
-	// Definition of the actual prices and conditions for the pricelist
-	//
-	// Note: Not set when retrieving a list of price lists.
-	Prices *PricelistPrices `json:"prices,omitempty"`
-
-	// Whether or not this item is archived
-	//
-	// Note: Ignored when creating a new price list.
-	//
-	// Note: Ignored when updating an existing price list.
-	Isarchived bool `json:"isarchived"`
-
-	// Created timestamp
-	//
-	// Note: Ignored when creating a new price list.
-	//
-	// Note: Ignored when updating an existing price list.
-	Createdts Time `json:"createdts"`
-
-	// Last updated timestamp
-	//
-	// Note: Ignored when creating a new price list.
-	//
-	// Note: Ignored when updating an existing price list.
-	Lastupdatets Time `json:"lastupdatets"`
-}
-
-// Set of parameters used to filter price types.
-//
-// More info: see price type
-// (https://www.ticketmatic.com/docs/api/types/PriceType), the getlist operation
-// (https://www.ticketmatic.com/docs/api/settings/pricing/pricetypes/getlist) and
-// the price types endpoint
-// (https://www.ticketmatic.com/docs/api/settings/pricing/pricetypes).
-//
-// Help Center
-//
-// Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/PriceTypeQuery).
-type PriceTypeQuery struct {
-	// Filter the returned items by specifying a query on the public datamodel that
-	// returns the ids.
-	Filter string `json:"filter,omitempty"`
-
-	// If this parameter is true, archived items will be returned as well.
-	Includearchived bool `json:"includearchived,omitempty"`
-
-	// All items that were updated since this timestamp will be returned. Timestamp
-	// should be passed in YYYY-MM-DD hh:mm:ss format.
-	Lastupdatesince Time `json:"lastupdatesince,omitempty"`
-}
-
-// A single price type.
-//
-// More info: see the get operation
-// (https://www.ticketmatic.com/docs/api/settings/pricing/pricetypes/get) and the
-// price types endpoint
-// (https://www.ticketmatic.com/docs/api/settings/pricing/pricetypes).
-//
-// Help Center
-//
-// Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/PriceType).
-type PriceType struct {
-	// Unique ID
-	//
-	// Note: Ignored when creating a new price type.
-	//
-	// Note: Ignored when updating an existing price type.
-	Id int64 `json:"id"`
-
-	// The category of this price type, defines how the price is displayed. The
-	// available values for this field can be found on the price type overview
-	// (https://www.ticketmatic.com/docs/api/settings/pricing/pricetypes) page.
-	Typeid int64 `json:"typeid"`
-
-	// Name of the price type
-	Name string `json:"name"`
-
-	// A remark that describes the price type. Will be shown to customers.
-	Remark string `json:"remark"`
-
-	// Whether or not this item is archived
-	//
-	// Note: Ignored when creating a new price type.
-	//
-	// Note: Ignored when updating an existing price type.
-	Isarchived bool `json:"isarchived"`
-
-	// Created timestamp
-	//
-	// Note: Ignored when creating a new price type.
-	//
-	// Note: Ignored when updating an existing price type.
-	Createdts Time `json:"createdts"`
-
-	// Last updated timestamp
-	//
-	// Note: Ignored when creating a new price type.
-	//
-	// Note: Ignored when updating an existing price type.
-	Lastupdatets Time `json:"lastupdatets"`
-}
-
-// Set of parameters used to filter ticket fees.
-//
-// More info: see ticket fee
-// (https://www.ticketmatic.com/docs/api/types/TicketFee), the getlist operation
-// (https://www.ticketmatic.com/docs/api/settings/pricing/ticketfees/getlist) and
-// the ticket fees endpoint
-// (https://www.ticketmatic.com/docs/api/settings/pricing/ticketfees).
-//
-// Help Center
-//
-// Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/TicketFeeQuery).
-type TicketFeeQuery struct {
-	// Filter the returned items by specifying a query on the public datamodel that
-	// returns the ids.
-	Filter string `json:"filter,omitempty"`
-
-	// If this parameter is true, archived items will be returned as well.
-	Includearchived bool `json:"includearchived,omitempty"`
-
-	// All items that were updated since this timestamp will be returned. Timestamp
-	// should be passed in YYYY-MM-DD hh:mm:ss format.
-	Lastupdatesince Time `json:"lastupdatesince,omitempty"`
-}
-
-// A single ticket fee.
-//
-// More info: see the get operation
-// (https://www.ticketmatic.com/docs/api/settings/pricing/ticketfees/get) and the
-// ticket fees endpoint
-// (https://www.ticketmatic.com/docs/api/settings/pricing/ticketfees).
-//
-// Help Center
-//
-// Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/TicketFee).
-type TicketFee struct {
-	// Unique ID
-	//
-	// Note: Ignored when creating a new ticket fee.
-	//
-	// Note: Ignored when updating an existing ticket fee.
-	Id int64 `json:"id"`
-
-	// Name for the ticket fee scheme
-	Name string `json:"name"`
-
-	// Definition of the rules that define when the ticket fee will be applied
-	//
-	// Note: Not set when retrieving a list of ticket fees.
-	Rules *TicketfeeRules `json:"rules,omitempty"`
-
-	// Whether or not this item is archived
-	//
-	// Note: Ignored when creating a new ticket fee.
-	//
-	// Note: Ignored when updating an existing ticket fee.
-	Isarchived bool `json:"isarchived"`
-
-	// Created timestamp
-	//
-	// Note: Ignored when creating a new ticket fee.
-	//
-	// Note: Ignored when updating an existing ticket fee.
-	Createdts Time `json:"createdts"`
-
-	// Last updated timestamp
-	//
-	// Note: Ignored when creating a new ticket fee.
-	//
-	// Note: Ignored when updating an existing ticket fee.
-	Lastupdatets Time `json:"lastupdatets"`
-}
-
-// Set of parameters used to filter product categories.
-//
-// More info: see product category
-// (https://www.ticketmatic.com/docs/api/types/ProductCategory), the getlist
-// operation
-// (https://www.ticketmatic.com/docs/api/settings/productcategories/getlist) and
-// the product categories endpoint
-// (https://www.ticketmatic.com/docs/api/settings/productcategories).
-//
-// Help Center
-//
-// Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/ProductCategoryQuery).
-type ProductCategoryQuery struct {
-	// Filter the returned items by specifying a query on the public datamodel that
-	// returns the ids.
-	Filter string `json:"filter,omitempty"`
-
-	// If this parameter is true, archived items will be returned as well.
-	Includearchived bool `json:"includearchived,omitempty"`
-
-	// All items that were updated since this timestamp will be returned. Timestamp
-	// should be passed in YYYY-MM-DD hh:mm:ss format.
-	Lastupdatesince Time `json:"lastupdatesince,omitempty"`
-}
-
-// A single product category.
-//
-// More info: see the get operation
-// (https://www.ticketmatic.com/docs/api/settings/productcategories/get) and the
-// product categories endpoint
-// (https://www.ticketmatic.com/docs/api/settings/productcategories).
-//
-// Help Center
-//
-// Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/ProductCategory).
-type ProductCategory struct {
-	// Unique ID
-	//
-	// Note: Ignored when creating a new product category.
-	//
-	// Note: Ignored when updating an existing product category.
-	Id int64 `json:"id"`
-
-	// Name for the product category
-	Name string `json:"name"`
-
-	// Name for the holder/owner of this product
-	Contactname string `json:"contactname"`
-
-	// Name for the holder/owner of this product in plural
-	Contactnameplural string `json:"contactnameplural"`
-
-	// Name for the product category in plural
-	Nameplural string `json:"nameplural"`
-
-	// Whether or not this item is archived
-	//
-	// Note: Ignored when creating a new product category.
-	//
-	// Note: Ignored when updating an existing product category.
-	Isarchived bool `json:"isarchived"`
-
-	// Created timestamp
-	//
-	// Note: Ignored when creating a new product category.
-	//
-	// Note: Ignored when updating an existing product category.
-	Createdts Time `json:"createdts"`
-
-	// Last updated timestamp
-	//
-	// Note: Ignored when creating a new product category.
-	//
-	// Note: Ignored when updating an existing product category.
-	Lastupdatets Time `json:"lastupdatets"`
-}
-
-// Set of parameters used to filter products.
-//
-// More info: see product (https://www.ticketmatic.com/docs/api/types/Product), the
-// getlist operation
-// (https://www.ticketmatic.com/docs/api/settings/products/getlist) and the
-// products endpoint (https://www.ticketmatic.com/docs/api/settings/products).
-//
-// Help Center
-//
-// Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/ProductQuery).
-type ProductQuery struct {
-	// Only return items with the given typeid.
-	Typeid int64 `json:"typeid,omitempty"`
-
-	// Filter the returned items by specifying a query on the public datamodel that
-	// returns the ids.
-	Filter string `json:"filter,omitempty"`
-
-	// If this parameter is true, archived items will be returned as well.
-	Includearchived bool `json:"includearchived,omitempty"`
-
-	// All items that were updated since this timestamp will be returned. Timestamp
-	// should be passed in YYYY-MM-DD hh:mm:ss format.
-	Lastupdatesince Time `json:"lastupdatesince,omitempty"`
+	// The seatranks for which this pricelist lists prices.
+	Seatrankids []int64 `json:"seatrankids"`
 }
 
 // A single product.
@@ -4323,87 +4538,73 @@ type Product struct {
 	Lastupdatets Time `json:"lastupdatets"`
 }
 
-// Set of parameters used to filter seat ranks.
-//
-// More info: see seat rank (https://www.ticketmatic.com/docs/api/types/SeatRank),
-// the getlist operation
-// (https://www.ticketmatic.com/docs/api/settings/seatranks/getlist) and the seat
-// ranks endpoint (https://www.ticketmatic.com/docs/api/settings/seatranks).
-//
-// Help Center
-//
-// Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/SeatRankQuery).
-type SeatRankQuery struct {
-	// Filter the returned items by specifying a query on the public datamodel that
-	// returns the ids.
-	Filter string `json:"filter,omitempty"`
-
-	// If this parameter is true, archived items will be returned as well.
-	Includearchived bool `json:"includearchived,omitempty"`
-
-	// All items that were updated since this timestamp will be returned. Timestamp
-	// should be passed in YYYY-MM-DD hh:mm:ss format.
-	Lastupdatesince Time `json:"lastupdatesince,omitempty"`
-}
-
-// A single seat rank.
+// A single product category.
 //
 // More info: see the get operation
-// (https://www.ticketmatic.com/docs/api/settings/seatranks/get) and the seat ranks
-// endpoint (https://www.ticketmatic.com/docs/api/settings/seatranks).
+// (https://www.ticketmatic.com/docs/api/settings/productcategories/get) and the
+// product categories endpoint
+// (https://www.ticketmatic.com/docs/api/settings/productcategories).
 //
 // Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/SeatRank).
-type SeatRank struct {
+// (https://www.ticketmatic.com/docs/api/types/ProductCategory).
+type ProductCategory struct {
 	// Unique ID
 	//
-	// Note: Ignored when creating a new seat rank.
+	// Note: Ignored when creating a new product category.
 	//
-	// Note: Ignored when updating an existing seat rank.
+	// Note: Ignored when updating an existing product category.
 	Id int64 `json:"id"`
 
-	// Name for the seat rank
+	// Name for the product category
 	Name string `json:"name"`
+
+	// Name for the holder/owner of this product
+	Contactname string `json:"contactname"`
+
+	// Name for the holder/owner of this product in plural
+	Contactnameplural string `json:"contactnameplural"`
+
+	// Name for the product category in plural
+	Nameplural string `json:"nameplural"`
 
 	// Whether or not this item is archived
 	//
-	// Note: Ignored when creating a new seat rank.
+	// Note: Ignored when creating a new product category.
 	//
-	// Note: Ignored when updating an existing seat rank.
+	// Note: Ignored when updating an existing product category.
 	Isarchived bool `json:"isarchived"`
 
 	// Created timestamp
 	//
-	// Note: Ignored when creating a new seat rank.
+	// Note: Ignored when creating a new product category.
 	//
-	// Note: Ignored when updating an existing seat rank.
+	// Note: Ignored when updating an existing product category.
 	Createdts Time `json:"createdts"`
 
 	// Last updated timestamp
 	//
-	// Note: Ignored when creating a new seat rank.
+	// Note: Ignored when creating a new product category.
 	//
-	// Note: Ignored when updating an existing seat rank.
+	// Note: Ignored when updating an existing product category.
 	Lastupdatets Time `json:"lastupdatets"`
 }
 
-// Set of parameters used to filter contact address types.
+// Set of parameters used to filter product categories.
 //
-// More info: see contact address type
-// (https://www.ticketmatic.com/docs/api/types/ContactAddressType), the getlist
+// More info: see product category
+// (https://www.ticketmatic.com/docs/api/types/ProductCategory), the getlist
 // operation
-// (https://www.ticketmatic.com/docs/api/settings/system/contactaddresstypes/getlist)
-// and the contact address types endpoint
-// (https://www.ticketmatic.com/docs/api/settings/system/contactaddresstypes).
+// (https://www.ticketmatic.com/docs/api/settings/productcategories/getlist) and
+// the product categories endpoint
+// (https://www.ticketmatic.com/docs/api/settings/productcategories).
 //
 // Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/ContactAddressTypeQuery).
-type ContactAddressTypeQuery struct {
+// (https://www.ticketmatic.com/docs/api/types/ProductCategoryQuery).
+type ProductCategoryQuery struct {
 	// Filter the returned items by specifying a query on the public datamodel that
 	// returns the ids.
 	Filter string `json:"filter,omitempty"`
@@ -4416,246 +4617,103 @@ type ContactAddressTypeQuery struct {
 	Lastupdatesince Time `json:"lastupdatesince,omitempty"`
 }
 
-// A single contact address type.
-//
-// More info: see the get operation
-// (https://www.ticketmatic.com/docs/api/settings/system/contactaddresstypes/get)
-// and the contact address types endpoint
-// (https://www.ticketmatic.com/docs/api/settings/system/contactaddresstypes).
+// Product instancevalue exception
 //
 // Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/ContactAddressType).
-type ContactAddressType struct {
-	// Unique ID
-	//
-	// Note: Ignored when creating a new contact address type.
-	//
-	// Note: Ignored when updating an existing contact address type.
+// (https://www.ticketmatic.com/docs/api/types/ProductInstanceException).
+type ProductInstanceException struct {
+	// Properties for which this exception is valid
+	Properties map[string][]string `json:"properties,omitempty"`
+
+	// Value for this exception
+	Value *ProductInstanceValue `json:"value,omitempty"`
+}
+
+// Product Instance Pricetype Value
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/ProductInstancePricetypeValue).
+type ProductInstancePricetypeValue struct {
+	// Pricetype id
 	Id int64 `json:"id"`
 
-	// Name of the address type
+	// Min amount from which the pricetype will be applied
+	From int64 `json:"from"`
+}
+
+// Product Instance Value
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/ProductInstanceValue).
+type ProductInstanceValue struct {
+	// Price
+	Price float64 `json:"price"`
+
+	// Set of pricetype values (used in optionbundle products)
+	Pricetypes []*ProductInstancePricetypeValue `json:"pricetypes"`
+
+	// Set of tickettypeprices (used in fixedbundle products)
+	Tickettypeprices []int64 `json:"tickettypeprices"`
+
+	// Set of tickettypes (used in optionbundle products)
+	Tickettypes []int64 `json:"tickettypes"`
+
+	// Voucher
+	Voucher *ProductVoucherValue `json:"voucher,omitempty"`
+}
+
+// Product instancevalues
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/ProductInstancevalues).
+type ProductInstancevalues struct {
+	// Default values
+	Default *ProductInstanceValue `json:"default,omitempty"`
+
+	// Exceptions on the default values
+	Exceptions []*ProductInstanceException `json:"exceptions"`
+}
+
+// Product property
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/ProductProperty).
+type ProductProperty struct {
+	// Name
 	Name string `json:"name"`
 
-	// Whether or not this item is archived
-	//
-	// Note: Ignored when creating a new contact address type.
-	//
-	// Note: Ignored when updating an existing contact address type.
-	Isarchived bool `json:"isarchived"`
-
-	// Created timestamp
-	//
-	// Note: Ignored when creating a new contact address type.
-	//
-	// Note: Ignored when updating an existing contact address type.
-	Createdts Time `json:"createdts"`
-
-	// Last updated timestamp
-	//
-	// Note: Ignored when creating a new contact address type.
-	//
-	// Note: Ignored when updating an existing contact address type.
-	Lastupdatets Time `json:"lastupdatets"`
-}
-
-// Set of parameters used to filter contact titles.
-//
-// More info: see contact title
-// (https://www.ticketmatic.com/docs/api/types/ContactTitle), the getlist operation
-// (https://www.ticketmatic.com/docs/api/settings/system/contacttitles/getlist) and
-// the contact titles endpoint
-// (https://www.ticketmatic.com/docs/api/settings/system/contacttitles).
-//
-// Help Center
-//
-// Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/ContactTitleQuery).
-type ContactTitleQuery struct {
-	// Filter the returned items by specifying a query on the public datamodel that
-	// returns the ids.
-	Filter string `json:"filter,omitempty"`
-
-	// If this parameter is true, archived items will be returned as well.
-	Includearchived bool `json:"includearchived,omitempty"`
-
-	// All items that were updated since this timestamp will be returned. Timestamp
-	// should be passed in YYYY-MM-DD hh:mm:ss format.
-	Lastupdatesince Time `json:"lastupdatesince,omitempty"`
-}
-
-// A single contact title.
-//
-// More info: see the get operation
-// (https://www.ticketmatic.com/docs/api/settings/system/contacttitles/get) and the
-// contact titles endpoint
-// (https://www.ticketmatic.com/docs/api/settings/system/contacttitles).
-//
-// Help Center
-//
-// Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/ContactTitle).
-type ContactTitle struct {
-	// Unique ID
-	//
-	// Note: Ignored when creating a new contact title.
-	//
-	// Note: Ignored when updating an existing contact title.
-	Id int64 `json:"id"`
-
-	// Title name
-	Name string `json:"name"`
-
-	// Restricts this title from showing up on the websales pages
-	Isinternal bool `json:"isinternal"`
-
-	// Language for this title
-	Languagecode string `json:"languagecode"`
-
-	// Gender associated with this title
-	Sex string `json:"sex"`
-
-	// Whether or not this item is archived
-	//
-	// Note: Ignored when creating a new contact title.
-	//
-	// Note: Ignored when updating an existing contact title.
-	Isarchived bool `json:"isarchived"`
-
-	// Created timestamp
-	//
-	// Note: Ignored when creating a new contact title.
-	//
-	// Note: Ignored when updating an existing contact title.
-	Createdts Time `json:"createdts"`
-
-	// Last updated timestamp
-	//
-	// Note: Ignored when creating a new contact title.
-	//
-	// Note: Ignored when updating an existing contact title.
-	Lastupdatets Time `json:"lastupdatets"`
-}
-
-// Set of parameters used to filter custom fields.
-//
-// More info: see custom field
-// (https://www.ticketmatic.com/docs/api/types/CustomField), the getlist operation
-// (https://www.ticketmatic.com/docs/api/settings/system/customfields/getlist) and
-// the custom fields endpoint
-// (https://www.ticketmatic.com/docs/api/settings/system/customfields).
-//
-// Help Center
-//
-// Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/CustomFieldQuery).
-type CustomFieldQuery struct {
-	// Only return items with the given typeid.
-	Typeid int64 `json:"typeid"`
-
-	// Filter the returned items by specifying a query on the public datamodel that
-	// returns the ids.
-	Filter string `json:"filter,omitempty"`
-
-	// If this parameter is true, archived items will be returned as well.
-	Includearchived bool `json:"includearchived,omitempty"`
-
-	// All items that were updated since this timestamp will be returned. Timestamp
-	// should be passed in YYYY-MM-DD hh:mm:ss format.
-	Lastupdatesince Time `json:"lastupdatesince,omitempty"`
-}
-
-// A single custom field.
-//
-// More info: see the get operation
-// (https://www.ticketmatic.com/docs/api/settings/system/customfields/get) and the
-// custom fields endpoint
-// (https://www.ticketmatic.com/docs/api/settings/system/customfields).
-//
-// Help Center
-//
-// Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/CustomField).
-type CustomField struct {
-	// Unique ID
-	//
-	// Note: Ignored when creating a new custom field.
-	//
-	// Note: Ignored when updating an existing custom field.
-	Id int64 `json:"id"`
-
-	// Type ID
-	//
-	// Note: Ignored when updating an existing custom field.
-	Typeid int64 `json:"typeid"`
-
-	// Rules that define in what conditions this custom field is available when edit
-	// type is checkout
-	//
-	// Note: Not set when retrieving a list of custom fields.
-	Availability *CustomfieldAvailability `json:"availability,omitempty"`
-
-	// Human-readable name for the custom field
-	Caption string `json:"caption"`
-
-	// Human-readable description for the custom field. Will be visible for end-users
-	// when edittype checkout is used
-	//
-	// Note: Not set when retrieving a list of custom fields.
+	// Description
 	Description string `json:"description"`
 
-	// Type of editing that is allowed for the custom field. Links to systemtype
-	// category 22xxx
-	Edittypeid int64 `json:"edittypeid"`
-
-	// Type of the custom field. Links to systemtype category 12xxx
-	Fieldtypeid int64 `json:"fieldtypeid"`
-
-	// The identifier for the custom field. Should contain only alphanumeric characters
-	// and no whitespace, max length is 20 characters. The custom field will be
-	// available in the api and the public data model as c_
+	// Key
 	Key string `json:"key"`
 
-	// Indicates whether the field is required
-	Required bool `json:"required"`
-
-	// Whether or not this item is archived
-	//
-	// Note: Ignored when creating a new custom field.
-	//
-	// Note: Ignored when updating an existing custom field.
-	Isarchived bool `json:"isarchived"`
-
-	// Created timestamp
-	//
-	// Note: Ignored when creating a new custom field.
-	//
-	// Note: Ignored when updating an existing custom field.
-	Createdts Time `json:"createdts"`
-
-	// Last updated timestamp
-	//
-	// Note: Ignored when creating a new custom field.
-	//
-	// Note: Ignored when updating an existing custom field.
-	Lastupdatets Time `json:"lastupdatets"`
+	// Values
+	Values []*KeyValueItem `json:"values"`
 }
 
-// Set of parameters used to filter custom field values.
+// Set of parameters used to filter products.
 //
-// More info: see custom field value
-// (https://www.ticketmatic.com/docs/api/types/CustomFieldValue), the getlist
-// operation
-// (https://www.ticketmatic.com/docs/api/settings/system/customfieldvalues/getlist)
-// and the custom field values endpoint
-// (https://www.ticketmatic.com/docs/api/settings/system/customfieldvalues).
+// More info: see product (https://www.ticketmatic.com/docs/api/types/Product), the
+// getlist operation
+// (https://www.ticketmatic.com/docs/api/settings/products/getlist) and the
+// products endpoint (https://www.ticketmatic.com/docs/api/settings/products).
 //
 // Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/CustomFieldValueQuery).
-type CustomFieldValueQuery struct {
+// (https://www.ticketmatic.com/docs/api/types/ProductQuery).
+type ProductQuery struct {
 	// Only return items with the given typeid.
 	Typeid int64 `json:"typeid,omitempty"`
 
@@ -4671,339 +4729,92 @@ type CustomFieldValueQuery struct {
 	Lastupdatesince Time `json:"lastupdatesince,omitempty"`
 }
 
-// A single custom field value.
-//
-// More info: see the get operation
-// (https://www.ticketmatic.com/docs/api/settings/system/customfieldvalues/get) and
-// the custom field values endpoint
-// (https://www.ticketmatic.com/docs/api/settings/system/customfieldvalues).
+// Product Voucher Value
 //
 // Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/CustomFieldValue).
-type CustomFieldValue struct {
-	// Unique ID
-	//
-	// Note: Ignored when creating a new custom field value.
-	//
-	// Note: Ignored when updating an existing custom field value.
-	Id int64 `json:"id"`
+// (https://www.ticketmatic.com/docs/api/types/ProductVoucherValue).
+type ProductVoucherValue struct {
+	// Amount (only used for vouchers of type Payment)
+	Amount float64 `json:"amount"`
 
-	// Type ID
-	//
-	// Note: Ignored when updating an existing custom field value.
-	Typeid int64 `json:"typeid"`
-
-	// Human-readable name for the value
-	Caption string `json:"caption"`
-
-	// Whether or not this item is archived
-	//
-	// Note: Ignored when creating a new custom field value.
-	//
-	// Note: Ignored when updating an existing custom field value.
-	Isarchived bool `json:"isarchived"`
-
-	// Created timestamp
-	//
-	// Note: Ignored when creating a new custom field value.
-	//
-	// Note: Ignored when updating an existing custom field value.
-	Createdts Time `json:"createdts"`
-
-	// Last updated timestamp
-	//
-	// Note: Ignored when creating a new custom field value.
-	//
-	// Note: Ignored when updating an existing custom field value.
-	Lastupdatets Time `json:"lastupdatets"`
+	// Voucher id
+	Voucherid int64 `json:"voucherid"`
 }
 
-// Set of parameters used to filter field definitions.
-//
-// More info: see field definition
-// (https://www.ticketmatic.com/docs/api/types/FieldDefinition), the getlist
-// operation
-// (https://www.ticketmatic.com/docs/api/settings/system/fielddefinitions/getlist)
-// and the field definitions endpoint
-// (https://www.ticketmatic.com/docs/api/settings/system/fielddefinitions).
+// Required data for creating a query on the public data model.
 //
 // Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/FieldDefinitionQuery).
-type FieldDefinitionQuery struct {
-	// Only return items with the given typeid.
-	Typeid int64 `json:"typeid,omitempty"`
+// (https://www.ticketmatic.com/docs/api/types/QueryRequest).
+type QueryRequest struct {
+	// Optional limit for the result. Default 100
+	//
+	// Note: Ignored when exporting a query
+	Limit int64 `json:"limit"`
 
-	// Filter the returned items by specifying a query on the public datamodel that
-	// returns the ids.
-	Filter string `json:"filter,omitempty"`
+	// Optional offset for the result. Default 0
+	//
+	// Note: Ignored when exporting a query
+	Offset int64 `json:"offset"`
 
-	// If this parameter is true, archived items will be returned as well.
-	Includearchived bool `json:"includearchived,omitempty"`
-
-	// All items that were updated since this timestamp will be returned. Timestamp
-	// should be passed in YYYY-MM-DD hh:mm:ss format.
-	Lastupdatesince Time `json:"lastupdatesince,omitempty"`
+	// Actual query to execute
+	Query string `json:"query"`
 }
 
-// A single field definition.
-//
-// More info: see the get operation
-// (https://www.ticketmatic.com/docs/api/settings/system/fielddefinitions/get) and
-// the field definitions endpoint
-// (https://www.ticketmatic.com/docs/api/settings/system/fielddefinitions).
+// Result of a query on the public data model.
 //
 // Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/FieldDefinition).
-type FieldDefinition struct {
-	// Unique ID
-	//
-	// Note: Ignored when creating a new field definition.
-	//
-	// Note: Ignored when updating an existing field definition.
-	Id int64 `json:"id"`
+// (https://www.ticketmatic.com/docs/api/types/QueryResult).
+type QueryResult struct {
+	// The number of rows in the result
+	Nbrofresults int64 `json:"nbrofresults"`
 
-	// Type ID
-	//
-	// Note: Ignored when updating an existing field definition.
-	Typeid int64 `json:"typeid"`
+	// The actual resulting rows
+	Results []map[string]interface{} `json:"results"`
+}
 
-	// Alignment of the field definition, when used in a view. Values can be 'left',
-	// 'right' or 'center'
-	Align string `json:"align"`
+// Rate limiting status. See rate limiting
+// (https://www.ticketmatic.com/docs/api/ratelimiting) for more details on rate
+// limiting.
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/QueueStatus).
+type QueueStatus struct {
+	// Queueing ID, used to request status updates
+	Id string `json:"id"`
 
-	// Human-readable name for the field definition
+	// The ID of the newly created order. Only returned when a throttled "create order"
+	// call has finished queueing.
+	Orderid int64 `json:"orderid"`
+
+	// Number of people waiting ahead. Might not be returned when the queue hasn't
+	// started yet.
+	Ahead int64 `json:"ahead"`
+
+	// Number of milliseconds to wait before requesting a new status update
+	Backoff int64 `json:"backoff"`
+
+	// Further instructions on how to handle this error
 	Description string `json:"description"`
 
-	// Key for the field definition. Should only consist of lowercase alphanumeric
-	// characters
-	Key string `json:"key"`
+	// Optional message shown to waiting customers
+	Message string `json:"message"`
 
-	// The actual definition of the field definition. Contains the sql clause that will
-	// retrieve the information element in the database.
-	Sqlclause string `json:"sqlclause"`
+	// Status code: 1: wait more, 2: ready to proceed
+	Progress int64 `json:"progress"`
 
-	// Will decide how the field will be rendered when used in a view.
-	Uitype string `json:"uitype"`
+	// Whether the queue has started
+	Started bool `json:"started"`
 
-	// Indicates whether the width for the field definition can be adapted when
-	// stretching a view that includes the field definition across the whole available
-	// width.
-	Variablewidth bool `json:"variablewidth"`
-
-	// Width of the field definition, when used in a view
-	Width int64 `json:"width"`
-
-	// Whether or not this item is archived
-	//
-	// Note: Ignored when creating a new field definition.
-	//
-	// Note: Ignored when updating an existing field definition.
-	Isarchived bool `json:"isarchived"`
-
-	// Created timestamp
-	//
-	// Note: Ignored when creating a new field definition.
-	//
-	// Note: Ignored when updating an existing field definition.
-	Createdts Time `json:"createdts"`
-
-	// Last updated timestamp
-	//
-	// Note: Ignored when creating a new field definition.
-	//
-	// Note: Ignored when updating an existing field definition.
-	Lastupdatets Time `json:"lastupdatets"`
-}
-
-// Set of parameters used to filter filter definitions.
-//
-// More info: see filter definition
-// (https://www.ticketmatic.com/docs/api/types/FilterDefinition), the getlist
-// operation
-// (https://www.ticketmatic.com/docs/api/settings/system/filterdefinitions/getlist)
-// and the filter definitions endpoint
-// (https://www.ticketmatic.com/docs/api/settings/system/filterdefinitions).
-//
-// Help Center
-//
-// Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/FilterDefinitionQuery).
-type FilterDefinitionQuery struct {
-	// Only return items with the given typeid.
-	Typeid int64 `json:"typeid"`
-
-	// Filter the returned items by specifying a query on the public datamodel that
-	// returns the ids.
-	Filter string `json:"filter,omitempty"`
-
-	// If this parameter is true, archived items will be returned as well.
-	Includearchived bool `json:"includearchived,omitempty"`
-
-	// All items that were updated since this timestamp will be returned. Timestamp
-	// should be passed in YYYY-MM-DD hh:mm:ss format.
-	Lastupdatesince Time `json:"lastupdatesince,omitempty"`
-}
-
-// A single filter definition.
-//
-// More info: see the get operation
-// (https://www.ticketmatic.com/docs/api/settings/system/filterdefinitions/get) and
-// the filter definitions endpoint
-// (https://www.ticketmatic.com/docs/api/settings/system/filterdefinitions).
-//
-// Help Center
-//
-// Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/FilterDefinition).
-type FilterDefinition struct {
-	// Unique ID
-	//
-	// Note: Ignored when creating a new filter definition.
-	//
-	// Note: Ignored when updating an existing filter definition.
-	Id int64 `json:"id"`
-
-	// Type ID
-	//
-	// Note: Ignored when updating an existing filter definition.
-	Typeid int64 `json:"typeid"`
-
-	// For certain filter types, the user must select a value from a list. The
-	// checklistquery contains the sql clause to retrieve the list of available values.
-	Checklistquery string `json:"checklistquery"`
-
-	// Name for the filter
-	Description string `json:"description"`
-
-	// The type of filter definition defines the UI and resulting parameters that will
-	// be used when a user selects the filter. The possible values can be found here
-	// (https://www.ticketmatic.com/docs/api/settings/system/filterdefinitions).
-	Filtertype int64 `json:"filtertype"`
-
-	// The sql clause that defines how the filter will work
-	Sqlclause string `json:"sqlclause"`
-
-	// Whether or not this item is archived
-	//
-	// Note: Ignored when creating a new filter definition.
-	//
-	// Note: Ignored when updating an existing filter definition.
-	Isarchived bool `json:"isarchived"`
-
-	// Created timestamp
-	//
-	// Note: Ignored when creating a new filter definition.
-	//
-	// Note: Ignored when updating an existing filter definition.
-	Createdts Time `json:"createdts"`
-
-	// Last updated timestamp
-	//
-	// Note: Ignored when creating a new filter definition.
-	//
-	// Note: Ignored when updating an existing filter definition.
-	Lastupdatets Time `json:"lastupdatets"`
-}
-
-// Set of parameters used to filter phone number types.
-//
-// More info: see phone number type
-// (https://www.ticketmatic.com/docs/api/types/PhoneNumberType), the getlist
-// operation
-// (https://www.ticketmatic.com/docs/api/settings/system/phonenumbertypes/getlist)
-// and the phone number types endpoint
-// (https://www.ticketmatic.com/docs/api/settings/system/phonenumbertypes).
-//
-// Help Center
-//
-// Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/PhoneNumberTypeQuery).
-type PhoneNumberTypeQuery struct {
-	// Filter the returned items by specifying a query on the public datamodel that
-	// returns the ids.
-	Filter string `json:"filter,omitempty"`
-
-	// If this parameter is true, archived items will be returned as well.
-	Includearchived bool `json:"includearchived,omitempty"`
-
-	// All items that were updated since this timestamp will be returned. Timestamp
-	// should be passed in YYYY-MM-DD hh:mm:ss format.
-	Lastupdatesince Time `json:"lastupdatesince,omitempty"`
-}
-
-// A single phone number type.
-//
-// More info: see the get operation
-// (https://www.ticketmatic.com/docs/api/settings/system/phonenumbertypes/get) and
-// the phone number types endpoint
-// (https://www.ticketmatic.com/docs/api/settings/system/phonenumbertypes).
-//
-// Help Center
-//
-// Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/PhoneNumberType).
-type PhoneNumberType struct {
-	// Unique ID
-	//
-	// Note: Ignored when creating a new phone number type.
-	//
-	// Note: Ignored when updating an existing phone number type.
-	Id int64 `json:"id"`
-
-	// Name of the phone number type
-	Name string `json:"name"`
-
-	// Whether or not this item is archived
-	//
-	// Note: Ignored when creating a new phone number type.
-	//
-	// Note: Ignored when updating an existing phone number type.
-	Isarchived bool `json:"isarchived"`
-
-	// Created timestamp
-	//
-	// Note: Ignored when creating a new phone number type.
-	//
-	// Note: Ignored when updating an existing phone number type.
-	Createdts Time `json:"createdts"`
-
-	// Last updated timestamp
-	//
-	// Note: Ignored when creating a new phone number type.
-	//
-	// Note: Ignored when updating an existing phone number type.
-	Lastupdatets Time `json:"lastupdatets"`
-}
-
-// Set of parameters used to filter relation types.
-//
-// More info: see relation type
-// (https://www.ticketmatic.com/docs/api/types/RelationType), the getlist operation
-// (https://www.ticketmatic.com/docs/api/settings/system/relationtypes/getlist) and
-// the relation types endpoint
-// (https://www.ticketmatic.com/docs/api/settings/system/relationtypes).
-//
-// Help Center
-//
-// Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/RelationTypeQuery).
-type RelationTypeQuery struct {
-	// Filter the returned items by specifying a query on the public datamodel that
-	// returns the ids.
-	Filter string `json:"filter,omitempty"`
-
-	// If this parameter is true, archived items will be returned as well.
-	Includearchived bool `json:"includearchived,omitempty"`
-
-	// All items that were updated since this timestamp will be returned. Timestamp
-	// should be passed in YYYY-MM-DD hh:mm:ss format.
-	Lastupdatesince Time `json:"lastupdatesince,omitempty"`
+	// When the queue will start
+	Starttime Time `json:"starttime"`
 }
 
 // A single relation type.
@@ -5053,21 +4864,25 @@ type RelationType struct {
 	Lastupdatets Time `json:"lastupdatets"`
 }
 
-// Set of parameters used to filter reports.
+// Set of parameters used to filter relation types.
 //
-// More info: see report (https://www.ticketmatic.com/docs/api/types/Report), the
-// getlist operation
-// (https://www.ticketmatic.com/docs/api/settings/system/reports/getlist) and the
-// reports endpoint (https://www.ticketmatic.com/docs/api/settings/system/reports).
+// More info: see relation type
+// (https://www.ticketmatic.com/docs/api/types/RelationType), the getlist operation
+// (https://www.ticketmatic.com/docs/api/settings/system/relationtypes/getlist) and
+// the relation types endpoint
+// (https://www.ticketmatic.com/docs/api/settings/system/relationtypes).
 //
 // Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/ReportQuery).
-type ReportQuery struct {
+// (https://www.ticketmatic.com/docs/api/types/RelationTypeQuery).
+type RelationTypeQuery struct {
 	// Filter the returned items by specifying a query on the public datamodel that
 	// returns the ids.
 	Filter string `json:"filter,omitempty"`
+
+	// If this parameter is true, archived items will be returned as well.
+	Includearchived bool `json:"includearchived,omitempty"`
 
 	// All items that were updated since this timestamp will be returned. Timestamp
 	// should be passed in YYYY-MM-DD hh:mm:ss format.
@@ -5170,579 +4985,41 @@ type Report struct {
 	Lastupdatets Time `json:"lastupdatets"`
 }
 
-// Set of parameters used to filter views.
+// Report Options
 //
-// More info: see view (https://www.ticketmatic.com/docs/api/types/View), the
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/ReportOptions).
+type ReportOptions struct {
+	// The pagesize for the report when exported as Excel.
+	Excelpagewidth int64 `json:"excelpagewidth"`
+
+	// Excel-specific option for scaling the width
+	Excelscaling float64 `json:"excelscaling"`
+
+	// The pagesize for the report: A4 landscape, Letter landscape, ...
+	Pdfpagesize string `json:"pdfpagesize"`
+
+	// Indicates if a system font should be used.
+	Usesystemfont bool `json:"usesystemfont"`
+}
+
+// Set of parameters used to filter reports.
+//
+// More info: see report (https://www.ticketmatic.com/docs/api/types/Report), the
 // getlist operation
-// (https://www.ticketmatic.com/docs/api/settings/system/views/getlist) and the
-// views endpoint (https://www.ticketmatic.com/docs/api/settings/system/views).
+// (https://www.ticketmatic.com/docs/api/settings/system/reports/getlist) and the
+// reports endpoint (https://www.ticketmatic.com/docs/api/settings/system/reports).
 //
 // Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/ViewQuery).
-type ViewQuery struct {
-	// Only return items with the given typeid.
-	Typeid int64 `json:"typeid"`
-
+// (https://www.ticketmatic.com/docs/api/types/ReportQuery).
+type ReportQuery struct {
 	// Filter the returned items by specifying a query on the public datamodel that
 	// returns the ids.
 	Filter string `json:"filter,omitempty"`
-
-	// If this parameter is true, archived items will be returned as well.
-	Includearchived bool `json:"includearchived,omitempty"`
-
-	// All items that were updated since this timestamp will be returned. Timestamp
-	// should be passed in YYYY-MM-DD hh:mm:ss format.
-	Lastupdatesince Time `json:"lastupdatesince,omitempty"`
-}
-
-// A single view.
-//
-// More info: see the get operation
-// (https://www.ticketmatic.com/docs/api/settings/system/views/get) and the views
-// endpoint (https://www.ticketmatic.com/docs/api/settings/system/views).
-//
-// Help Center
-//
-// Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/View).
-type View struct {
-	// Unique ID
-	//
-	// Note: Ignored when creating a new view.
-	//
-	// Note: Ignored when updating an existing view.
-	Id int64 `json:"id"`
-
-	// Type ID
-	//
-	// Note: Ignored when updating an existing view.
-	Typeid int64 `json:"typeid"`
-
-	// Name of the view
-	Name string `json:"name"`
-
-	// List of field definitions that are part of this view.
-	Columns []*ViewColumn `json:"columns"`
-
-	// The field definitions to order the results on.
-	Orderby int64 `json:"orderby"`
-
-	// Indicates whether the results should be ordered ascending or descending.
-	OrderbyAsc bool `json:"orderby_asc"`
-
-	// Whether or not this item is archived
-	//
-	// Note: Ignored when creating a new view.
-	//
-	// Note: Ignored when updating an existing view.
-	Isarchived bool `json:"isarchived"`
-
-	// Created timestamp
-	//
-	// Note: Ignored when creating a new view.
-	//
-	// Note: Ignored when updating an existing view.
-	Createdts Time `json:"createdts"`
-
-	// Last updated timestamp
-	//
-	// Note: Ignored when creating a new view.
-	//
-	// Note: Ignored when updating an existing view.
-	Lastupdatets Time `json:"lastupdatets"`
-}
-
-// Set of parameters used to filter delivery scenarios.
-//
-// More info: see delivery scenario
-// (https://www.ticketmatic.com/docs/api/types/DeliveryScenario), the getlist
-// operation
-// (https://www.ticketmatic.com/docs/api/settings/ticketsales/deliveryscenarios/getlist)
-// and the delivery scenarios endpoint
-// (https://www.ticketmatic.com/docs/api/settings/ticketsales/deliveryscenarios).
-//
-// Help Center
-//
-// Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/DeliveryScenarioQuery).
-type DeliveryScenarioQuery struct {
-	// Filter the returned items by specifying a query on the public datamodel that
-	// returns the ids.
-	Filter string `json:"filter,omitempty"`
-
-	// If this parameter is true, archived items will be returned as well.
-	Includearchived bool `json:"includearchived,omitempty"`
-
-	// All items that were updated since this timestamp will be returned. Timestamp
-	// should be passed in YYYY-MM-DD hh:mm:ss format.
-	Lastupdatesince Time `json:"lastupdatesince,omitempty"`
-}
-
-// A single delivery scenario.
-//
-// More info: see the get operation
-// (https://www.ticketmatic.com/docs/api/settings/ticketsales/deliveryscenarios/get)
-// and the delivery scenarios endpoint
-// (https://www.ticketmatic.com/docs/api/settings/ticketsales/deliveryscenarios).
-//
-// Help Center
-//
-// Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/DeliveryScenario).
-type DeliveryScenario struct {
-	// Unique ID
-	//
-	// Note: Ignored when creating a new delivery scenario.
-	//
-	// Note: Ignored when updating an existing delivery scenario.
-	Id int64 `json:"id"`
-
-	// The type of this delivery scenario, defines when this delivery scenario is
-	// triggered. The available values for this field can be found on the delivery
-	// scenario overview
-	// (https://www.ticketmatic.com/docs/api/settings/ticketsales/deliveryscenarios)
-	// page.
-	Typeid int64 `json:"typeid"`
-
-	// Name of the delivery scenario
-	Name string `json:"name"`
-
-	// Are e-tickets allowed with this delivery scenario?
-	Allowetickets int64 `json:"allowetickets"`
-
-	// The rules that define when this scenario is available. See the delivery scenario
-	// overview
-	// (https://www.ticketmatic.com/docs/api/settings/ticketsales/deliveryscenarios)
-	// page for a description of this field
-	//
-	// Note: Not set when retrieving a list of delivery scenarios.
-	Availability *DeliveryscenarioAvailability `json:"availability,omitempty"`
-
-	// An internal description field. Will not be shown to customers.
-	Internalremark string `json:"internalremark,omitempty"`
-
-	// A physical address is required
-	Needsaddress bool `json:"needsaddress"`
-
-	// The ID of the order mail template that will be used for sending out this
-	// delivery scenario. Can be 0 to indicate that no mail should be sent
-	OrdermailtemplateidDelivery int64 `json:"ordermailtemplateid_delivery"`
-
-	// A short description of the deilvery scenario. Will be shown to customers.
-	Shortdescription string `json:"shortdescription"`
-
-	// Whether or not this item is archived
-	//
-	// Note: Ignored when creating a new delivery scenario.
-	//
-	// Note: Ignored when updating an existing delivery scenario.
-	Isarchived bool `json:"isarchived"`
-
-	// Created timestamp
-	//
-	// Note: Ignored when creating a new delivery scenario.
-	//
-	// Note: Ignored when updating an existing delivery scenario.
-	Createdts Time `json:"createdts"`
-
-	// Last updated timestamp
-	//
-	// Note: Ignored when creating a new delivery scenario.
-	//
-	// Note: Ignored when updating an existing delivery scenario.
-	Lastupdatets Time `json:"lastupdatets"`
-}
-
-// Set of parameters used to filter lock types.
-//
-// More info: see lock type (https://www.ticketmatic.com/docs/api/types/LockType),
-// the getlist operation
-// (https://www.ticketmatic.com/docs/api/settings/ticketsales/locktypes/getlist)
-// and the lock types endpoint
-// (https://www.ticketmatic.com/docs/api/settings/ticketsales/locktypes).
-//
-// Help Center
-//
-// Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/LockTypeQuery).
-type LockTypeQuery struct {
-	// Filter the returned items by specifying a query on the public datamodel that
-	// returns the ids.
-	Filter string `json:"filter,omitempty"`
-
-	// If this parameter is true, archived items will be returned as well.
-	Includearchived bool `json:"includearchived,omitempty"`
-
-	// All items that were updated since this timestamp will be returned. Timestamp
-	// should be passed in YYYY-MM-DD hh:mm:ss format.
-	Lastupdatesince Time `json:"lastupdatesince,omitempty"`
-}
-
-// A single lock type.
-//
-// More info: see the get operation
-// (https://www.ticketmatic.com/docs/api/settings/ticketsales/locktypes/get) and
-// the lock types endpoint
-// (https://www.ticketmatic.com/docs/api/settings/ticketsales/locktypes).
-//
-// Help Center
-//
-// Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/LockType).
-type LockType struct {
-	// Unique ID
-	//
-	// Note: Ignored when creating a new lock type.
-	//
-	// Note: Ignored when updating an existing lock type.
-	Id int64 `json:"id"`
-
-	// Name for the lock type
-	Name string `json:"name"`
-
-	// Indicates whether this lock is a hard lock (meaning that it normally never will
-	// be released and does not count for the inventory) or a soft lock
-	Ishardlock bool `json:"ishardlock"`
-
-	// Whether or not this item is archived
-	//
-	// Note: Ignored when creating a new lock type.
-	//
-	// Note: Ignored when updating an existing lock type.
-	Isarchived bool `json:"isarchived"`
-
-	// Created timestamp
-	//
-	// Note: Ignored when creating a new lock type.
-	//
-	// Note: Ignored when updating an existing lock type.
-	Createdts Time `json:"createdts"`
-
-	// Last updated timestamp
-	//
-	// Note: Ignored when creating a new lock type.
-	//
-	// Note: Ignored when updating an existing lock type.
-	Lastupdatets Time `json:"lastupdatets"`
-}
-
-// Set of parameters used to filter order fees.
-//
-// More info: see order fee (https://www.ticketmatic.com/docs/api/types/OrderFee),
-// the getlist operation
-// (https://www.ticketmatic.com/docs/api/settings/ticketsales/orderfees/getlist)
-// and the order fees endpoint
-// (https://www.ticketmatic.com/docs/api/settings/ticketsales/orderfees).
-//
-// Help Center
-//
-// Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/OrderFeeQuery).
-type OrderFeeQuery struct {
-	// Filter the returned items by specifying a query on the public datamodel that
-	// returns the ids.
-	Filter string `json:"filter,omitempty"`
-
-	// If this parameter is true, archived items will be returned as well.
-	Includearchived bool `json:"includearchived,omitempty"`
-
-	// All items that were updated since this timestamp will be returned. Timestamp
-	// should be passed in YYYY-MM-DD hh:mm:ss format.
-	Lastupdatesince Time `json:"lastupdatesince,omitempty"`
-}
-
-// A single order fee.
-//
-// More info: see the get operation
-// (https://www.ticketmatic.com/docs/api/settings/ticketsales/orderfees/get) and
-// the order fees endpoint
-// (https://www.ticketmatic.com/docs/api/settings/ticketsales/orderfees).
-//
-// Help Center
-//
-// Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/OrderFee).
-type OrderFee struct {
-	// Unique ID
-	//
-	// Note: Ignored when creating a new order fee definition.
-	//
-	// Note: Ignored when creating a new order fee.
-	Id int64 `json:"id"`
-
-	// Type of the order fee. Can be Automatic (2401), Script (2402) or Manual (2403)
-	Typeid int64 `json:"typeid"`
-
-	// Name for the order fee
-	Name string `json:"name"`
-
-	// Definition of the rule that defines when the order fee will be applied
-	//
-	// Note: Not set when retrieving a list of order fee definitions.
-	//
-	// Note: Not set when retrieving a list of order fees.
-	Rule *OrderfeeRule `json:"rule,omitempty"`
-
-	// Whether or not this item is archived
-	//
-	// Note: Ignored when creating a new order fee definition.
-	//
-	// Note: Ignored when creating a new order fee.
-	Isarchived bool `json:"isarchived"`
-
-	// Archived timestamp
-	//
-	// Note: Ignored when creating a new order fee definition.
-	//
-	// Note: Ignored when creating a new order fee.
-	Archivedts Time `json:"archivedts"`
-
-	// Created timestamp
-	//
-	// Note: Ignored when creating a new order fee definition.
-	//
-	// Note: Ignored when creating a new order fee.
-	Createdts Time `json:"createdts"`
-
-	// Last updated timestamp
-	//
-	// Note: Ignored when creating a new order fee definition.
-	//
-	// Note: Ignored when creating a new order fee.
-	Lastupdatets Time `json:"lastupdatets"`
-}
-
-// Set of parameters used to filter payment methods.
-//
-// More info: see payment method
-// (https://www.ticketmatic.com/docs/api/types/PaymentMethod), the getlist
-// operation
-// (https://www.ticketmatic.com/docs/api/settings/ticketsales/paymentmethods/getlist)
-// and the payment methods endpoint
-// (https://www.ticketmatic.com/docs/api/settings/ticketsales/paymentmethods).
-//
-// Help Center
-//
-// Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/PaymentMethodQuery).
-type PaymentMethodQuery struct {
-	// Filter the returned items by specifying a query on the public datamodel that
-	// returns the ids.
-	Filter string `json:"filter,omitempty"`
-
-	// If this parameter is true, archived items will be returned as well.
-	Includearchived bool `json:"includearchived,omitempty"`
-
-	// All items that were updated since this timestamp will be returned. Timestamp
-	// should be passed in YYYY-MM-DD hh:mm:ss format.
-	Lastupdatesince Time `json:"lastupdatesince,omitempty"`
-}
-
-// A single payment method.
-//
-// More info: see the get operation
-// (https://www.ticketmatic.com/docs/api/settings/ticketsales/paymentmethods/get)
-// and the payment methods endpoint
-// (https://www.ticketmatic.com/docs/api/settings/ticketsales/paymentmethods).
-//
-// Help Center
-//
-// Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/PaymentMethod).
-type PaymentMethod struct {
-	// Unique ID
-	//
-	// Note: Ignored when creating a new payment method.
-	//
-	// Note: Ignored when updating an existing payment method.
-	Id int64 `json:"id"`
-
-	// Name of the payment method
-	Name string `json:"name"`
-
-	// Specific configuration for the payment method, content depends on the payment
-	// method type.
-	//
-	// Note: Not set when retrieving a list of payment methods.
-	Config map[string]interface{} `json:"config,omitempty"`
-
-	// Internal remark, will not be shown to customers
-	Internalremark string `json:"internalremark"`
-
-	// Type of the paymentmethod.
-	Paymentmethodtypeid int64 `json:"paymentmethodtypeid"`
-
-	// Whether or not this item is archived
-	//
-	// Note: Ignored when creating a new payment method.
-	//
-	// Note: Ignored when updating an existing payment method.
-	Isarchived bool `json:"isarchived"`
-
-	// Created timestamp
-	//
-	// Note: Ignored when creating a new payment method.
-	//
-	// Note: Ignored when updating an existing payment method.
-	Createdts Time `json:"createdts"`
-
-	// Last updated timestamp
-	//
-	// Note: Ignored when creating a new payment method.
-	//
-	// Note: Ignored when updating an existing payment method.
-	Lastupdatets Time `json:"lastupdatets"`
-}
-
-// Set of parameters used to filter payment scenarios.
-//
-// More info: see payment scenario
-// (https://www.ticketmatic.com/docs/api/types/PaymentScenario), the getlist
-// operation
-// (https://www.ticketmatic.com/docs/api/settings/ticketsales/paymentscenarios/getlist)
-// and the payment scenarios endpoint
-// (https://www.ticketmatic.com/docs/api/settings/ticketsales/paymentscenarios).
-//
-// Help Center
-//
-// Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/PaymentScenarioQuery).
-type PaymentScenarioQuery struct {
-	// Filter the returned items by specifying a query on the public datamodel that
-	// returns the ids.
-	Filter string `json:"filter,omitempty"`
-
-	// If this parameter is true, archived items will be returned as well.
-	Includearchived bool `json:"includearchived,omitempty"`
-
-	// All items that were updated since this timestamp will be returned. Timestamp
-	// should be passed in YYYY-MM-DD hh:mm:ss format.
-	Lastupdatesince Time `json:"lastupdatesince,omitempty"`
-}
-
-// A single payment scenario.
-//
-// More info: see the get operation
-// (https://www.ticketmatic.com/docs/api/settings/ticketsales/paymentscenarios/get)
-// and the payment scenarios endpoint
-// (https://www.ticketmatic.com/docs/api/settings/ticketsales/paymentscenarios).
-//
-// Help Center
-//
-// Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/PaymentScenario).
-type PaymentScenario struct {
-	// Unique ID
-	//
-	// Note: Ignored when creating a new payment scenario.
-	//
-	// Note: Ignored when updating an existing payment scenario.
-	Id int64 `json:"id"`
-
-	// Type for the payment scenario. Can be 'Immediate payment' (2701), 'Mollie bank
-	// transfer' (2702), 'Regular bank transfer' (2703), 'Deferred online payment'
-	// (2704), 'Deferred other' (2705).
-	Typeid int64 `json:"typeid"`
-
-	// Name of the payment scenario
-	Name string `json:"name"`
-
-	// Rules that define in what conditions this payment scenario is available
-	//
-	// Note: Not set when retrieving a list of payment scenarios.
-	Availability *PaymentscenarioAvailability `json:"availability,omitempty"`
-
-	// Beneficiary for the bank account number. Only used for type 2703 (Regular bank
-	// transfer)
-	Bankaccountbeneficiary string `json:"bankaccountbeneficiary,omitempty"`
-
-	// BIC code for the bank account number. Only used for type 2703 (Regular bank
-	// transfer)
-	Bankaccountbic string `json:"bankaccountbic,omitempty"`
-
-	// Bank account number to be used. Only used for type 2703 (Regular bank transfer)
-	Bankaccountnumber string `json:"bankaccountnumber,omitempty"`
-
-	// Rules that define when an order becomes expired. Not used for type 2701.
-	//
-	// Note: Not set when retrieving a list of payment scenarios.
-	Expiryparameters *PaymentscenarioExpiryParameters `json:"expiryparameters,omitempty"`
-
-	// An internal remark, which is never shown to customers. Can be used to
-	// distinguish identically named payment scenarios.
-	//
-	// For example: You could have two VISA scenarios, one for the web sales and one
-	// for the box office, each will have different fee configurations. Both will be
-	// named VISA, this field can be used to distinguish them.
-	Internalremark string `json:"internalremark,omitempty"`
-
-	// Link to the order mail template that will be sent when the order is expired. Can
-	// be 0 to indicate that no mail should be sent. Not used for type 2701.
-	OrdermailtemplateidExpiry int64 `json:"ordermailtemplateid_expiry"`
-
-	// Link to the order mail template that will be sent when the order is overdue. Can
-	// be 0 to indicate that no mail should be sent. Not used for type 2701.
-	OrdermailtemplateidOverdue int64 `json:"ordermailtemplateid_overdue"`
-
-	// Link to the order mail template that will be sent as payment instruction. Can be
-	// 0 to indicate that no mail should be sent. Not used for type 2701.
-	OrdermailtemplateidPaymentinstruction int64 `json:"ordermailtemplateid_paymentinstruction"`
-
-	// Rules that define when an order becomes overdue. Not used for type 2701.
-	//
-	// Note: Not set when retrieving a list of payment scenarios.
-	Overdueparameters *PaymentscenarioOverdueParameters `json:"overdueparameters,omitempty"`
-
-	// Set of payment methods that are linked to this payment scenario. Depending on
-	// the type, this field has different usage.
-	Paymentmethods []int64 `json:"paymentmethods"`
-
-	// Short description of the payment scenario, will be shown to customers
-	Shortdescription string `json:"shortdescription,omitempty"`
-
-	// Whether or not this item is archived
-	//
-	// Note: Ignored when creating a new payment scenario.
-	//
-	// Note: Ignored when updating an existing payment scenario.
-	Isarchived bool `json:"isarchived"`
-
-	// Created timestamp
-	//
-	// Note: Ignored when creating a new payment scenario.
-	//
-	// Note: Ignored when updating an existing payment scenario.
-	Createdts Time `json:"createdts"`
-
-	// Last updated timestamp
-	//
-	// Note: Ignored when creating a new payment scenario.
-	//
-	// Note: Ignored when updating an existing payment scenario.
-	Lastupdatets Time `json:"lastupdatets"`
-}
-
-// Set of parameters used to filter sales channels.
-//
-// More info: see sales channel
-// (https://www.ticketmatic.com/docs/api/types/SalesChannel), the getlist operation
-// (https://www.ticketmatic.com/docs/api/settings/ticketsales/saleschannels/getlist)
-// and the sales channels endpoint
-// (https://www.ticketmatic.com/docs/api/settings/ticketsales/saleschannels).
-//
-// Help Center
-//
-// Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/SalesChannelQuery).
-type SalesChannelQuery struct {
-	// Filter the returned items by specifying a query on the public datamodel that
-	// returns the ids.
-	Filter string `json:"filter,omitempty"`
-
-	// If this parameter is true, archived items will be returned as well.
-	Includearchived bool `json:"includearchived,omitempty"`
 
 	// All items that were updated since this timestamp will be returned. Timestamp
 	// should be passed in YYYY-MM-DD hh:mm:ss format.
@@ -5805,53 +5082,703 @@ type SalesChannel struct {
 	Lastupdatets Time `json:"lastupdatets"`
 }
 
-// Parameters used to create voucher codes
+// Set of parameters used to filter sales channels.
+//
+// More info: see sales channel
+// (https://www.ticketmatic.com/docs/api/types/SalesChannel), the getlist operation
+// (https://www.ticketmatic.com/docs/api/settings/ticketsales/saleschannels/getlist)
+// and the sales channels endpoint
+// (https://www.ticketmatic.com/docs/api/settings/ticketsales/saleschannels).
 //
 // Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/AddVoucherCodes).
-type AddVoucherCodes struct {
-	// Value of the voucher
-	Amount float64 `json:"amount,omitempty"`
+// (https://www.ticketmatic.com/docs/api/types/SalesChannelQuery).
+type SalesChannelQuery struct {
+	// Filter the returned items by specifying a query on the public datamodel that
+	// returns the ids.
+	Filter string `json:"filter,omitempty"`
 
-	// List of voucher codes, can also (optionally) contain expiry timestamps.
-	Codes []*VoucherCode `json:"codes"`
+	// If this parameter is true, archived items will be returned as well.
+	Includearchived bool `json:"includearchived,omitempty"`
 
-	// Number of codes to create
-	Count int64 `json:"count"`
+	// All items that were updated since this timestamp will be returned. Timestamp
+	// should be passed in YYYY-MM-DD hh:mm:ss format.
+	Lastupdatesince Time `json:"lastupdatesince,omitempty"`
 }
 
-// Voucher code
+// A single seat rank.
+//
+// More info: see the get operation
+// (https://www.ticketmatic.com/docs/api/settings/seatranks/get) and the seat ranks
+// endpoint (https://www.ticketmatic.com/docs/api/settings/seatranks).
 //
 // Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/VoucherCode).
-type VoucherCode struct {
-	// Code to use voucher
-	Code string `json:"code"`
-
-	// Expiry timestamp for this code
+// (https://www.ticketmatic.com/docs/api/types/SeatRank).
+type SeatRank struct {
+	// Unique ID
 	//
-	// Note: Only used when creating codes
-	Expiryts Time `json:"expiryts,omitempty"`
+	// Note: Ignored when creating a new seat rank.
+	//
+	// Note: Ignored when updating an existing seat rank.
+	Id int64 `json:"id"`
+
+	// Name for the seat rank
+	Name string `json:"name"`
+
+	// Whether or not this item is archived
+	//
+	// Note: Ignored when creating a new seat rank.
+	//
+	// Note: Ignored when updating an existing seat rank.
+	Isarchived bool `json:"isarchived"`
+
+	// Created timestamp
+	//
+	// Note: Ignored when creating a new seat rank.
+	//
+	// Note: Ignored when updating an existing seat rank.
+	Createdts Time `json:"createdts"`
+
+	// Last updated timestamp
+	//
+	// Note: Ignored when creating a new seat rank.
+	//
+	// Note: Ignored when updating an existing seat rank.
+	Lastupdatets Time `json:"lastupdatets"`
 }
 
-// Set of parameters used to filter vouchers.
+// Set of parameters used to filter seat ranks.
 //
-// More info: see voucher (https://www.ticketmatic.com/docs/api/types/Voucher), the
-// getlist operation
-// (https://www.ticketmatic.com/docs/api/settings/vouchers/getlist) and the
-// vouchers endpoint (https://www.ticketmatic.com/docs/api/settings/vouchers).
+// More info: see seat rank (https://www.ticketmatic.com/docs/api/types/SeatRank),
+// the getlist operation
+// (https://www.ticketmatic.com/docs/api/settings/seatranks/getlist) and the seat
+// ranks endpoint (https://www.ticketmatic.com/docs/api/settings/seatranks).
 //
 // Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/VoucherQuery).
-type VoucherQuery struct {
+// (https://www.ticketmatic.com/docs/api/types/SeatRankQuery).
+type SeatRankQuery struct {
+	// Filter the returned items by specifying a query on the public datamodel that
+	// returns the ids.
+	Filter string `json:"filter,omitempty"`
+
+	// If this parameter is true, archived items will be returned as well.
+	Includearchived bool `json:"includearchived,omitempty"`
+
+	// All items that were updated since this timestamp will be returned. Timestamp
+	// should be passed in YYYY-MM-DD hh:mm:ss format.
+	Lastupdatesince Time `json:"lastupdatesince,omitempty"`
+}
+
+// A newly created communication
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/SubscriberCommunication).
+type SubscriberCommunication struct {
+	// Name of the communication
+	Name string `json:"name,omitempty"`
+
+	// E-mail addresses to which the communication has been sent
+	Addresses []string `json:"addresses"`
+
+	// Optional description of the communication
+	Remark string `json:"remark,omitempty"`
+
+	// Timestamp for the communication
+	Ts Time `json:"ts,omitempty"`
+}
+
+// A subscriber record to sync state back to Ticketmatic
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/SubscriberSync).
+type SubscriberSync struct {
+	// Subscriber e-mail
+	Email string `json:"email,omitempty"`
+
+	// Subscriber first name
+	Firstname string `json:"firstname,omitempty"`
+
+	// Subscriber last name
+	Lastname string `json:"lastname,omitempty"`
+
+	// Previous value of the email field, to indicate a changed e-mail address.
+	//
+	// Used to find the correct contact. The normal email field will be used when this
+	// field is ommitted or empty.
+	Oldemail string `json:"oldemail,omitempty"`
+
+	// Whether or not the subscriber is still subscribed
+	Subscribed bool `json:"subscribed,omitempty"`
+}
+
+// A single ticket fee.
+//
+// More info: see the get operation
+// (https://www.ticketmatic.com/docs/api/settings/pricing/ticketfees/get) and the
+// ticket fees endpoint
+// (https://www.ticketmatic.com/docs/api/settings/pricing/ticketfees).
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/TicketFee).
+type TicketFee struct {
+	// Unique ID
+	//
+	// Note: Ignored when creating a new ticket fee.
+	//
+	// Note: Ignored when updating an existing ticket fee.
+	Id int64 `json:"id"`
+
+	// Name for the ticket fee scheme
+	Name string `json:"name"`
+
+	// Definition of the rules that define when the ticket fee will be applied
+	//
+	// Note: Not set when retrieving a list of ticket fees.
+	Rules *TicketfeeRules `json:"rules,omitempty"`
+
+	// Whether or not this item is archived
+	//
+	// Note: Ignored when creating a new ticket fee.
+	//
+	// Note: Ignored when updating an existing ticket fee.
+	Isarchived bool `json:"isarchived"`
+
+	// Created timestamp
+	//
+	// Note: Ignored when creating a new ticket fee.
+	//
+	// Note: Ignored when updating an existing ticket fee.
+	Createdts Time `json:"createdts"`
+
+	// Last updated timestamp
+	//
+	// Note: Ignored when creating a new ticket fee.
+	//
+	// Note: Ignored when updating an existing ticket fee.
+	Lastupdatets Time `json:"lastupdatets"`
+}
+
+// Set of parameters used to filter ticket fees.
+//
+// More info: see ticket fee
+// (https://www.ticketmatic.com/docs/api/types/TicketFee), the getlist operation
+// (https://www.ticketmatic.com/docs/api/settings/pricing/ticketfees/getlist) and
+// the ticket fees endpoint
+// (https://www.ticketmatic.com/docs/api/settings/pricing/ticketfees).
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/TicketFeeQuery).
+type TicketFeeQuery struct {
+	// Filter the returned items by specifying a query on the public datamodel that
+	// returns the ids.
+	Filter string `json:"filter,omitempty"`
+
+	// If this parameter is true, archived items will be returned as well.
+	Includearchived bool `json:"includearchived,omitempty"`
+
+	// All items that were updated since this timestamp will be returned. Timestamp
+	// should be passed in YYYY-MM-DD hh:mm:ss format.
+	Lastupdatesince Time `json:"lastupdatesince,omitempty"`
+}
+
+// A single ticket layout.
+//
+// More info: see the get operation
+// (https://www.ticketmatic.com/docs/api/settings/communicationanddesign/ticketlayouts/get)
+// and the ticket layouts endpoint
+// (https://www.ticketmatic.com/docs/api/settings/communicationanddesign/ticketlayouts).
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/TicketLayout).
+type TicketLayout struct {
+	// Unique ID
+	//
+	// Note: Ignored when creating a new ticket layout.
+	//
+	// Note: Ignored when updating an existing ticket layout.
+	Id int64 `json:"id"`
+
+	// Type ID
+	//
+	// Note: Ignored when updating an existing ticket layout.
+	Typeid int64 `json:"typeid"`
+
+	// Name for the ticket layout
+	Name string `json:"name"`
+
+	// Whether or not this item is archived
+	//
+	// Note: Ignored when creating a new ticket layout.
+	//
+	// Note: Ignored when updating an existing ticket layout.
+	Isarchived bool `json:"isarchived"`
+
+	// Created timestamp
+	//
+	// Note: Ignored when creating a new ticket layout.
+	//
+	// Note: Ignored when updating an existing ticket layout.
+	Createdts Time `json:"createdts"`
+
+	// Last updated timestamp
+	//
+	// Note: Ignored when creating a new ticket layout.
+	//
+	// Note: Ignored when updating an existing ticket layout.
+	Lastupdatets Time `json:"lastupdatets"`
+}
+
+// Set of parameters used to filter ticket layouts.
+//
+// More info: see ticket layout
+// (https://www.ticketmatic.com/docs/api/types/TicketLayout), the getlist operation
+// (https://www.ticketmatic.com/docs/api/settings/communicationanddesign/ticketlayouts/getlist)
+// and the ticket layouts endpoint
+// (https://www.ticketmatic.com/docs/api/settings/communicationanddesign/ticketlayouts).
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/TicketLayoutQuery).
+type TicketLayoutQuery struct {
 	// Only return items with the given typeid.
 	Typeid int64 `json:"typeid,omitempty"`
+
+	// Filter the returned items by specifying a query on the public datamodel that
+	// returns the ids.
+	Filter string `json:"filter,omitempty"`
+
+	// If this parameter is true, archived items will be returned as well.
+	Includearchived bool `json:"includearchived,omitempty"`
+
+	// All items that were updated since this timestamp will be returned. Timestamp
+	// should be passed in YYYY-MM-DD hh:mm:ss format.
+	Lastupdatesince Time `json:"lastupdatesince,omitempty"`
+}
+
+// A single ticket layout template.
+//
+// More info: see the get operation
+// (https://www.ticketmatic.com/docs/api/settings/communicationanddesign/ticketlayouttemplates/get)
+// and the ticket layout templates endpoint
+// (https://www.ticketmatic.com/docs/api/settings/communicationanddesign/ticketlayouttemplates).
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/TicketLayoutTemplate).
+type TicketLayoutTemplate struct {
+	// Unique ID
+	//
+	// Note: Ignored when creating a new ticket layout template.
+	//
+	// Note: Ignored when updating an existing ticket layout template.
+	Id int64 `json:"id"`
+
+	// Type ID
+	//
+	// Note: Ignored when updating an existing ticket layout template.
+	Typeid int64 `json:"typeid"`
+
+	// Name for the ticket layout template
+	Name string `json:"name"`
+
+	// Css classes for the ticket layout template
+	//
+	// Note: Not set when retrieving a list of ticket layout templates.
+	Css string `json:"css"`
+
+	// Deliveryscenario's for which this ticket layout template will be used
+	Deliveryscenarios []int64 `json:"deliveryscenarios"`
+
+	// HTML template containing the definition for the ticket layout template
+	//
+	// Note: Not set when retrieving a list of ticket layout templates.
+	Htmltemplate string `json:"htmltemplate"`
+
+	// Translations for the ticket layout template
+	//
+	// Note: Not set when retrieving a list of ticket layout templates.
+	Translations map[string]string `json:"translations,omitempty"`
+
+	// Whether or not this item is archived
+	//
+	// Note: Ignored when creating a new ticket layout template.
+	//
+	// Note: Ignored when updating an existing ticket layout template.
+	Isarchived bool `json:"isarchived"`
+
+	// Created timestamp
+	//
+	// Note: Ignored when creating a new ticket layout template.
+	//
+	// Note: Ignored when updating an existing ticket layout template.
+	Createdts Time `json:"createdts"`
+
+	// Last updated timestamp
+	//
+	// Note: Ignored when creating a new ticket layout template.
+	//
+	// Note: Ignored when updating an existing ticket layout template.
+	Lastupdatets Time `json:"lastupdatets"`
+}
+
+// Set of parameters used to filter ticket layout templates.
+//
+// More info: see ticket layout template
+// (https://www.ticketmatic.com/docs/api/types/TicketLayoutTemplate), the getlist
+// operation
+// (https://www.ticketmatic.com/docs/api/settings/communicationanddesign/ticketlayouttemplates/getlist)
+// and the ticket layout templates endpoint
+// (https://www.ticketmatic.com/docs/api/settings/communicationanddesign/ticketlayouttemplates).
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/TicketLayoutTemplateQuery).
+type TicketLayoutTemplateQuery struct {
+	// Only return items with the given typeid.
+	Typeid int64 `json:"typeid,omitempty"`
+
+	// Filter the returned items by specifying a query on the public datamodel that
+	// returns the ids.
+	Filter string `json:"filter,omitempty"`
+
+	// If this parameter is true, archived items will be returned as well.
+	Includearchived bool `json:"includearchived,omitempty"`
+
+	// All items that were updated since this timestamp will be returned. Timestamp
+	// should be passed in YYYY-MM-DD hh:mm:ss format.
+	Lastupdatesince Time `json:"lastupdatesince,omitempty"`
+}
+
+// An exception to the default rule for a specific pricetype and a set of
+// saleschannels.
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/TicketfeeException).
+type TicketfeeException struct {
+	// The pricetype for which this exception is active.
+	Pricetypeid int64 `json:"pricetypeid"`
+
+	// The set of rules (one for each saleschannel).
+	Saleschannels []*TicketfeeSaleschannelRule `json:"saleschannels"`
+}
+
+// Defines which fees are active for specific price types and sales channels. It's
+// possible to define a fixed fee and a percentage based fee. The default rule (if
+// none is specified for a specific sales channel) is always a fixed fee of 0.
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/TicketfeeRules).
+type TicketfeeRules struct {
+	// The default ticket fee rule, one rule for each saleschannel.
+	Default []*TicketfeeSaleschannelRule `json:"default"`
+
+	// An array of exception rules for specific pricetypes.
+	Exceptions []*TicketfeeException `json:"exceptions"`
+}
+
+// This is a rule for a specific saleschannel that indicates the fee based on a
+// fixed amount or a percentage.
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/TicketfeeSaleschannelRule).
+type TicketfeeSaleschannelRule struct {
+	// The saleschannel for which this rule is active.
+	Saleschannelid int64 `json:"saleschannelid"`
+
+	// The status sets the type of rule. Possible values:
+	//
+	// * fixedfee: A fixed ticket fee.
+	//
+	// * percentagefee: A fee thats a percentage of the ticket.
+	Status string `json:"status"`
+
+	// The value of this ticket fee. Can be an absolute amount (fixedfee) or a
+	// percentage (percentagefee). In both cases only provide a decimal.
+	Value float64 `json:"value"`
+}
+
+// Info for requesting a e-mail delivery for an order
+// (https://www.ticketmatic.com/docs/api/types/Order).
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/TicketsEmaildeliveryRequest).
+type TicketsEmaildeliveryRequest struct {
+	// Template id
+	Templateid int64 `json:"templateid"`
+}
+
+// Info for requesting a PDF ticket for one or more tickets or vouchercodes in an
+// order (https://www.ticketmatic.com/docs/api/types/Order).
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/TicketsPdfRequest).
+type TicketsPdfRequest struct {
+	// Ticketids
+	Tickets []int64 `json:"tickets"`
+
+	// Vouchercodeids
+	Vouchercodes []int64 `json:"vouchercodes"`
+}
+
+// Required data for requesting the ticketsprocessedstatistics.
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/TicketsprocessedRequest).
+type TicketsprocessedRequest struct {
+	// End date of the period
+	Endts string `json:"endts"`
+
+	// How the results are grouped. Values can be 'day' or 'month'
+	Groupby string `json:"groupby"`
+
+	// Start date of the period
+	Startts string `json:"startts"`
+}
+
+// Statistics on the number of tickets processed in a certain period.
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/TicketsprocessedStatistics).
+type TicketsprocessedStatistics struct {
+	// The number of tickets processed
+	Processed int64 `json:"processed"`
+
+	// The number of tickets sold online
+	Soldonline int64 `json:"soldonline"`
+
+	// Start of the period
+	Ts Time `json:"ts"`
+}
+
+// A timestamp returned by the diagnostic /time call
+// (https://www.ticketmatic.com/docs/api/diagnostics/time).
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/Timestamp).
+type Timestamp struct {
+	// Current system time
+	Systemtime Time `json:"systemtime,omitempty"`
+}
+
+// Used to update an order. Each of the fields is optional. Omitting a field will
+// leave it unchanged.
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/UpdateOrder).
+type UpdateOrder struct {
+	// New customer ID
+	Customerid int64 `json:"customerid,omitempty"`
+
+	// Change custom field values
+	Customfields map[string]interface{} `json:"customfields,omitempty"`
+
+	// Delivery address
+	Deliveryaddress *Address `json:"deliveryaddress,omitempty"`
+
+	// New delivery scenario ID
+	Deliveryscenarioid int64 `json:"deliveryscenarioid,omitempty"`
+
+	// Expiry timestamp, as string in ISO 8601 format. Cannot be in the past.
+	Expiryts string `json:"expiryts,omitempty"`
+
+	// New payment scenario ID
+	Paymentscenarioid int64 `json:"paymentscenarioid,omitempty"`
+
+	// Rappel timestamp, as string in ISO 8601 format. Cannot be in the past.
+	Rappelts string `json:"rappelts,omitempty"`
+}
+
+// Individual products can be updated. Per call you can specify any number of
+// product IDs and one operation.
+//
+// Each operation accepts different parameters, dependent on the operation type:
+//
+// * Set product holders: an array of ticket holder IDs (see Contact
+// (https://www.ticketmatic.com/docs/api/types/Contact)), one for each product
+// (productholderids). *
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/UpdateProducts).
+type UpdateProducts struct {
+	// Operation to execute.
+	//
+	// Supported values:
+	//
+	// * setproductholders
+	Operation string `json:"operation"`
+
+	// Operation parameters
+	Params map[string]interface{} `json:"params,omitempty"`
+
+	// Product IDs
+	Products []int64 `json:"products"`
+}
+
+// Individual tickets can be updated. Per call you can specify any number of ticket
+// IDs and one operation.
+//
+// Each operation accepts different parameters, dependent on the operation type:
+//
+// * Set ticket holders: an array of ticket holder IDs (see Contact
+// (https://www.ticketmatic.com/docs/api/types/Contact)), one for each ticket
+// (ticketholderids).
+//
+// * Update price type: an array of ticket price type IDs (as can be found in the
+// Event pricing (https://www.ticketmatic.com/docs/api/types/Event)), one for each
+// ticket (tickettypepriceids).
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/UpdateTickets).
+type UpdateTickets struct {
+	// Operation to execute.
+	//
+	// Supported values:
+	//
+	// * setticketholders
+	//
+	// * updatepricetype
+	Operation string `json:"operation"`
+
+	// Operation parameters
+	Params map[string]interface{} `json:"params,omitempty"`
+
+	// Ticket IDs
+	Tickets []int64 `json:"tickets"`
+}
+
+// Url.
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/Url).
+type Url struct {
+	// Url.
+	Url string `json:"url"`
+}
+
+// A single view.
+//
+// More info: see the get operation
+// (https://www.ticketmatic.com/docs/api/settings/system/views/get) and the views
+// endpoint (https://www.ticketmatic.com/docs/api/settings/system/views).
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/View).
+type View struct {
+	// Unique ID
+	//
+	// Note: Ignored when creating a new view.
+	//
+	// Note: Ignored when updating an existing view.
+	Id int64 `json:"id"`
+
+	// Type ID
+	//
+	// Note: Ignored when updating an existing view.
+	Typeid int64 `json:"typeid"`
+
+	// Name of the view
+	Name string `json:"name"`
+
+	// List of field definitions that are part of this view.
+	Columns []*ViewColumn `json:"columns"`
+
+	// The field definitions to order the results on.
+	Orderby int64 `json:"orderby"`
+
+	// Indicates whether the results should be ordered ascending or descending.
+	OrderbyAsc bool `json:"orderby_asc"`
+
+	// Whether or not this item is archived
+	//
+	// Note: Ignored when creating a new view.
+	//
+	// Note: Ignored when updating an existing view.
+	Isarchived bool `json:"isarchived"`
+
+	// Created timestamp
+	//
+	// Note: Ignored when creating a new view.
+	//
+	// Note: Ignored when updating an existing view.
+	Createdts Time `json:"createdts"`
+
+	// Last updated timestamp
+	//
+	// Note: Ignored when creating a new view.
+	//
+	// Note: Ignored when updating an existing view.
+	Lastupdatets Time `json:"lastupdatets"`
+}
+
+// View column for a view.
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/ViewColumn).
+type ViewColumn struct {
+	// ID of the field definition for this column.
+	Id int64 `json:"id"`
+}
+
+// Set of parameters used to filter views.
+//
+// More info: see view (https://www.ticketmatic.com/docs/api/types/View), the
+// getlist operation
+// (https://www.ticketmatic.com/docs/api/settings/system/views/getlist) and the
+// views endpoint (https://www.ticketmatic.com/docs/api/settings/system/views).
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/ViewQuery).
+type ViewQuery struct {
+	// Only return items with the given typeid.
+	Typeid int64 `json:"typeid"`
 
 	// Filter the returned items by specifying a query on the public datamodel that
 	// returns the ids.
@@ -5941,117 +5868,190 @@ type Voucher struct {
 	Lastupdatets Time `json:"lastupdatets"`
 }
 
-// A subscriber record to sync state back to Ticketmatic
+// Voucher code
 //
 // Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/SubscriberSync).
-type SubscriberSync struct {
-	// Subscriber e-mail
-	Email string `json:"email,omitempty"`
+// (https://www.ticketmatic.com/docs/api/types/VoucherCode).
+type VoucherCode struct {
+	// Code to use voucher
+	Code string `json:"code"`
 
-	// Subscriber first name
-	Firstname string `json:"firstname,omitempty"`
-
-	// Subscriber last name
-	Lastname string `json:"lastname,omitempty"`
-
-	// Previous value of the email field, to indicate a changed e-mail address.
+	// Expiry timestamp for this code
 	//
-	// Used to find the correct contact. The normal email field will be used when this
-	// field is ommitted or empty.
-	Oldemail string `json:"oldemail,omitempty"`
-
-	// Whether or not the subscriber is still subscribed
-	Subscribed bool `json:"subscribed,omitempty"`
+	// Note: Only used when creating codes
+	Expiryts Time `json:"expiryts,omitempty"`
 }
 
-// A newly created communication
+// Set of parameters used to filter vouchers.
+//
+// More info: see voucher (https://www.ticketmatic.com/docs/api/types/Voucher), the
+// getlist operation
+// (https://www.ticketmatic.com/docs/api/settings/vouchers/getlist) and the
+// vouchers endpoint (https://www.ticketmatic.com/docs/api/settings/vouchers).
 //
 // Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/SubscriberCommunication).
-type SubscriberCommunication struct {
-	// Name of the communication
-	Name string `json:"name,omitempty"`
+// (https://www.ticketmatic.com/docs/api/types/VoucherQuery).
+type VoucherQuery struct {
+	// Only return items with the given typeid.
+	Typeid int64 `json:"typeid,omitempty"`
 
-	// E-mail addresses to which the communication has been sent
-	Addresses []string `json:"addresses"`
+	// Filter the returned items by specifying a query on the public datamodel that
+	// returns the ids.
+	Filter string `json:"filter,omitempty"`
 
-	// Optional description of the communication
-	Remark string `json:"remark,omitempty"`
+	// If this parameter is true, archived items will be returned as well.
+	Includearchived bool `json:"includearchived,omitempty"`
 
-	// Timestamp for the communication
-	Ts Time `json:"ts,omitempty"`
+	// All items that were updated since this timestamp will be returned. Timestamp
+	// should be passed in YYYY-MM-DD hh:mm:ss format.
+	Lastupdatesince Time `json:"lastupdatesince,omitempty"`
 }
 
-// Required data for creating a query on the public data model.
+// The definition of the validity of a voucher.
 //
 // Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/QueryRequest).
-type QueryRequest struct {
-	// Optional limit for the result. Default 100
+// (https://www.ticketmatic.com/docs/api/types/VoucherValidity).
+type VoucherValidity struct {
+	// The fixed expiry date for a voucher
+	ExpiryFixeddate Time `json:"expiry_fixeddate"`
+
+	// The relative expiry date for a voucher: voucher code expires this number of
+	// months after creation
+	ExpiryMonthsaftercreation int64 `json:"expiry_monthsaftercreation"`
+
+	// The max number of times the vouchercode can be used
+	Maxusages int64 `json:"maxusages"`
+
+	// The max number of times the vouchercode can be used for a single event
+	Maxusagesperevent int64 `json:"maxusagesperevent"`
+}
+
+// A single web sales skin.
+//
+// More info: see the get operation
+// (https://www.ticketmatic.com/docs/api/settings/communicationanddesign/webskins/get)
+// and the web sales skins endpoint
+// (https://www.ticketmatic.com/docs/api/settings/communicationanddesign/webskins).
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/WebSalesSkin).
+type WebSalesSkin struct {
+	// Unique ID
 	//
-	// Note: Ignored when exporting a query
-	Limit int64 `json:"limit"`
-
-	// Optional offset for the result. Default 0
+	// Note: Ignored when creating a new web sales skin.
 	//
-	// Note: Ignored when exporting a query
-	Offset int64 `json:"offset"`
+	// Note: Ignored when updating an existing web sales skin.
+	Id int64 `json:"id"`
 
-	// Actual query to execute
-	Query string `json:"query"`
+	// Name of the web sales skin
+	Name string `json:"name"`
+
+	// Skin configuration.
+	//
+	// See the WebSalesSkinConfiguration reference
+	// (https://www.ticketmatic.com/docs/api/types/WebSalesSkinConfiguration) for an
+	// overview of all possible options.
+	//
+	// Note: Not set when retrieving a list of web sales skins.
+	Configuration *WebSalesSkinConfiguration `json:"configuration,omitempty"`
+
+	// CSS style rules. Should always include the style import.
+	//
+	// Note: Not set when retrieving a list of web sales skins.
+	Css string `json:"css"`
+
+	// HTML template of the skin. See the web skin setup guide
+	// (https://www.ticketmatic.com/docs/tickets/configure_ticket_sales/webskin) for
+	// more information.
+	//
+	// Note: Not set when retrieving a list of web sales skins.
+	Html string `json:"html"`
+
+	// A map of language codes to gettext .po files
+	// (http://en.wikipedia.org/wiki/Gettext). More info can be found on the web skin
+	// overview
+	// (https://www.ticketmatic.com/docs/api/settings/communicationanddesign/webskins)
+	// page.
+	//
+	// Note: Not set when retrieving a list of web sales skins.
+	Translations map[string]string `json:"translations,omitempty"`
+
+	// Created timestamp
+	//
+	// Note: Ignored when creating a new web sales skin.
+	//
+	// Note: Ignored when updating an existing web sales skin.
+	Createdts Time `json:"createdts"`
+
+	// Last updated timestamp
+	//
+	// Note: Ignored when creating a new web sales skin.
+	//
+	// Note: Ignored when updating an existing web sales skin.
+	Lastupdatets Time `json:"lastupdatets"`
 }
 
-// Result of a query on the public data model.
+// Configuration settings and parameters for a web sales skin
+// (https://www.ticketmatic.com/docs/api/types/WebSalesSkin).
+//
+// Page titles
+//
+// The title field contains a template for the page title. The same variables as in
+// the HTML of the skin itself can be used.
+//
+// Check the web sales skin setup guide
+// (https://www.ticketmatic.com/docs/tickets/configure_ticket_sales/webskin) for
+// more information.
 //
 // Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/QueryResult).
-type QueryResult struct {
-	// The number of rows in the result
-	Nbrofresults int64 `json:"nbrofresults"`
+// (https://www.ticketmatic.com/docs/api/types/WebSalesSkinConfiguration).
+type WebSalesSkinConfiguration struct {
+	// Asset path to favicon image.
+	Favicon string `json:"favicon"`
 
-	// The actual resulting rows
-	Results []map[string]interface{} `json:"results"`
+	// Facebook app ID to use for Facebook authentication.
+	//
+	// The default Ticketmatic Facebook app will be used if you leave this field blank
+	Fbappid string `json:"fbappid"`
+
+	// Deprecated, use Google Tag Manager.
+	Googleanalyticsid string `json:"googleanalyticsid"`
+
+	// Google Tag Manager ID. Can be left blank.
+	Googletagmanagerid string `json:"googletagmanagerid"`
+
+	// Page title
+	Title string `json:"title"`
 }
 
-// Required data for requesting the ticketsprocessedstatistics.
+// Set of parameters used to filter web sales skins.
+//
+// More info: see web sales skin
+// (https://www.ticketmatic.com/docs/api/types/WebSalesSkin), the getlist operation
+// (https://www.ticketmatic.com/docs/api/settings/communicationanddesign/webskins/getlist)
+// and the web sales skins endpoint
+// (https://www.ticketmatic.com/docs/api/settings/communicationanddesign/webskins).
 //
 // Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/TicketsprocessedRequest).
-type TicketsprocessedRequest struct {
-	// End date of the period
-	Endts string `json:"endts"`
+// (https://www.ticketmatic.com/docs/api/types/WebSalesSkinQuery).
+type WebSalesSkinQuery struct {
+	// Filter the returned items by specifying a query on the public datamodel that
+	// returns the ids.
+	Filter string `json:"filter,omitempty"`
 
-	// How the results are grouped. Values can be 'day' or 'month'
-	Groupby string `json:"groupby"`
-
-	// Start date of the period
-	Startts string `json:"startts"`
-}
-
-// Statistics on the number of tickets processed in a certain period.
-//
-// Help Center
-//
-// Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/TicketsprocessedStatistics).
-type TicketsprocessedStatistics struct {
-	// The number of tickets processed
-	Processed int64 `json:"processed"`
-
-	// The number of tickets sold online
-	Soldonline int64 `json:"soldonline"`
-
-	// Start of the period
-	Ts Time `json:"ts"`
+	// All items that were updated since this timestamp will be returned. Timestamp
+	// should be passed in YYYY-MM-DD hh:mm:ss format.
+	Lastupdatesince Time `json:"lastupdatesince,omitempty"`
 }
