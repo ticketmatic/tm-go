@@ -4,6 +4,9 @@ env:
     - TM_TEST_ACCOUNTCODE=qa
     - TM_TEST_SERVER=https://qa.ticketmatic.com
     - TM_TEST_ACCESSKEY=842dda885ec6024f934a40c0
+branches:
+  only:
+  - master
 go:
   - 1.4
   - 1.5
