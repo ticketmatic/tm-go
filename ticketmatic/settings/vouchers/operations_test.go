@@ -31,4 +31,13 @@ func TestCreatecodes(t *testing.T) {
 		t.Errorf("Unexpected codes[0].Code, got %#v, expected different value", codes[0].Code)
 	}
 
+	err = Deactivatecodes(c, 2, []*ticketmatic.VoucherCode{
+		&ticketmatic.VoucherCode{
+			Code: codes[1].Code,
+		},
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+
 }

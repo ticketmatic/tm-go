@@ -155,3 +155,16 @@ func Createcodes(client *ticketmatic.Client, id int64, data *ticketmatic.AddVouc
 	}
 	return obj, nil
 }
+
+// Deactivate voucher codes
+//
+// Deactivates individual voucher codes.
+func Deactivatecodes(client *ticketmatic.Client, id int64, data []*ticketmatic.VoucherCode) error {
+	r := client.NewRequest("POST", "/{accountname}/settings/vouchers/{id}/deactivatecodes")
+	r.UrlParameters(map[string]interface{}{
+		"id": id,
+	})
+	r.Body(data)
+
+	return r.Run(nil)
+}
