@@ -250,7 +250,7 @@ type Contact struct {
 	// Note: Ignored when creating a new contact.
 	//
 	// Note: Ignored when updating an existing contact.
-	AccountType int64 `json:"account_type"`
+	AccountType int64 `json:"account_type,omitempty"`
 
 	// Addresses
 	Addresses []*Address `json:"addresses"`
@@ -1587,7 +1587,7 @@ type EventContext struct {
 // (https://www.ticketmatic.com/docs/api/types/EventContingent).
 type EventContingent struct {
 	// Contingent ID
-	Id int64 `json:"id"`
+	Id int64 `json:"id,omitempty"`
 
 	// Name of the contingent
 	Name string `json:"name"`
@@ -1596,7 +1596,7 @@ type EventContingent struct {
 	Amount int64 `json:"amount"`
 
 	// Event ID
-	Eventid int64 `json:"eventid"`
+	Eventid int64 `json:"eventid,omitempty"`
 
 	// Event specific prices in addition to the prices defined in the field
 	// pricelistid. Prices from the pricelist and the event specific prices are
@@ -1608,11 +1608,11 @@ type EventContingent struct {
 	Locks []*EventContingentLock `json:"locks"`
 
 	// Price list ID for this contingent
-	Pricelistid int64 `json:"pricelistid"`
+	Pricelistid int64 `json:"pricelistid,omitempty"`
 
 	// Whether the barcodes for the tickets in this contingent were imported (true), or
 	// were generated internally (false)
-	Withimportedbarcodes bool `json:"withimportedbarcodes"`
+	Withimportedbarcodes bool `json:"withimportedbarcodes,omitempty"`
 }
 
 // Information about the availability of tickets for a contingent
@@ -2500,11 +2500,21 @@ type ImportBundleTicket struct {
 	// Manually select a specific ticket.
 	Id int64 `json:"id,omitempty"`
 
+	// The price for this bundle ticket. If one of the bundletickets has a price, all
+	// bundletickets should have a price. Setting this overrides the default behaviour
+	// of the configured bundle.
+	Price float64 `json:"price,omitempty"`
+
 	// Seatzone ID
 	Seatzoneid int64 `json:"seatzoneid,omitempty"`
 
 	// The tickettype ID for the ticket.
 	Tickettypeid int64 `json:"tickettypeid"`
+
+	// The tickettypeprice ID for the ticket. If one of the bundletickets has a
+	// tickettypepriceid, all bundletickets should have one. Setting this, overrides
+	// the default behaviour of the configured bundle
+	Tickettypepriceid int64 `json:"tickettypepriceid,omitempty"`
 }
 
 // Used to import an order.
