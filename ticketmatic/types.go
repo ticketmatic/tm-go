@@ -2299,6 +2299,20 @@ type EventUnlockTickets struct {
 	Ticketids []int64 `json:"ticketids"`
 }
 
+// Used when updating the seat rank for a set of tickets.
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/EventUpdateSeatRankForTickets).
+type EventUpdateSeatRankForTickets struct {
+	// The seat rank
+	Seatrankid int64 `json:"seatrankid"`
+
+	// Array of ticketids to unlock.
+	Ticketids []int64 `json:"ticketids"`
+}
+
 // A single field definition.
 //
 // More info: see the get operation
@@ -2500,9 +2514,13 @@ type ImportBundleTicket struct {
 	// Manually select a specific ticket.
 	Id int64 `json:"id,omitempty"`
 
-	// The price for this bundle ticket. If one of the bundletickets has a price, all
-	// bundletickets should have a price. Setting this overrides the default behaviour
-	// of the configured bundle.
+	// If boolean is set to true, the price field is used (even if set to 0) to
+	// determine the price for this ticket
+	Overrideprice bool `json:"overrideprice,omitempty"`
+
+	// The price for this bundle ticket, if this value is greater than 0 it's always
+	// used. If one of the bundletickets has a price, all bundletickets should have a
+	// price. Setting this overrides the default behaviour of the configured bundle.
 	Price float64 `json:"price,omitempty"`
 
 	// Seatzone ID
@@ -2511,9 +2529,10 @@ type ImportBundleTicket struct {
 	// The tickettype ID for the ticket.
 	Tickettypeid int64 `json:"tickettypeid"`
 
-	// The tickettypeprice ID for the ticket. If one of the bundletickets has a
-	// tickettypepriceid, all bundletickets should have one. Setting this, overrides
-	// the default behaviour of the configured bundle
+	// The tickettypeprice ID for the ticket. This field is required if bundletickets
+	// are specified for a fixed bundle. When importing an optionbundle, if one of the
+	// bundletickets has a tickettypepriceid, all bundletickets should have one.
+	// Setting this, overrides the default behaviour of the configured bundle
 	Tickettypepriceid int64 `json:"tickettypepriceid,omitempty"`
 }
 
@@ -2649,7 +2668,11 @@ type ImportProduct struct {
 	// List of tickets that belong to this bundle.
 	Bundletickets []*ImportBundleTicket `json:"bundletickets"`
 
-	// The price this product was sold for.
+	// If boolean is set to true, the price field is used (even if set to 0) to
+	// determine the price for this product
+	Overrideprice bool `json:"overrideprice,omitempty"`
+
+	// Product price, will always be used if larger than 0.
 	Price float64 `json:"price,omitempty"`
 
 	// Indicate which contact is the holder of this product. Currently only used with
@@ -2686,7 +2709,15 @@ type ImportTicket struct {
 	// Manually select a specific ticket.
 	Id int64 `json:"id,omitempty"`
 
-	// Ticket price
+	// If boolean is set to true, the price field is used (even if set to 0) to
+	// determine the price for this ticket
+	Overrideprice bool `json:"overrideprice,omitempty"`
+
+	// If boolean is set to true, the servicecharge field is used (even if set to 0) to
+	// determine the servicecharge for this ticket
+	Overrideservicecharge bool `json:"overrideservicecharge,omitempty"`
+
+	// Ticket price, will always be used if larger then 0.
 	Price float64 `json:"price,omitempty"`
 
 	// Seatzone ID
@@ -2833,6 +2864,23 @@ type LogItem struct {
 
 	// User name
 	Username string `json:"username"`
+}
+
+// The logical plan describes the structure and layout of seats in a zone.
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/LogicalPlan).
+type LogicalPlan struct {
+	// The ID of the zone
+	Id int64 `json:"id"`
+
+	// The name of the zone
+	Name string `json:"name"`
+
+	// The rows layout
+	Rows string `json:"rows"`
 }
 
 // A single Order.
@@ -5120,8 +5168,9 @@ type SalesChannelQuery struct {
 // A single seat rank.
 //
 // More info: see the get operation
-// (https://www.ticketmatic.com/docs/api/settings/seatranks/get) and the seat ranks
-// endpoint (https://www.ticketmatic.com/docs/api/settings/seatranks).
+// (https://www.ticketmatic.com/docs/api/settings/seatingplans/seatranks/get) and
+// the seat ranks endpoint
+// (https://www.ticketmatic.com/docs/api/settings/seatingplans/seatranks).
 //
 // Help Center
 //
@@ -5164,14 +5213,100 @@ type SeatRank struct {
 //
 // More info: see seat rank (https://www.ticketmatic.com/docs/api/types/SeatRank),
 // the getlist operation
-// (https://www.ticketmatic.com/docs/api/settings/seatranks/getlist) and the seat
-// ranks endpoint (https://www.ticketmatic.com/docs/api/settings/seatranks).
+// (https://www.ticketmatic.com/docs/api/settings/seatingplans/seatranks/getlist)
+// and the seat ranks endpoint
+// (https://www.ticketmatic.com/docs/api/settings/seatingplans/seatranks).
 //
 // Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/SeatRankQuery).
 type SeatRankQuery struct {
+	// Filter the returned items by specifying a query on the public datamodel that
+	// returns the ids.
+	Filter string `json:"filter,omitempty"`
+
+	// If this parameter is true, archived items will be returned as well.
+	Includearchived bool `json:"includearchived,omitempty"`
+
+	// All items that were updated since this timestamp will be returned. Timestamp
+	// should be passed in YYYY-MM-DD hh:mm:ss format.
+	Lastupdatesince Time `json:"lastupdatesince,omitempty"`
+}
+
+// A single seating plan.
+//
+// More info: see the get operation
+// (https://www.ticketmatic.com/docs/api/settings/seatingplans/seatingplans/get)
+// and the seating plans endpoint
+// (https://www.ticketmatic.com/docs/api/settings/seatingplans/seatingplans).
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/SeatingPlan).
+type SeatingPlan struct {
+	// Unique ID
+	//
+	// Note: Ignored when creating a new seating plan.
+	//
+	// Note: Ignored when updating an existing seating plan.
+	Id     int64  `json:"id"`
+	Name   string `json:"name"`
+	Status string `json:"status"`
+
+	// Translations for the seat description templates
+	//
+	// Note: Not set when retrieving a list of seating plans.
+	Translations map[string]string `json:"translations,omitempty"`
+
+	// When true: treat as a multi-zoned seatingplan
+	Useszones bool `json:"useszones"`
+
+	// IDs of the seat zones defined
+	//
+	// Note: Ignored when creating a new seating plan.
+	//
+	// Note: Ignored when updating an existing seating plan.
+	//
+	// Note: Not set when retrieving a list of seating plans.
+	Zones []int64 `json:"zones"`
+
+	// Whether or not this item is archived
+	//
+	// Note: Ignored when creating a new seating plan.
+	//
+	// Note: Ignored when updating an existing seating plan.
+	Isarchived bool `json:"isarchived"`
+
+	// Created timestamp
+	//
+	// Note: Ignored when creating a new seating plan.
+	//
+	// Note: Ignored when updating an existing seating plan.
+	Createdts Time `json:"createdts"`
+
+	// Last updated timestamp
+	//
+	// Note: Ignored when creating a new seating plan.
+	//
+	// Note: Ignored when updating an existing seating plan.
+	Lastupdatets Time `json:"lastupdatets"`
+}
+
+// Set of parameters used to filter seating plans.
+//
+// More info: see seating plan
+// (https://www.ticketmatic.com/docs/api/types/SeatingPlan), the getlist operation
+// (https://www.ticketmatic.com/docs/api/settings/seatingplans/seatingplans/getlist)
+// and the seating plans endpoint
+// (https://www.ticketmatic.com/docs/api/settings/seatingplans/seatingplans).
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/SeatingPlanQuery).
+type SeatingPlanQuery struct {
 	// Filter the returned items by specifying a query on the public datamodel that
 	// returns the ids.
 	Filter string `json:"filter,omitempty"`

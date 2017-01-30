@@ -3,5 +3,5 @@
 // Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/settings/seatranks).
+// (https://www.ticketmatic.com/docs/api/settings/seatingplans/seatranks).
 package seatranks

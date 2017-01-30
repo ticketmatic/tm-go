@@ -189,6 +189,19 @@ func Unlocktickets(client *ticketmatic.Client, id int64, data *ticketmatic.Event
 	return r.Run(nil)
 }
 
+// Update the seat rank for a set of tickets
+//
+// Updates the seat rank for tickets, works only for active events.
+func Updateseatrankfortickets(client *ticketmatic.Client, id int64, data *ticketmatic.EventUpdateSeatRankForTickets) error {
+	r := client.NewRequest("PUT", "/{accountname}/events/{id}/tickets/seatrank")
+	r.UrlParameters(map[string]interface{}{
+		"id": id,
+	})
+	r.Body(data)
+
+	return r.Run(nil)
+}
+
 // Fetch translatable fields
 //
 // Returns a dictionary with string values in all languages for each translatable

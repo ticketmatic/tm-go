@@ -228,3 +228,59 @@ func TestLockunlocktickets(t *testing.T) {
 	}
 
 }
+
+func TestUpdateseatrankfortickets(t *testing.T) {
+	var err error
+
+	accountcode := os.Getenv("TM_TEST_ACCOUNTCODE")
+	accesskey := os.Getenv("TM_TEST_ACCESSKEY")
+	secretkey := os.Getenv("TM_TEST_SECRETKEY")
+	c := ticketmatic.NewClient(accountcode, accesskey, secretkey)
+
+	list, err := Getlist(c, &ticketmatic.EventQuery{
+		Filter:  "select id from tm.event where seatingplanid is not null",
+		Limit:   1,
+		Orderby: "name",
+		Output:  "ids",
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if len(list.Data) <= 0 {
+		t.Errorf("Unexpected list.Data length, got %#v, expected greater than %#v", len(list.Data), 0)
+	}
+
+	stream, err := Gettickets(c, list.Data[0].Id, &ticketmatic.EventTicketQuery{})
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	tickets := make([]*ticketmatic.EventTicket, 0)
+	for {
+		n, err := stream.Next()
+		if err != nil {
+			t.Fatal(err)
+		}
+		if n == nil {
+			break
+		}
+		tickets = append(tickets, n)
+	}
+
+	if len(tickets) <= 0 {
+		t.Errorf("Unexpected tickets length, got %#v, expected greater than %#v", len(tickets), 0)
+	}
+
+	err = Updateseatrankfortickets(c, list.Data[0].Id, &ticketmatic.EventUpdateSeatRankForTickets{
+		Seatrankid: 3,
+		Ticketids: []int64{
+			tickets[0].Id,
+			tickets[1].Id,
+		},
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+
+}

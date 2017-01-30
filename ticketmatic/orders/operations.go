@@ -444,9 +444,9 @@ func Import(client *ticketmatic.Client, data []*ticketmatic.ImportOrder) ([]*tic
 // Importing orders with specified IDs is only possible when those IDs fall in the
 // reserved ID range.
 //
-// Use this call to reserve a range of order IDs. Any ID lower than or equal to the
-// specified ID will be reserved. New orders will receive IDs higher than the
-// specified ID.
+// Use this call to reserve a range of order IDs. Any unused ID lower than or equal
+// to the specified ID will be reserved. New orders will receive IDs higher than
+// the specified ID.
 func Reserve(client *ticketmatic.Client, data *ticketmatic.OrderIdReservation) (*ticketmatic.OrderIdReservation, error) {
 	r := client.NewRequest("POST", "/{accountname}/orders/import/reserve")
 	r.Body(data)
