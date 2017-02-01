@@ -2757,6 +2757,21 @@ type KeyValueItem struct {
 	Value string `json:"value"`
 }
 
+// The lock templates contain a mapping of which type of lock is applied to which
+// seats
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/LockTemplate).
+type LockTemplate struct {
+	// The name of the template
+	Name string `json:"name"`
+
+	// A map where seat id is the key and the lock type is the value
+	Seats map[string]int64 `json:"seats,omitempty"`
+}
+
 // A single lock type.
 //
 // More info: see the get operation
@@ -2880,7 +2895,59 @@ type LogicalPlan struct {
 	Name string `json:"name"`
 
 	// The rows layout
-	Rows string `json:"rows"`
+	Rows []*LogicalPlanRow `json:"rows"`
+}
+
+// A row contains a set of seats
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/LogicalPlanRow).
+type LogicalPlanRow struct {
+	// The name of the row
+	Name string `json:"name"`
+
+	// The coordinate of the row
+	Coord int64 `json:"coord"`
+
+	// The seats in this row
+	Seats []*LogicalPlanSeat `json:"seats"`
+}
+
+// The definition of a seat.
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/LogicalPlanSeat).
+type LogicalPlanSeat struct {
+	// The ID of the seat
+	Id string `json:"id"`
+
+	// The name of the seat
+	Name string `json:"name"`
+
+	// The center point [x,y] of the seat
+	Center []float64 `json:"center"`
+
+	// The coordinate of the seat
+	Coord int64 `json:"coord"`
+
+	// Should this seat be sold prior to other seats
+	Priority int64 `json:"priority"`
+
+	// The rowname of the seat
+	Rowname string `json:"rowname"`
+
+	// The seat description template for this seat
+	Seatdescriptionid int64 `json:"seatdescriptionid,omitempty"`
+
+	// The seat rank for this seat
+	Seatrankid int64 `json:"seatrankid"`
+
+	// The width and height of the seat
+	Size []float64 `json:"size"`
 }
 
 // A single Order.
@@ -3820,7 +3887,8 @@ type PaymentMethod struct {
 	// Internal remark, will not be shown to customers
 	Internalremark string `json:"internalremark"`
 
-	// Type of the paymentmethod.
+	// Type of the paymentmethod. For a list of possible types see here
+	// (https://www.ticketmatic.com/docs/api/settings/ticketsales/paymentmethods)
 	Paymentmethodtypeid int64 `json:"paymentmethodtypeid"`
 
 	// Whether or not this item is archived
@@ -4525,29 +4593,36 @@ type Product struct {
 	// Note: Ignored when updating an existing product.
 	Typeid int64 `json:"typeid"`
 
-	// Category for the product
-	Categoryid int64 `json:"categoryid"`
+	// Category for the product. Categories can be managed in account parameters and
+	// indicate the labels for a single and multiple product and also what labels to
+	// use for the holders of the product. If not set, the UI will fallback to default
+	// labels.
+	Categoryid int64 `json:"categoryid,omitempty"`
 
 	// Optional layout for the product. If not specified, there will be no ticket
 	// generated for the product
-	Layoutid int64 `json:"layoutid"`
+	Layoutid int64 `json:"layoutid,omitempty"`
 
 	// Name for the product
 	Name string `json:"name"`
 
 	// Unique 12-digit for the product
-	Code string `json:"code"`
+	Code string `json:"code,omitempty"`
 
 	// Description for the product
-	Description string `json:"description"`
+	Description string `json:"description,omitempty"`
 
-	// Definition of the values for an instance of the product. These depend on the
-	// properties
+	// Instancevalues control the price for a product and for non simple products it
+	// also controls the content of the product. All products should have a default
+	// instancevalue and a set of exceptions (if there are any). If no specific
+	// exception is found for the selected product, the default instancevalue is used.
 	//
 	// Note: Not set when retrieving a list of products.
 	Instancevalues *ProductInstancevalues `json:"instancevalues,omitempty"`
 
-	// Definition of possible properties for the product
+	// Definition of possible properties for the product. A product can have one or
+	// more properties. Properties can be used to introduce variants of a product
+	// (sizes of a t-shirt for example).
 	Properties []*ProductProperty `json:"properties"`
 
 	// Queue ID
@@ -4556,10 +4631,10 @@ type Product struct {
 	// info.
 	//
 	// Note: Not set when retrieving a list of products.
-	Queuetoken int64 `json:"queuetoken"`
+	Queuetoken int64 `json:"queuetoken,omitempty"`
 
 	// End of sales
-	Saleendts Time `json:"saleendts"`
+	Saleendts Time `json:"saleendts,omitempty"`
 
 	// Sales is active for these saleschannels
 	//
@@ -4567,7 +4642,7 @@ type Product struct {
 	Saleschannels []int64 `json:"saleschannels"`
 
 	// Start of sales
-	Salestartts Time `json:"salestartts"`
+	Salestartts Time `json:"salestartts,omitempty"`
 
 	// Translations for the product properties
 	//
@@ -4703,7 +4778,8 @@ type ProductInstancePricetypeValue struct {
 	From int64 `json:"from"`
 }
 
-// Product Instance Value
+// Product instance value, used with products. It configures the price and the
+// content of a product.
 //
 // Help Center
 //
@@ -4733,10 +4809,13 @@ type ProductInstanceValue struct {
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/ProductInstancevalues).
 type ProductInstancevalues struct {
-	// Default values
+	// Default value. This is used whenever no listed exception matches the selected
+	// variant of a product.
 	Default *ProductInstanceValue `json:"default,omitempty"`
 
-	// Exceptions on the default values
+	// Exceptions on the default values. Each exception lists the property values to
+	// match and the value lists the price (and optional) other content (such as a
+	// voucherid and the amount for a payment voucher).
 	Exceptions []*ProductInstanceException `json:"exceptions"`
 }
 
@@ -4751,7 +4830,7 @@ type ProductProperty struct {
 	Name string `json:"name"`
 
 	// Description
-	Description string `json:"description"`
+	Description string `json:"description,omitempty"`
 
 	// Key
 	Key string `json:"key"`
@@ -4795,7 +4874,7 @@ type ProductQuery struct {
 // (https://www.ticketmatic.com/docs/api/types/ProductVoucherValue).
 type ProductVoucherValue struct {
 	// Amount (only used for vouchers of type Payment)
-	Amount float64 `json:"amount"`
+	Amount float64 `json:"amount,omitempty"`
 
 	// Voucher id
 	Voucherid int64 `json:"voucherid"`
@@ -5165,6 +5244,23 @@ type SalesChannelQuery struct {
 	Lastupdatesince Time `json:"lastupdatesince,omitempty"`
 }
 
+// Templates to allow different seat description for seats
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/SeatDescriptionTemplate).
+type SeatDescriptionTemplate struct {
+	// The name of the template
+	Name string `json:"name"`
+
+	// The ID of the template
+	It int64 `json:"it"`
+
+	// The template itself with placeholders for rowname, seatname and zonename
+	Template string `json:"template"`
+}
+
 // A single seat rank.
 //
 // More info: see the get operation
@@ -5251,8 +5347,12 @@ type SeatingPlan struct {
 	// Note: Ignored when creating a new seating plan.
 	//
 	// Note: Ignored when updating an existing seating plan.
-	Id     int64  `json:"id"`
-	Name   string `json:"name"`
+	Id int64 `json:"id"`
+
+	// The name for the seating plan
+	Name string `json:"name"`
+
+	// The status this seating plan is in
 	Status string `json:"status"`
 
 	// Translations for the seat description templates
@@ -5963,7 +6063,19 @@ type Voucher struct {
 	// Name of the voucher
 	Name string `json:"name"`
 
-	// Format for the codes for the voucher
+	// Format used when generating codes for the voucher. Possible values:
+	//
+	// * 27001: 12 digits
+	//
+	// * 27002: 16 digits
+	//
+	// * 27003: 8 alphanumerical characters
+	//
+	// * 27004: 12 alphanumerical characters
+	//
+	// * 27005: 16 alphanumerical characters
+	//
+	// * 27099: Specified from list, not autogenerated
 	Codeformatid int64 `json:"codeformatid"`
 
 	// Description of the voucher
@@ -5978,13 +6090,17 @@ type Voucher struct {
 
 	// A validation script that is used for vouchers of type order. For each order with
 	// a voucher of this type attached, the script will be run to validate the contents
-	Ordervalidationscript string `json:"ordervalidationscript"`
+	Ordervalidationscript string `json:"ordervalidationscript,omitempty"`
 
-	// Paymentmethod to use when creating payments for vouchers of type payment.
-	Paymentmethodid int64 `json:"paymentmethodid"`
+	// Paymentmethod to use when creating payments for vouchers of type payment. This
+	// field is required when a payment voucher is created. The paymentmethod that is
+	// referred to should be of a voucher type.
+	Paymentmethodid int64 `json:"paymentmethodid,omitempty"`
 
-	// Ticketlayout to be used for this voucher.
-	Ticketlayoutid int64 `json:"ticketlayoutid"`
+	// Ticketlayout to be used for this voucher. Whenever a vouchercode is generated
+	// (by buying a product) and this code needs to be delivered to the end customer,
+	// the linked ticketlayout will be used.
+	Ticketlayoutid int64 `json:"ticketlayoutid,omitempty"`
 
 	// Definition of the validity of this voucher. Depends on the typeid.
 	//
@@ -6063,18 +6179,23 @@ type VoucherQuery struct {
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/VoucherValidity).
 type VoucherValidity struct {
-	// The fixed expiry date for a voucher
-	ExpiryFixeddate Time `json:"expiry_fixeddate"`
+	// The fixed expiry date for a voucher. The voucher will be valid untill this date
+	// (thus if 2020-01-01 is specified, the voucher will remain valid until 2019-12-31
+	// 23:59:59). If this is specified, it has preference over
+	// expiry_monthsaftercreation.
+	ExpiryFixeddate Time `json:"expiry_fixeddate,omitempty"`
 
 	// The relative expiry date for a voucher: voucher code expires this number of
-	// months after creation
-	ExpiryMonthsaftercreation int64 `json:"expiry_monthsaftercreation"`
+	// months after creation. If expiry_fixeddate is specified, this field is ignored.
+	ExpiryMonthsaftercreation int64 `json:"expiry_monthsaftercreation,omitempty"`
 
-	// The max number of times the vouchercode can be used
-	Maxusages int64 `json:"maxusages"`
+	// The max number of times the vouchercode can be used. This field is only relevant
+	// for pricetype vouchers.
+	Maxusages int64 `json:"maxusages,omitempty"`
 
-	// The max number of times the vouchercode can be used for a single event
-	Maxusagesperevent int64 `json:"maxusagesperevent"`
+	// The max number of times the vouchercode can be used for a single event. This
+	// field is only relevant for pricetype vouchers.
+	Maxusagesperevent int64 `json:"maxusagesperevent,omitempty"`
 }
 
 // A single web sales skin.

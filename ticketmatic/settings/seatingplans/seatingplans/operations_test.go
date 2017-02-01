@@ -50,12 +50,6 @@ func TestCreatemultizone(t *testing.T) {
 		Name:      "The Opera House",
 		Status:    "draft",
 		Useszones: true,
-		Zones: []int64{
-			1,
-			2,
-			3,
-			4,
-		},
 	})
 	if err != nil {
 		t.Fatal(err)
@@ -69,12 +63,8 @@ func TestCreatemultizone(t *testing.T) {
 		t.Errorf("Unexpected seatingplan.Status, got %#v, expected %#v", seatingplan.Status, "draft")
 	}
 
-	if seatingplan.Useszones != false {
-		t.Errorf("Unexpected seatingplan.Useszones, got %#v, expected %#v", seatingplan.Useszones, false)
-	}
-
-	if seatingplan.Zones != []interface{}{1, 2, 3, 4} {
-		t.Errorf("Unexpected seatingplan.Zones, got %#v, expected %#v", seatingplan.Zones, []interface{}{1, 2, 3, 4})
+	if seatingplan.Useszones != true {
+		t.Errorf("Unexpected seatingplan.Useszones, got %#v, expected %#v", seatingplan.Useszones, true)
 	}
 
 }
