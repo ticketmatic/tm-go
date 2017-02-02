@@ -352,3 +352,48 @@ func TestArchived(t *testing.T) {
 	}
 
 }
+
+func TestImport(t *testing.T) {
+	var err error
+
+	accountcode := os.Getenv("TM_TEST_ACCOUNTCODE")
+	accesskey := os.Getenv("TM_TEST_ACCESSKEY")
+	secretkey := os.Getenv("TM_TEST_SECRETKEY")
+	c := ticketmatic.NewClient(accountcode, accesskey, secretkey)
+
+	contacts, err := Import(c, []*ticketmatic.Contact{
+		&ticketmatic.Contact{
+			Firstname: "Test",
+			Lastname:  "Mc Cheer",
+		},
+		&ticketmatic.Contact{
+			Email:     "invalid",
+			Firstname: "Last",
+		},
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if contacts[0].Ok != true {
+		t.Errorf("Unexpected contacts[0].Ok, got %#v, expected %#v", contacts[0].Ok, true)
+	}
+
+	if contacts[1].Ok != false {
+		t.Errorf("Unexpected contacts[1].Ok, got %#v, expected %#v", contacts[1].Ok, false)
+	}
+
+	if contacts[0].Id <= 0 {
+		t.Errorf("Unexpected contacts[0].Id, got %#v, expected > %#v", contacts[0].Id, 0)
+	}
+
+	if contacts[1].Error != "Invalid email" {
+		t.Errorf("Unexpected contacts[1].Error, got %#v, expected %#v", contacts[1].Error, "Invalid email")
+	}
+
+	err = Delete(c, contacts[0].Id)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+}

@@ -162,3 +162,18 @@ func Batch(client *ticketmatic.Client, data *ticketmatic.BatchContactOperation) 
 
 	return r.Run(nil)
 }
+
+// Import contact
+//
+// Up to 1000 contacts can be sent per call.
+func Import(client *ticketmatic.Client, data []*ticketmatic.Contact) ([]*ticketmatic.ContactImportStatus, error) {
+	r := client.NewRequest("POST", "/{accountname}/contacts/import")
+	r.Body(data)
+
+	var obj []*ticketmatic.ContactImportStatus
+	err := r.Run(&obj)
+	if err != nil {
+		return nil, err
+	}
+	return obj, nil
+}

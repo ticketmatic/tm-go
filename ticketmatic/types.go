@@ -256,31 +256,31 @@ type Contact struct {
 	Addresses []*Address `json:"addresses"`
 
 	// Birth date
-	Birthdate Time `json:"birthdate"`
+	Birthdate Time `json:"birthdate,omitempty"`
 
 	// Company
-	Company string `json:"company"`
+	Company string `json:"company,omitempty"`
 
 	// Customer title ID (also determines the gender of the contact)
-	Customertitleid int64 `json:"customertitleid"`
+	Customertitleid int64 `json:"customertitleid,omitempty"`
 
 	// E-mail address
 	Email string `json:"email"`
 
 	// First name
-	Firstname string `json:"firstname"`
+	Firstname string `json:"firstname,omitempty"`
 
 	// Language (ISO 639-1 code (http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes))
-	Languagecode string `json:"languagecode"`
+	Languagecode string `json:"languagecode,omitempty"`
 
 	// Last name
-	Lastname string `json:"lastname"`
+	Lastname string `json:"lastname,omitempty"`
 
 	// Middle name
-	Middlename string `json:"middlename"`
+	Middlename string `json:"middlename,omitempty"`
 
 	// Job function
-	Organizationfunction string `json:"organizationfunction"`
+	Organizationfunction string `json:"organizationfunction,omitempty"`
 
 	// Phone numbers
 	Phonenumbers []*Phonenumber `json:"phonenumbers"`
@@ -289,7 +289,7 @@ type Contact struct {
 	Relationtypes []int64 `json:"relationtypes"`
 
 	// Sex
-	Sex string `json:"sex"`
+	Sex string `json:"sex,omitempty"`
 
 	// Contact status
 	//
@@ -314,7 +314,7 @@ type Contact struct {
 	Subscribed bool `json:"subscribed"`
 
 	// VAT Number (for organizations)
-	Vatnumber string `json:"vatnumber"`
+	Vatnumber string `json:"vatnumber,omitempty"`
 
 	// Whether or not this contact has been deleted
 	//
@@ -543,6 +543,23 @@ type ContactField struct {
 type ContactGetQuery struct {
 	// Contact e-mail address
 	Email string `json:"email,omitempty"`
+}
+
+// Import status per ccontact
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/ContactImportStatus).
+type ContactImportStatus struct {
+	// Contact ID
+	Id int64 `json:"id"`
+
+	// Error message, if failed
+	Error string `json:"error"`
+
+	// Whether the import succeeded
+	Ok bool `json:"ok"`
 }
 
 // Filter parameters to fetch a list of contacts
@@ -2728,6 +2745,9 @@ type ImportTicket struct {
 
 	// If this ticket should be linked to a contact, set the ticketholderid
 	Ticketholderid int64 `json:"ticketholderid,omitempty"`
+
+	// DEPRECATED: Use ticketholderid
+	Ticketholdername string `json:"ticketholdername,omitempty"`
 
 	// The tickettype ID for the ticket.
 	Tickettypeid int64 `json:"tickettypeid"`
@@ -5283,6 +5303,11 @@ type SeatRank struct {
 	// Name for the seat rank
 	Name string `json:"name"`
 
+	// Priority of the seat rank
+	//
+	// Note: Not set when retrieving a list of seat ranks.
+	Priority int64 `json:"priority"`
+
 	// Whether or not this item is archived
 	//
 	// Note: Ignored when creating a new seat rank.
@@ -6096,11 +6121,6 @@ type Voucher struct {
 	// field is required when a payment voucher is created. The paymentmethod that is
 	// referred to should be of a voucher type.
 	Paymentmethodid int64 `json:"paymentmethodid,omitempty"`
-
-	// Ticketlayout to be used for this voucher. Whenever a vouchercode is generated
-	// (by buying a product) and this code needs to be delivered to the end customer,
-	// the linked ticketlayout will be used.
-	Ticketlayoutid int64 `json:"ticketlayoutid,omitempty"`
 
 	// Definition of the validity of this voucher. Depends on the typeid.
 	//
