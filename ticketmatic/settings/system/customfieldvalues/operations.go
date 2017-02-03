@@ -15,7 +15,7 @@ type List struct {
 
 // Get a list of custom field values
 func Getlist(client *ticketmatic.Client, params *ticketmatic.CustomFieldValueQuery) (*List, error) {
-	r := client.NewRequest("GET", "/{accountname}/settings/system/customfieldvalues")
+	r := client.NewRequest("GET", "/{accountname}/settings/system/customfieldvalues", "")
 	if params != nil {
 		r.AddParameter("typeid", params.Typeid)
 		r.AddParameter("filter", params.Filter)
@@ -33,7 +33,7 @@ func Getlist(client *ticketmatic.Client, params *ticketmatic.CustomFieldValueQue
 
 // Get a single custom field value
 func Get(client *ticketmatic.Client, id int64) (*ticketmatic.CustomFieldValue, error) {
-	r := client.NewRequest("GET", "/{accountname}/settings/system/customfieldvalues/{id}")
+	r := client.NewRequest("GET", "/{accountname}/settings/system/customfieldvalues/{id}", "")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
 	})
@@ -48,7 +48,7 @@ func Get(client *ticketmatic.Client, id int64) (*ticketmatic.CustomFieldValue, e
 
 // Create a new custom field value
 func Create(client *ticketmatic.Client, data *ticketmatic.CustomFieldValue) (*ticketmatic.CustomFieldValue, error) {
-	r := client.NewRequest("POST", "/{accountname}/settings/system/customfieldvalues")
+	r := client.NewRequest("POST", "/{accountname}/settings/system/customfieldvalues", "")
 	r.Body(data)
 
 	var obj *ticketmatic.CustomFieldValue
@@ -61,7 +61,7 @@ func Create(client *ticketmatic.Client, data *ticketmatic.CustomFieldValue) (*ti
 
 // Modify an existing custom field value
 func Update(client *ticketmatic.Client, id int64, data *ticketmatic.CustomFieldValue) (*ticketmatic.CustomFieldValue, error) {
-	r := client.NewRequest("PUT", "/{accountname}/settings/system/customfieldvalues/{id}")
+	r := client.NewRequest("PUT", "/{accountname}/settings/system/customfieldvalues/{id}", "")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
 	})
@@ -84,7 +84,7 @@ func Update(client *ticketmatic.Client, id int64, data *ticketmatic.CustomFieldV
 // Most object types are archivable and can't be deleted: this is needed to ensure
 // consistency of historical data.
 func Delete(client *ticketmatic.Client, id int64) error {
-	r := client.NewRequest("DELETE", "/{accountname}/settings/system/customfieldvalues/{id}")
+	r := client.NewRequest("DELETE", "/{accountname}/settings/system/customfieldvalues/{id}", "")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
 	})
@@ -101,7 +101,7 @@ func Delete(client *ticketmatic.Client, id int64) error {
 // (https://www.ticketmatic.com/docs/api/coreconcepts/translations) for more
 // information.
 func Translations(client *ticketmatic.Client, id int64) (map[string]string, error) {
-	r := client.NewRequest("GET", "/{accountname}/settings/system/customfieldvalues/{id}/translate")
+	r := client.NewRequest("GET", "/{accountname}/settings/system/customfieldvalues/{id}/translate", "")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
 	})
@@ -122,7 +122,7 @@ func Translations(client *ticketmatic.Client, id int64) (map[string]string, erro
 // (https://www.ticketmatic.com/docs/api/coreconcepts/translations) for more
 // information.
 func Translate(client *ticketmatic.Client, id int64, data map[string]string) (map[string]string, error) {
-	r := client.NewRequest("PUT", "/{accountname}/settings/system/customfieldvalues/{id}/translate")
+	r := client.NewRequest("PUT", "/{accountname}/settings/system/customfieldvalues/{id}/translate", "")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
 	})

@@ -15,7 +15,7 @@ type List struct {
 
 // Get a list of field definitions
 func Getlist(client *ticketmatic.Client, params *ticketmatic.FieldDefinitionQuery) (*List, error) {
-	r := client.NewRequest("GET", "/{accountname}/settings/system/fielddefinitions")
+	r := client.NewRequest("GET", "/{accountname}/settings/system/fielddefinitions", "")
 	if params != nil {
 		r.AddParameter("typeid", params.Typeid)
 		r.AddParameter("filter", params.Filter)
@@ -33,7 +33,7 @@ func Getlist(client *ticketmatic.Client, params *ticketmatic.FieldDefinitionQuer
 
 // Get a single field definition
 func Get(client *ticketmatic.Client, id int64) (*ticketmatic.FieldDefinition, error) {
-	r := client.NewRequest("GET", "/{accountname}/settings/system/fielddefinitions/{id}")
+	r := client.NewRequest("GET", "/{accountname}/settings/system/fielddefinitions/{id}", "")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
 	})
@@ -48,7 +48,7 @@ func Get(client *ticketmatic.Client, id int64) (*ticketmatic.FieldDefinition, er
 
 // Create a new field definition
 func Create(client *ticketmatic.Client, data *ticketmatic.FieldDefinition) (*ticketmatic.FieldDefinition, error) {
-	r := client.NewRequest("POST", "/{accountname}/settings/system/fielddefinitions")
+	r := client.NewRequest("POST", "/{accountname}/settings/system/fielddefinitions", "")
 	r.Body(data)
 
 	var obj *ticketmatic.FieldDefinition
@@ -61,7 +61,7 @@ func Create(client *ticketmatic.Client, data *ticketmatic.FieldDefinition) (*tic
 
 // Modify an existing field definition
 func Update(client *ticketmatic.Client, id int64, data *ticketmatic.FieldDefinition) (*ticketmatic.FieldDefinition, error) {
-	r := client.NewRequest("PUT", "/{accountname}/settings/system/fielddefinitions/{id}")
+	r := client.NewRequest("PUT", "/{accountname}/settings/system/fielddefinitions/{id}", "")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
 	})
@@ -84,7 +84,7 @@ func Update(client *ticketmatic.Client, id int64, data *ticketmatic.FieldDefinit
 // Most object types are archivable and can't be deleted: this is needed to ensure
 // consistency of historical data.
 func Delete(client *ticketmatic.Client, id int64) error {
-	r := client.NewRequest("DELETE", "/{accountname}/settings/system/fielddefinitions/{id}")
+	r := client.NewRequest("DELETE", "/{accountname}/settings/system/fielddefinitions/{id}", "")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
 	})
@@ -101,7 +101,7 @@ func Delete(client *ticketmatic.Client, id int64) error {
 // (https://www.ticketmatic.com/docs/api/coreconcepts/translations) for more
 // information.
 func Translations(client *ticketmatic.Client, id int64) (map[string]string, error) {
-	r := client.NewRequest("GET", "/{accountname}/settings/system/fielddefinitions/{id}/translate")
+	r := client.NewRequest("GET", "/{accountname}/settings/system/fielddefinitions/{id}/translate", "")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
 	})
@@ -122,7 +122,7 @@ func Translations(client *ticketmatic.Client, id int64) (map[string]string, erro
 // (https://www.ticketmatic.com/docs/api/coreconcepts/translations) for more
 // information.
 func Translate(client *ticketmatic.Client, id int64, data map[string]string) (map[string]string, error) {
-	r := client.NewRequest("PUT", "/{accountname}/settings/system/fielddefinitions/{id}/translate")
+	r := client.NewRequest("PUT", "/{accountname}/settings/system/fielddefinitions/{id}/translate", "")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
 	})

@@ -56,7 +56,7 @@ type Lookups struct {
 
 // Get a list of orders
 func Getlist(client *ticketmatic.Client, params *ticketmatic.OrderQuery) (*List, error) {
-	r := client.NewRequest("GET", "/{accountname}/orders")
+	r := client.NewRequest("GET", "/{accountname}/orders", "")
 	if params != nil {
 		r.AddParameter("filter", params.Filter)
 		r.AddParameter("includearchived", params.Includearchived)
@@ -79,7 +79,7 @@ func Getlist(client *ticketmatic.Client, params *ticketmatic.OrderQuery) (*List,
 
 // Get a single order
 func Get(client *ticketmatic.Client, id int64) (*ticketmatic.Order, error) {
-	r := client.NewRequest("GET", "/{accountname}/orders/{id}")
+	r := client.NewRequest("GET", "/{accountname}/orders/{id}", "")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
 	})
@@ -105,7 +105,7 @@ func Get(client *ticketmatic.Client, id int64) (*ticketmatic.Order, error) {
 // (https://www.ticketmatic.com/docs/api/ratelimiting) for more information on how
 // to handle this.
 func Create(client *ticketmatic.Client, data *ticketmatic.CreateOrder) (*ticketmatic.Order, error) {
-	r := client.NewRequest("POST", "/{accountname}/orders")
+	r := client.NewRequest("POST", "/{accountname}/orders", "")
 	r.Body(data)
 
 	var obj *ticketmatic.Order
@@ -118,7 +118,7 @@ func Create(client *ticketmatic.Client, data *ticketmatic.CreateOrder) (*ticketm
 
 // Update an order
 func Update(client *ticketmatic.Client, id int64, data *ticketmatic.UpdateOrder) (*ticketmatic.Order, error) {
-	r := client.NewRequest("PUT", "/{accountname}/orders/{id}")
+	r := client.NewRequest("PUT", "/{accountname}/orders/{id}", "")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
 	})
@@ -136,7 +136,7 @@ func Update(client *ticketmatic.Client, id int64, data *ticketmatic.UpdateOrder)
 //
 // Marks the order as confirmed.
 func Confirm(client *ticketmatic.Client, id int64) (*ticketmatic.Order, error) {
-	r := client.NewRequest("POST", "/{accountname}/orders/{id}")
+	r := client.NewRequest("POST", "/{accountname}/orders/{id}", "")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
 	})
@@ -157,7 +157,7 @@ func Confirm(client *ticketmatic.Client, id int64) (*ticketmatic.Order, error) {
 // (https://www.ticketmatic.com/docs/api/ratelimiting) for more information on how
 // to handle this.
 func Addtickets(client *ticketmatic.Client, id int64, data *ticketmatic.AddTickets) (*ticketmatic.AddItemsResult, error) {
-	r := client.NewRequest("POST", "/{accountname}/orders/{id}/tickets")
+	r := client.NewRequest("POST", "/{accountname}/orders/{id}/tickets", "")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
 	})
@@ -186,7 +186,7 @@ func Addtickets(client *ticketmatic.Client, id int64, data *ticketmatic.AddTicke
 // Event pricing (https://www.ticketmatic.com/docs/api/types/Event)), one for each
 // ticket (tickettypepriceids).
 func Updatetickets(client *ticketmatic.Client, id int64, data *ticketmatic.UpdateTickets) (*ticketmatic.Order, error) {
-	r := client.NewRequest("PUT", "/{accountname}/orders/{id}/tickets")
+	r := client.NewRequest("PUT", "/{accountname}/orders/{id}/tickets", "")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
 	})
@@ -202,7 +202,7 @@ func Updatetickets(client *ticketmatic.Client, id int64, data *ticketmatic.Updat
 
 // Remove tickets from order
 func Deletetickets(client *ticketmatic.Client, id int64, data *ticketmatic.DeleteTickets) (*ticketmatic.Order, error) {
-	r := client.NewRequest("DELETE", "/{accountname}/orders/{id}/tickets")
+	r := client.NewRequest("DELETE", "/{accountname}/orders/{id}/tickets", "")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
 	})
@@ -220,7 +220,7 @@ func Deletetickets(client *ticketmatic.Client, id int64, data *ticketmatic.Delet
 //
 // Add products to order
 func Addproducts(client *ticketmatic.Client, id int64, data *ticketmatic.AddProducts) (*ticketmatic.AddItemsResult, error) {
-	r := client.NewRequest("POST", "/{accountname}/orders/{id}/products")
+	r := client.NewRequest("POST", "/{accountname}/orders/{id}/products", "")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
 	})
@@ -245,7 +245,7 @@ func Addproducts(client *ticketmatic.Client, id int64, data *ticketmatic.AddProd
 // (https://www.ticketmatic.com/docs/api/types/Contact)), one for each product
 // (productholderids). *
 func Updateproducts(client *ticketmatic.Client, id int64, data *ticketmatic.UpdateProducts) (*ticketmatic.Order, error) {
-	r := client.NewRequest("PUT", "/{accountname}/orders/{id}/products")
+	r := client.NewRequest("PUT", "/{accountname}/orders/{id}/products", "")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
 	})
@@ -261,7 +261,7 @@ func Updateproducts(client *ticketmatic.Client, id int64, data *ticketmatic.Upda
 
 // Remove products from order
 func Deleteproducts(client *ticketmatic.Client, id int64, data *ticketmatic.DeleteProducts) (*ticketmatic.Order, error) {
-	r := client.NewRequest("DELETE", "/{accountname}/orders/{id}/products")
+	r := client.NewRequest("DELETE", "/{accountname}/orders/{id}/products", "")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
 	})
@@ -277,7 +277,7 @@ func Deleteproducts(client *ticketmatic.Client, id int64, data *ticketmatic.Dele
 
 // Add payments to order
 func Addpayments(client *ticketmatic.Client, id int64, data *ticketmatic.AddPayments) (*ticketmatic.Order, error) {
-	r := client.NewRequest("POST", "/{accountname}/orders/{id}/payments")
+	r := client.NewRequest("POST", "/{accountname}/orders/{id}/payments", "")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
 	})
@@ -293,7 +293,7 @@ func Addpayments(client *ticketmatic.Client, id int64, data *ticketmatic.AddPaym
 
 // Add refund for payment for order
 func Addrefunds(client *ticketmatic.Client, id int64, data *ticketmatic.AddRefunds) (*ticketmatic.Order, error) {
-	r := client.NewRequest("POST", "/{accountname}/orders/{id}/refunds")
+	r := client.NewRequest("POST", "/{accountname}/orders/{id}/refunds", "")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
 	})
@@ -309,7 +309,7 @@ func Addrefunds(client *ticketmatic.Client, id int64, data *ticketmatic.AddRefun
 
 // Get the log history for an order
 func Getlogs(client *ticketmatic.Client, id int64) ([]*ticketmatic.LogItem, error) {
-	r := client.NewRequest("GET", "/{accountname}/orders/{id}/logs")
+	r := client.NewRequest("GET", "/{accountname}/orders/{id}/logs", "")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
 	})
@@ -326,7 +326,7 @@ func Getlogs(client *ticketmatic.Client, id int64) ([]*ticketmatic.LogItem, erro
 //
 // DEPRECATED: Use /{id}/pdf instead.
 func Postticketspdf(client *ticketmatic.Client, id int64, data *ticketmatic.TicketsPdfRequest) (*ticketmatic.Url, error) {
-	r := client.NewRequest("POST", "/{accountname}/orders/{id}/tickets/pdf")
+	r := client.NewRequest("POST", "/{accountname}/orders/{id}/tickets/pdf", "")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
 	})
@@ -342,7 +342,7 @@ func Postticketspdf(client *ticketmatic.Client, id int64, data *ticketmatic.Tick
 
 // Export tickets and/or vouchercodes to PDF
 func Postpdf(client *ticketmatic.Client, id int64, data *ticketmatic.TicketsPdfRequest) (*ticketmatic.Url, error) {
-	r := client.NewRequest("POST", "/{accountname}/orders/{id}/pdf")
+	r := client.NewRequest("POST", "/{accountname}/orders/{id}/pdf", "")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
 	})
@@ -358,7 +358,7 @@ func Postpdf(client *ticketmatic.Client, id int64, data *ticketmatic.TicketsPdfR
 
 // Send the delivery e-mail for the order
 func Postticketsemaildelivery(client *ticketmatic.Client, id int64, data *ticketmatic.TicketsEmaildeliveryRequest) (*ticketmatic.Order, error) {
-	r := client.NewRequest("POST", "/{accountname}/orders/{id}/tickets/emaildelivery")
+	r := client.NewRequest("POST", "/{accountname}/orders/{id}/tickets/emaildelivery", "")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
 	})
@@ -378,7 +378,7 @@ func Postticketsemaildelivery(client *ticketmatic.Client, id int64, data *ticket
 // scenario. Will only be sent if saldo <> 0 and paymentinstruction contains a
 // valid payment instruction template.
 func Postticketsemailpaymentinstruction(client *ticketmatic.Client, id int64) (*ticketmatic.Order, error) {
-	r := client.NewRequest("POST", "/{accountname}/orders/{id}/tickets/emailpaymentinstruction")
+	r := client.NewRequest("POST", "/{accountname}/orders/{id}/tickets/emailpaymentinstruction", "")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
 	})
@@ -393,7 +393,7 @@ func Postticketsemailpaymentinstruction(client *ticketmatic.Client, id int64) (*
 
 // Create a payment request for an online payment for the order
 func Postpaymentrequest(client *ticketmatic.Client, id int64, data *ticketmatic.PaymentRequest) (*ticketmatic.Url, error) {
-	r := client.NewRequest("POST", "/{accountname}/orders/{id}/paymentrequest")
+	r := client.NewRequest("POST", "/{accountname}/orders/{id}/paymentrequest", "")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
 	})
@@ -409,7 +409,7 @@ func Postpaymentrequest(client *ticketmatic.Client, id int64, data *ticketmatic.
 
 // Get the PDF for a document for the order
 func Getdocument(client *ticketmatic.Client, id int64, documentid string, language string) (*ticketmatic.Url, error) {
-	r := client.NewRequest("GET", "/{accountname}/orders/{id}/documents/{documentid}/{language}")
+	r := client.NewRequest("GET", "/{accountname}/orders/{id}/documents/{documentid}/{language}", "")
 	r.UrlParameters(map[string]interface{}{
 		"id":         id,
 		"documentid": documentid,
@@ -428,7 +428,7 @@ func Getdocument(client *ticketmatic.Client, id int64, documentid string, langua
 //
 // Up to 100 orders can be sent per call.
 func Import(client *ticketmatic.Client, data []*ticketmatic.ImportOrder) ([]*ticketmatic.OrderImportStatus, error) {
-	r := client.NewRequest("POST", "/{accountname}/orders/import")
+	r := client.NewRequest("POST", "/{accountname}/orders/import", "")
 	r.Body(data)
 
 	var obj []*ticketmatic.OrderImportStatus
@@ -448,7 +448,7 @@ func Import(client *ticketmatic.Client, data []*ticketmatic.ImportOrder) ([]*tic
 // to the specified ID will be reserved. New orders will receive IDs higher than
 // the specified ID.
 func Reserve(client *ticketmatic.Client, data *ticketmatic.OrderIdReservation) (*ticketmatic.OrderIdReservation, error) {
-	r := client.NewRequest("POST", "/{accountname}/orders/import/reserve")
+	r := client.NewRequest("POST", "/{accountname}/orders/import/reserve", "")
 	r.Body(data)
 
 	var obj *ticketmatic.OrderIdReservation

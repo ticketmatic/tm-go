@@ -15,7 +15,7 @@ type List struct {
 
 // Get a list of contacts
 func Getlist(client *ticketmatic.Client, params *ticketmatic.ContactQuery) (*List, error) {
-	r := client.NewRequest("GET", "/{accountname}/contacts")
+	r := client.NewRequest("GET", "/{accountname}/contacts", "")
 	if params != nil {
 		r.AddParameter("filter", params.Filter)
 		r.AddParameter("includearchived", params.Includearchived)
@@ -40,7 +40,7 @@ func Getlist(client *ticketmatic.Client, params *ticketmatic.ContactQuery) (*Lis
 // To retrieve a contact based on the e-mail address, pass 0 as the id and supply
 // an email parameter.
 func Get(client *ticketmatic.Client, id int64, params *ticketmatic.ContactGetQuery) (*ticketmatic.Contact, error) {
-	r := client.NewRequest("GET", "/{accountname}/contacts/{id}")
+	r := client.NewRequest("GET", "/{accountname}/contacts/{id}", "")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
 	})
@@ -60,7 +60,7 @@ func Get(client *ticketmatic.Client, id int64, params *ticketmatic.ContactGetQue
 //
 // Creates a new contact
 func Create(client *ticketmatic.Client, data *ticketmatic.Contact) (*ticketmatic.Contact, error) {
-	r := client.NewRequest("POST", "/{accountname}/contacts")
+	r := client.NewRequest("POST", "/{accountname}/contacts", "")
 	r.Body(data)
 
 	var obj *ticketmatic.Contact
@@ -73,7 +73,7 @@ func Create(client *ticketmatic.Client, data *ticketmatic.Contact) (*ticketmatic
 
 // Update a contact
 func Update(client *ticketmatic.Client, id int64, data *ticketmatic.Contact) (*ticketmatic.Contact, error) {
-	r := client.NewRequest("PUT", "/{accountname}/contacts/{id}")
+	r := client.NewRequest("PUT", "/{accountname}/contacts/{id}", "")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
 	})
@@ -96,7 +96,7 @@ func Update(client *ticketmatic.Client, id int64, data *ticketmatic.Contact) (*t
 // Most object types are archivable and can't be deleted: this is needed to ensure
 // consistency of historical data.
 func Delete(client *ticketmatic.Client, id int64) error {
-	r := client.NewRequest("DELETE", "/{accountname}/contacts/{id}")
+	r := client.NewRequest("DELETE", "/{accountname}/contacts/{id}", "")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
 	})
@@ -157,7 +157,7 @@ func Delete(client *ticketmatic.Client, id int64) error {
 // contacts can then be used to send out a mailing. The parameters object can
 // optionally contain a name field that will be used to identify the selection.
 func Batch(client *ticketmatic.Client, data *ticketmatic.BatchContactOperation) error {
-	r := client.NewRequest("POST", "/{accountname}/contacts/batch")
+	r := client.NewRequest("POST", "/{accountname}/contacts/batch", "")
 	r.Body(data)
 
 	return r.Run(nil)
@@ -167,7 +167,7 @@ func Batch(client *ticketmatic.Client, data *ticketmatic.BatchContactOperation) 
 //
 // Up to 1000 contacts can be sent per call.
 func Import(client *ticketmatic.Client, data []*ticketmatic.Contact) ([]*ticketmatic.ContactImportStatus, error) {
-	r := client.NewRequest("POST", "/{accountname}/contacts/import")
+	r := client.NewRequest("POST", "/{accountname}/contacts/import", "")
 	r.Body(data)
 
 	var obj []*ticketmatic.ContactImportStatus

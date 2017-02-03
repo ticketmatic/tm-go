@@ -15,7 +15,7 @@ type List struct {
 
 // Get a list of contact titles
 func Getlist(client *ticketmatic.Client, params *ticketmatic.ContactTitleQuery) (*List, error) {
-	r := client.NewRequest("GET", "/{accountname}/settings/system/contacttitles")
+	r := client.NewRequest("GET", "/{accountname}/settings/system/contacttitles", "")
 	if params != nil {
 		r.AddParameter("filter", params.Filter)
 		r.AddParameter("includearchived", params.Includearchived)
@@ -32,7 +32,7 @@ func Getlist(client *ticketmatic.Client, params *ticketmatic.ContactTitleQuery) 
 
 // Get a single contact title
 func Get(client *ticketmatic.Client, id int64) (*ticketmatic.ContactTitle, error) {
-	r := client.NewRequest("GET", "/{accountname}/settings/system/contacttitles/{id}")
+	r := client.NewRequest("GET", "/{accountname}/settings/system/contacttitles/{id}", "")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
 	})
@@ -47,7 +47,7 @@ func Get(client *ticketmatic.Client, id int64) (*ticketmatic.ContactTitle, error
 
 // Create a new contact title
 func Create(client *ticketmatic.Client, data *ticketmatic.ContactTitle) (*ticketmatic.ContactTitle, error) {
-	r := client.NewRequest("POST", "/{accountname}/settings/system/contacttitles")
+	r := client.NewRequest("POST", "/{accountname}/settings/system/contacttitles", "")
 	r.Body(data)
 
 	var obj *ticketmatic.ContactTitle
@@ -60,7 +60,7 @@ func Create(client *ticketmatic.Client, data *ticketmatic.ContactTitle) (*ticket
 
 // Modify an existing contact title
 func Update(client *ticketmatic.Client, id int64, data *ticketmatic.ContactTitle) (*ticketmatic.ContactTitle, error) {
-	r := client.NewRequest("PUT", "/{accountname}/settings/system/contacttitles/{id}")
+	r := client.NewRequest("PUT", "/{accountname}/settings/system/contacttitles/{id}", "")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
 	})
@@ -83,7 +83,7 @@ func Update(client *ticketmatic.Client, id int64, data *ticketmatic.ContactTitle
 // Most object types are archivable and can't be deleted: this is needed to ensure
 // consistency of historical data.
 func Delete(client *ticketmatic.Client, id int64) error {
-	r := client.NewRequest("DELETE", "/{accountname}/settings/system/contacttitles/{id}")
+	r := client.NewRequest("DELETE", "/{accountname}/settings/system/contacttitles/{id}", "")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
 	})

@@ -15,7 +15,7 @@ type List struct {
 
 // Get a list of ticket layouts
 func Getlist(client *ticketmatic.Client, params *ticketmatic.TicketLayoutQuery) (*List, error) {
-	r := client.NewRequest("GET", "/{accountname}/settings/communicationanddesign/ticketlayouts")
+	r := client.NewRequest("GET", "/{accountname}/settings/communicationanddesign/ticketlayouts", "")
 	if params != nil {
 		r.AddParameter("typeid", params.Typeid)
 		r.AddParameter("filter", params.Filter)
@@ -33,7 +33,7 @@ func Getlist(client *ticketmatic.Client, params *ticketmatic.TicketLayoutQuery) 
 
 // Get a single ticket layout
 func Get(client *ticketmatic.Client, id int64) (*ticketmatic.TicketLayout, error) {
-	r := client.NewRequest("GET", "/{accountname}/settings/communicationanddesign/ticketlayouts/{id}")
+	r := client.NewRequest("GET", "/{accountname}/settings/communicationanddesign/ticketlayouts/{id}", "")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
 	})
@@ -48,7 +48,7 @@ func Get(client *ticketmatic.Client, id int64) (*ticketmatic.TicketLayout, error
 
 // Create a new ticket layout
 func Create(client *ticketmatic.Client, data *ticketmatic.TicketLayout) (*ticketmatic.TicketLayout, error) {
-	r := client.NewRequest("POST", "/{accountname}/settings/communicationanddesign/ticketlayouts")
+	r := client.NewRequest("POST", "/{accountname}/settings/communicationanddesign/ticketlayouts", "")
 	r.Body(data)
 
 	var obj *ticketmatic.TicketLayout
@@ -61,7 +61,7 @@ func Create(client *ticketmatic.Client, data *ticketmatic.TicketLayout) (*ticket
 
 // Modify an existing ticket layout
 func Update(client *ticketmatic.Client, id int64, data *ticketmatic.TicketLayout) (*ticketmatic.TicketLayout, error) {
-	r := client.NewRequest("PUT", "/{accountname}/settings/communicationanddesign/ticketlayouts/{id}")
+	r := client.NewRequest("PUT", "/{accountname}/settings/communicationanddesign/ticketlayouts/{id}", "")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
 	})
@@ -84,7 +84,7 @@ func Update(client *ticketmatic.Client, id int64, data *ticketmatic.TicketLayout
 // Most object types are archivable and can't be deleted: this is needed to ensure
 // consistency of historical data.
 func Delete(client *ticketmatic.Client, id int64) error {
-	r := client.NewRequest("DELETE", "/{accountname}/settings/communicationanddesign/ticketlayouts/{id}")
+	r := client.NewRequest("DELETE", "/{accountname}/settings/communicationanddesign/ticketlayouts/{id}", "")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
 	})

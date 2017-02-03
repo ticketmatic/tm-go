@@ -5,6 +5,7 @@ import (
 	"crypto/hmac"
 	"crypto/sha256"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io"
 	"io/ioutil"
@@ -23,7 +24,7 @@ var Server = "https://apps.ticketmatic.com"
 var Version = "1"
 
 // Library Version
-const Build = "1373150335911ed05e11df68708c5d27f2dbe3d1"
+const Build = "777861a0165095fd765a8d44305cda994bbca38e"
 
 // Rate limit error
 type RateLimitError struct {
@@ -51,9 +52,10 @@ type Client struct {
 
 // API Request
 type Request struct {
-	client *Client
-	method string
-	url    string
+	client            *Client
+	method            string
+	url               string
+	resultContentType string
 
 	params map[string]interface{}
 	query  map[string]interface{}
@@ -70,11 +72,15 @@ func NewClient(accountcode, accesskey, secretkey string) *Client {
 	return client
 }
 
-func (c *Client) NewRequest(method, url string) *Request {
+func (c *Client) NewRequest(method, url, resultContentType string) *Request {
+	if resultContentType == "" {
+		resultContentType = "json"
+	}
 	return &Request{
-		client: c,
-		method: method,
-		url:    url,
+		client:            c,
+		method:            method,
+		url:               url,
+		resultContentType: resultContentType,
 
 		query: make(map[string]interface{}),
 	}
@@ -105,8 +111,17 @@ func (r *Request) Run(obj interface{}) error {
 	defer resp.Body.Close()
 
 	if obj != nil {
-		err = json.NewDecoder(resp.Body).Decode(obj)
-		if err != nil {
+		if r.resultContentType == "json" {
+			err = json.NewDecoder(resp.Body).Decode(obj)
+			if err != nil {
+				return err
+			}
+		} else {
+			buff, ok := obj.(*bytes.Buffer)
+			if !ok {
+				return errors.New("Given obj is not *bytes.Buffer")
+			}
+			_, err := buff.ReadFrom(resp.Body)
 			return err
 		}
 	}

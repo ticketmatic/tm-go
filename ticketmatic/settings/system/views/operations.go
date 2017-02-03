@@ -15,7 +15,7 @@ type List struct {
 
 // Get a list of views
 func Getlist(client *ticketmatic.Client, params *ticketmatic.ViewQuery) (*List, error) {
-	r := client.NewRequest("GET", "/{accountname}/settings/system/views")
+	r := client.NewRequest("GET", "/{accountname}/settings/system/views", "")
 	if params != nil {
 		r.AddParameter("typeid", params.Typeid)
 		r.AddParameter("filter", params.Filter)
@@ -33,7 +33,7 @@ func Getlist(client *ticketmatic.Client, params *ticketmatic.ViewQuery) (*List, 
 
 // Get a single view
 func Get(client *ticketmatic.Client, id int64) (*ticketmatic.View, error) {
-	r := client.NewRequest("GET", "/{accountname}/settings/system/views/{id}")
+	r := client.NewRequest("GET", "/{accountname}/settings/system/views/{id}", "")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
 	})
@@ -48,7 +48,7 @@ func Get(client *ticketmatic.Client, id int64) (*ticketmatic.View, error) {
 
 // Create a new view
 func Create(client *ticketmatic.Client, data *ticketmatic.View) (*ticketmatic.View, error) {
-	r := client.NewRequest("POST", "/{accountname}/settings/system/views")
+	r := client.NewRequest("POST", "/{accountname}/settings/system/views", "")
 	r.Body(data)
 
 	var obj *ticketmatic.View
@@ -61,7 +61,7 @@ func Create(client *ticketmatic.Client, data *ticketmatic.View) (*ticketmatic.Vi
 
 // Modify an existing view
 func Update(client *ticketmatic.Client, id int64, data *ticketmatic.View) (*ticketmatic.View, error) {
-	r := client.NewRequest("PUT", "/{accountname}/settings/system/views/{id}")
+	r := client.NewRequest("PUT", "/{accountname}/settings/system/views/{id}", "")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
 	})
@@ -84,7 +84,7 @@ func Update(client *ticketmatic.Client, id int64, data *ticketmatic.View) (*tick
 // Most object types are archivable and can't be deleted: this is needed to ensure
 // consistency of historical data.
 func Delete(client *ticketmatic.Client, id int64) error {
-	r := client.NewRequest("DELETE", "/{accountname}/settings/system/views/{id}")
+	r := client.NewRequest("DELETE", "/{accountname}/settings/system/views/{id}", "")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
 	})
@@ -101,7 +101,7 @@ func Delete(client *ticketmatic.Client, id int64) error {
 // (https://www.ticketmatic.com/docs/api/coreconcepts/translations) for more
 // information.
 func Translations(client *ticketmatic.Client, id int64) (map[string]string, error) {
-	r := client.NewRequest("GET", "/{accountname}/settings/system/views/{id}/translate")
+	r := client.NewRequest("GET", "/{accountname}/settings/system/views/{id}/translate", "")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
 	})
@@ -122,7 +122,7 @@ func Translations(client *ticketmatic.Client, id int64) (map[string]string, erro
 // (https://www.ticketmatic.com/docs/api/coreconcepts/translations) for more
 // information.
 func Translate(client *ticketmatic.Client, id int64, data map[string]string) (map[string]string, error) {
-	r := client.NewRequest("PUT", "/{accountname}/settings/system/views/{id}/translate")
+	r := client.NewRequest("PUT", "/{accountname}/settings/system/views/{id}/translate", "")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
 	})

@@ -79,6 +79,30 @@ func TestBatch(t *testing.T) {
 	err = Batch(c, &ticketmatic.BatchContactOperation{
 		Ids: []int64{
 			contact.Id,
+		},
+		Operation: "update",
+		Parameters: &ticketmatic.BatchContactParameters{
+			Fields: &ticketmatic.ContactBatchUpdate{
+				Languagecode: "EN",
+			},
+		},
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	getcontact, err := Get(c, contact.Id, &ticketmatic.ContactGetQuery{})
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if getcontact.Languagecode != "EN" {
+		t.Errorf("Unexpected getcontact.Languagecode, got %#v, expected %#v", getcontact.Languagecode, "EN")
+	}
+
+	err = Batch(c, &ticketmatic.BatchContactOperation{
+		Ids: []int64{
+			contact.Id,
 			contact2.Id,
 		},
 		Operation: "delete",

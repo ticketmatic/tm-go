@@ -185,13 +185,15 @@ type Address struct {
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/BatchContactOperation).
 type BatchContactOperation struct {
-	// Apply operation to all contacts except for the supplied IDs
+	// Apply operation to all contacts except for the supplied IDs.
 	Excludeids []int64 `json:"excludeids"`
 
-	// Restrict operation to supplied IDs
+	// Restrict operation to supplied IDs, if these ids are not specified all contacts
+	// are updated.
 	Ids []int64 `json:"ids"`
 
-	// Operation to perform
+	// Operation to perform, possible values are: addrelationtypes ,
+	// removerelationtypes, delete, subscribe, unsubscribe and updatefields
 	Operation string `json:"operation"`
 
 	// Operation-specific parameters
@@ -205,10 +207,13 @@ type BatchContactOperation struct {
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/BatchContactParameters).
 type BatchContactParameters struct {
-	// Selection name
+	// Selection name, used for operation sendselection
 	Name string `json:"name"`
 
-	// Relation type IDs
+	// Set of fields to update, used for operation updatefields
+	Fields *ContactBatchUpdate `json:"fields,omitempty"`
+
+	// Relation type IDs, used for operations addrelationtypes and removerelationtypes
 	Ids []int64 `json:"ids"`
 }
 
@@ -517,6 +522,91 @@ type ContactAddressTypeQuery struct {
 	Lastupdatesince Time `json:"lastupdatesince,omitempty"`
 }
 
+// Set of fields that can be used for contact batch update.
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/ContactBatchUpdate).
+type ContactBatchUpdate struct {
+	// Customer title ID (also determines the gender of the contact)
+	Customertitleid int64 `json:"customertitleid,omitempty"`
+
+	// Language (ISO 639-1 code (http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes))
+	Languagecode string `json:"languagecode,omitempty"`
+
+	// Custom fields
+	CustomFields map[string]interface{} `json:"-"`
+}
+
+// Custom unmarshaller with support for custom fields
+func (o *ContactBatchUpdate) UnmarshalJSON(data []byte) error {
+	// Alias the type, to avoid calling UnmarshalJSON. Unpack it.
+	type tmp ContactBatchUpdate
+	var obj tmp
+	err := json.Unmarshal(data, &obj)
+	if err != nil {
+		return err
+	}
+
+	*o = ContactBatchUpdate(obj)
+
+	// Unpack it again, this time to a map, so we can pull out the custom fields.
+	var raw map[string]interface{}
+	err = json.Unmarshal(data, &raw)
+	if err != nil {
+		return err
+	}
+
+	o.CustomFields = make(map[string]interface{})
+	for key, val := range raw {
+		if strings.HasPrefix(key, "c_") {
+			o.CustomFields[key[2:]] = val
+		}
+	}
+
+	// Note: We're doing a double JSON decode here, I'd love to get rid of it
+	// but I'm not sure how we can do this easily. Suggestions welcome:
+	// developers@ticketmatic.com!
+
+	return nil
+}
+
+// Custom marshaller with support for custom fields
+func (o *ContactBatchUpdate) MarshalJSON() ([]byte, error) {
+	// Use a custom type to avoid the custom marshaller, marshal the data.
+	type tmp struct {
+		Customertitleid int64  `json:"customertitleid,omitempty"`
+		Languagecode    string `json:"languagecode,omitempty"`
+	}
+
+	obj := tmp{
+		Customertitleid: o.Customertitleid,
+		Languagecode:    o.Languagecode,
+	}
+	data, err := json.Marshal(obj)
+	if err != nil {
+		return nil, err
+	}
+
+	// Unpack it again, to get the wire representation
+	var raw map[string]interface{}
+	err = json.Unmarshal(data, &raw)
+	if err != nil {
+		return nil, err
+	}
+
+	for key, val := range o.CustomFields {
+		raw["c_"+key] = val
+	}
+
+	// Pack it again
+	return json.Marshal(raw)
+
+	// Note: Like UnmarshalJSON, this is quite crazy. But it works beautifully.
+	// Know a way to do this better? Get in touch!
+}
+
 // Contact field is a list of field that are asked upon registration
 //
 // Help Center
@@ -545,7 +635,7 @@ type ContactGetQuery struct {
 	Email string `json:"email,omitempty"`
 }
 
-// Import status per ccontact
+// Import status per contact
 //
 // Help Center
 //

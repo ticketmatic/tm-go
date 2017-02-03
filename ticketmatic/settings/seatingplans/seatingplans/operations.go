@@ -15,7 +15,7 @@ type List struct {
 
 // Get a list of seating plans
 func Getlist(client *ticketmatic.Client, params *ticketmatic.SeatingPlanQuery) (*List, error) {
-	r := client.NewRequest("GET", "/{accountname}/settings/seatingplans/seatingplans")
+	r := client.NewRequest("GET", "/{accountname}/settings/seatingplans/seatingplans", "")
 	if params != nil {
 		r.AddParameter("filter", params.Filter)
 		r.AddParameter("includearchived", params.Includearchived)
@@ -32,7 +32,7 @@ func Getlist(client *ticketmatic.Client, params *ticketmatic.SeatingPlanQuery) (
 
 // Get a single seating plan
 func Get(client *ticketmatic.Client, id int64) (*ticketmatic.SeatingPlan, error) {
-	r := client.NewRequest("GET", "/{accountname}/settings/seatingplans/seatingplans/{id}")
+	r := client.NewRequest("GET", "/{accountname}/settings/seatingplans/seatingplans/{id}", "")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
 	})
@@ -47,7 +47,7 @@ func Get(client *ticketmatic.Client, id int64) (*ticketmatic.SeatingPlan, error)
 
 // Create a new seating plan
 func Create(client *ticketmatic.Client, data *ticketmatic.SeatingPlan) (*ticketmatic.SeatingPlan, error) {
-	r := client.NewRequest("POST", "/{accountname}/settings/seatingplans/seatingplans")
+	r := client.NewRequest("POST", "/{accountname}/settings/seatingplans/seatingplans", "")
 	r.Body(data)
 
 	var obj *ticketmatic.SeatingPlan
@@ -60,7 +60,7 @@ func Create(client *ticketmatic.Client, data *ticketmatic.SeatingPlan) (*ticketm
 
 // Modify an existing seating plan
 func Update(client *ticketmatic.Client, id int64, data *ticketmatic.SeatingPlan) (*ticketmatic.SeatingPlan, error) {
-	r := client.NewRequest("PUT", "/{accountname}/settings/seatingplans/seatingplans/{id}")
+	r := client.NewRequest("PUT", "/{accountname}/settings/seatingplans/seatingplans/{id}", "")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
 	})
@@ -83,7 +83,7 @@ func Update(client *ticketmatic.Client, id int64, data *ticketmatic.SeatingPlan)
 // Most object types are archivable and can't be deleted: this is needed to ensure
 // consistency of historical data.
 func Delete(client *ticketmatic.Client, id int64) error {
-	r := client.NewRequest("DELETE", "/{accountname}/settings/seatingplans/seatingplans/{id}")
+	r := client.NewRequest("DELETE", "/{accountname}/settings/seatingplans/seatingplans/{id}", "")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
 	})
@@ -95,7 +95,7 @@ func Delete(client *ticketmatic.Client, id int64) error {
 //
 // Returns the svg for this specific zone.
 func Getsvg(client *ticketmatic.Client, id int64, zoneid string) error {
-	r := client.NewRequest("GET", "/{accountname}/settings/seatingplans/seatingplans/{id}/svg/{zoneid}")
+	r := client.NewRequest("GET", "/{accountname}/settings/seatingplans/seatingplans/{id}/svg/{zoneid}", "")
 	r.UrlParameters(map[string]interface{}{
 		"id":     id,
 		"zoneid": zoneid,
@@ -108,7 +108,7 @@ func Getsvg(client *ticketmatic.Client, id int64, zoneid string) error {
 //
 // Updates the svg for this specific zone.
 func Savesvg(client *ticketmatic.Client, id int64, zoneid string, data string) error {
-	r := client.NewRequest("POST", "/{accountname}/settings/seatingplans/seatingplans/{id}/svg/{zoneid}")
+	r := client.NewRequest("POST", "/{accountname}/settings/seatingplans/seatingplans/{id}/svg/{zoneid}", "")
 	r.UrlParameters(map[string]interface{}{
 		"id":     id,
 		"zoneid": zoneid,
@@ -122,7 +122,7 @@ func Savesvg(client *ticketmatic.Client, id int64, zoneid string, data string) e
 //
 // Returns the rendered svg for this specific zone.
 func Getrenderedsvg(client *ticketmatic.Client, id int64, zoneid string) error {
-	r := client.NewRequest("GET", "/{accountname}/settings/seatingplans/seatingplans/{id}/renderedsvg/{zoneid}")
+	r := client.NewRequest("GET", "/{accountname}/settings/seatingplans/seatingplans/{id}/renderedsvg/{zoneid}", "")
 	r.UrlParameters(map[string]interface{}{
 		"id":     id,
 		"zoneid": zoneid,
@@ -135,7 +135,7 @@ func Getrenderedsvg(client *ticketmatic.Client, id int64, zoneid string) error {
 //
 // Updates the rendered svg for this specific zone.
 func Saverenderedsvg(client *ticketmatic.Client, id int64, zoneid string, data string) error {
-	r := client.NewRequest("POST", "/{accountname}/settings/seatingplans/seatingplans/{id}/renderedsvg/{zoneid}")
+	r := client.NewRequest("POST", "/{accountname}/settings/seatingplans/seatingplans/{id}/renderedsvg/{zoneid}", "")
 	r.UrlParameters(map[string]interface{}{
 		"id":     id,
 		"zoneid": zoneid,
@@ -149,7 +149,7 @@ func Saverenderedsvg(client *ticketmatic.Client, id int64, zoneid string, data s
 //
 // Updates the source svg for this specific zone.
 func Savesourcesvg(client *ticketmatic.Client, id int64, zoneid string, data string) error {
-	r := client.NewRequest("POST", "/{accountname}/settings/seatingplans/seatingplans/{id}/sourcesvg/{zoneid}")
+	r := client.NewRequest("POST", "/{accountname}/settings/seatingplans/seatingplans/{id}/sourcesvg/{zoneid}", "")
 	r.UrlParameters(map[string]interface{}{
 		"id":     id,
 		"zoneid": zoneid,
@@ -163,7 +163,7 @@ func Savesourcesvg(client *ticketmatic.Client, id int64, zoneid string, data str
 //
 // Returns the lock templates for this seating plan.
 func Getlocktemplates(client *ticketmatic.Client, id int64) ([]*ticketmatic.LockTemplate, error) {
-	r := client.NewRequest("GET", "/{accountname}/settings/seatingplans/seatingplans/{id}/locktemplates")
+	r := client.NewRequest("GET", "/{accountname}/settings/seatingplans/seatingplans/{id}/locktemplates", "")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
 	})
@@ -180,7 +180,7 @@ func Getlocktemplates(client *ticketmatic.Client, id int64) ([]*ticketmatic.Lock
 //
 // Save the lock templates for this seating plan.
 func Savelocktemplates(client *ticketmatic.Client, id int64, data []*ticketmatic.LockTemplate) ([]*ticketmatic.LockTemplate, error) {
-	r := client.NewRequest("POST", "/{accountname}/settings/seatingplans/seatingplans/{id}/locktemplates")
+	r := client.NewRequest("POST", "/{accountname}/settings/seatingplans/seatingplans/{id}/locktemplates", "")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
 	})
@@ -198,7 +198,7 @@ func Savelocktemplates(client *ticketmatic.Client, id int64, data []*ticketmatic
 //
 // Returns the seat description templates for this seating plan.
 func Getseatdescriptiontemplates(client *ticketmatic.Client, id int64) ([]*ticketmatic.SeatDescriptionTemplate, error) {
-	r := client.NewRequest("GET", "/{accountname}/settings/seatingplans/seatingplans/{id}/seatdescriptiontemplates")
+	r := client.NewRequest("GET", "/{accountname}/settings/seatingplans/seatingplans/{id}/seatdescriptiontemplates", "")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
 	})
@@ -215,7 +215,7 @@ func Getseatdescriptiontemplates(client *ticketmatic.Client, id int64) ([]*ticke
 //
 // Save the seat description templates for this seating plan.
 func Saveseatdescriptiontemplates(client *ticketmatic.Client, id int64, data []*ticketmatic.SeatDescriptionTemplate) ([]*ticketmatic.SeatDescriptionTemplate, error) {
-	r := client.NewRequest("POST", "/{accountname}/settings/seatingplans/seatingplans/{id}/locktemplates")
+	r := client.NewRequest("POST", "/{accountname}/settings/seatingplans/seatingplans/{id}/locktemplates", "")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
 	})
@@ -233,7 +233,7 @@ func Saveseatdescriptiontemplates(client *ticketmatic.Client, id int64, data []*
 //
 // Returns the logical plan for this specific zone.
 func Getlogicalplan(client *ticketmatic.Client, id int64, zoneid string) (*ticketmatic.LogicalPlan, error) {
-	r := client.NewRequest("GET", "/{accountname}/settings/seatingplans/seatingplans/{id}/logicalplan/{zoneid}")
+	r := client.NewRequest("GET", "/{accountname}/settings/seatingplans/seatingplans/{id}/logicalplan/{zoneid}", "")
 	r.UrlParameters(map[string]interface{}{
 		"id":     id,
 		"zoneid": zoneid,
@@ -251,7 +251,7 @@ func Getlogicalplan(client *ticketmatic.Client, id int64, zoneid string) (*ticke
 //
 // Updates the logical plan for this zone.
 func Savelogicalplan(client *ticketmatic.Client, id int64, zoneid string, data *ticketmatic.LogicalPlan) (*ticketmatic.LogicalPlan, error) {
-	r := client.NewRequest("POST", "/{accountname}/settings/seatingplans/seatingplans/{id}/logicalplan/{zoneid}")
+	r := client.NewRequest("POST", "/{accountname}/settings/seatingplans/seatingplans/{id}/logicalplan/{zoneid}", "")
 	r.UrlParameters(map[string]interface{}{
 		"id":     id,
 		"zoneid": zoneid,

@@ -6,7 +6,7 @@ import (
 
 // Get all configured account parameters
 func Getlist(client *ticketmatic.Client) ([]*ticketmatic.AccountParameter, error) {
-	r := client.NewRequest("GET", "/{accountname}/settings/accountparameters")
+	r := client.NewRequest("GET", "/{accountname}/settings/accountparameters", "")
 
 	var obj []*ticketmatic.AccountParameter
 	err := r.Run(&obj)
@@ -18,7 +18,7 @@ func Getlist(client *ticketmatic.Client) ([]*ticketmatic.AccountParameter, error
 
 // Get an account parameter
 func Get(client *ticketmatic.Client, name string) (*ticketmatic.AccountParameter, error) {
-	r := client.NewRequest("GET", "/{accountname}/settings/accountparameters/{name}")
+	r := client.NewRequest("GET", "/{accountname}/settings/accountparameters/{name}", "")
 	r.UrlParameters(map[string]interface{}{
 		"name": name,
 	})
@@ -33,7 +33,7 @@ func Get(client *ticketmatic.Client, name string) (*ticketmatic.AccountParameter
 
 // Set an account parameter
 func Set(client *ticketmatic.Client, data *ticketmatic.AccountParameter) (*ticketmatic.AccountParameter, error) {
-	r := client.NewRequest("POST", "/{accountname}/settings/accountparameters")
+	r := client.NewRequest("POST", "/{accountname}/settings/accountparameters", "")
 	r.Body(data)
 
 	var obj *ticketmatic.AccountParameter

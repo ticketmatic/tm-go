@@ -15,7 +15,7 @@ type List struct {
 
 // Get a list of contact address types
 func Getlist(client *ticketmatic.Client, params *ticketmatic.ContactAddressTypeQuery) (*List, error) {
-	r := client.NewRequest("GET", "/{accountname}/settings/system/contactaddresstypes")
+	r := client.NewRequest("GET", "/{accountname}/settings/system/contactaddresstypes", "")
 	if params != nil {
 		r.AddParameter("filter", params.Filter)
 		r.AddParameter("includearchived", params.Includearchived)
@@ -32,7 +32,7 @@ func Getlist(client *ticketmatic.Client, params *ticketmatic.ContactAddressTypeQ
 
 // Get a single contact address type
 func Get(client *ticketmatic.Client, id int64) (*ticketmatic.ContactAddressType, error) {
-	r := client.NewRequest("GET", "/{accountname}/settings/system/contactaddresstypes/{id}")
+	r := client.NewRequest("GET", "/{accountname}/settings/system/contactaddresstypes/{id}", "")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
 	})
@@ -47,7 +47,7 @@ func Get(client *ticketmatic.Client, id int64) (*ticketmatic.ContactAddressType,
 
 // Create a new contact address type
 func Create(client *ticketmatic.Client, data *ticketmatic.ContactAddressType) (*ticketmatic.ContactAddressType, error) {
-	r := client.NewRequest("POST", "/{accountname}/settings/system/contactaddresstypes")
+	r := client.NewRequest("POST", "/{accountname}/settings/system/contactaddresstypes", "")
 	r.Body(data)
 
 	var obj *ticketmatic.ContactAddressType
@@ -60,7 +60,7 @@ func Create(client *ticketmatic.Client, data *ticketmatic.ContactAddressType) (*
 
 // Modify an existing contact address type
 func Update(client *ticketmatic.Client, id int64, data *ticketmatic.ContactAddressType) (*ticketmatic.ContactAddressType, error) {
-	r := client.NewRequest("PUT", "/{accountname}/settings/system/contactaddresstypes/{id}")
+	r := client.NewRequest("PUT", "/{accountname}/settings/system/contactaddresstypes/{id}", "")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
 	})
@@ -83,7 +83,7 @@ func Update(client *ticketmatic.Client, id int64, data *ticketmatic.ContactAddre
 // Most object types are archivable and can't be deleted: this is needed to ensure
 // consistency of historical data.
 func Delete(client *ticketmatic.Client, id int64) error {
-	r := client.NewRequest("DELETE", "/{accountname}/settings/system/contactaddresstypes/{id}")
+	r := client.NewRequest("DELETE", "/{accountname}/settings/system/contactaddresstypes/{id}", "")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
 	})
@@ -100,7 +100,7 @@ func Delete(client *ticketmatic.Client, id int64) error {
 // (https://www.ticketmatic.com/docs/api/coreconcepts/translations) for more
 // information.
 func Translations(client *ticketmatic.Client, id int64) (map[string]string, error) {
-	r := client.NewRequest("GET", "/{accountname}/settings/system/contactaddresstypes/{id}/translate")
+	r := client.NewRequest("GET", "/{accountname}/settings/system/contactaddresstypes/{id}/translate", "")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
 	})
@@ -121,7 +121,7 @@ func Translations(client *ticketmatic.Client, id int64) (map[string]string, erro
 // (https://www.ticketmatic.com/docs/api/coreconcepts/translations) for more
 // information.
 func Translate(client *ticketmatic.Client, id int64, data map[string]string) (map[string]string, error) {
-	r := client.NewRequest("PUT", "/{accountname}/settings/system/contactaddresstypes/{id}/translate")
+	r := client.NewRequest("PUT", "/{accountname}/settings/system/contactaddresstypes/{id}/translate", "")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
 	})

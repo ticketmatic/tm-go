@@ -15,7 +15,7 @@ type List struct {
 
 // Get a list of price lists
 func Getlist(client *ticketmatic.Client, params *ticketmatic.PriceListQuery) (*List, error) {
-	r := client.NewRequest("GET", "/{accountname}/settings/pricing/pricelists")
+	r := client.NewRequest("GET", "/{accountname}/settings/pricing/pricelists", "")
 	if params != nil {
 		r.AddParameter("filter", params.Filter)
 		r.AddParameter("includearchived", params.Includearchived)
@@ -32,7 +32,7 @@ func Getlist(client *ticketmatic.Client, params *ticketmatic.PriceListQuery) (*L
 
 // Get a single price list
 func Get(client *ticketmatic.Client, id int64) (*ticketmatic.PriceList, error) {
-	r := client.NewRequest("GET", "/{accountname}/settings/pricing/pricelists/{id}")
+	r := client.NewRequest("GET", "/{accountname}/settings/pricing/pricelists/{id}", "")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
 	})
@@ -47,7 +47,7 @@ func Get(client *ticketmatic.Client, id int64) (*ticketmatic.PriceList, error) {
 
 // Create a new price list
 func Create(client *ticketmatic.Client, data *ticketmatic.PriceList) (*ticketmatic.PriceList, error) {
-	r := client.NewRequest("POST", "/{accountname}/settings/pricing/pricelists")
+	r := client.NewRequest("POST", "/{accountname}/settings/pricing/pricelists", "")
 	r.Body(data)
 
 	var obj *ticketmatic.PriceList
@@ -60,7 +60,7 @@ func Create(client *ticketmatic.Client, data *ticketmatic.PriceList) (*ticketmat
 
 // Modify an existing price list
 func Update(client *ticketmatic.Client, id int64, data *ticketmatic.PriceList) (*ticketmatic.PriceList, error) {
-	r := client.NewRequest("PUT", "/{accountname}/settings/pricing/pricelists/{id}")
+	r := client.NewRequest("PUT", "/{accountname}/settings/pricing/pricelists/{id}", "")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
 	})
@@ -83,7 +83,7 @@ func Update(client *ticketmatic.Client, id int64, data *ticketmatic.PriceList) (
 // Most object types are archivable and can't be deleted: this is needed to ensure
 // consistency of historical data.
 func Delete(client *ticketmatic.Client, id int64) error {
-	r := client.NewRequest("DELETE", "/{accountname}/settings/pricing/pricelists/{id}")
+	r := client.NewRequest("DELETE", "/{accountname}/settings/pricing/pricelists/{id}", "")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
 	})

@@ -15,7 +15,7 @@ type List struct {
 
 // Get a list of order fee definitions
 func Getlist(client *ticketmatic.Client, params *ticketmatic.OrderFeeDefinitionQuery) (*List, error) {
-	r := client.NewRequest("GET", "/{accountname}/settings/pricing/orderfeedefinitions")
+	r := client.NewRequest("GET", "/{accountname}/settings/pricing/orderfeedefinitions", "")
 	if params != nil {
 		r.AddParameter("filter", params.Filter)
 		r.AddParameter("includearchived", params.Includearchived)
@@ -32,7 +32,7 @@ func Getlist(client *ticketmatic.Client, params *ticketmatic.OrderFeeDefinitionQ
 
 // Get a single order fee definition
 func Get(client *ticketmatic.Client, id int64) (*ticketmatic.OrderFeeDefinition, error) {
-	r := client.NewRequest("GET", "/{accountname}/settings/pricing/orderfeedefinitions/{id}")
+	r := client.NewRequest("GET", "/{accountname}/settings/pricing/orderfeedefinitions/{id}", "")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
 	})
@@ -47,7 +47,7 @@ func Get(client *ticketmatic.Client, id int64) (*ticketmatic.OrderFeeDefinition,
 
 // Create a new order fee definition
 func Create(client *ticketmatic.Client, data *ticketmatic.OrderFeeDefinition) (*ticketmatic.OrderFeeDefinition, error) {
-	r := client.NewRequest("POST", "/{accountname}/settings/pricing/orderfeedefinitions")
+	r := client.NewRequest("POST", "/{accountname}/settings/pricing/orderfeedefinitions", "")
 	r.Body(data)
 
 	var obj *ticketmatic.OrderFeeDefinition
@@ -67,7 +67,7 @@ func Create(client *ticketmatic.Client, data *ticketmatic.OrderFeeDefinition) (*
 // Most object types are archivable and can't be deleted: this is needed to ensure
 // consistency of historical data.
 func Delete(client *ticketmatic.Client, id int64) error {
-	r := client.NewRequest("DELETE", "/{accountname}/settings/pricing/orderfeedefinitions/{id}")
+	r := client.NewRequest("DELETE", "/{accountname}/settings/pricing/orderfeedefinitions/{id}", "")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
 	})
@@ -84,7 +84,7 @@ func Delete(client *ticketmatic.Client, id int64) error {
 // (https://www.ticketmatic.com/docs/api/coreconcepts/translations) for more
 // information.
 func Translations(client *ticketmatic.Client, id int64) (map[string]string, error) {
-	r := client.NewRequest("GET", "/{accountname}/settings/pricing/orderfeedefinitions/{id}/translate")
+	r := client.NewRequest("GET", "/{accountname}/settings/pricing/orderfeedefinitions/{id}/translate", "")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
 	})
@@ -105,7 +105,7 @@ func Translations(client *ticketmatic.Client, id int64) (map[string]string, erro
 // (https://www.ticketmatic.com/docs/api/coreconcepts/translations) for more
 // information.
 func Translate(client *ticketmatic.Client, id int64, data map[string]string) (map[string]string, error) {
-	r := client.NewRequest("PUT", "/{accountname}/settings/pricing/orderfeedefinitions/{id}/translate")
+	r := client.NewRequest("PUT", "/{accountname}/settings/pricing/orderfeedefinitions/{id}/translate", "")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
 	})

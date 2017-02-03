@@ -10,7 +10,7 @@ import (
 // (https://www.ticketmatic.com/docs/api/ratelimiting) for more details on rate
 // limiting.
 func Status(client *ticketmatic.Client, id int64) (*ticketmatic.QueueStatus, error) {
-	r := client.NewRequest("POST", "/{accountname}/ratelimiting/status/{id}")
+	r := client.NewRequest("POST", "/{accountname}/ratelimiting/status/{id}", "")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
 	})
