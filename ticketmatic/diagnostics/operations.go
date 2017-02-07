@@ -15,7 +15,7 @@ import (
 // sign API requests
 // (https://www.ticketmatic.com/docs/api/coreconcepts/authentication).
 func Time(client *ticketmatic.Client) (*ticketmatic.Timestamp, error) {
-	r := client.NewRequest("GET", "/{accountname}/diagnostics/time", "")
+	r := client.NewRequest("GET", "/{accountname}/diagnostics/time", "json")
 
 	var obj *ticketmatic.Timestamp
 	err := r.Run(&obj)

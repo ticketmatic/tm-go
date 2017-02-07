@@ -24,7 +24,7 @@ var Server = "https://apps.ticketmatic.com"
 var Version = "1"
 
 // Library Version
-const Build = "777861a0165095fd765a8d44305cda994bbca38e"
+const Build = "07ed3e869e996345b4a6093b2938a176f83acd7f"
 
 // Rate limit error
 type RateLimitError struct {
@@ -57,9 +57,10 @@ type Request struct {
 	url               string
 	resultContentType string
 
-	params map[string]interface{}
-	query  map[string]interface{}
-	body   interface{}
+	params          map[string]interface{}
+	query           map[string]interface{}
+	body            interface{}
+	bodyContentType string
 }
 
 func NewClient(accountcode, accesskey, secretkey string) *Client {
@@ -99,8 +100,9 @@ func (r *Request) UrlParameters(params map[string]interface{}) {
 	r.params = params
 }
 
-func (r *Request) Body(body interface{}) {
+func (r *Request) Body(body interface{}, bodyContentType string) {
 	r.body = body
+	r.bodyContentType = bodyContentType
 }
 
 func (r *Request) Run(obj interface{}) error {
@@ -141,11 +143,19 @@ func (r *Request) prepareRequest() (*http.Response, error) {
 	var body io.Reader
 
 	if r.body != nil {
-		d, err := json.Marshal(r.body)
-		if err != nil {
-			return nil, err
+		if r.bodyContentType == "json" {
+			d, err := json.Marshal(r.body)
+			if err != nil {
+				return nil, err
+			}
+			body = bytes.NewReader(d)
+		} else if r.bodyContentType == "svg" {
+			sBody, ok := r.body.(string)
+			if !ok {
+				return nil, errors.New("Supplied body is not a string, which is needed for body content type svg")
+			}
+			body = strings.NewReader(sBody)
 		}
-		body = bytes.NewReader(d)
 	}
 
 	u, err := r.prepareUrl()
@@ -159,7 +169,11 @@ func (r *Request) prepareRequest() (*http.Response, error) {
 	}
 
 	req.Header.Add("Authorization", r.authHeader())
-	req.Header.Add("Content-Type", "application/json")
+	if r.bodyContentType == "json" {
+		req.Header.Add("Content-Type", "application/json")
+	} else if r.bodyContentType == "svg" {
+		req.Header.Add("Content-Type", "image/svg+xml")
+	}
 	req.Header.Add("User-Agent", fmt.Sprintf("ticketmatic/go (%s)", Build))
 	if r.client.Language != "" {
 		req.Header.Add("Accept-Language", r.client.Language)

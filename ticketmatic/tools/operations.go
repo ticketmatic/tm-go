@@ -34,8 +34,8 @@ func (s *QueryStream) Close() {
 // resultsets. If the query executes too long or uses too much memory, an exception
 // will be returned.
 func Queries(client *ticketmatic.Client, data *ticketmatic.QueryRequest) (*ticketmatic.QueryResult, error) {
-	r := client.NewRequest("POST", "/{accountname}/tools/queries", "")
-	r.Body(data)
+	r := client.NewRequest("POST", "/{accountname}/tools/queries", "json")
+	r.Body(data, "json")
 
 	var obj *ticketmatic.QueryResult
 	err := r.Run(&obj)
@@ -51,8 +51,8 @@ func Queries(client *ticketmatic.Client, data *ticketmatic.QueryRequest) (*ticke
 // stream of JSON lines (http://jsonlines.org/): each line contains a JSON object
 // which holds one row of the query result.
 func Export(client *ticketmatic.Client, data *ticketmatic.QueryRequest) (*QueryStream, error) {
-	r := client.NewRequest("POST", "/{accountname}/tools/queries/export", "")
-	r.Body(data)
+	r := client.NewRequest("POST", "/{accountname}/tools/queries/export", "json")
+	r.Body(data, "json")
 
 	stream, err := r.Stream()
 	if err != nil {
@@ -67,7 +67,7 @@ func Export(client *ticketmatic.Client, data *ticketmatic.QueryRequest) (*QueryS
 // and sold online during a certain period. The results can be grouped by day or
 // month. These statistics are often used as basis for invoicing or reporting.
 func Ticketsprocessedstatistics(client *ticketmatic.Client, params *ticketmatic.TicketsprocessedRequest) ([]*ticketmatic.TicketsprocessedStatistics, error) {
-	r := client.NewRequest("GET", "/{accountname}/tools/ticketsprocessedstatistics", "")
+	r := client.NewRequest("GET", "/{accountname}/tools/ticketsprocessedstatistics", "json")
 	if params != nil {
 		r.AddParameter("endts", params.Endts)
 		r.AddParameter("groupby", params.Groupby)

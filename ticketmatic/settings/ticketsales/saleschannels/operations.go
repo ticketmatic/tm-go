@@ -15,7 +15,7 @@ type List struct {
 
 // Get a list of sales channels
 func Getlist(client *ticketmatic.Client, params *ticketmatic.SalesChannelQuery) (*List, error) {
-	r := client.NewRequest("GET", "/{accountname}/settings/ticketsales/saleschannels", "")
+	r := client.NewRequest("GET", "/{accountname}/settings/ticketsales/saleschannels", "json")
 	if params != nil {
 		r.AddParameter("filter", params.Filter)
 		r.AddParameter("includearchived", params.Includearchived)
@@ -32,7 +32,7 @@ func Getlist(client *ticketmatic.Client, params *ticketmatic.SalesChannelQuery) 
 
 // Get a single sales channel
 func Get(client *ticketmatic.Client, id int64) (*ticketmatic.SalesChannel, error) {
-	r := client.NewRequest("GET", "/{accountname}/settings/ticketsales/saleschannels/{id}", "")
+	r := client.NewRequest("GET", "/{accountname}/settings/ticketsales/saleschannels/{id}", "json")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
 	})
@@ -47,8 +47,8 @@ func Get(client *ticketmatic.Client, id int64) (*ticketmatic.SalesChannel, error
 
 // Create a new sales channel
 func Create(client *ticketmatic.Client, data *ticketmatic.SalesChannel) (*ticketmatic.SalesChannel, error) {
-	r := client.NewRequest("POST", "/{accountname}/settings/ticketsales/saleschannels", "")
-	r.Body(data)
+	r := client.NewRequest("POST", "/{accountname}/settings/ticketsales/saleschannels", "json")
+	r.Body(data, "json")
 
 	var obj *ticketmatic.SalesChannel
 	err := r.Run(&obj)
@@ -60,11 +60,11 @@ func Create(client *ticketmatic.Client, data *ticketmatic.SalesChannel) (*ticket
 
 // Modify an existing sales channel
 func Update(client *ticketmatic.Client, id int64, data *ticketmatic.SalesChannel) (*ticketmatic.SalesChannel, error) {
-	r := client.NewRequest("PUT", "/{accountname}/settings/ticketsales/saleschannels/{id}", "")
+	r := client.NewRequest("PUT", "/{accountname}/settings/ticketsales/saleschannels/{id}", "json")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
 	})
-	r.Body(data)
+	r.Body(data, "json")
 
 	var obj *ticketmatic.SalesChannel
 	err := r.Run(&obj)
@@ -83,7 +83,7 @@ func Update(client *ticketmatic.Client, id int64, data *ticketmatic.SalesChannel
 // Most object types are archivable and can't be deleted: this is needed to ensure
 // consistency of historical data.
 func Delete(client *ticketmatic.Client, id int64) error {
-	r := client.NewRequest("DELETE", "/{accountname}/settings/ticketsales/saleschannels/{id}", "")
+	r := client.NewRequest("DELETE", "/{accountname}/settings/ticketsales/saleschannels/{id}", "json")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
 	})
@@ -100,7 +100,7 @@ func Delete(client *ticketmatic.Client, id int64) error {
 // (https://www.ticketmatic.com/docs/api/coreconcepts/translations) for more
 // information.
 func Translations(client *ticketmatic.Client, id int64) (map[string]string, error) {
-	r := client.NewRequest("GET", "/{accountname}/settings/ticketsales/saleschannels/{id}/translate", "")
+	r := client.NewRequest("GET", "/{accountname}/settings/ticketsales/saleschannels/{id}/translate", "json")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
 	})
@@ -121,11 +121,11 @@ func Translations(client *ticketmatic.Client, id int64) (map[string]string, erro
 // (https://www.ticketmatic.com/docs/api/coreconcepts/translations) for more
 // information.
 func Translate(client *ticketmatic.Client, id int64, data map[string]string) (map[string]string, error) {
-	r := client.NewRequest("PUT", "/{accountname}/settings/ticketsales/saleschannels/{id}/translate", "")
+	r := client.NewRequest("PUT", "/{accountname}/settings/ticketsales/saleschannels/{id}/translate", "json")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
 	})
-	r.Body(data)
+	r.Body(data, "json")
 
 	var obj map[string]string
 	err := r.Run(&obj)

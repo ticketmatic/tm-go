@@ -6,8 +6,8 @@ import (
 
 // Sync mailtool changes to Ticketmatic
 func Sync(client *ticketmatic.Client, data []*ticketmatic.SubscriberSync) error {
-	r := client.NewRequest("POST", "/{accountname}/subscribers/sync", "")
-	r.Body(data)
+	r := client.NewRequest("POST", "/{accountname}/subscribers/sync", "json")
+	r.Body(data, "json")
 
 	return r.Run(nil)
 }
@@ -15,8 +15,8 @@ func Sync(client *ticketmatic.Client, data []*ticketmatic.SubscriberSync) error 
 // Create a new communcation in Ticketmatic based on a list of subscriber
 // emailaddresses
 func Communications(client *ticketmatic.Client, data *ticketmatic.SubscriberCommunication) error {
-	r := client.NewRequest("POST", "/{accountname}/subscribers/communications", "")
-	r.Body(data)
+	r := client.NewRequest("POST", "/{accountname}/subscribers/communications", "json")
+	r.Body(data, "json")
 
 	return r.Run(nil)
 }

@@ -52,7 +52,7 @@ func (s *TicketStream) Close() {
 
 // Get a list of events
 func Getlist(client *ticketmatic.Client, params *ticketmatic.EventQuery) (*List, error) {
-	r := client.NewRequest("GET", "/{accountname}/events", "")
+	r := client.NewRequest("GET", "/{accountname}/events", "json")
 	if params != nil {
 		r.AddParameter("context", params.Context)
 		r.AddParameter("filter", params.Filter)
@@ -75,7 +75,7 @@ func Getlist(client *ticketmatic.Client, params *ticketmatic.EventQuery) (*List,
 
 // Get a single event
 func Get(client *ticketmatic.Client, id int64) (*ticketmatic.Event, error) {
-	r := client.NewRequest("GET", "/{accountname}/events/{id}", "")
+	r := client.NewRequest("GET", "/{accountname}/events/{id}", "json")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
 	})
@@ -90,8 +90,8 @@ func Get(client *ticketmatic.Client, id int64) (*ticketmatic.Event, error) {
 
 // Create a new event
 func Create(client *ticketmatic.Client, data *ticketmatic.Event) (*ticketmatic.Event, error) {
-	r := client.NewRequest("POST", "/{accountname}/events", "")
-	r.Body(data)
+	r := client.NewRequest("POST", "/{accountname}/events", "json")
+	r.Body(data, "json")
 
 	var obj *ticketmatic.Event
 	err := r.Run(&obj)
@@ -103,11 +103,11 @@ func Create(client *ticketmatic.Client, data *ticketmatic.Event) (*ticketmatic.E
 
 // Update an event
 func Update(client *ticketmatic.Client, id int64, data *ticketmatic.Event) (*ticketmatic.Event, error) {
-	r := client.NewRequest("PUT", "/{accountname}/events/{id}", "")
+	r := client.NewRequest("PUT", "/{accountname}/events/{id}", "json")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
 	})
-	r.Body(data)
+	r.Body(data, "json")
 
 	var obj *ticketmatic.Event
 	err := r.Run(&obj)
@@ -119,7 +119,7 @@ func Update(client *ticketmatic.Client, id int64, data *ticketmatic.Event) (*tic
 
 // Delete an event
 func Delete(client *ticketmatic.Client, id int64) error {
-	r := client.NewRequest("DELETE", "/{accountname}/events/{id}", "")
+	r := client.NewRequest("DELETE", "/{accountname}/events/{id}", "json")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
 	})
@@ -131,7 +131,7 @@ func Delete(client *ticketmatic.Client, id int64) error {
 //
 // Returns the list of all tickets that are part of this event.
 func Gettickets(client *ticketmatic.Client, id int64, params *ticketmatic.EventTicketQuery) (*TicketStream, error) {
-	r := client.NewRequest("GET", "/{accountname}/events/{id}/tickets", "")
+	r := client.NewRequest("GET", "/{accountname}/events/{id}/tickets", "json")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
 	})
@@ -154,11 +154,11 @@ func Gettickets(client *ticketmatic.Client, id int64, params *ticketmatic.EventT
 // Warning: Do not change the barcode of a ticket that has been delivered: existing
 // printed tickets will no longer work.
 func Batchupdatetickets(client *ticketmatic.Client, id int64, data []*ticketmatic.EventTicket) error {
-	r := client.NewRequest("PUT", "/{accountname}/events/{id}/tickets/batch", "")
+	r := client.NewRequest("PUT", "/{accountname}/events/{id}/tickets/batch", "json")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
 	})
-	r.Body(data)
+	r.Body(data, "json")
 
 	return r.Run(nil)
 }
@@ -167,11 +167,11 @@ func Batchupdatetickets(client *ticketmatic.Client, id int64, data []*ticketmati
 //
 // The lock call is limited to 100 tickets per call.
 func Locktickets(client *ticketmatic.Client, id int64, data *ticketmatic.EventLockTickets) error {
-	r := client.NewRequest("PUT", "/{accountname}/events/{id}/tickets/lock", "")
+	r := client.NewRequest("PUT", "/{accountname}/events/{id}/tickets/lock", "json")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
 	})
-	r.Body(data)
+	r.Body(data, "json")
 
 	return r.Run(nil)
 }
@@ -180,11 +180,11 @@ func Locktickets(client *ticketmatic.Client, id int64, data *ticketmatic.EventLo
 //
 // The unlock call is limited to 100 tickets per call.
 func Unlocktickets(client *ticketmatic.Client, id int64, data *ticketmatic.EventUnlockTickets) error {
-	r := client.NewRequest("PUT", "/{accountname}/events/{id}/tickets/unlock", "")
+	r := client.NewRequest("PUT", "/{accountname}/events/{id}/tickets/unlock", "json")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
 	})
-	r.Body(data)
+	r.Body(data, "json")
 
 	return r.Run(nil)
 }
@@ -193,11 +193,11 @@ func Unlocktickets(client *ticketmatic.Client, id int64, data *ticketmatic.Event
 //
 // Updates the seat rank for tickets, works only for active events.
 func Updateseatrankfortickets(client *ticketmatic.Client, id int64, data *ticketmatic.EventUpdateSeatRankForTickets) error {
-	r := client.NewRequest("PUT", "/{accountname}/events/{id}/tickets/seatrank", "")
+	r := client.NewRequest("PUT", "/{accountname}/events/{id}/tickets/seatrank", "json")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
 	})
-	r.Body(data)
+	r.Body(data, "json")
 
 	return r.Run(nil)
 }
@@ -207,7 +207,7 @@ func Updateseatrankfortickets(client *ticketmatic.Client, id int64, data *ticket
 // Returns a dictionary with string values in all languages for each translatable
 // field.
 func Translations(client *ticketmatic.Client, id int64) (map[string]string, error) {
-	r := client.NewRequest("GET", "/{accountname}/events/{id}/translate", "")
+	r := client.NewRequest("GET", "/{accountname}/events/{id}/translate", "json")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
 	})
@@ -222,11 +222,11 @@ func Translations(client *ticketmatic.Client, id int64) (map[string]string, erro
 
 // Update translations
 func Translate(client *ticketmatic.Client, id int64, data map[string]string) (map[string]string, error) {
-	r := client.NewRequest("PUT", "/{accountname}/events/{id}/translate", "")
+	r := client.NewRequest("PUT", "/{accountname}/events/{id}/translate", "json")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
 	})
-	r.Body(data)
+	r.Body(data, "json")
 
 	var obj map[string]string
 	err := r.Run(&obj)

@@ -15,7 +15,7 @@ type List struct {
 
 // Get a list of products
 func Getlist(client *ticketmatic.Client, params *ticketmatic.ProductQuery) (*List, error) {
-	r := client.NewRequest("GET", "/{accountname}/settings/products", "")
+	r := client.NewRequest("GET", "/{accountname}/settings/products", "json")
 	if params != nil {
 		r.AddParameter("typeid", params.Typeid)
 		r.AddParameter("filter", params.Filter)
@@ -33,7 +33,7 @@ func Getlist(client *ticketmatic.Client, params *ticketmatic.ProductQuery) (*Lis
 
 // Get a single product
 func Get(client *ticketmatic.Client, id int64) (*ticketmatic.Product, error) {
-	r := client.NewRequest("GET", "/{accountname}/settings/products/{id}", "")
+	r := client.NewRequest("GET", "/{accountname}/settings/products/{id}", "json")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
 	})
@@ -48,8 +48,8 @@ func Get(client *ticketmatic.Client, id int64) (*ticketmatic.Product, error) {
 
 // Create a new product
 func Create(client *ticketmatic.Client, data *ticketmatic.Product) (*ticketmatic.Product, error) {
-	r := client.NewRequest("POST", "/{accountname}/settings/products", "")
-	r.Body(data)
+	r := client.NewRequest("POST", "/{accountname}/settings/products", "json")
+	r.Body(data, "json")
 
 	var obj *ticketmatic.Product
 	err := r.Run(&obj)
@@ -61,11 +61,11 @@ func Create(client *ticketmatic.Client, data *ticketmatic.Product) (*ticketmatic
 
 // Modify an existing product
 func Update(client *ticketmatic.Client, id int64, data *ticketmatic.Product) (*ticketmatic.Product, error) {
-	r := client.NewRequest("PUT", "/{accountname}/settings/products/{id}", "")
+	r := client.NewRequest("PUT", "/{accountname}/settings/products/{id}", "json")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
 	})
-	r.Body(data)
+	r.Body(data, "json")
 
 	var obj *ticketmatic.Product
 	err := r.Run(&obj)
@@ -84,7 +84,7 @@ func Update(client *ticketmatic.Client, id int64, data *ticketmatic.Product) (*t
 // Most object types are archivable and can't be deleted: this is needed to ensure
 // consistency of historical data.
 func Delete(client *ticketmatic.Client, id int64) error {
-	r := client.NewRequest("DELETE", "/{accountname}/settings/products/{id}", "")
+	r := client.NewRequest("DELETE", "/{accountname}/settings/products/{id}", "json")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
 	})
@@ -101,7 +101,7 @@ func Delete(client *ticketmatic.Client, id int64) error {
 // (https://www.ticketmatic.com/docs/api/coreconcepts/translations) for more
 // information.
 func Translations(client *ticketmatic.Client, id int64) (map[string]string, error) {
-	r := client.NewRequest("GET", "/{accountname}/settings/products/{id}/translate", "")
+	r := client.NewRequest("GET", "/{accountname}/settings/products/{id}/translate", "json")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
 	})
@@ -122,11 +122,11 @@ func Translations(client *ticketmatic.Client, id int64) (map[string]string, erro
 // (https://www.ticketmatic.com/docs/api/coreconcepts/translations) for more
 // information.
 func Translate(client *ticketmatic.Client, id int64, data map[string]string) (map[string]string, error) {
-	r := client.NewRequest("PUT", "/{accountname}/settings/products/{id}/translate", "")
+	r := client.NewRequest("PUT", "/{accountname}/settings/products/{id}/translate", "json")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
 	})
-	r.Body(data)
+	r.Body(data, "json")
 
 	var obj map[string]string
 	err := r.Run(&obj)

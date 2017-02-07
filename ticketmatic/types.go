@@ -193,7 +193,7 @@ type BatchContactOperation struct {
 	Ids []int64 `json:"ids"`
 
 	// Operation to perform, possible values are: addrelationtypes ,
-	// removerelationtypes, delete, subscribe, unsubscribe and updatefields
+	// removerelationtypes, delete, subscribe, unsubscribe and update
 	Operation string `json:"operation"`
 
 	// Operation-specific parameters
@@ -210,7 +210,8 @@ type BatchContactParameters struct {
 	// Selection name, used for operation sendselection
 	Name string `json:"name"`
 
-	// Set of fields to update, used for operation updatefields
+	// Set of fields to update, used for operation update. Custom fields are also
+	// supported.
 	Fields *ContactBatchUpdate `json:"fields,omitempty"`
 
 	// Relation type IDs, used for operations addrelationtypes and removerelationtypes
@@ -5361,11 +5362,11 @@ type SalesChannelQuery struct {
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/SeatDescriptionTemplate).
 type SeatDescriptionTemplate struct {
+	// The ID of the template
+	Id int64 `json:"id"`
+
 	// The name of the template
 	Name string `json:"name"`
-
-	// The ID of the template
-	It int64 `json:"it"`
 
 	// The template itself with placeholders for rowname, seatname and zonename
 	Template string `json:"template"`

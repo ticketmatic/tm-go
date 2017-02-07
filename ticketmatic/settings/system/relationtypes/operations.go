@@ -15,7 +15,7 @@ type List struct {
 
 // Get a list of relation types
 func Getlist(client *ticketmatic.Client, params *ticketmatic.RelationTypeQuery) (*List, error) {
-	r := client.NewRequest("GET", "/{accountname}/settings/system/relationtypes", "")
+	r := client.NewRequest("GET", "/{accountname}/settings/system/relationtypes", "json")
 	if params != nil {
 		r.AddParameter("filter", params.Filter)
 		r.AddParameter("includearchived", params.Includearchived)
@@ -32,7 +32,7 @@ func Getlist(client *ticketmatic.Client, params *ticketmatic.RelationTypeQuery) 
 
 // Get a single relation type
 func Get(client *ticketmatic.Client, id int64) (*ticketmatic.RelationType, error) {
-	r := client.NewRequest("GET", "/{accountname}/settings/system/relationtypes/{id}", "")
+	r := client.NewRequest("GET", "/{accountname}/settings/system/relationtypes/{id}", "json")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
 	})
@@ -47,8 +47,8 @@ func Get(client *ticketmatic.Client, id int64) (*ticketmatic.RelationType, error
 
 // Create a new relation type
 func Create(client *ticketmatic.Client, data *ticketmatic.RelationType) (*ticketmatic.RelationType, error) {
-	r := client.NewRequest("POST", "/{accountname}/settings/system/relationtypes", "")
-	r.Body(data)
+	r := client.NewRequest("POST", "/{accountname}/settings/system/relationtypes", "json")
+	r.Body(data, "json")
 
 	var obj *ticketmatic.RelationType
 	err := r.Run(&obj)
@@ -60,11 +60,11 @@ func Create(client *ticketmatic.Client, data *ticketmatic.RelationType) (*ticket
 
 // Modify an existing relation type
 func Update(client *ticketmatic.Client, id int64, data *ticketmatic.RelationType) (*ticketmatic.RelationType, error) {
-	r := client.NewRequest("PUT", "/{accountname}/settings/system/relationtypes/{id}", "")
+	r := client.NewRequest("PUT", "/{accountname}/settings/system/relationtypes/{id}", "json")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
 	})
-	r.Body(data)
+	r.Body(data, "json")
 
 	var obj *ticketmatic.RelationType
 	err := r.Run(&obj)
@@ -83,7 +83,7 @@ func Update(client *ticketmatic.Client, id int64, data *ticketmatic.RelationType
 // Most object types are archivable and can't be deleted: this is needed to ensure
 // consistency of historical data.
 func Delete(client *ticketmatic.Client, id int64) error {
-	r := client.NewRequest("DELETE", "/{accountname}/settings/system/relationtypes/{id}", "")
+	r := client.NewRequest("DELETE", "/{accountname}/settings/system/relationtypes/{id}", "json")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
 	})
@@ -100,7 +100,7 @@ func Delete(client *ticketmatic.Client, id int64) error {
 // (https://www.ticketmatic.com/docs/api/coreconcepts/translations) for more
 // information.
 func Translations(client *ticketmatic.Client, id int64) (map[string]string, error) {
-	r := client.NewRequest("GET", "/{accountname}/settings/system/relationtypes/{id}/translate", "")
+	r := client.NewRequest("GET", "/{accountname}/settings/system/relationtypes/{id}/translate", "json")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
 	})
@@ -121,11 +121,11 @@ func Translations(client *ticketmatic.Client, id int64) (map[string]string, erro
 // (https://www.ticketmatic.com/docs/api/coreconcepts/translations) for more
 // information.
 func Translate(client *ticketmatic.Client, id int64, data map[string]string) (map[string]string, error) {
-	r := client.NewRequest("PUT", "/{accountname}/settings/system/relationtypes/{id}/translate", "")
+	r := client.NewRequest("PUT", "/{accountname}/settings/system/relationtypes/{id}/translate", "json")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
 	})
-	r.Body(data)
+	r.Body(data, "json")
 
 	var obj map[string]string
 	err := r.Run(&obj)

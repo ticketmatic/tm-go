@@ -15,7 +15,7 @@ type List struct {
 
 // Get a list of ticket layout templates
 func Getlist(client *ticketmatic.Client, params *ticketmatic.TicketLayoutTemplateQuery) (*List, error) {
-	r := client.NewRequest("GET", "/{accountname}/settings/communicationanddesign/ticketlayouttemplates", "")
+	r := client.NewRequest("GET", "/{accountname}/settings/communicationanddesign/ticketlayouttemplates", "json")
 	if params != nil {
 		r.AddParameter("typeid", params.Typeid)
 		r.AddParameter("filter", params.Filter)
@@ -33,7 +33,7 @@ func Getlist(client *ticketmatic.Client, params *ticketmatic.TicketLayoutTemplat
 
 // Get a single ticket layout template
 func Get(client *ticketmatic.Client, id int64) (*ticketmatic.TicketLayoutTemplate, error) {
-	r := client.NewRequest("GET", "/{accountname}/settings/communicationanddesign/ticketlayouttemplates/{id}", "")
+	r := client.NewRequest("GET", "/{accountname}/settings/communicationanddesign/ticketlayouttemplates/{id}", "json")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
 	})
@@ -48,8 +48,8 @@ func Get(client *ticketmatic.Client, id int64) (*ticketmatic.TicketLayoutTemplat
 
 // Create a new ticket layout template
 func Create(client *ticketmatic.Client, data *ticketmatic.TicketLayoutTemplate) (*ticketmatic.TicketLayoutTemplate, error) {
-	r := client.NewRequest("POST", "/{accountname}/settings/communicationanddesign/ticketlayouttemplates", "")
-	r.Body(data)
+	r := client.NewRequest("POST", "/{accountname}/settings/communicationanddesign/ticketlayouttemplates", "json")
+	r.Body(data, "json")
 
 	var obj *ticketmatic.TicketLayoutTemplate
 	err := r.Run(&obj)
@@ -61,11 +61,11 @@ func Create(client *ticketmatic.Client, data *ticketmatic.TicketLayoutTemplate) 
 
 // Modify an existing ticket layout template
 func Update(client *ticketmatic.Client, id int64, data *ticketmatic.TicketLayoutTemplate) (*ticketmatic.TicketLayoutTemplate, error) {
-	r := client.NewRequest("PUT", "/{accountname}/settings/communicationanddesign/ticketlayouttemplates/{id}", "")
+	r := client.NewRequest("PUT", "/{accountname}/settings/communicationanddesign/ticketlayouttemplates/{id}", "json")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
 	})
-	r.Body(data)
+	r.Body(data, "json")
 
 	var obj *ticketmatic.TicketLayoutTemplate
 	err := r.Run(&obj)
@@ -84,7 +84,7 @@ func Update(client *ticketmatic.Client, id int64, data *ticketmatic.TicketLayout
 // Most object types are archivable and can't be deleted: this is needed to ensure
 // consistency of historical data.
 func Delete(client *ticketmatic.Client, id int64) error {
-	r := client.NewRequest("DELETE", "/{accountname}/settings/communicationanddesign/ticketlayouttemplates/{id}", "")
+	r := client.NewRequest("DELETE", "/{accountname}/settings/communicationanddesign/ticketlayouttemplates/{id}", "json")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
 	})

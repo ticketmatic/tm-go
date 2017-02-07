@@ -15,7 +15,7 @@ type List struct {
 
 // Get a list of web sales skins
 func Getlist(client *ticketmatic.Client, params *ticketmatic.WebSalesSkinQuery) (*List, error) {
-	r := client.NewRequest("GET", "/{accountname}/settings/communicationanddesign/webskins", "")
+	r := client.NewRequest("GET", "/{accountname}/settings/communicationanddesign/webskins", "json")
 	if params != nil {
 		r.AddParameter("filter", params.Filter)
 		r.AddParameter("lastupdatesince", params.Lastupdatesince)
@@ -31,7 +31,7 @@ func Getlist(client *ticketmatic.Client, params *ticketmatic.WebSalesSkinQuery) 
 
 // Get a single web sales skin
 func Get(client *ticketmatic.Client, id int64) (*ticketmatic.WebSalesSkin, error) {
-	r := client.NewRequest("GET", "/{accountname}/settings/communicationanddesign/webskins/{id}", "")
+	r := client.NewRequest("GET", "/{accountname}/settings/communicationanddesign/webskins/{id}", "json")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
 	})
@@ -46,8 +46,8 @@ func Get(client *ticketmatic.Client, id int64) (*ticketmatic.WebSalesSkin, error
 
 // Create a new web sales skin
 func Create(client *ticketmatic.Client, data *ticketmatic.WebSalesSkin) (*ticketmatic.WebSalesSkin, error) {
-	r := client.NewRequest("POST", "/{accountname}/settings/communicationanddesign/webskins", "")
-	r.Body(data)
+	r := client.NewRequest("POST", "/{accountname}/settings/communicationanddesign/webskins", "json")
+	r.Body(data, "json")
 
 	var obj *ticketmatic.WebSalesSkin
 	err := r.Run(&obj)
@@ -59,11 +59,11 @@ func Create(client *ticketmatic.Client, data *ticketmatic.WebSalesSkin) (*ticket
 
 // Modify an existing web sales skin
 func Update(client *ticketmatic.Client, id int64, data *ticketmatic.WebSalesSkin) (*ticketmatic.WebSalesSkin, error) {
-	r := client.NewRequest("PUT", "/{accountname}/settings/communicationanddesign/webskins/{id}", "")
+	r := client.NewRequest("PUT", "/{accountname}/settings/communicationanddesign/webskins/{id}", "json")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
 	})
-	r.Body(data)
+	r.Body(data, "json")
 
 	var obj *ticketmatic.WebSalesSkin
 	err := r.Run(&obj)
@@ -75,7 +75,7 @@ func Update(client *ticketmatic.Client, id int64, data *ticketmatic.WebSalesSkin
 
 // Remove a web sales skin
 func Delete(client *ticketmatic.Client, id int64) error {
-	r := client.NewRequest("DELETE", "/{accountname}/settings/communicationanddesign/webskins/{id}", "")
+	r := client.NewRequest("DELETE", "/{accountname}/settings/communicationanddesign/webskins/{id}", "json")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
 	})

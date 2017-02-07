@@ -15,7 +15,7 @@ type List struct {
 
 // Get a list of reports
 func Getlist(client *ticketmatic.Client, params *ticketmatic.ReportQuery) (*List, error) {
-	r := client.NewRequest("GET", "/{accountname}/settings/system/reports", "")
+	r := client.NewRequest("GET", "/{accountname}/settings/system/reports", "json")
 	if params != nil {
 		r.AddParameter("filter", params.Filter)
 		r.AddParameter("lastupdatesince", params.Lastupdatesince)
@@ -31,7 +31,7 @@ func Getlist(client *ticketmatic.Client, params *ticketmatic.ReportQuery) (*List
 
 // Get a single report
 func Get(client *ticketmatic.Client, id int64) (*ticketmatic.Report, error) {
-	r := client.NewRequest("GET", "/{accountname}/settings/system/reports/{id}", "")
+	r := client.NewRequest("GET", "/{accountname}/settings/system/reports/{id}", "json")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
 	})
@@ -46,8 +46,8 @@ func Get(client *ticketmatic.Client, id int64) (*ticketmatic.Report, error) {
 
 // Create a new report
 func Create(client *ticketmatic.Client, data *ticketmatic.Report) (*ticketmatic.Report, error) {
-	r := client.NewRequest("POST", "/{accountname}/settings/system/reports", "")
-	r.Body(data)
+	r := client.NewRequest("POST", "/{accountname}/settings/system/reports", "json")
+	r.Body(data, "json")
 
 	var obj *ticketmatic.Report
 	err := r.Run(&obj)
@@ -59,11 +59,11 @@ func Create(client *ticketmatic.Client, data *ticketmatic.Report) (*ticketmatic.
 
 // Modify an existing report
 func Update(client *ticketmatic.Client, id int64, data *ticketmatic.Report) (*ticketmatic.Report, error) {
-	r := client.NewRequest("PUT", "/{accountname}/settings/system/reports/{id}", "")
+	r := client.NewRequest("PUT", "/{accountname}/settings/system/reports/{id}", "json")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
 	})
-	r.Body(data)
+	r.Body(data, "json")
 
 	var obj *ticketmatic.Report
 	err := r.Run(&obj)
@@ -75,7 +75,7 @@ func Update(client *ticketmatic.Client, id int64, data *ticketmatic.Report) (*ti
 
 // Remove a report
 func Delete(client *ticketmatic.Client, id int64) error {
-	r := client.NewRequest("DELETE", "/{accountname}/settings/system/reports/{id}", "")
+	r := client.NewRequest("DELETE", "/{accountname}/settings/system/reports/{id}", "json")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
 	})
@@ -92,7 +92,7 @@ func Delete(client *ticketmatic.Client, id int64) error {
 // (https://www.ticketmatic.com/docs/api/coreconcepts/translations) for more
 // information.
 func Translations(client *ticketmatic.Client, id int64) (map[string]string, error) {
-	r := client.NewRequest("GET", "/{accountname}/settings/system/reports/{id}/translate", "")
+	r := client.NewRequest("GET", "/{accountname}/settings/system/reports/{id}/translate", "json")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
 	})
@@ -113,11 +113,11 @@ func Translations(client *ticketmatic.Client, id int64) (map[string]string, erro
 // (https://www.ticketmatic.com/docs/api/coreconcepts/translations) for more
 // information.
 func Translate(client *ticketmatic.Client, id int64, data map[string]string) (map[string]string, error) {
-	r := client.NewRequest("PUT", "/{accountname}/settings/system/reports/{id}/translate", "")
+	r := client.NewRequest("PUT", "/{accountname}/settings/system/reports/{id}/translate", "json")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
 	})
-	r.Body(data)
+	r.Body(data, "json")
 
 	var obj map[string]string
 	err := r.Run(&obj)

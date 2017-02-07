@@ -17,7 +17,7 @@ type List struct {
 //
 // Gets the contact fields
 func Getlist(client *ticketmatic.Client) (*List, error) {
-	r := client.NewRequest("GET", "/{accountname}/settings/system/contactfields", "")
+	r := client.NewRequest("GET", "/{accountname}/settings/system/contactfields", "json")
 
 	var obj *List
 	err := r.Run(&obj)
@@ -31,7 +31,7 @@ func Getlist(client *ticketmatic.Client) (*List, error) {
 //
 // Gets the contact field
 func Get(client *ticketmatic.Client, id int64) (*ticketmatic.ContactField, error) {
-	r := client.NewRequest("GET", "/{accountname}/settings/system/contactfields/{id}", "")
+	r := client.NewRequest("GET", "/{accountname}/settings/system/contactfields/{id}", "json")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
 	})
@@ -48,7 +48,7 @@ func Get(client *ticketmatic.Client, id int64) (*ticketmatic.ContactField, error
 //
 // Get the translations for this field
 func Translations(client *ticketmatic.Client, id int64) (map[string]string, error) {
-	r := client.NewRequest("GET", "/{accountname}/settings/system/contactfields/{id}/translate", "")
+	r := client.NewRequest("GET", "/{accountname}/settings/system/contactfields/{id}/translate", "json")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
 	})
@@ -65,11 +65,11 @@ func Translations(client *ticketmatic.Client, id int64) (map[string]string, erro
 //
 // Update the translations for this field
 func Translate(client *ticketmatic.Client, id int64, data map[string]string) (map[string]string, error) {
-	r := client.NewRequest("PUT", "/{accountname}/settings/system/contactfields/{id}/translate", "")
+	r := client.NewRequest("PUT", "/{accountname}/settings/system/contactfields/{id}/translate", "json")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
 	})
-	r.Body(data)
+	r.Body(data, "json")
 
 	var obj map[string]string
 	err := r.Run(&obj)

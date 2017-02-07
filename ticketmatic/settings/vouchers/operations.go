@@ -15,7 +15,7 @@ type List struct {
 
 // Get a list of vouchers
 func Getlist(client *ticketmatic.Client, params *ticketmatic.VoucherQuery) (*List, error) {
-	r := client.NewRequest("GET", "/{accountname}/settings/vouchers", "")
+	r := client.NewRequest("GET", "/{accountname}/settings/vouchers", "json")
 	if params != nil {
 		r.AddParameter("typeid", params.Typeid)
 		r.AddParameter("filter", params.Filter)
@@ -33,7 +33,7 @@ func Getlist(client *ticketmatic.Client, params *ticketmatic.VoucherQuery) (*Lis
 
 // Get a single voucher
 func Get(client *ticketmatic.Client, id int64) (*ticketmatic.Voucher, error) {
-	r := client.NewRequest("GET", "/{accountname}/settings/vouchers/{id}", "")
+	r := client.NewRequest("GET", "/{accountname}/settings/vouchers/{id}", "json")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
 	})
@@ -48,8 +48,8 @@ func Get(client *ticketmatic.Client, id int64) (*ticketmatic.Voucher, error) {
 
 // Create a new voucher
 func Create(client *ticketmatic.Client, data *ticketmatic.Voucher) (*ticketmatic.Voucher, error) {
-	r := client.NewRequest("POST", "/{accountname}/settings/vouchers", "")
-	r.Body(data)
+	r := client.NewRequest("POST", "/{accountname}/settings/vouchers", "json")
+	r.Body(data, "json")
 
 	var obj *ticketmatic.Voucher
 	err := r.Run(&obj)
@@ -61,11 +61,11 @@ func Create(client *ticketmatic.Client, data *ticketmatic.Voucher) (*ticketmatic
 
 // Modify an existing voucher
 func Update(client *ticketmatic.Client, id int64, data *ticketmatic.Voucher) (*ticketmatic.Voucher, error) {
-	r := client.NewRequest("PUT", "/{accountname}/settings/vouchers/{id}", "")
+	r := client.NewRequest("PUT", "/{accountname}/settings/vouchers/{id}", "json")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
 	})
-	r.Body(data)
+	r.Body(data, "json")
 
 	var obj *ticketmatic.Voucher
 	err := r.Run(&obj)
@@ -84,7 +84,7 @@ func Update(client *ticketmatic.Client, id int64, data *ticketmatic.Voucher) (*t
 // Most object types are archivable and can't be deleted: this is needed to ensure
 // consistency of historical data.
 func Delete(client *ticketmatic.Client, id int64) error {
-	r := client.NewRequest("DELETE", "/{accountname}/settings/vouchers/{id}", "")
+	r := client.NewRequest("DELETE", "/{accountname}/settings/vouchers/{id}", "json")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
 	})
@@ -101,7 +101,7 @@ func Delete(client *ticketmatic.Client, id int64) error {
 // (https://www.ticketmatic.com/docs/api/coreconcepts/translations) for more
 // information.
 func Translations(client *ticketmatic.Client, id int64) (map[string]string, error) {
-	r := client.NewRequest("GET", "/{accountname}/settings/vouchers/{id}/translate", "")
+	r := client.NewRequest("GET", "/{accountname}/settings/vouchers/{id}/translate", "json")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
 	})
@@ -122,11 +122,11 @@ func Translations(client *ticketmatic.Client, id int64) (map[string]string, erro
 // (https://www.ticketmatic.com/docs/api/coreconcepts/translations) for more
 // information.
 func Translate(client *ticketmatic.Client, id int64, data map[string]string) (map[string]string, error) {
-	r := client.NewRequest("PUT", "/{accountname}/settings/vouchers/{id}/translate", "")
+	r := client.NewRequest("PUT", "/{accountname}/settings/vouchers/{id}/translate", "json")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
 	})
-	r.Body(data)
+	r.Body(data, "json")
 
 	var obj map[string]string
 	err := r.Run(&obj)
@@ -142,11 +142,11 @@ func Translate(client *ticketmatic.Client, id int64, data map[string]string) (ma
 //
 // Codes will be randomly generated unless supplied.
 func Createcodes(client *ticketmatic.Client, id int64, data *ticketmatic.AddVoucherCodes) ([]*ticketmatic.VoucherCode, error) {
-	r := client.NewRequest("POST", "/{accountname}/settings/vouchers/{id}/codes", "")
+	r := client.NewRequest("POST", "/{accountname}/settings/vouchers/{id}/codes", "json")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
 	})
-	r.Body(data)
+	r.Body(data, "json")
 
 	var obj []*ticketmatic.VoucherCode
 	err := r.Run(&obj)
@@ -160,11 +160,11 @@ func Createcodes(client *ticketmatic.Client, id int64, data *ticketmatic.AddVouc
 //
 // Deactivates individual voucher codes.
 func Deactivatecodes(client *ticketmatic.Client, id int64, data []*ticketmatic.VoucherCode) error {
-	r := client.NewRequest("POST", "/{accountname}/settings/vouchers/{id}/deactivatecodes", "")
+	r := client.NewRequest("POST", "/{accountname}/settings/vouchers/{id}/deactivatecodes", "json")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
 	})
-	r.Body(data)
+	r.Body(data, "json")
 
 	return r.Run(nil)
 }
