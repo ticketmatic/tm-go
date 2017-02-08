@@ -40,6 +40,14 @@
 //
 // * Text with formatting (12013)
 //
+// Possible edit types:
+//
+// * Hidden (22001): only via the API
+//
+// * CRUD (22002): in the backoffice
+//
+// * Checkout (22003): by the customer, during ticket sales
+//
 // Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
