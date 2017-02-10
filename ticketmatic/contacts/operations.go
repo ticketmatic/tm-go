@@ -182,3 +182,21 @@ func Import(client *ticketmatic.Client, data []*ticketmatic.Contact) ([]*ticketm
 	}
 	return obj, nil
 }
+
+// Reserve contact IDs
+//
+// Importing contacts with the specified IDs is only possible when those IDs fall
+// in the reserved ID range. Use this call to reserve a range of contact IDs. Any
+// unused ID lower than or equal to the specified ID will be reserved. New contacts
+// will receive IDs higher than the specified ID.
+func Reserve(client *ticketmatic.Client, data *ticketmatic.ContactIdReservation) (*ticketmatic.ContactIdReservation, error) {
+	r := client.NewRequest("POST", "/{accountname}/contacts/import/reserve", "json")
+	r.Body(data, "json")
+
+	var obj *ticketmatic.ContactIdReservation
+	err := r.Run(&obj)
+	if err != nil {
+		return nil, err
+	}
+	return obj, nil
+}

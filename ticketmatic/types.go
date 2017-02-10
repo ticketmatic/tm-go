@@ -636,6 +636,17 @@ type ContactGetQuery struct {
 	Email string `json:"email,omitempty"`
 }
 
+// Contact ID reservation
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/ContactIdReservation).
+type ContactIdReservation struct {
+	// Maximum ID to reserve
+	Id int64 `json:"id"`
+}
+
 // Import status per contact
 //
 // Help Center
