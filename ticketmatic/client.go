@@ -178,6 +178,7 @@ func (r *Request) prepareRequest() (*http.Response, error) {
 	if r.client.Language != "" {
 		req.Header.Add("Accept-Language", r.client.Language)
 	}
+	req.Close = true
 
 	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
