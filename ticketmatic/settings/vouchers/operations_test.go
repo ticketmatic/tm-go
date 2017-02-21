@@ -40,8 +40,8 @@ func TestCreatecodes(t *testing.T) {
 		t.Errorf("Unexpected voucher.Id, got %#v, expected %#v", voucher.Id, 2)
 	}
 
-	if voucher.Nbrofcodes != 13 {
-		t.Errorf("Unexpected voucher.Nbrofcodes, got %#v, expected %#v", voucher.Nbrofcodes, 13)
+	if len(voucher.Nbrofcodes) <= 0 {
+		t.Errorf("Unexpected voucher.Nbrofcodes length, got %#v, expected greater than %#v", len(voucher.Nbrofcodes), 0)
 	}
 
 	err = Deactivatecodes(c, 2, []*ticketmatic.VoucherCode{
