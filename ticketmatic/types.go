@@ -1685,8 +1685,9 @@ func (o *Event) MarshalJSON() ([]byte, error) {
 // context.
 //
 // Currently allows you to filter the event information (both the events and the
-// pricing information within each event) to a specific saleschannel. This makes it
-// very easy to show the correct information on a website.
+// pricing information within each event) to a specific saleschannel. If a
+// saleschannel is specified, only events that are currently for sale in that
+// specific saleschannel will be returned.
 //
 // Help Center
 //
@@ -6444,6 +6445,15 @@ type WebSalesSkin struct {
 
 	// Name of the web sales skin
 	Name string `json:"name"`
+
+	// The URL where the assets are stored for this webskin. This property is readonly.
+	//
+	// Note: Ignored when creating a new web sales skin.
+	//
+	// Note: Ignored when updating an existing web sales skin.
+	//
+	// Note: Not set when retrieving a list of web sales skins.
+	Asseturl string `json:"asseturl"`
 
 	// Skin configuration.
 	//
