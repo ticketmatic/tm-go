@@ -5,6 +5,23 @@ import (
 	"strings"
 )
 
+// Account information
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/AccountInfo).
+type AccountInfo struct {
+	// Account ID
+	Id int64 `json:"id"`
+
+	// Account Name
+	Name string `json:"name"`
+
+	// Account short name
+	Shortname string `json:"shortname"`
+}
+
 // An account parameter defines general behavior of your account
 //
 // Help Center

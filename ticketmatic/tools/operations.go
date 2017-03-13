@@ -27,6 +27,21 @@ func (s *QueryStream) Close() {
 
 }
 
+// Get account information
+//
+// Get information of the current account, can be used to retrieve account details
+// such as the account ID and the full name.
+func Account(client *ticketmatic.Client) (*ticketmatic.AccountInfo, error) {
+	r := client.NewRequest("GET", "/{accountname}/tools/account", "json")
+
+	var obj *ticketmatic.AccountInfo
+	err := r.Run(&obj)
+	if err != nil {
+		return nil, err
+	}
+	return obj, nil
+}
+
 // Execute a query on the public data model
 //
 // Use this method to execute random (read-only) queries on the public data model.

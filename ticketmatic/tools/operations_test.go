@@ -7,6 +7,33 @@ import (
 	"github.com/ticketmatic/tm-go/ticketmatic"
 )
 
+func TestInfo(t *testing.T) {
+	var err error
+
+	accountcode := os.Getenv("TM_TEST_ACCOUNTCODE")
+	accesskey := os.Getenv("TM_TEST_ACCESSKEY")
+	secretkey := os.Getenv("TM_TEST_SECRETKEY")
+	c := ticketmatic.NewClient(accountcode, accesskey, secretkey)
+
+	info, err := Account(c)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if info.Id != 998 {
+		t.Errorf("Unexpected info.Id, got %#v, expected %#v", info.Id, 998)
+	}
+
+	if info.Name != "qa" {
+		t.Errorf("Unexpected info.Name, got %#v, expected %#v", info.Name, "qa")
+	}
+
+	if info.Shortname != "qa" {
+		t.Errorf("Unexpected info.Shortname, got %#v, expected %#v", info.Shortname, "qa")
+	}
+
+}
+
 func TestGet(t *testing.T) {
 	var err error
 
