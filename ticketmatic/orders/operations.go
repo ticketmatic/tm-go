@@ -184,7 +184,11 @@ func Addtickets(client *ticketmatic.Client, id int64, data *ticketmatic.AddTicke
 //
 // * Update price type: an array of ticket price type IDs (as can be found in the
 // Event pricing (https://www.ticketmatic.com/docs/api/types/Event)), one for each
-// ticket (tickettypepriceids).
+// ticket (tickettypepriceids)
+//
+// * Add to bundles: an array of bundle IDs, one for each ticket
+//
+// * Remove from bundles: none.
 func Updatetickets(client *ticketmatic.Client, id int64, data *ticketmatic.UpdateTickets) (*ticketmatic.Order, error) {
 	r := client.NewRequest("PUT", "/{accountname}/orders/{id}/tickets", "json")
 	r.UrlParameters(map[string]interface{}{

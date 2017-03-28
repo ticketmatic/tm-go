@@ -236,3 +236,13 @@ func Savelogicalplan(client *ticketmatic.Client, id int64, zoneid string, data *
 	}
 	return obj, nil
 }
+
+// Purge seatingplan
+func Purge(client *ticketmatic.Client, id int64) error {
+	r := client.NewRequest("PUT", "/{accountname}/settings/seatingplans/seatingplans/{id}/purge", "json")
+	r.UrlParameters(map[string]interface{}{
+		"id": id,
+	})
+
+	return r.Run(nil)
+}

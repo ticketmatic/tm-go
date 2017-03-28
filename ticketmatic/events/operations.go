@@ -235,3 +235,13 @@ func Translate(client *ticketmatic.Client, id int64, data map[string]string) (ma
 	}
 	return obj, nil
 }
+
+// Purge event
+func Purge(client *ticketmatic.Client, id int64) error {
+	r := client.NewRequest("PUT", "/{accountname}/events/{id}/purge", "json")
+	r.UrlParameters(map[string]interface{}{
+		"id": id,
+	})
+
+	return r.Run(nil)
+}

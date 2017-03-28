@@ -5667,6 +5667,20 @@ type SeatingPlanQuery struct {
 	Lastupdatesince Time `json:"lastupdatesince,omitempty"`
 }
 
+// Used to update order costs in an order.
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/SetOrderCost).
+type SetOrderCost struct {
+	// The amount for this ordercost
+	Amount float64 `json:"amount,omitempty"`
+
+	// Id of the service charge to use for this ordercost
+	Servicechargedefinitionid int64 `json:"servicechargedefinitionid"`
+}
+
 // A newly created communication
 //
 // Help Center
@@ -6110,6 +6124,10 @@ type UpdateOrder struct {
 	// Expiry timestamp, as string in ISO 8601 format. Cannot be in the past.
 	Expiryts string `json:"expiryts,omitempty"`
 
+	// Set manual order costs. Setting the amount to 0 will remove the order cost from
+	// the order.
+	Ordercosts []*SetOrderCost `json:"ordercosts"`
+
 	// New payment scenario ID
 	Paymentscenarioid int64 `json:"paymentscenarioid,omitempty"`
 
@@ -6156,7 +6174,11 @@ type UpdateProducts struct {
 //
 // * Update price type: an array of ticket price type IDs (as can be found in the
 // Event pricing (https://www.ticketmatic.com/docs/api/types/Event)), one for each
-// ticket (tickettypepriceids).
+// ticket (tickettypepriceids)
+//
+// * Add to bundles: an array of bundle IDs, one for each ticket
+//
+// * Remove from bundles: none.
 //
 // Help Center
 //
@@ -6170,6 +6192,10 @@ type UpdateTickets struct {
 	// * setticketholders
 	//
 	// * updatepricetype
+	//
+	// * addtobundles
+	//
+	// * removefrombundles
 	Operation string `json:"operation"`
 
 	// Operation parameters
