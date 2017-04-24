@@ -481,7 +481,7 @@ func Purge(client *ticketmatic.Client, params *ticketmatic.PurgeOrdersRequest) (
 	var obj string
 	err := r.Run(&obj)
 	if err != nil {
-		return nil, err
+		return "", err
 	}
 	return obj, nil
 }
