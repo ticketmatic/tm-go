@@ -106,7 +106,7 @@ func Getsvg(client *ticketmatic.Client, id int64, zoneid string) (*bytes.Buffer,
 	var obj bytes.Buffer
 	err := r.Run(&obj)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 	return &obj, nil
 }
@@ -125,7 +125,7 @@ func Savesvg(client *ticketmatic.Client, id int64, zoneid string, data string) (
 	var obj bytes.Buffer
 	err := r.Run(&obj)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 	return &obj, nil
 }
