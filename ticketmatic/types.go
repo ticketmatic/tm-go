@@ -2986,6 +2986,29 @@ type ImportTicket struct {
 	Vouchercodeid int64 `json:"vouchercodeid,omitempty"`
 }
 
+// Info on a job.
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/JobResult).
+type JobResult struct {
+	// Id of the job
+	Id string `json:"id"`
+
+	// Job name
+	Name string `json:"name"`
+
+	// Job progress (percentage)
+	Progress int64 `json:"progress"`
+
+	// Current progress of the job as string
+	Progresstext string `json:"progresstext"`
+
+	// Status for the job
+	Status int64 `json:"status"`
+}
+
 // Key-value item
 //
 // Help Center
@@ -3036,6 +3059,9 @@ type LockType struct {
 
 	// Name for the lock type
 	Name string `json:"name"`
+
+	// The color of the seat rank
+	Color string `json:"color"`
 
 	// Indicates whether this lock is a hard lock (meaning that it normally never will
 	// be released and does not count for the inventory) or a soft lock
@@ -4863,6 +4889,16 @@ type Product struct {
 	// Note: Not set when retrieving a list of products.
 	Instancevalues *ProductInstancevalues `json:"instancevalues,omitempty"`
 
+	// The amount of individual tickets per event that can be purchased alongside this
+	// bundle.
+	//
+	// Note: Not set when retrieving a list of products.
+	Maxadditionaltickets int64 `json:"maxadditionaltickets,omitempty"`
+
+	// If true, tickets for items that belong to the product will be printed when
+	// printing the product.
+	Printtickets bool `json:"printtickets,omitempty"`
+
 	// Definition of possible properties for the product. A product can have one or
 	// more properties. Properties can be used to introduce variants of a product
 	// (sizes of a t-shirt for example).
@@ -5121,6 +5157,23 @@ type ProductVoucherValue struct {
 
 	// Voucher id
 	Voucherid int64 `json:"voucherid"`
+}
+
+// Info for requesting a purge of all orders.
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/PurgeOrdersRequest).
+type PurgeOrdersRequest struct {
+	// Also purge contacts
+	Contacts bool `json:"contacts"`
+
+	// Only purge orders created since this timestamp
+	Createdsince string `json:"createdsince"`
+
+	// Also purge events (incl. vouchers, products and bundles)
+	Events bool `json:"events"`
 }
 
 // Required data for creating a query on the public data model.
@@ -5526,6 +5579,9 @@ type SeatRank struct {
 	// Name for the seat rank
 	Name string `json:"name"`
 
+	// The color of the seat rank
+	Color string `json:"color"`
+
 	// Priority of the seat rank
 	//
 	// Note: Not set when retrieving a list of seat ranks.
@@ -5917,6 +5973,9 @@ type TicketLayoutTemplate struct {
 	//
 	// Note: Not set when retrieving a list of ticket layout templates.
 	Htmltemplate string `json:"htmltemplate"`
+
+	// Number of tickets to be printed per page
+	Ticketsperpage int64 `json:"ticketsperpage"`
 
 	// Translations for the ticket layout template
 	//

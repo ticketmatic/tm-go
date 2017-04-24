@@ -431,6 +431,10 @@ func Getdocument(client *ticketmatic.Client, id int64, documentid string, langua
 // Import historic orders
 //
 // Up to 100 orders can be sent per call.
+//
+// Many of the usual consistency checks are relaxed while importing orders. It is
+// recommended that you only import orders that will not be changed anymore in the
+// future.
 func Import(client *ticketmatic.Client, data []*ticketmatic.ImportOrder) ([]*ticketmatic.OrderImportStatus, error) {
 	r := client.NewRequest("POST", "/{accountname}/orders/import", "json")
 	r.Body(data, "json")
@@ -456,6 +460,25 @@ func Reserve(client *ticketmatic.Client, data *ticketmatic.OrderIdReservation) (
 	r.Body(data, "json")
 
 	var obj *ticketmatic.OrderIdReservation
+	err := r.Run(&obj)
+	if err != nil {
+		return nil, err
+	}
+	return obj, nil
+}
+
+// Purge orders
+//
+// Purge all orders.
+func Purge(client *ticketmatic.Client, params *ticketmatic.PurgeOrdersRequest) (string, error) {
+	r := client.NewRequest("POST", "/{accountname}/orders/purge", "json")
+	if params != nil {
+		r.AddParameter("contacts", params.Contacts)
+		r.AddParameter("createdsince", params.Createdsince)
+		r.AddParameter("events", params.Events)
+	}
+
+	var obj string
 	err := r.Run(&obj)
 	if err != nil {
 		return nil, err
