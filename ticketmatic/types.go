@@ -3060,7 +3060,7 @@ type LockType struct {
 	// Name for the lock type
 	Name string `json:"name"`
 
-	// The color of the seat rank
+	// The color of the lock type
 	Color string `json:"color"`
 
 	// Indicates whether this lock is a hard lock (meaning that it normally never will
