@@ -75,6 +75,22 @@ func (w *Widgets) VerifyReturnUrl(params map[string]string) error {
 	return nil
 }
 
+// This variant of VerifyReturnUrl allows you to pass in req.Form directly
+func (w *Widgets) VerifyFormReturnUrl(values url.Values) error {
+	params := make(map[string]string)
+	for k, v := range values {
+		for i, s := range v {
+			if i == 0 {
+				params[k] = s
+			} else {
+				params[k] += s
+			}
+		}
+	}
+
+	return w.VerifyReturnUrl(params)
+}
+
 func (w *Widgets) calculateSignature(params map[string]string) string {
 	delete(params, "l")
 
