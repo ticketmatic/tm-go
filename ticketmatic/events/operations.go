@@ -202,6 +202,24 @@ func Updateseatrankfortickets(client *ticketmatic.Client, id int64, data *ticket
 	return r.Run(nil)
 }
 
+// Scan out tickets that are scanned in
+//
+// Scan out tickets thar are scanned in, filter on tickettypeid if needed.
+func Scanticketsout(client *ticketmatic.Client, id int64, data *ticketmatic.EventScanTicketsOut) ([]int64, error) {
+	r := client.NewRequest("PUT", "/{accountname}/events/{id}/tickets/scanout", "json")
+	r.UrlParameters(map[string]interface{}{
+		"id": id,
+	})
+	r.Body(data, "json")
+
+	var obj []int64
+	err := r.Run(&obj)
+	if err != nil {
+		return nil, err
+	}
+	return obj, nil
+}
+
 // Fetch translatable fields
 //
 // Returns a dictionary with string values in all languages for each translatable

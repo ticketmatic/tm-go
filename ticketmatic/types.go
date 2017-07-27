@@ -1526,6 +1526,9 @@ type Event struct {
 	// information.
 	Seatingplanpricelistid int64 `json:"seatingplanpricelistid,omitempty"`
 
+	// Enable or disable seat selection for customers.
+	Seatselection bool `json:"seatselection,omitempty"`
+
 	// Event start time
 	Startts Time `json:"startts"`
 
@@ -1631,6 +1634,7 @@ func (o *Event) MarshalJSON() ([]byte, error) {
 		Seatingplanid                  int64                          `json:"seatingplanid,omitempty"`
 		Seatingplanlocktemplate        string                         `json:"seatingplanlocktemplate,omitempty"`
 		Seatingplanpricelistid         int64                          `json:"seatingplanpricelistid,omitempty"`
+		Seatselection                  bool                           `json:"seatselection,omitempty"`
 		Startts                        Time                           `json:"startts,omitempty"`
 		Subtitle                       string                         `json:"subtitle,omitempty"`
 		Subtitle2                      string                         `json:"subtitle2,omitempty"`
@@ -1666,6 +1670,7 @@ func (o *Event) MarshalJSON() ([]byte, error) {
 		Seatingplanid:                  o.Seatingplanid,
 		Seatingplanlocktemplate:        o.Seatingplanlocktemplate,
 		Seatingplanpricelistid:         o.Seatingplanpricelistid,
+		Seatselection:                  o.Seatselection,
 		Startts:                        o.Startts,
 		Subtitle:                       o.Subtitle,
 		Subtitle2:                      o.Subtitle2,
@@ -2090,6 +2095,17 @@ type EventSalesChannel struct {
 
 	// When the sales start
 	Salestartts Time `json:"salestartts"`
+}
+
+// Scan out all tickets that are scanned in
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/EventScanTicketsOut).
+type EventScanTicketsOut struct {
+	// Array of tickettypeids
+	Tickettypeids []int64 `json:"tickettypeids"`
 }
 
 // Information about a contingent in the seating plan for an event
@@ -2639,6 +2655,22 @@ type FilterDefinitionQuery struct {
 	// All items that were updated since this timestamp will be returned. Timestamp
 	// should be passed in YYYY-MM-DD hh:mm:ss format.
 	Lastupdatesince Time `json:"lastupdatesince,omitempty"`
+}
+
+// Element of a filter
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/FilterItem).
+type FilterItem struct {
+	// Filter ID
+	//
+	// Indicates which filter is used in this operator
+	Id int64 `json:"id"`
+
+	// Operator type
+	Operator string `json:"operator"`
 }
 
 // Used when importing an order with optiondbundle tickets
@@ -4510,19 +4542,13 @@ type PhoneNumberTypeQuery struct {
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/Phonenumber).
 type Phonenumber struct {
-	// Address ID
-	//
-	// Note: Only available when used for a contact
-	// (https://www.ticketmatic.com/docs/api/types/Contact) address.
+	// Phone number ID
 	Id int64 `json:"id"`
 
 	// Phone number type ID
 	Typeid int64 `json:"typeid"`
 
 	// Contact this address belongs to
-	//
-	// Note: Only available when used for a contact
-	// (https://www.ticketmatic.com/docs/api/types/Contact) address.
 	Customerid int64 `json:"customerid"`
 
 	// Phone number
@@ -4771,7 +4797,7 @@ type PricelistPrice struct {
 //
 //    {
 //        "type": "promocode",
-//        "value": "TM"
+//        "value": ["TM"]
 //    }
 //
 //

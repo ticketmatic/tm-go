@@ -4,6 +4,7 @@ import (
 	"crypto/hmac"
 	"crypto/sha256"
 	"encoding/hex"
+	"errors"
 	"fmt"
 	"net/url"
 	"sort"
@@ -41,10 +42,41 @@ func (w *Widgets) GenerateUrl(widget string, params map[string]string) string {
 	v := url.Values{}
 	v.Set("accesskey", w.AccessKey)
 
-	if l, ok := params["l"]; ok {
-		v.Set("l", l)
-		delete(params, "l")
+	for k, val := range params {
+		v.Set(k, val)
 	}
+
+	sig := w.calculateSignature(params)
+
+	v.Set("signature", sig)
+
+	url := fmt.Sprintf("%s/widgets/%s/%s?%s", Server, w.AccountCode, widget, v.Encode())
+	return url
+}
+
+func (w *Widgets) VerifyReturnUrl(params map[string]string) error {
+	key, ok := params["accesskey"]
+	if !ok || key != w.AccessKey {
+		return errors.New("Failed to verify return URL: Bad access key")
+	}
+	delete(params, "accesskey")
+
+	sig, ok := params["signature"]
+	if !ok {
+		return errors.New("Failed to verify return URL: Signature missing")
+	}
+	delete(params, "signature")
+
+	expected := w.calculateSignature(params)
+	if expected != sig {
+		return errors.New("Failed to verify return URL: Signature mismatch")
+	}
+
+	return nil
+}
+
+func (w *Widgets) calculateSignature(params map[string]string) string {
+	delete(params, "l")
 
 	paramObjs := make(paramSlice, 0)
 	for k, v := range params {
@@ -56,17 +88,11 @@ func (w *Widgets) GenerateUrl(widget string, params map[string]string) string {
 	hash := ""
 	for _, p := range paramObjs {
 		hash += p.key + p.value
-		v.Set(p.key, p.value)
 	}
 
 	msg := fmt.Sprintf("%s%s%s", w.AccessKey, w.AccountCode, hash)
 
 	mac := hmac.New(sha256.New, []byte(w.SecretKey))
 	mac.Write([]byte(msg))
-	sig := hex.EncodeToString(mac.Sum(nil))
-
-	v.Set("signature", sig)
-
-	url := fmt.Sprintf("%s/widgets/%s/%s?%s", Server, w.AccountCode, widget, v.Encode())
-	return url
+	return hex.EncodeToString(mac.Sum(nil))
 }

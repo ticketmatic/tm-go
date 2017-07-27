@@ -179,3 +179,21 @@ func TestTranslations(t *testing.T) {
 	}
 
 }
+
+func TestBadfilter(t *testing.T) {
+	var err error
+
+	accountcode := os.Getenv("TM_TEST_ACCOUNTCODE")
+	accesskey := os.Getenv("TM_TEST_ACCESSKEY")
+	secretkey := os.Getenv("TM_TEST_SECRETKEY")
+	c := ticketmatic.NewClient(accountcode, accesskey, secretkey)
+
+	_, err = Getlist(c, &ticketmatic.PriceTypeQuery{
+		Filter: "INVALID QUERY",
+	})
+
+	if err == nil {
+		t.Fatal("Expected an error!")
+	}
+
+}
