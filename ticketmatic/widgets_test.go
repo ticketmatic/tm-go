@@ -11,7 +11,7 @@ func TestWidgets(t *testing.T) {
 	u := widgets.GenerateUrl("addtickets", map[string]string{
 		"event":     "123",
 		"skinid":    "25",
-		"returnurl": "https://www.ticketmatic.com",
+		"returnurl": "http://www.ticketmatic.com",
 		"l":         "fr",
 	})
 
@@ -29,7 +29,7 @@ func TestWidgets(t *testing.T) {
 	expected := map[string]string{
 		"event":     "123",
 		"skinid":    "25",
-		"returnurl": "https://www.ticketmatic.com",
+		"returnurl": "http://www.ticketmatic.com",
 		"l":         "fr",
 		"accesskey": "142dda885ec6024f934a40c1",
 		"signature": "ae727e02cea8c27322a24af487af950b4d8d26978e57151bfed7e356dd593c00",
