@@ -42,6 +42,23 @@ func Account(client *ticketmatic.Client) (*ticketmatic.AccountInfo, error) {
 	return obj, nil
 }
 
+// Get authorized accounts
+//
+// Gets an overview of all authorized accounts for this API key.
+//
+// Note: This API method is not specific to an account. You should make a separate
+// API client and use an empty string ("") as the account shortname.
+func Accounts(client *ticketmatic.Client) ([]*ticketmatic.AccountInfo, error) {
+	r := client.NewRequest("GET", "/_/tools/accounts", "json")
+
+	var obj []*ticketmatic.AccountInfo
+	err := r.Run(&obj)
+	if err != nil {
+		return nil, err
+	}
+	return obj, nil
+}
+
 // Execute a query on the public data model
 //
 // Use this method to execute random (read-only) queries on the public data model.
