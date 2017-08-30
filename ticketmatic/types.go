@@ -18,8 +18,26 @@ type AccountInfo struct {
 	// Account Name
 	Name string `json:"name"`
 
+	// Account address
+	Address string `json:"address"`
+
+	// Link to the account image
+	Imageurl string `json:"imageurl"`
+
+	// Latitude
+	Lat float64 `json:"lat"`
+
+	// Link to the account logo
+	Logourl string `json:"logourl"`
+
+	// Longitude
+	Long float64 `json:"long"`
+
 	// Account short name
 	Shortname string `json:"shortname"`
+
+	// Account website
+	Url string `json:"url"`
 }
 
 // An account parameter defines general behavior of your account
