@@ -3993,6 +3993,9 @@ type OrderTicket struct {
 	// The abo ticketid for tickets that belong to an abo
 	Aboparentid int64 `json:"aboparentid"`
 
+	// The barcode of this ticket, will be visible when the order is confirmed
+	Barcode string `json:"barcode"`
+
 	// The id of the product this ticket is linked to
 	Bundleid int64 `json:"bundleid"`
 

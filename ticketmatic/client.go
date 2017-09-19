@@ -24,7 +24,7 @@ var Server = "https://apps.ticketmatic.com"
 var Version = "1"
 
 // Library Version
-const Build = "1dd7e71cdc1514180175728e73bd816ba8768fde"
+const Build = "42ff802cf680f016a711b3e0a16f8d2ab5779d2c"
 
 // Rate limit error
 type RateLimitError struct {
@@ -33,6 +33,16 @@ type RateLimitError struct {
 
 func (r *RateLimitError) Error() string {
 	return "Rate Limit Exceeded"
+}
+
+// Request error
+type RequestError struct {
+	StatusCode int
+	Body       []byte
+}
+
+func (r *RequestError) Error() string {
+	return fmt.Sprintf("Failed (%d): %s", r.StatusCode, string(r.Body))
 }
 
 func init() {
@@ -198,7 +208,10 @@ func (r *Request) prepareRequest() (*http.Response, error) {
 	} else if resp.StatusCode != 200 {
 		body, _ := ioutil.ReadAll(resp.Body)
 		resp.Body.Close()
-		return nil, fmt.Errorf("Failed (%d): %s", resp.StatusCode, string(body))
+		return nil, &RequestError{
+			StatusCode: resp.StatusCode,
+			Body:       body,
+		}
 	}
 
 	return resp, nil
