@@ -37,8 +37,11 @@ func (r *RateLimitError) Error() string {
 
 // Request error
 type RequestError struct {
-	StatusCode int
-	Body       []byte
+	StatusCode      int         `json:"code,omitempty"`
+	Body            []byte      `json:"-"`
+	Message         string      `json:"message,omitempty"`
+	ApplicationCode int         `json:"applicationcode,omitempty"`
+	ApplicationData interface{} `json:"applicationdata,omitempty"`
 }
 
 func (r *RequestError) Error() string {
@@ -195,7 +198,10 @@ func (r *Request) prepareRequest() (*http.Response, error) {
 		return nil, err
 	}
 
-	if resp.StatusCode == 429 {
+	switch resp.StatusCode {
+	case 200:
+		return resp, nil
+	case 429:
 		status := &QueueStatus{}
 		err = json.NewDecoder(resp.Body).Decode(status)
 		defer resp.Body.Close()
@@ -205,16 +211,22 @@ func (r *Request) prepareRequest() (*http.Response, error) {
 		return nil, &RateLimitError{
 			Status: status,
 		}
-	} else if resp.StatusCode != 200 {
+	default:
 		body, _ := ioutil.ReadAll(resp.Body)
 		resp.Body.Close()
+
+		// Try to unmarshal the error, pass it back
+		resp := &RequestError{}
+		err := json.Unmarshal(body, resp)
+		if err == nil && resp.StatusCode > 0 && resp.Message != "" {
+			return nil, resp
+		}
+
 		return nil, &RequestError{
 			StatusCode: resp.StatusCode,
 			Body:       body,
 		}
 	}
-
-	return resp, nil
 }
 
 func (r *Request) authHeader() string {
