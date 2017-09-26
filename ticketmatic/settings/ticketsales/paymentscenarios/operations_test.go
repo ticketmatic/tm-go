@@ -54,3 +54,22 @@ func TestCreate(t *testing.T) {
 	}
 
 }
+
+func TestGet(t *testing.T) {
+	var err error
+
+	accountcode := os.Getenv("TM_TEST_ACCOUNTCODE")
+	accesskey := os.Getenv("TM_TEST_ACCESSKEY")
+	secretkey := os.Getenv("TM_TEST_SECRETKEY")
+	c := ticketmatic.NewClient(accountcode, accesskey, secretkey)
+
+	req, err := Get(c, 14)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if req.Name != "My Ticketmatic" {
+		t.Errorf("Unexpected req.Name, got %#v, expected %#v", req.Name, "My Ticketmatic")
+	}
+
+}
