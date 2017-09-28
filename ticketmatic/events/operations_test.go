@@ -67,6 +67,29 @@ func TestGet(t *testing.T) {
 
 }
 
+func TestGetconditions(t *testing.T) {
+	var err error
+
+	accountcode := os.Getenv("TM_TEST_ACCOUNTCODE")
+	accesskey := os.Getenv("TM_TEST_ACCESSKEY")
+	secretkey := os.Getenv("TM_TEST_SECRETKEY")
+	c := ticketmatic.NewClient(accountcode, accesskey, secretkey)
+
+	req, err := Get(c, "777717")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if req.Id != 777717 {
+		t.Errorf("Unexpected req.Id, got %#v, expected %#v", req.Id, 777717)
+	}
+
+	if req.Prices.Contingents[0].Pricetypes[0].Saleschannels[0].Conditions[0].Type != "orderticketlimit" {
+		t.Errorf("Unexpected req.Prices.Contingents[0].Pricetypes[0].Saleschannels[0].Conditions[0].Type, got %#v, expected %#v", req.Prices.Contingents[0].Pricetypes[0].Saleschannels[0].Conditions[0].Type, "orderticketlimit")
+	}
+
+}
+
 func TestGetdraft(t *testing.T) {
 	var err error
 

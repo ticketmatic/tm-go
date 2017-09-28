@@ -2016,6 +2016,10 @@ type EventPricesPricetype struct {
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/EventPricesSaleschannel).
 type EventPricesSaleschannel struct {
+	// Extra conditions for this price. This can be a promocode, a ticketlimit per
+	// order, ... .
+	Conditions []*PricelistPriceCondition `json:"conditions"`
+
 	// The costs associated with this price
 	Costs []*EventPricesCost `json:"costs"`
 
