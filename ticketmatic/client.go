@@ -216,10 +216,10 @@ func (r *Request) prepareRequest() (*http.Response, error) {
 		resp.Body.Close()
 
 		// Try to unmarshal the error, pass it back
-		resp := &RequestError{}
-		err := json.Unmarshal(body, resp)
-		if err == nil && resp.StatusCode > 0 && resp.Message != "" {
-			return nil, resp
+		r := &RequestError{}
+		err := json.Unmarshal(body, r)
+		if err == nil && r.StatusCode > 0 && r.Message != "" {
+			return nil, r
 		}
 
 		return nil, &RequestError{
