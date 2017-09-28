@@ -75,7 +75,7 @@ func TestGetconditions(t *testing.T) {
 	secretkey := os.Getenv("TM_TEST_SECRETKEY")
 	c := ticketmatic.NewClient(accountcode, accesskey, secretkey)
 
-	req, err := Get(c, "777717")
+	req, err := Get(c, 777717)
 	if err != nil {
 		t.Fatal(err)
 	}
