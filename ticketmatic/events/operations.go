@@ -263,3 +263,29 @@ func Purge(client *ticketmatic.Client, id int64) error {
 
 	return r.Run(nil)
 }
+
+// Save an image
+func Saveimage(client *ticketmatic.Client, id int64, data string) (string, error) {
+	r := client.NewRequest("POST", "/{accountname}/events/{id}/image", "json")
+	r.UrlParameters(map[string]interface{}{
+		"id": id,
+	})
+	r.Body(data, "json")
+
+	var obj string
+	err := r.Run(&obj)
+	if err != nil {
+		return "", err
+	}
+	return obj, nil
+}
+
+// Delete the event image
+func Deleteimage(client *ticketmatic.Client, id int64) error {
+	r := client.NewRequest("DELETE", "/{accountname}/events/{id}/image", "json")
+	r.UrlParameters(map[string]interface{}{
+		"id": id,
+	})
+
+	return r.Run(nil)
+}

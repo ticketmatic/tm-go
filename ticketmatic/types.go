@@ -1451,6 +1451,13 @@ type Event struct {
 	// This field is typically set when importing data from other systems.
 	Externalcode string `json:"externalcode,omitempty"`
 
+	// The image url for the event display image
+	//
+	// Note: Ignored when creating a new event.
+	//
+	// Note: Ignored when updating an existing event.
+	Image string `json:"image"`
+
 	// Event location ID
 	//
 	// See event locations
@@ -1636,6 +1643,7 @@ func (o *Event) MarshalJSON() ([]byte, error) {
 		Currentstatus                  int64                          `json:"currentstatus,omitempty"`
 		Endts                          Time                           `json:"endts,omitempty"`
 		Externalcode                   string                         `json:"externalcode,omitempty"`
+		Image                          string                         `json:"image,omitempty"`
 		Locationid                     int64                          `json:"locationid,omitempty"`
 		Locationname                   string                         `json:"locationname,omitempty"`
 		Maxnbrofticketsperbasket       int64                          `json:"maxnbrofticketsperbasket,omitempty"`
@@ -1672,6 +1680,7 @@ func (o *Event) MarshalJSON() ([]byte, error) {
 		Currentstatus:            o.Currentstatus,
 		Endts:                    o.Endts,
 		Externalcode:             o.Externalcode,
+		Image:                    o.Image,
 		Locationid:               o.Locationid,
 		Locationname:             o.Locationname,
 		Maxnbrofticketsperbasket: o.Maxnbrofticketsperbasket,
@@ -4100,11 +4109,11 @@ type OrderfeeAutoRule struct {
 
 	// Can be fixedfee or percentagefee. Defauls to fixedfee. This is only needed if
 	// the order fee type is set to automatic.
-	Status string `json:"status"`
+	Status string `json:"status,omitempty"`
 
 	// The value (amount) that will be added to the order. Is required if the order fee
 	// type is set to automatic.
-	Value float64 `json:"value"`
+	Value float64 `json:"value,omitempty"`
 }
 
 // More info about order fees can be found here
@@ -4125,7 +4134,7 @@ type OrderfeeRule struct {
 
 	// This is required if the order fee type is set to script. The javascript needs to
 	// return a value.
-	Script string `json:"script"`
+	Script string `json:"script,omitempty"`
 }
 
 // More info about order fees can be found here
@@ -4138,7 +4147,7 @@ type OrderfeeRule struct {
 type OrderfeeScriptContext struct {
 	// If set to true the query will be cached for 60 seconds. If not set the query
 	// will be executed again every time a script is executed.
-	Cacheable bool `json:"cacheable"`
+	Cacheable bool `json:"cacheable,omitempty"`
 
 	// The name of the variable that will be added to the script environment.
 	Key string `json:"key"`
