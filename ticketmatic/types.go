@@ -22,13 +22,13 @@ type AccountInfo struct {
 	Address string `json:"address"`
 
 	// Link to the account image
-	Imageurl string `json:"imageurl"`
+	Image string `json:"image"`
 
 	// Latitude
 	Lat float64 `json:"lat"`
 
 	// Link to the account logo
-	Logourl string `json:"logourl"`
+	Logo string `json:"logo"`
 
 	// Longitude
 	Long float64 `json:"long"`
