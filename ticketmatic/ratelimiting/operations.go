@@ -9,10 +9,10 @@ import (
 // Request a new rate limiting status update. See rate limiting
 // (https://www.ticketmatic.com/docs/api/ratelimiting) for more details on rate
 // limiting.
-func Status(client *ticketmatic.Client, id int64) (*ticketmatic.QueueStatus, error) {
-	r := client.NewRequest("POST", "/{accountname}/ratelimiting/status/{id}", "json")
+func Status(client *ticketmatic.Client, queuetoken string) (*ticketmatic.QueueStatus, error) {
+	r := client.NewRequest("POST", "/{accountname}/ratelimiting/status/{queuetoken}", "json")
 	r.UrlParameters(map[string]interface{}{
-		"id": id,
+		"queuetoken": queuetoken,
 	})
 
 	var obj *ticketmatic.QueueStatus

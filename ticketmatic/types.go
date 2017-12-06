@@ -326,6 +326,13 @@ type Contact struct {
 	// Phone numbers
 	Phonenumbers []*Phonenumber `json:"phonenumbers"`
 
+	// The PSP info for this contact
+	//
+	// Note: Ignored when creating a new contact.
+	//
+	// Note: Ignored when updating an existing contact.
+	Pspinfo map[string]interface{} `json:"pspinfo,omitempty"`
+
 	// Relation type IDs
 	Relationtypes []int64 `json:"relationtypes"`
 
@@ -419,27 +426,28 @@ func (o *Contact) UnmarshalJSON(data []byte) error {
 func (o *Contact) MarshalJSON() ([]byte, error) {
 	// Use a custom type to avoid the custom marshaller, marshal the data.
 	type tmp struct {
-		Id                   int64          `json:"id,omitempty"`
-		AccountType          int64          `json:"account_type,omitempty"`
-		Addresses            []*Address     `json:"addresses,omitempty"`
-		Birthdate            Time           `json:"birthdate,omitempty"`
-		Company              string         `json:"company,omitempty"`
-		Customertitleid      int64          `json:"customertitleid,omitempty"`
-		Email                string         `json:"email,omitempty"`
-		Firstname            string         `json:"firstname,omitempty"`
-		Languagecode         string         `json:"languagecode,omitempty"`
-		Lastname             string         `json:"lastname,omitempty"`
-		Middlename           string         `json:"middlename,omitempty"`
-		Organizationfunction string         `json:"organizationfunction,omitempty"`
-		Phonenumbers         []*Phonenumber `json:"phonenumbers,omitempty"`
-		Relationtypes        []int64        `json:"relationtypes,omitempty"`
-		Sex                  string         `json:"sex,omitempty"`
-		Status               string         `json:"status,omitempty"`
-		Subscribed           bool           `json:"subscribed,omitempty"`
-		Vatnumber            string         `json:"vatnumber,omitempty"`
-		Isdeleted            bool           `json:"isdeleted,omitempty"`
-		Createdts            Time           `json:"createdts,omitempty"`
-		Lastupdatets         Time           `json:"lastupdatets,omitempty"`
+		Id                   int64                  `json:"id,omitempty"`
+		AccountType          int64                  `json:"account_type,omitempty"`
+		Addresses            []*Address             `json:"addresses,omitempty"`
+		Birthdate            Time                   `json:"birthdate,omitempty"`
+		Company              string                 `json:"company,omitempty"`
+		Customertitleid      int64                  `json:"customertitleid,omitempty"`
+		Email                string                 `json:"email,omitempty"`
+		Firstname            string                 `json:"firstname,omitempty"`
+		Languagecode         string                 `json:"languagecode,omitempty"`
+		Lastname             string                 `json:"lastname,omitempty"`
+		Middlename           string                 `json:"middlename,omitempty"`
+		Organizationfunction string                 `json:"organizationfunction,omitempty"`
+		Phonenumbers         []*Phonenumber         `json:"phonenumbers,omitempty"`
+		Pspinfo              map[string]interface{} `json:"pspinfo,omitempty"`
+		Relationtypes        []int64                `json:"relationtypes,omitempty"`
+		Sex                  string                 `json:"sex,omitempty"`
+		Status               string                 `json:"status,omitempty"`
+		Subscribed           bool                   `json:"subscribed,omitempty"`
+		Vatnumber            string                 `json:"vatnumber,omitempty"`
+		Isdeleted            bool                   `json:"isdeleted,omitempty"`
+		Createdts            Time                   `json:"createdts,omitempty"`
+		Lastupdatets         Time                   `json:"lastupdatets,omitempty"`
 	}
 
 	obj := tmp{
@@ -456,6 +464,7 @@ func (o *Contact) MarshalJSON() ([]byte, error) {
 		Middlename:           o.Middlename,
 		Organizationfunction: o.Organizationfunction,
 		Phonenumbers:         o.Phonenumbers,
+		Pspinfo:              o.Pspinfo,
 		Relationtypes:        o.Relationtypes,
 		Sex:                  o.Sex,
 		Status:               o.Status,
@@ -4287,6 +4296,10 @@ type PaymentRequest struct {
 
 	// The returnurl that will be called after the payment request was done.
 	Returnurl string `json:"returnurl"`
+
+	// Create (or use an existing) customer with the PSP. The order needs a linked
+	// contact.
+	Withcustomer bool `json:"withcustomer"`
 }
 
 // A single payment scenario.
@@ -5125,6 +5138,12 @@ type ProductInstancePricetypeValue struct {
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/ProductInstanceValue).
 type ProductInstanceValue struct {
+	// Maximum price for a variable payment voucher
+	MaxPrice float64 `json:"max_price"`
+
+	// Minimum price for a variable payment voucher
+	MinPrice float64 `json:"min_price"`
+
 	// Price
 	Price float64 `json:"price"`
 
