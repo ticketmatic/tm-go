@@ -411,6 +411,18 @@ func Postpaymentrequest(client *ticketmatic.Client, id int64, data *ticketmatic.
 	return obj, nil
 }
 
+// Cancel the outstanding payment request for the order
+//
+// A payment request can only be cancelled when its status is open.
+func Cancelpaymentrequest(client *ticketmatic.Client, id int64) error {
+	r := client.NewRequest("DELETE", "/{accountname}/orders/{id}/paymentrequest", "json")
+	r.UrlParameters(map[string]interface{}{
+		"id": id,
+	})
+
+	return r.Run(nil)
+}
+
 // Get the PDF for a document for the order
 func Getdocument(client *ticketmatic.Client, id int64, documentid string, language string) (*ticketmatic.Url, error) {
 	r := client.NewRequest("GET", "/{accountname}/orders/{id}/documents/{documentid}/{language}", "json")
