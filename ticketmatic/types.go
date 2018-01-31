@@ -4278,6 +4278,89 @@ type PaymentMethod struct {
 	//
 	// Note: Ignored when updating an existing payment method.
 	Lastupdatets Time `json:"lastupdatets"`
+
+	// Custom fields
+	CustomFields map[string]interface{} `json:"-"`
+}
+
+// Custom unmarshaller with support for custom fields
+func (o *PaymentMethod) UnmarshalJSON(data []byte) error {
+	// Alias the type, to avoid calling UnmarshalJSON. Unpack it.
+	type tmp PaymentMethod
+	var obj tmp
+	err := json.Unmarshal(data, &obj)
+	if err != nil {
+		return err
+	}
+
+	*o = PaymentMethod(obj)
+
+	// Unpack it again, this time to a map, so we can pull out the custom fields.
+	var raw map[string]interface{}
+	err = json.Unmarshal(data, &raw)
+	if err != nil {
+		return err
+	}
+
+	o.CustomFields = make(map[string]interface{})
+	for key, val := range raw {
+		if strings.HasPrefix(key, "c_") {
+			o.CustomFields[key[2:]] = val
+		}
+	}
+
+	// Note: We're doing a double JSON decode here, I'd love to get rid of it
+	// but I'm not sure how we can do this easily. Suggestions welcome:
+	// developers@ticketmatic.com!
+
+	return nil
+}
+
+// Custom marshaller with support for custom fields
+func (o *PaymentMethod) MarshalJSON() ([]byte, error) {
+	// Use a custom type to avoid the custom marshaller, marshal the data.
+	type tmp struct {
+		Id                  int64                  `json:"id,omitempty"`
+		Name                string                 `json:"name,omitempty"`
+		Config              map[string]interface{} `json:"config,omitempty"`
+		Internalremark      string                 `json:"internalremark,omitempty"`
+		Paymentmethodtypeid int64                  `json:"paymentmethodtypeid,omitempty"`
+		Isarchived          bool                   `json:"isarchived,omitempty"`
+		Createdts           Time                   `json:"createdts,omitempty"`
+		Lastupdatets        Time                   `json:"lastupdatets,omitempty"`
+	}
+
+	obj := tmp{
+		Id:                  o.Id,
+		Name:                o.Name,
+		Config:              o.Config,
+		Internalremark:      o.Internalremark,
+		Paymentmethodtypeid: o.Paymentmethodtypeid,
+		Isarchived:          o.Isarchived,
+		Createdts:           o.Createdts,
+		Lastupdatets:        o.Lastupdatets,
+	}
+	data, err := json.Marshal(obj)
+	if err != nil {
+		return nil, err
+	}
+
+	// Unpack it again, to get the wire representation
+	var raw map[string]interface{}
+	err = json.Unmarshal(data, &raw)
+	if err != nil {
+		return nil, err
+	}
+
+	for key, val := range o.CustomFields {
+		raw["c_"+key] = val
+	}
+
+	// Pack it again
+	return json.Marshal(raw)
+
+	// Note: Like UnmarshalJSON, this is quite crazy. But it works beautifully.
+	// Know a way to do this better? Get in touch!
 }
 
 // Set of parameters used to filter payment methods.
@@ -4755,6 +4838,87 @@ type PriceType struct {
 	//
 	// Note: Ignored when updating an existing price type.
 	Lastupdatets Time `json:"lastupdatets"`
+
+	// Custom fields
+	CustomFields map[string]interface{} `json:"-"`
+}
+
+// Custom unmarshaller with support for custom fields
+func (o *PriceType) UnmarshalJSON(data []byte) error {
+	// Alias the type, to avoid calling UnmarshalJSON. Unpack it.
+	type tmp PriceType
+	var obj tmp
+	err := json.Unmarshal(data, &obj)
+	if err != nil {
+		return err
+	}
+
+	*o = PriceType(obj)
+
+	// Unpack it again, this time to a map, so we can pull out the custom fields.
+	var raw map[string]interface{}
+	err = json.Unmarshal(data, &raw)
+	if err != nil {
+		return err
+	}
+
+	o.CustomFields = make(map[string]interface{})
+	for key, val := range raw {
+		if strings.HasPrefix(key, "c_") {
+			o.CustomFields[key[2:]] = val
+		}
+	}
+
+	// Note: We're doing a double JSON decode here, I'd love to get rid of it
+	// but I'm not sure how we can do this easily. Suggestions welcome:
+	// developers@ticketmatic.com!
+
+	return nil
+}
+
+// Custom marshaller with support for custom fields
+func (o *PriceType) MarshalJSON() ([]byte, error) {
+	// Use a custom type to avoid the custom marshaller, marshal the data.
+	type tmp struct {
+		Id           int64  `json:"id,omitempty"`
+		Typeid       int64  `json:"typeid,omitempty"`
+		Name         string `json:"name,omitempty"`
+		Remark       string `json:"remark,omitempty"`
+		Isarchived   bool   `json:"isarchived,omitempty"`
+		Createdts    Time   `json:"createdts,omitempty"`
+		Lastupdatets Time   `json:"lastupdatets,omitempty"`
+	}
+
+	obj := tmp{
+		Id:           o.Id,
+		Typeid:       o.Typeid,
+		Name:         o.Name,
+		Remark:       o.Remark,
+		Isarchived:   o.Isarchived,
+		Createdts:    o.Createdts,
+		Lastupdatets: o.Lastupdatets,
+	}
+	data, err := json.Marshal(obj)
+	if err != nil {
+		return nil, err
+	}
+
+	// Unpack it again, to get the wire representation
+	var raw map[string]interface{}
+	err = json.Unmarshal(data, &raw)
+	if err != nil {
+		return nil, err
+	}
+
+	for key, val := range o.CustomFields {
+		raw["c_"+key] = val
+	}
+
+	// Pack it again
+	return json.Marshal(raw)
+
+	// Note: Like UnmarshalJSON, this is quite crazy. But it works beautifully.
+	// Know a way to do this better? Get in touch!
 }
 
 // Set of parameters used to filter price types.
@@ -5044,6 +5208,111 @@ type Product struct {
 	//
 	// Note: Ignored when updating an existing product.
 	Lastupdatets Time `json:"lastupdatets"`
+
+	// Custom fields
+	CustomFields map[string]interface{} `json:"-"`
+}
+
+// Custom unmarshaller with support for custom fields
+func (o *Product) UnmarshalJSON(data []byte) error {
+	// Alias the type, to avoid calling UnmarshalJSON. Unpack it.
+	type tmp Product
+	var obj tmp
+	err := json.Unmarshal(data, &obj)
+	if err != nil {
+		return err
+	}
+
+	*o = Product(obj)
+
+	// Unpack it again, this time to a map, so we can pull out the custom fields.
+	var raw map[string]interface{}
+	err = json.Unmarshal(data, &raw)
+	if err != nil {
+		return err
+	}
+
+	o.CustomFields = make(map[string]interface{})
+	for key, val := range raw {
+		if strings.HasPrefix(key, "c_") {
+			o.CustomFields[key[2:]] = val
+		}
+	}
+
+	// Note: We're doing a double JSON decode here, I'd love to get rid of it
+	// but I'm not sure how we can do this easily. Suggestions welcome:
+	// developers@ticketmatic.com!
+
+	return nil
+}
+
+// Custom marshaller with support for custom fields
+func (o *Product) MarshalJSON() ([]byte, error) {
+	// Use a custom type to avoid the custom marshaller, marshal the data.
+	type tmp struct {
+		Id                   int64                  `json:"id,omitempty"`
+		Typeid               int64                  `json:"typeid,omitempty"`
+		Categoryid           int64                  `json:"categoryid,omitempty"`
+		Layoutid             int64                  `json:"layoutid,omitempty"`
+		Name                 string                 `json:"name,omitempty"`
+		Code                 string                 `json:"code,omitempty"`
+		Description          string                 `json:"description,omitempty"`
+		Instancevalues       *ProductInstancevalues `json:"instancevalues,omitempty"`
+		Maxadditionaltickets int64                  `json:"maxadditionaltickets,omitempty"`
+		Printtickets         bool                   `json:"printtickets,omitempty"`
+		Properties           []*ProductProperty     `json:"properties,omitempty"`
+		Queuetoken           int64                  `json:"queuetoken,omitempty"`
+		Saleendts            Time                   `json:"saleendts,omitempty"`
+		Saleschannels        []int64                `json:"saleschannels,omitempty"`
+		Salestartts          Time                   `json:"salestartts,omitempty"`
+		Translations         map[string]string      `json:"translations,omitempty"`
+		Isarchived           bool                   `json:"isarchived,omitempty"`
+		Createdts            Time                   `json:"createdts,omitempty"`
+		Lastupdatets         Time                   `json:"lastupdatets,omitempty"`
+	}
+
+	obj := tmp{
+		Id:                   o.Id,
+		Typeid:               o.Typeid,
+		Categoryid:           o.Categoryid,
+		Layoutid:             o.Layoutid,
+		Name:                 o.Name,
+		Code:                 o.Code,
+		Description:          o.Description,
+		Instancevalues:       o.Instancevalues,
+		Maxadditionaltickets: o.Maxadditionaltickets,
+		Printtickets:         o.Printtickets,
+		Properties:           o.Properties,
+		Queuetoken:           o.Queuetoken,
+		Saleendts:            o.Saleendts,
+		Saleschannels:        o.Saleschannels,
+		Salestartts:          o.Salestartts,
+		Translations:         o.Translations,
+		Isarchived:           o.Isarchived,
+		Createdts:            o.Createdts,
+		Lastupdatets:         o.Lastupdatets,
+	}
+	data, err := json.Marshal(obj)
+	if err != nil {
+		return nil, err
+	}
+
+	// Unpack it again, to get the wire representation
+	var raw map[string]interface{}
+	err = json.Unmarshal(data, &raw)
+	if err != nil {
+		return nil, err
+	}
+
+	for key, val := range o.CustomFields {
+		raw["c_"+key] = val
+	}
+
+	// Pack it again
+	return json.Marshal(raw)
+
+	// Note: Like UnmarshalJSON, this is quite crazy. But it works beautifully.
+	// Know a way to do this better? Get in touch!
 }
 
 // A single product category.
@@ -5867,7 +6136,7 @@ type SubscriberCommunication struct {
 // (https://www.ticketmatic.com/docs/api/types/SubscriberSync).
 type SubscriberSync struct {
 	// Subscriber e-mail
-	Email string `json:"email,omitempty"`
+	Email string `json:"email"`
 
 	// Subscriber first name
 	Firstname string `json:"firstname,omitempty"`
@@ -5882,7 +6151,7 @@ type SubscriberSync struct {
 	Oldemail string `json:"oldemail,omitempty"`
 
 	// Whether or not the subscriber is still subscribed
-	Subscribed bool `json:"subscribed,omitempty"`
+	Subscribed bool `json:"subscribed"`
 }
 
 // A single ticket fee.
