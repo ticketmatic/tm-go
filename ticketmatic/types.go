@@ -934,8 +934,6 @@ type CustomField struct {
 
 	// Rules that define in what conditions this custom field is available when edit
 	// type is checkout
-	//
-	// Note: Not set when retrieving a list of custom fields.
 	Availability *CustomfieldAvailability `json:"availability,omitempty"`
 
 	// Human-readable name for the custom field
@@ -1220,6 +1218,97 @@ type DeliveryScenario struct {
 	//
 	// Note: Ignored when updating an existing delivery scenario.
 	Lastupdatets Time `json:"lastupdatets"`
+
+	// Custom fields
+	CustomFields map[string]interface{} `json:"-"`
+}
+
+// Custom unmarshaller with support for custom fields
+func (o *DeliveryScenario) UnmarshalJSON(data []byte) error {
+	// Alias the type, to avoid calling UnmarshalJSON. Unpack it.
+	type tmp DeliveryScenario
+	var obj tmp
+	err := json.Unmarshal(data, &obj)
+	if err != nil {
+		return err
+	}
+
+	*o = DeliveryScenario(obj)
+
+	// Unpack it again, this time to a map, so we can pull out the custom fields.
+	var raw map[string]interface{}
+	err = json.Unmarshal(data, &raw)
+	if err != nil {
+		return err
+	}
+
+	o.CustomFields = make(map[string]interface{})
+	for key, val := range raw {
+		if strings.HasPrefix(key, "c_") {
+			o.CustomFields[key[2:]] = val
+		}
+	}
+
+	// Note: We're doing a double JSON decode here, I'd love to get rid of it
+	// but I'm not sure how we can do this easily. Suggestions welcome:
+	// developers@ticketmatic.com!
+
+	return nil
+}
+
+// Custom marshaller with support for custom fields
+func (o *DeliveryScenario) MarshalJSON() ([]byte, error) {
+	// Use a custom type to avoid the custom marshaller, marshal the data.
+	type tmp struct {
+		Id                          int64                         `json:"id,omitempty"`
+		Typeid                      int64                         `json:"typeid,omitempty"`
+		Name                        string                        `json:"name,omitempty"`
+		Allowetickets               int64                         `json:"allowetickets,omitempty"`
+		Availability                *DeliveryscenarioAvailability `json:"availability,omitempty"`
+		Internalremark              string                        `json:"internalremark,omitempty"`
+		Needsaddress                bool                          `json:"needsaddress,omitempty"`
+		OrdermailtemplateidDelivery int64                         `json:"ordermailtemplateid_delivery,omitempty"`
+		Shortdescription            string                        `json:"shortdescription,omitempty"`
+		Isarchived                  bool                          `json:"isarchived,omitempty"`
+		Createdts                   Time                          `json:"createdts,omitempty"`
+		Lastupdatets                Time                          `json:"lastupdatets,omitempty"`
+	}
+
+	obj := tmp{
+		Id:                          o.Id,
+		Typeid:                      o.Typeid,
+		Name:                        o.Name,
+		Allowetickets:               o.Allowetickets,
+		Availability:                o.Availability,
+		Internalremark:              o.Internalremark,
+		Needsaddress:                o.Needsaddress,
+		OrdermailtemplateidDelivery: o.OrdermailtemplateidDelivery,
+		Shortdescription:            o.Shortdescription,
+		Isarchived:                  o.Isarchived,
+		Createdts:                   o.Createdts,
+		Lastupdatets:                o.Lastupdatets,
+	}
+	data, err := json.Marshal(obj)
+	if err != nil {
+		return nil, err
+	}
+
+	// Unpack it again, to get the wire representation
+	var raw map[string]interface{}
+	err = json.Unmarshal(data, &raw)
+	if err != nil {
+		return nil, err
+	}
+
+	for key, val := range o.CustomFields {
+		raw["c_"+key] = val
+	}
+
+	// Pack it again
+	return json.Marshal(raw)
+
+	// Note: Like UnmarshalJSON, this is quite crazy. But it works beautifully.
+	// Know a way to do this better? Get in touch!
 }
 
 // Set of parameters used to filter delivery scenarios.
@@ -1942,6 +2031,95 @@ type EventLocation struct {
 	//
 	// Note: Ignored when updating an existing event location.
 	Lastupdatets Time `json:"lastupdatets"`
+
+	// Custom fields
+	CustomFields map[string]interface{} `json:"-"`
+}
+
+// Custom unmarshaller with support for custom fields
+func (o *EventLocation) UnmarshalJSON(data []byte) error {
+	// Alias the type, to avoid calling UnmarshalJSON. Unpack it.
+	type tmp EventLocation
+	var obj tmp
+	err := json.Unmarshal(data, &obj)
+	if err != nil {
+		return err
+	}
+
+	*o = EventLocation(obj)
+
+	// Unpack it again, this time to a map, so we can pull out the custom fields.
+	var raw map[string]interface{}
+	err = json.Unmarshal(data, &raw)
+	if err != nil {
+		return err
+	}
+
+	o.CustomFields = make(map[string]interface{})
+	for key, val := range raw {
+		if strings.HasPrefix(key, "c_") {
+			o.CustomFields[key[2:]] = val
+		}
+	}
+
+	// Note: We're doing a double JSON decode here, I'd love to get rid of it
+	// but I'm not sure how we can do this easily. Suggestions welcome:
+	// developers@ticketmatic.com!
+
+	return nil
+}
+
+// Custom marshaller with support for custom fields
+func (o *EventLocation) MarshalJSON() ([]byte, error) {
+	// Use a custom type to avoid the custom marshaller, marshal the data.
+	type tmp struct {
+		Id           int64  `json:"id,omitempty"`
+		Name         string `json:"name,omitempty"`
+		City         string `json:"city,omitempty"`
+		Countrycode  string `json:"countrycode,omitempty"`
+		State        string `json:"state,omitempty"`
+		Street1      string `json:"street1,omitempty"`
+		Street2      string `json:"street2,omitempty"`
+		Zip          string `json:"zip,omitempty"`
+		Isarchived   bool   `json:"isarchived,omitempty"`
+		Createdts    Time   `json:"createdts,omitempty"`
+		Lastupdatets Time   `json:"lastupdatets,omitempty"`
+	}
+
+	obj := tmp{
+		Id:           o.Id,
+		Name:         o.Name,
+		City:         o.City,
+		Countrycode:  o.Countrycode,
+		State:        o.State,
+		Street1:      o.Street1,
+		Street2:      o.Street2,
+		Zip:          o.Zip,
+		Isarchived:   o.Isarchived,
+		Createdts:    o.Createdts,
+		Lastupdatets: o.Lastupdatets,
+	}
+	data, err := json.Marshal(obj)
+	if err != nil {
+		return nil, err
+	}
+
+	// Unpack it again, to get the wire representation
+	var raw map[string]interface{}
+	err = json.Unmarshal(data, &raw)
+	if err != nil {
+		return nil, err
+	}
+
+	for key, val := range o.CustomFields {
+		raw["c_"+key] = val
+	}
+
+	// Pack it again
+	return json.Marshal(raw)
+
+	// Note: Like UnmarshalJSON, this is quite crazy. But it works beautifully.
+	// Know a way to do this better? Get in touch!
 }
 
 // Set of parameters used to filter event locations.
@@ -4508,6 +4686,109 @@ type PaymentScenario struct {
 	//
 	// Note: Ignored when updating an existing payment scenario.
 	Lastupdatets Time `json:"lastupdatets"`
+
+	// Custom fields
+	CustomFields map[string]interface{} `json:"-"`
+}
+
+// Custom unmarshaller with support for custom fields
+func (o *PaymentScenario) UnmarshalJSON(data []byte) error {
+	// Alias the type, to avoid calling UnmarshalJSON. Unpack it.
+	type tmp PaymentScenario
+	var obj tmp
+	err := json.Unmarshal(data, &obj)
+	if err != nil {
+		return err
+	}
+
+	*o = PaymentScenario(obj)
+
+	// Unpack it again, this time to a map, so we can pull out the custom fields.
+	var raw map[string]interface{}
+	err = json.Unmarshal(data, &raw)
+	if err != nil {
+		return err
+	}
+
+	o.CustomFields = make(map[string]interface{})
+	for key, val := range raw {
+		if strings.HasPrefix(key, "c_") {
+			o.CustomFields[key[2:]] = val
+		}
+	}
+
+	// Note: We're doing a double JSON decode here, I'd love to get rid of it
+	// but I'm not sure how we can do this easily. Suggestions welcome:
+	// developers@ticketmatic.com!
+
+	return nil
+}
+
+// Custom marshaller with support for custom fields
+func (o *PaymentScenario) MarshalJSON() ([]byte, error) {
+	// Use a custom type to avoid the custom marshaller, marshal the data.
+	type tmp struct {
+		Id                                    int64                             `json:"id,omitempty"`
+		Typeid                                int64                             `json:"typeid,omitempty"`
+		Name                                  string                            `json:"name,omitempty"`
+		Availability                          *PaymentscenarioAvailability      `json:"availability,omitempty"`
+		Bankaccountbeneficiary                string                            `json:"bankaccountbeneficiary,omitempty"`
+		Bankaccountbic                        string                            `json:"bankaccountbic,omitempty"`
+		Bankaccountnumber                     string                            `json:"bankaccountnumber,omitempty"`
+		Expiryparameters                      *PaymentscenarioExpiryParameters  `json:"expiryparameters,omitempty"`
+		Internalremark                        string                            `json:"internalremark,omitempty"`
+		OrdermailtemplateidExpiry             int64                             `json:"ordermailtemplateid_expiry,omitempty"`
+		OrdermailtemplateidOverdue            int64                             `json:"ordermailtemplateid_overdue,omitempty"`
+		OrdermailtemplateidPaymentinstruction int64                             `json:"ordermailtemplateid_paymentinstruction,omitempty"`
+		Overdueparameters                     *PaymentscenarioOverdueParameters `json:"overdueparameters,omitempty"`
+		Paymentmethods                        []int64                           `json:"paymentmethods,omitempty"`
+		Shortdescription                      string                            `json:"shortdescription,omitempty"`
+		Isarchived                            bool                              `json:"isarchived,omitempty"`
+		Createdts                             Time                              `json:"createdts,omitempty"`
+		Lastupdatets                          Time                              `json:"lastupdatets,omitempty"`
+	}
+
+	obj := tmp{
+		Id:                                    o.Id,
+		Typeid:                                o.Typeid,
+		Name:                                  o.Name,
+		Availability:                          o.Availability,
+		Bankaccountbeneficiary:                o.Bankaccountbeneficiary,
+		Bankaccountbic:                        o.Bankaccountbic,
+		Bankaccountnumber:                     o.Bankaccountnumber,
+		Expiryparameters:                      o.Expiryparameters,
+		Internalremark:                        o.Internalremark,
+		OrdermailtemplateidExpiry:             o.OrdermailtemplateidExpiry,
+		OrdermailtemplateidOverdue:            o.OrdermailtemplateidOverdue,
+		OrdermailtemplateidPaymentinstruction: o.OrdermailtemplateidPaymentinstruction,
+		Overdueparameters:                     o.Overdueparameters,
+		Paymentmethods:                        o.Paymentmethods,
+		Shortdescription:                      o.Shortdescription,
+		Isarchived:                            o.Isarchived,
+		Createdts:                             o.Createdts,
+		Lastupdatets:                          o.Lastupdatets,
+	}
+	data, err := json.Marshal(obj)
+	if err != nil {
+		return nil, err
+	}
+
+	// Unpack it again, to get the wire representation
+	var raw map[string]interface{}
+	err = json.Unmarshal(data, &raw)
+	if err != nil {
+		return nil, err
+	}
+
+	for key, val := range o.CustomFields {
+		raw["c_"+key] = val
+	}
+
+	// Pack it again
+	return json.Marshal(raw)
+
+	// Note: Like UnmarshalJSON, this is quite crazy. But it works beautifully.
+	// Know a way to do this better? Get in touch!
 }
 
 // Set of parameters used to filter payment scenarios.

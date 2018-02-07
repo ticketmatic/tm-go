@@ -12,6 +12,18 @@
 //
 // * Ticket (13004)
 //
+// * Product (13005)
+//
+// * Pricetype (13006)
+//
+// * Payment method (13007)
+//
+// * Payment scenario (13008)
+//
+// * Delivery scenario (13009)
+//
+// * Event location (13010)
+//
 // The list of possible custom field field types are:
 //
 // * String (12001)
