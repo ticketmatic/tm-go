@@ -161,6 +161,9 @@ func Delete(client *ticketmatic.Client, id int64) error {
 // BatchContactParameters
 // (https://www.ticketmatic.com/docs/api/types/BatchContactParameters) for more
 // info.
+//
+// * merge: Merges the selected contacts into a specified contact. The primary
+// parameter should be supplied to indicate which contact gets preference.
 func Batch(client *ticketmatic.Client, data *ticketmatic.BatchContactOperation) error {
 	r := client.NewRequest("POST", "/{accountname}/contacts/batch", "json")
 	r.Body(data, "json")
@@ -199,4 +202,40 @@ func Reserve(client *ticketmatic.Client, data *ticketmatic.ContactIdReservation)
 		return nil, err
 	}
 	return obj, nil
+}
+
+// Send a reset password request for this contact.
+//
+// An email will be sent with reset instructions.
+func Resetpassword(client *ticketmatic.Client, id int64) error {
+	r := client.NewRequest("POST", "/{accountname}/contacts/{id}/resetpassword", "json")
+	r.UrlParameters(map[string]interface{}{
+		"id": id,
+	})
+
+	return r.Run(nil)
+}
+
+// Create a password account
+//
+// An email will be sent with password instructions.
+func Createaccount(client *ticketmatic.Client, id int64) error {
+	r := client.NewRequest("POST", "/{accountname}/contacts/{id}/account", "json")
+	r.UrlParameters(map[string]interface{}{
+		"id": id,
+	})
+
+	return r.Run(nil)
+}
+
+// Delete password account
+//
+// The associated password account will be deleted.
+func Deleteaccount(client *ticketmatic.Client, id int64) error {
+	r := client.NewRequest("DELETE", "/{accountname}/contacts/{id}/account", "json")
+	r.UrlParameters(map[string]interface{}{
+		"id": id,
+	})
+
+	return r.Run(nil)
 }

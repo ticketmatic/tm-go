@@ -421,3 +421,150 @@ func TestImport(t *testing.T) {
 	}
 
 }
+
+func TestCreateaccount(t *testing.T) {
+	var err error
+
+	accountcode := os.Getenv("TM_TEST_ACCOUNTCODE")
+	accesskey := os.Getenv("TM_TEST_ACCESSKEY")
+	secretkey := os.Getenv("TM_TEST_SECRETKEY")
+	c := ticketmatic.NewClient(accountcode, accesskey, secretkey)
+
+	contact, err := Create(c, &ticketmatic.Contact{
+		Email:     "john@test.com",
+		Firstname: "John",
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if contact.Id == 0 {
+		t.Errorf("Unexpected contact.Id, got %#v, expected different value", contact.Id)
+	}
+
+	if contact.Firstname != "John" {
+		t.Errorf("Unexpected contact.Firstname, got %#v, expected %#v", contact.Firstname, "John")
+	}
+
+	if contact.Email != "john@test.com" {
+		t.Errorf("Unexpected contact.Email, got %#v, expected %#v", contact.Email, "john@test.com")
+	}
+
+	err = Createaccount(c, contact.Id)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if updated.Id != contact.Id {
+		t.Errorf("Unexpected updated.Id, got %#v, expected %#v", updated.Id, contact.Id)
+	}
+
+	if updated.AccountType != 1901 {
+		t.Errorf("Unexpected updated.AccountType, got %#v, expected %#v", updated.AccountType, 1901)
+	}
+
+}
+
+func TestDeleteaccount(t *testing.T) {
+	var err error
+
+	accountcode := os.Getenv("TM_TEST_ACCOUNTCODE")
+	accesskey := os.Getenv("TM_TEST_ACCESSKEY")
+	secretkey := os.Getenv("TM_TEST_SECRETKEY")
+	c := ticketmatic.NewClient(accountcode, accesskey, secretkey)
+
+	contact, err := Create(c, &ticketmatic.Contact{
+		Email:     "john2@test.com",
+		Firstname: "John",
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if contact.Id == 0 {
+		t.Errorf("Unexpected contact.Id, got %#v, expected different value", contact.Id)
+	}
+
+	if contact.Firstname != "John" {
+		t.Errorf("Unexpected contact.Firstname, got %#v, expected %#v", contact.Firstname, "John")
+	}
+
+	if contact.Email != "john2@test.com" {
+		t.Errorf("Unexpected contact.Email, got %#v, expected %#v", contact.Email, "john2@test.com")
+	}
+
+	err = Createaccount(c, contact.Id)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if updated.Id != contact.Id {
+		t.Errorf("Unexpected updated.Id, got %#v, expected %#v", updated.Id, contact.Id)
+	}
+
+	if updated.AccountType != 1901 {
+		t.Errorf("Unexpected updated.AccountType, got %#v, expected %#v", updated.AccountType, 1901)
+	}
+
+	err = Deleteaccount(c, contact.Id)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if updated.Id != contact.Id {
+		t.Errorf("Unexpected updated.Id, got %#v, expected %#v", updated.Id, contact.Id)
+	}
+
+	if updated.AccountType != 0 {
+		t.Errorf("Unexpected updated.AccountType, got %#v, expected %#v", updated.AccountType, 0)
+	}
+
+}
+
+func TestResetpassword(t *testing.T) {
+	var err error
+
+	accountcode := os.Getenv("TM_TEST_ACCOUNTCODE")
+	accesskey := os.Getenv("TM_TEST_ACCESSKEY")
+	secretkey := os.Getenv("TM_TEST_SECRETKEY")
+	c := ticketmatic.NewClient(accountcode, accesskey, secretkey)
+
+	contact, err := Create(c, &ticketmatic.Contact{
+		Email:     "john3@test.com",
+		Firstname: "John",
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if contact.Id == 0 {
+		t.Errorf("Unexpected contact.Id, got %#v, expected different value", contact.Id)
+	}
+
+	if contact.Firstname != "John" {
+		t.Errorf("Unexpected contact.Firstname, got %#v, expected %#v", contact.Firstname, "John")
+	}
+
+	if contact.Email != "john3@test.com" {
+		t.Errorf("Unexpected contact.Email, got %#v, expected %#v", contact.Email, "john3@test.com")
+	}
+
+	err = Createaccount(c, contact.Id)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if updated.Id != contact.Id {
+		t.Errorf("Unexpected updated.Id, got %#v, expected %#v", updated.Id, contact.Id)
+	}
+
+	if updated.AccountType != 1901 {
+		t.Errorf("Unexpected updated.AccountType, got %#v, expected %#v", updated.AccountType, 1901)
+	}
+
+	err = Resetpassword(c, contact.Id)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+}

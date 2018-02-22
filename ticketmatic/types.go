@@ -243,7 +243,7 @@ type BatchContactOperation struct {
 // (https://www.ticketmatic.com/docs/api/types/BatchContactParameters).
 type BatchContactParameters struct {
 	// Selection name, used for operation sendselection
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 
 	// Set of fields to update, used for operation update. Custom fields are also
 	// supported.
@@ -251,6 +251,9 @@ type BatchContactParameters struct {
 
 	// Relation type IDs, used for operations addrelationtypes and removerelationtypes
 	Ids []int64 `json:"ids"`
+
+	// Primary contact to merge into
+	Primary int64 `json:"primary,omitempty"`
 }
 
 // A single contact.
@@ -5836,13 +5839,9 @@ type PurgeOrdersRequest struct {
 // (https://www.ticketmatic.com/docs/api/types/QueryRequest).
 type QueryRequest struct {
 	// Optional limit for the result. Default 100
-	//
-	// Note: Ignored when exporting a query
 	Limit int64 `json:"limit"`
 
 	// Optional offset for the result. Default 0
-	//
-	// Note: Ignored when exporting a query
 	Offset int64 `json:"offset"`
 
 	// Actual query to execute
@@ -7120,8 +7119,6 @@ type VoucherCode struct {
 	Code string `json:"code"`
 
 	// Expiry timestamp for this code
-	//
-	// Note: Only used when creating codes
 	Expiryts Time `json:"expiryts,omitempty"`
 }
 
