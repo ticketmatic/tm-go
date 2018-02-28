@@ -1201,6 +1201,10 @@ type DeliveryScenario struct {
 	// A short description of the deilvery scenario. Will be shown to customers.
 	Shortdescription string `json:"shortdescription"`
 
+	// Parameter that sets the visibility of this scenario, can be either 'FULL' or
+	// 'API'.
+	Visibility string `json:"visibility"`
+
 	// Whether or not this item is archived
 	//
 	// Note: Ignored when creating a new delivery scenario.
@@ -1272,6 +1276,7 @@ func (o *DeliveryScenario) MarshalJSON() ([]byte, error) {
 		Needsaddress                bool                          `json:"needsaddress,omitempty"`
 		OrdermailtemplateidDelivery int64                         `json:"ordermailtemplateid_delivery,omitempty"`
 		Shortdescription            string                        `json:"shortdescription,omitempty"`
+		Visibility                  string                        `json:"visibility,omitempty"`
 		Isarchived                  bool                          `json:"isarchived,omitempty"`
 		Createdts                   Time                          `json:"createdts,omitempty"`
 		Lastupdatets                Time                          `json:"lastupdatets,omitempty"`
@@ -1287,6 +1292,7 @@ func (o *DeliveryScenario) MarshalJSON() ([]byte, error) {
 		Needsaddress:                o.Needsaddress,
 		OrdermailtemplateidDelivery: o.OrdermailtemplateidDelivery,
 		Shortdescription:            o.Shortdescription,
+		Visibility:                  o.Visibility,
 		Isarchived:                  o.Isarchived,
 		Createdts:                   o.Createdts,
 		Lastupdatets:                o.Lastupdatets,
@@ -4669,6 +4675,10 @@ type PaymentScenario struct {
 	// Short description of the payment scenario, will be shown to customers
 	Shortdescription string `json:"shortdescription,omitempty"`
 
+	// Parameter that sets the visibility of this scenario, can be either 'FULL' or
+	// 'API'.
+	Visibility string `json:"visibility"`
+
 	// Whether or not this item is archived
 	//
 	// Note: Ignored when creating a new payment scenario.
@@ -4746,6 +4756,7 @@ func (o *PaymentScenario) MarshalJSON() ([]byte, error) {
 		Overdueparameters                     *PaymentscenarioOverdueParameters `json:"overdueparameters,omitempty"`
 		Paymentmethods                        []int64                           `json:"paymentmethods,omitempty"`
 		Shortdescription                      string                            `json:"shortdescription,omitempty"`
+		Visibility                            string                            `json:"visibility,omitempty"`
 		Isarchived                            bool                              `json:"isarchived,omitempty"`
 		Createdts                             Time                              `json:"createdts,omitempty"`
 		Lastupdatets                          Time                              `json:"lastupdatets,omitempty"`
@@ -4767,6 +4778,7 @@ func (o *PaymentScenario) MarshalJSON() ([]byte, error) {
 		Overdueparameters:                     o.Overdueparameters,
 		Paymentmethods:                        o.Paymentmethods,
 		Shortdescription:                      o.Shortdescription,
+		Visibility:                            o.Visibility,
 		Isarchived:                            o.Isarchived,
 		Createdts:                             o.Createdts,
 		Lastupdatets:                          o.Lastupdatets,

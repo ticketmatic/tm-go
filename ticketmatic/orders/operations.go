@@ -132,6 +132,18 @@ func Update(client *ticketmatic.Client, id int64, data *ticketmatic.UpdateOrder)
 	return obj, nil
 }
 
+// Delete an order
+//
+// Delete an order.
+func Delete(client *ticketmatic.Client, id int64) error {
+	r := client.NewRequest("DELETE", "/{accountname}/orders/{id}", "json")
+	r.UrlParameters(map[string]interface{}{
+		"id": id,
+	})
+
+	return r.Run(nil)
+}
+
 // Confirm an order
 //
 // Marks the order as confirmed.
