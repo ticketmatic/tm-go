@@ -450,7 +450,7 @@ func TestCreateaccount(t *testing.T) {
 		t.Errorf("Unexpected contact.Email, got %#v, expected %#v", contact.Email, "john@test.com")
 	}
 
-	err = Createaccount(c, contact.Id)
+	updated, err := Createaccount(c, contact.Id)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -493,7 +493,7 @@ func TestDeleteaccount(t *testing.T) {
 		t.Errorf("Unexpected contact.Email, got %#v, expected %#v", contact.Email, "john2@test.com")
 	}
 
-	err = Createaccount(c, contact.Id)
+	updated, err := Createaccount(c, contact.Id)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -506,7 +506,7 @@ func TestDeleteaccount(t *testing.T) {
 		t.Errorf("Unexpected updated.AccountType, got %#v, expected %#v", updated.AccountType, 1901)
 	}
 
-	err = Deleteaccount(c, contact.Id)
+	updated, err := Deleteaccount(c, contact.Id)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -549,7 +549,7 @@ func TestResetpassword(t *testing.T) {
 		t.Errorf("Unexpected contact.Email, got %#v, expected %#v", contact.Email, "john3@test.com")
 	}
 
-	err = Createaccount(c, contact.Id)
+	updated, err := Createaccount(c, contact.Id)
 	if err != nil {
 		t.Fatal(err)
 	}

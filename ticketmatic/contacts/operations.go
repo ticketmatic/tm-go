@@ -206,7 +206,8 @@ func Reserve(client *ticketmatic.Client, data *ticketmatic.ContactIdReservation)
 
 // Send a reset password request for this contact.
 //
-// An email will be sent with reset instructions.
+// An e-mail will be sent with reset instructions. An error will be thrown when
+// this contact does not have a linked password account.
 func Resetpassword(client *ticketmatic.Client, id int64) error {
 	r := client.NewRequest("POST", "/{accountname}/contacts/{id}/resetpassword", "json")
 	r.UrlParameters(map[string]interface{}{
@@ -218,24 +219,36 @@ func Resetpassword(client *ticketmatic.Client, id int64) error {
 
 // Create a password account
 //
-// An email will be sent with password instructions.
-func Createaccount(client *ticketmatic.Client, id int64) error {
+// Link this contact with a password account to be used in authenticated widgets.
+// An e-mail will be sent with password instructions.
+func Createaccount(client *ticketmatic.Client, id int64) (*ticketmatic.Contact, error) {
 	r := client.NewRequest("POST", "/{accountname}/contacts/{id}/account", "json")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
 	})
 
-	return r.Run(nil)
+	var obj *ticketmatic.Contact
+	err := r.Run(&obj)
+	if err != nil {
+		return nil, err
+	}
+	return obj, nil
 }
 
 // Delete password account
 //
-// The associated password account will be deleted.
-func Deleteaccount(client *ticketmatic.Client, id int64) error {
+// Remove the linked account from this contact. The contact will not be able to
+// login anymore in authenticated widgets.
+func Deleteaccount(client *ticketmatic.Client, id int64) (*ticketmatic.Contact, error) {
 	r := client.NewRequest("DELETE", "/{accountname}/contacts/{id}/account", "json")
 	r.UrlParameters(map[string]interface{}{
 		"id": id,
 	})
 
-	return r.Run(nil)
+	var obj *ticketmatic.Contact
+	err := r.Run(&obj)
+	if err != nil {
+		return nil, err
+	}
+	return obj, nil
 }
