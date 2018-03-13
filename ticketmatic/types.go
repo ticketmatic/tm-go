@@ -1700,6 +1700,9 @@ type Event struct {
 	// for more information.
 	Ticketlayoutid int64 `json:"ticketlayoutid,omitempty"`
 
+	// The type of the waiting list the event uses
+	Waitinglisttype int64 `json:"waitinglisttype,omitempty"`
+
 	// Small description that will be shown on the sales pages of this event
 	Webremark string `json:"webremark,omitempty"`
 
@@ -1789,6 +1792,7 @@ func (o *Event) MarshalJSON() ([]byte, error) {
 		Subtitle2                      string                         `json:"subtitle2,omitempty"`
 		Ticketfeeid                    int64                          `json:"ticketfeeid,omitempty"`
 		Ticketlayoutid                 int64                          `json:"ticketlayoutid,omitempty"`
+		Waitinglisttype                int64                          `json:"waitinglisttype,omitempty"`
 		Webremark                      string                         `json:"webremark,omitempty"`
 		Createdts                      Time                           `json:"createdts,omitempty"`
 		Lastupdatets                   Time                           `json:"lastupdatets,omitempty"`
@@ -1826,6 +1830,7 @@ func (o *Event) MarshalJSON() ([]byte, error) {
 		Subtitle2:                      o.Subtitle2,
 		Ticketfeeid:                    o.Ticketfeeid,
 		Ticketlayoutid:                 o.Ticketlayoutid,
+		Waitinglisttype:                o.Waitinglisttype,
 		Webremark:                      o.Webremark,
 		Createdts:                      o.Createdts,
 		Lastupdatets:                   o.Lastupdatets,
@@ -2326,6 +2331,9 @@ type EventQuery struct {
 type EventSalesChannel struct {
 	// Event ID
 	Eventid int64 `json:"eventid"`
+
+	// Whether or not this sales channels has a waiting list for this event
+	Haswaitinglist bool `json:"haswaitinglist"`
 
 	// Whether or not this sales channel is active for this event
 	Isactive bool `json:"isactive"`
