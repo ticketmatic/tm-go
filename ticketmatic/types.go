@@ -1514,6 +1514,87 @@ type DocumentQuery struct {
 	Lastupdatesince Time `json:"lastupdatesince,omitempty"`
 }
 
+// Dupe detect criteria define how fields are matched. See dupe detect rules
+// (https://www.ticketmatic.com/docs/api/settings/system/dupedetectrules) for an
+// overview of the possible field/matcher combinations.
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/DupeDetectCriteria).
+type DupeDetectCriteria struct {
+	// The field on which to match
+	Field string `json:"field"`
+
+	// Matcher used for the specified field
+	Matcher string `json:"matcher"`
+}
+
+// A single dupe detect rule.
+//
+// More info: see the get operation
+// (https://www.ticketmatic.com/docs/api/settings/system/dupedetectrules/get) and
+// the dupe detect rules endpoint
+// (https://www.ticketmatic.com/docs/api/settings/system/dupedetectrules).
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/DupeDetectRule).
+type DupeDetectRule struct {
+	// Unique ID
+	//
+	// Note: Ignored when creating a new dupe detect rule.
+	//
+	// Note: Ignored when updating an existing dupe detect rule.
+	Id int64 `json:"id"`
+
+	// Rule name
+	Name string `json:"name"`
+
+	// Criteria for matching
+	//
+	// Any contact that matches all of these criteria is listed as a match
+	Criteria []*DupeDetectCriteria `json:"criteria"`
+
+	// Created timestamp
+	//
+	// Note: Ignored when creating a new dupe detect rule.
+	//
+	// Note: Ignored when updating an existing dupe detect rule.
+	Createdts Time `json:"createdts"`
+
+	// Last updated timestamp
+	//
+	// Note: Ignored when creating a new dupe detect rule.
+	//
+	// Note: Ignored when updating an existing dupe detect rule.
+	Lastupdatets Time `json:"lastupdatets"`
+}
+
+// Set of parameters used to filter dupe detect rules.
+//
+// More info: see dupe detect rule
+// (https://www.ticketmatic.com/docs/api/types/DupeDetectRule), the getlist
+// operation
+// (https://www.ticketmatic.com/docs/api/settings/system/dupedetectrules/getlist)
+// and the dupe detect rules endpoint
+// (https://www.ticketmatic.com/docs/api/settings/system/dupedetectrules).
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/DupeDetectRuleQuery).
+type DupeDetectRuleQuery struct {
+	// Filter the returned items by specifying a query on the public datamodel that
+	// returns the ids.
+	Filter string `json:"filter,omitempty"`
+
+	// All items that were updated since this timestamp will be returned. Timestamp
+	// should be passed in YYYY-MM-DD hh:mm:ss format.
+	Lastupdatesince Time `json:"lastupdatesince,omitempty"`
+}
+
 // A single Event.
 //
 // Status
@@ -7193,6 +7274,201 @@ type VoucherValidity struct {
 	// The max number of times the vouchercode can be used for a single event. This
 	// field is only relevant for pricetype vouchers.
 	Maxusagesperevent int64 `json:"maxusagesperevent,omitempty"`
+}
+
+// A single waiting list request.
+//
+// More info: see the get operation
+// (https://www.ticketmatic.com/docs/api/sales/waitinglistrequests/get) and the
+// waiting list requests endpoint
+// (https://www.ticketmatic.com/docs/api/sales/waitinglistrequests).
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/WaitingListRequest).
+type WaitingListRequest struct {
+	// Unique ID
+	//
+	// Note: Ignored when creating a new waiting list request.
+	//
+	// Note: Ignored when updating an existing waiting list request.
+	Id int64 `json:"id"`
+
+	// Contact id
+	Contactid int64 `json:"contactid"`
+
+	// Show the status of the related items, 29101 = no information provided, 29102 =
+	// partial information provided and 29103 = full information provided
+	Itemsstatus int64 `json:"itemsstatus"`
+
+	// Show the status of the request. Examples are expired, approved, denied, new,
+	// unresolved, ...
+	Requeststatus int64 `json:"requeststatus"`
+
+	// The id of the saleschannel used to make the request
+	Saleschannelid int64 `json:"saleschannelid"`
+
+	// Randomly generated identifier on create. Provides random but consistent ordering
+	// of the request (for casting lots)
+	//
+	// Note: Ignored when creating a new waiting list request.
+	//
+	// Note: Ignored when updating an existing waiting list request.
+	Sortorder int64 `json:"sortorder"`
+
+	// The request items per event
+	//
+	// Note: Not set when retrieving a list of waiting list requests.
+	Waitinglistrequestitems []*WaitingListRequestItem `json:"waitinglistrequestitems"`
+
+	// Created timestamp
+	//
+	// Note: Ignored when creating a new waiting list request.
+	//
+	// Note: Ignored when updating an existing waiting list request.
+	Createdts Time `json:"createdts"`
+
+	// Last updated timestamp
+	//
+	// Note: Ignored when creating a new waiting list request.
+	//
+	// Note: Ignored when updating an existing waiting list request.
+	Lastupdatets Time `json:"lastupdatets"`
+
+	// Custom fields
+	CustomFields map[string]interface{} `json:"-"`
+}
+
+// Custom unmarshaller with support for custom fields
+func (o *WaitingListRequest) UnmarshalJSON(data []byte) error {
+	// Alias the type, to avoid calling UnmarshalJSON. Unpack it.
+	type tmp WaitingListRequest
+	var obj tmp
+	err := json.Unmarshal(data, &obj)
+	if err != nil {
+		return err
+	}
+
+	*o = WaitingListRequest(obj)
+
+	// Unpack it again, this time to a map, so we can pull out the custom fields.
+	var raw map[string]interface{}
+	err = json.Unmarshal(data, &raw)
+	if err != nil {
+		return err
+	}
+
+	o.CustomFields = make(map[string]interface{})
+	for key, val := range raw {
+		if strings.HasPrefix(key, "c_") {
+			o.CustomFields[key[2:]] = val
+		}
+	}
+
+	// Note: We're doing a double JSON decode here, I'd love to get rid of it
+	// but I'm not sure how we can do this easily. Suggestions welcome:
+	// developers@ticketmatic.com!
+
+	return nil
+}
+
+// Custom marshaller with support for custom fields
+func (o *WaitingListRequest) MarshalJSON() ([]byte, error) {
+	// Use a custom type to avoid the custom marshaller, marshal the data.
+	type tmp struct {
+		Id                      int64                     `json:"id,omitempty"`
+		Contactid               int64                     `json:"contactid,omitempty"`
+		Itemsstatus             int64                     `json:"itemsstatus,omitempty"`
+		Requeststatus           int64                     `json:"requeststatus,omitempty"`
+		Saleschannelid          int64                     `json:"saleschannelid,omitempty"`
+		Sortorder               int64                     `json:"sortorder,omitempty"`
+		Waitinglistrequestitems []*WaitingListRequestItem `json:"waitinglistrequestitems,omitempty"`
+		Createdts               Time                      `json:"createdts,omitempty"`
+		Lastupdatets            Time                      `json:"lastupdatets,omitempty"`
+	}
+
+	obj := tmp{
+		Id:                      o.Id,
+		Contactid:               o.Contactid,
+		Itemsstatus:             o.Itemsstatus,
+		Requeststatus:           o.Requeststatus,
+		Saleschannelid:          o.Saleschannelid,
+		Sortorder:               o.Sortorder,
+		Waitinglistrequestitems: o.Waitinglistrequestitems,
+		Createdts:               o.Createdts,
+		Lastupdatets:            o.Lastupdatets,
+	}
+	data, err := json.Marshal(obj)
+	if err != nil {
+		return nil, err
+	}
+
+	// Unpack it again, to get the wire representation
+	var raw map[string]interface{}
+	err = json.Unmarshal(data, &raw)
+	if err != nil {
+		return nil, err
+	}
+
+	for key, val := range o.CustomFields {
+		raw["c_"+key] = val
+	}
+
+	// Pack it again
+	return json.Marshal(raw)
+
+	// Note: Like UnmarshalJSON, this is quite crazy. But it works beautifully.
+	// Know a way to do this better? Get in touch!
+}
+
+// A waitinglistrequestitem is a single event and the requested tickets in a
+// waitinglistrequest
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/WaitingListRequestItem).
+type WaitingListRequestItem struct {
+	// The event for which there are tickets requested
+	Eventid int64 `json:"eventid"`
+
+	// The requested tickets for the event, identified by tickettypepriceid
+	Tickets []*WaitingListRequestItemTicket `json:"tickets"`
+}
+
+// A ticket requested in a waitinglistrequestitem
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/WaitingListRequestItemTicket).
+type WaitingListRequestItemTicket struct {
+	// The tickettypepriceid of the ticket
+	Tickettypepriceid int64 `json:"tickettypepriceid"`
+}
+
+// Set of parameters used to filter waiting list requests.
+//
+// More info: see waiting list request
+// (https://www.ticketmatic.com/docs/api/types/WaitingListRequest), the getlist
+// operation
+// (https://www.ticketmatic.com/docs/api/sales/waitinglistrequests/getlist) and the
+// waiting list requests endpoint
+// (https://www.ticketmatic.com/docs/api/sales/waitinglistrequests).
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/WaitingListRequestQuery).
+type WaitingListRequestQuery struct {
+	// Filter the returned items by specifying a query on the public datamodel that
+	// returns the ids.
+	Filter string `json:"filter,omitempty"`
+
+	// All items that were updated since this timestamp will be returned. Timestamp
+	// should be passed in YYYY-MM-DD hh:mm:ss format.
+	Lastupdatesince Time `json:"lastupdatesince,omitempty"`
 }
 
 // A single web sales skin.

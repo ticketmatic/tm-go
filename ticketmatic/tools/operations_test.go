@@ -24,8 +24,8 @@ func TestInfo(t *testing.T) {
 		t.Errorf("Unexpected info.Id, got %#v, expected %#v", info.Id, 998)
 	}
 
-	if info.Name != "qa" {
-		t.Errorf("Unexpected info.Name, got %#v, expected %#v", info.Name, "qa")
+	if info.Name != "QA" {
+		t.Errorf("Unexpected info.Name, got %#v, expected %#v", info.Name, "QA")
 	}
 
 	if info.Shortname != "qa" {
