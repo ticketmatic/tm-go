@@ -1622,6 +1622,9 @@ type Event struct {
 	// Event name
 	Name string `json:"name"`
 
+	// The audio preview url for the event
+	Audiopreviewurl string `json:"audiopreviewurl,omitempty"`
+
 	// Information on the availability of tickets per contingent. Read-only.
 	//
 	// Note: Ignored when creating a new event.
@@ -1647,6 +1650,9 @@ type Event struct {
 	// (https://www.ticketmatic.com/docs/api/types/Event) page.
 	Currentstatus int64 `json:"currentstatus,omitempty"`
 
+	// Description of the event, visible for ticket buyers
+	Description string `json:"description,omitempty"`
+
 	// Event end time
 	Endts Time `json:"endts"`
 
@@ -1661,6 +1667,9 @@ type Event struct {
 	//
 	// Note: Ignored when updating an existing event.
 	Image string `json:"image"`
+
+	// Practical info for the event, visible for ticket buyers
+	Info string `json:"info,omitempty"`
 
 	// Event location ID
 	//
@@ -1680,6 +1689,9 @@ type Event struct {
 
 	// Maximum number of tickets for this event that can be added to a basket
 	Maxnbrofticketsperbasket int64 `json:"maxnbrofticketsperbasket,omitempty"`
+
+	// Preview urls for the event.
+	Previews []*EventPreview `json:"previews"`
 
 	// Information on the available prices for the event
 	//
@@ -1719,6 +1731,9 @@ type Event struct {
 	//
 	// Used for all sales channels for which no specific sales period has been defined.
 	Salestartts Time `json:"salestartts,omitempty"`
+
+	// Schedule for the event, visible for ticket buyers
+	Schedule string `json:"schedule,omitempty"`
 
 	// Information about the contingents defined in the seatingplan. Read-only.
 	//
@@ -1844,16 +1859,20 @@ func (o *Event) MarshalJSON() ([]byte, error) {
 	type tmp struct {
 		Id                             int64                          `json:"id,omitempty"`
 		Name                           string                         `json:"name,omitempty"`
+		Audiopreviewurl                string                         `json:"audiopreviewurl,omitempty"`
 		Availability                   []*EventContingentAvailability `json:"availability,omitempty"`
 		Code                           string                         `json:"code,omitempty"`
 		Contingents                    []*EventContingent             `json:"contingents,omitempty"`
 		Currentstatus                  int64                          `json:"currentstatus,omitempty"`
+		Description                    string                         `json:"description,omitempty"`
 		Endts                          Time                           `json:"endts,omitempty"`
 		Externalcode                   string                         `json:"externalcode,omitempty"`
 		Image                          string                         `json:"image,omitempty"`
+		Info                           string                         `json:"info,omitempty"`
 		Locationid                     int64                          `json:"locationid,omitempty"`
 		Locationname                   string                         `json:"locationname,omitempty"`
 		Maxnbrofticketsperbasket       int64                          `json:"maxnbrofticketsperbasket,omitempty"`
+		Previews                       []*EventPreview                `json:"previews,omitempty"`
 		Prices                         *EventPrices                   `json:"prices,omitempty"`
 		Productionid                   int64                          `json:"productionid,omitempty"`
 		Publishedts                    Time                           `json:"publishedts,omitempty"`
@@ -1862,6 +1881,7 @@ func (o *Event) MarshalJSON() ([]byte, error) {
 		Saleendts                      Time                           `json:"saleendts,omitempty"`
 		Saleschannels                  []*EventSalesChannel           `json:"saleschannels,omitempty"`
 		Salestartts                    Time                           `json:"salestartts,omitempty"`
+		Schedule                       string                         `json:"schedule,omitempty"`
 		Seatingplancontingents         []*EventSeatingplanContingent  `json:"seatingplancontingents,omitempty"`
 		Seatingplaneventspecificprices *PricelistPrices               `json:"seatingplaneventspecificprices,omitempty"`
 		Seatingplanid                  int64                          `json:"seatingplanid,omitempty"`
@@ -1880,18 +1900,22 @@ func (o *Event) MarshalJSON() ([]byte, error) {
 	}
 
 	obj := tmp{
-		Id:                       o.Id,
-		Name:                     o.Name,
-		Availability:             o.Availability,
-		Code:                     o.Code,
-		Contingents:              o.Contingents,
-		Currentstatus:            o.Currentstatus,
-		Endts:                    o.Endts,
-		Externalcode:             o.Externalcode,
-		Image:                    o.Image,
-		Locationid:               o.Locationid,
-		Locationname:             o.Locationname,
-		Maxnbrofticketsperbasket: o.Maxnbrofticketsperbasket,
+		Id:                             o.Id,
+		Name:                           o.Name,
+		Audiopreviewurl:                o.Audiopreviewurl,
+		Availability:                   o.Availability,
+		Code:                           o.Code,
+		Contingents:                    o.Contingents,
+		Currentstatus:                  o.Currentstatus,
+		Description:                    o.Description,
+		Endts:                          o.Endts,
+		Externalcode:                   o.Externalcode,
+		Image:                          o.Image,
+		Info:                           o.Info,
+		Locationid:                     o.Locationid,
+		Locationname:                   o.Locationname,
+		Maxnbrofticketsperbasket:       o.Maxnbrofticketsperbasket,
+		Previews:                       o.Previews,
 		Prices:                         o.Prices,
 		Productionid:                   o.Productionid,
 		Publishedts:                    o.Publishedts,
@@ -1900,6 +1924,7 @@ func (o *Event) MarshalJSON() ([]byte, error) {
 		Saleendts:                      o.Saleendts,
 		Saleschannels:                  o.Saleschannels,
 		Salestartts:                    o.Salestartts,
+		Schedule:                       o.Schedule,
 		Seatingplancontingents:         o.Seatingplancontingents,
 		Seatingplaneventspecificprices: o.Seatingplaneventspecificprices,
 		Seatingplanid:                  o.Seatingplanid,
@@ -2094,6 +2119,16 @@ type EventLocation struct {
 	// (http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) two-letter code.
 	Countrycode string `json:"countrycode"`
 
+	// Practical info on the event location (route description, public transport,
+	// parking,...).
+	Info string `json:"info"`
+
+	// Lat coordinate for the event location
+	Lat float64 `json:"lat"`
+
+	// Long coordinate for the event location
+	Long float64 `json:"long"`
+
 	// State
 	State string `json:"state"`
 
@@ -2168,17 +2203,20 @@ func (o *EventLocation) UnmarshalJSON(data []byte) error {
 func (o *EventLocation) MarshalJSON() ([]byte, error) {
 	// Use a custom type to avoid the custom marshaller, marshal the data.
 	type tmp struct {
-		Id           int64  `json:"id,omitempty"`
-		Name         string `json:"name,omitempty"`
-		City         string `json:"city,omitempty"`
-		Countrycode  string `json:"countrycode,omitempty"`
-		State        string `json:"state,omitempty"`
-		Street1      string `json:"street1,omitempty"`
-		Street2      string `json:"street2,omitempty"`
-		Zip          string `json:"zip,omitempty"`
-		Isarchived   bool   `json:"isarchived,omitempty"`
-		Createdts    Time   `json:"createdts,omitempty"`
-		Lastupdatets Time   `json:"lastupdatets,omitempty"`
+		Id           int64   `json:"id,omitempty"`
+		Name         string  `json:"name,omitempty"`
+		City         string  `json:"city,omitempty"`
+		Countrycode  string  `json:"countrycode,omitempty"`
+		Info         string  `json:"info,omitempty"`
+		Lat          float64 `json:"lat,omitempty"`
+		Long         float64 `json:"long,omitempty"`
+		State        string  `json:"state,omitempty"`
+		Street1      string  `json:"street1,omitempty"`
+		Street2      string  `json:"street2,omitempty"`
+		Zip          string  `json:"zip,omitempty"`
+		Isarchived   bool    `json:"isarchived,omitempty"`
+		Createdts    Time    `json:"createdts,omitempty"`
+		Lastupdatets Time    `json:"lastupdatets,omitempty"`
 	}
 
 	obj := tmp{
@@ -2186,6 +2224,9 @@ func (o *EventLocation) MarshalJSON() ([]byte, error) {
 		Name:         o.Name,
 		City:         o.City,
 		Countrycode:  o.Countrycode,
+		Info:         o.Info,
+		Lat:          o.Lat,
+		Long:         o.Long,
 		State:        o.State,
 		Street1:      o.Street1,
 		Street2:      o.Street2,
@@ -2256,6 +2297,20 @@ type EventLockTickets struct {
 
 	// Array of ticketids to lock.
 	Ticketids []int64 `json:"ticketids"`
+}
+
+// Preview link for an event (https://www.ticketmatic.com/docs/api/types/Event).
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/EventPreview).
+type EventPreview struct {
+	// Preview type. Currently supported values are: youtube, soundcloud.
+	Type string `json:"type,omitempty"`
+
+	// Preview url
+	Url string `json:"url,omitempty"`
 }
 
 // Information about the prices for an event.
@@ -3581,6 +3636,17 @@ type LogicalPlanSeat struct {
 
 	// The width and height of the seat
 	Size []float64 `json:"size"`
+}
+
+// The opt-in will be available for this saleschannel.
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/OptInAvailability).
+type OptInAvailability struct {
+	// Sales channel ID
+	Saleschannelid int64 `json:"saleschannelid"`
 }
 
 // A single Order.
@@ -7311,8 +7377,6 @@ type WaitingListRequest struct {
 
 	// Randomly generated identifier on create. Provides random but consistent ordering
 	// of the request (for casting lots)
-	//
-	// Note: Ignored when creating a new waiting list request.
 	//
 	// Note: Ignored when updating an existing waiting list request.
 	Sortorder int64 `json:"sortorder"`

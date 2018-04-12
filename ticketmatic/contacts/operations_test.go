@@ -468,17 +468,17 @@ func TestAccount(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	updated, err := Deleteaccount(c, contact.Id)
+	deleted, err := Deleteaccount(c, contact.Id)
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	if updated.Id != contact.Id {
-		t.Errorf("Unexpected updated.Id, got %#v, expected %#v", updated.Id, contact.Id)
+	if deleted.Id != contact.Id {
+		t.Errorf("Unexpected deleted.Id, got %#v, expected %#v", deleted.Id, contact.Id)
 	}
 
-	if updated.AccountType != 0 {
-		t.Errorf("Unexpected updated.AccountType, got %#v, expected %#v", updated.AccountType, 0)
+	if deleted.AccountType != 0 {
+		t.Errorf("Unexpected deleted.AccountType, got %#v, expected %#v", deleted.AccountType, 0)
 	}
 
 }
