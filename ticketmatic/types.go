@@ -721,6 +721,23 @@ type ContactImportStatus struct {
 	Ok bool `json:"ok"`
 }
 
+// Additional info when this opt in is set.
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/ContactOptInInfo).
+type ContactOptInInfo struct {
+	// The ip address from which the opt in is set.
+	Ip string `json:"ip"`
+
+	// The method by which the status is set
+	Method string `json:"method"`
+
+	// ID of the user that has set this opt in.
+	Userid int64 `json:"userid"`
+}
+
 // Filter parameters to fetch a list of contacts
 //
 // Help Center
@@ -2119,14 +2136,25 @@ type EventLocation struct {
 	// (http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) two-letter code.
 	Countrycode string `json:"countrycode"`
 
+	// Geocode status for the address of this location.
+	Geostatus int64 `json:"geostatus"`
+
 	// Practical info on the event location (route description, public transport,
 	// parking,...).
 	Info string `json:"info"`
 
 	// Lat coordinate for the event location
+	//
+	// Note: Ignored when creating a new event location.
+	//
+	// Note: Ignored when updating an existing event location.
 	Lat float64 `json:"lat"`
 
 	// Long coordinate for the event location
+	//
+	// Note: Ignored when creating a new event location.
+	//
+	// Note: Ignored when updating an existing event location.
 	Long float64 `json:"long"`
 
 	// State
@@ -2207,6 +2235,7 @@ func (o *EventLocation) MarshalJSON() ([]byte, error) {
 		Name         string  `json:"name,omitempty"`
 		City         string  `json:"city,omitempty"`
 		Countrycode  string  `json:"countrycode,omitempty"`
+		Geostatus    int64   `json:"geostatus,omitempty"`
 		Info         string  `json:"info,omitempty"`
 		Lat          float64 `json:"lat,omitempty"`
 		Long         float64 `json:"long,omitempty"`
@@ -2224,6 +2253,7 @@ func (o *EventLocation) MarshalJSON() ([]byte, error) {
 		Name:         o.Name,
 		City:         o.City,
 		Countrycode:  o.Countrycode,
+		Geostatus:    o.Geostatus,
 		Info:         o.Info,
 		Lat:          o.Lat,
 		Long:         o.Long,
@@ -2299,15 +2329,29 @@ type EventLockTickets struct {
 	Ticketids []int64 `json:"ticketids"`
 }
 
-// Preview link for an event (https://www.ticketmatic.com/docs/api/types/Event).
+// Preview information for an event
+// (https://www.ticketmatic.com/docs/api/types/Event).
 //
 // Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/EventPreview).
 type EventPreview struct {
-	// Preview type. Currently supported values are: youtube, soundcloud.
-	Type string `json:"type,omitempty"`
+	// Link url
+	Linkurl string `json:"linkurl,omitempty"`
+
+	// Link to preview image
+	Previewimage string `json:"previewimage,omitempty"`
+
+	// Preview subtitle
+	Subtitle string `json:"subtitle,omitempty"`
+
+	// Preview title
+	Title string `json:"title,omitempty"`
+
+	// Preview type. Currently supported values are: itunes (30001), youtube (30002),
+	// soundcloud (30003)
+	Type int64 `json:"type,omitempty"`
 
 	// Preview url
 	Url string `json:"url,omitempty"`
@@ -3638,6 +3682,71 @@ type LogicalPlanSeat struct {
 	Size []float64 `json:"size"`
 }
 
+// A single opt in.
+//
+// More info: see the get operation
+// (https://www.ticketmatic.com/docs/api/settings/system/optins/get) and the opt
+// ins endpoint (https://www.ticketmatic.com/docs/api/settings/system/optins).
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/OptIn).
+type OptIn struct {
+	// Unique ID
+	//
+	// Note: Ignored when creating a new opt in.
+	//
+	// Note: Ignored when updating an existing opt in.
+	Id int64 `json:"id"`
+
+	// Type of the opt-in. Can be 'Consent' (40001) or 'Soft' (40002)
+	//
+	// Note: Ignored when creating a new opt in.
+	//
+	// Note: Ignored when updating an existing opt in.
+	Typeid int64 `json:"typeid"`
+
+	// Name
+	Name string `json:"name"`
+
+	// Sales channel where this opt-in is available
+	Availability []*OptInAvailability `json:"availability"`
+
+	// Caption for the checkbox, needs to be set when typeid is Soft (40002)
+	Caption string `json:"caption"`
+
+	// Description
+	Description string `json:"description"`
+
+	// Caption for no radio button, needs to be set when typeid is Consent (40001)
+	Nocaption string `json:"nocaption"`
+
+	// Caption for yes radio button, needs to be set when typeid is Consent (40001)
+	Yescaption string `json:"yescaption"`
+
+	// Whether or not this item is archived
+	//
+	// Note: Ignored when creating a new opt in.
+	//
+	// Note: Ignored when updating an existing opt in.
+	Isarchived bool `json:"isarchived"`
+
+	// Created timestamp
+	//
+	// Note: Ignored when creating a new opt in.
+	//
+	// Note: Ignored when updating an existing opt in.
+	Createdts Time `json:"createdts"`
+
+	// Last updated timestamp
+	//
+	// Note: Ignored when creating a new opt in.
+	//
+	// Note: Ignored when updating an existing opt in.
+	Lastupdatets Time `json:"lastupdatets"`
+}
+
 // The opt-in will be available for this saleschannel.
 //
 // Help Center
@@ -3647,6 +3756,30 @@ type LogicalPlanSeat struct {
 type OptInAvailability struct {
 	// Sales channel ID
 	Saleschannelid int64 `json:"saleschannelid"`
+}
+
+// Set of parameters used to filter opt ins.
+//
+// More info: see opt in (https://www.ticketmatic.com/docs/api/types/OptIn), the
+// getlist operation
+// (https://www.ticketmatic.com/docs/api/settings/system/optins/getlist) and the
+// opt ins endpoint (https://www.ticketmatic.com/docs/api/settings/system/optins).
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/OptInQuery).
+type OptInQuery struct {
+	// Filter the returned items by specifying a query on the public datamodel that
+	// returns the ids.
+	Filter string `json:"filter,omitempty"`
+
+	// If this parameter is true, archived items will be returned as well.
+	Includearchived bool `json:"includearchived,omitempty"`
+
+	// All items that were updated since this timestamp will be returned. Timestamp
+	// should be passed in YYYY-MM-DD hh:mm:ss format.
+	Lastupdatesince Time `json:"lastupdatesince,omitempty"`
 }
 
 // A single Order.
@@ -7368,8 +7501,7 @@ type WaitingListRequest struct {
 	// partial information provided and 29103 = full information provided
 	Itemsstatus int64 `json:"itemsstatus"`
 
-	// Show the status of the request. Examples are expired, approved, denied, new,
-	// unresolved, ...
+	// Show the status of the request, 29201 = requested, 29202 = processed
 	Requeststatus int64 `json:"requeststatus"`
 
 	// The id of the saleschannel used to make the request
