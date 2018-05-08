@@ -482,3 +482,81 @@ func TestAccount(t *testing.T) {
 	}
 
 }
+
+func TestUpdatewithoptins(t *testing.T) {
+	var err error
+
+	accountcode := os.Getenv("TM_TEST_ACCOUNTCODE")
+	accesskey := os.Getenv("TM_TEST_ACCESSKEY")
+	secretkey := os.Getenv("TM_TEST_SECRETKEY")
+	c := ticketmatic.NewClient(accountcode, accesskey, secretkey)
+
+	contact, err := Create(c, &ticketmatic.Contact{
+		Email:     "john34@test.com",
+		Firstname: "John",
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if contact.Id == 0 {
+		t.Errorf("Unexpected contact.Id, got %#v, expected different value", contact.Id)
+	}
+
+	if contact.Firstname != "John" {
+		t.Errorf("Unexpected contact.Firstname, got %#v, expected %#v", contact.Firstname, "John")
+	}
+
+	if contact.Email != "john34@test.com" {
+		t.Errorf("Unexpected contact.Email, got %#v, expected %#v", contact.Email, "john34@test.com")
+	}
+
+	if len(contact.Optins) != 0 {
+		t.Errorf("Unexpected contact.Optins length, got %#v, expected %#v", len(contact.Optins), 0)
+	}
+
+	updated, err := Update(c, contact.Id, &ticketmatic.Contact{
+		Optins: []*ticketmatic.ContactOptIn{
+			&ticketmatic.ContactOptIn{
+				Info: &ticketmatic.ContactOptInInfo{
+					Method:  "api",
+					Remarks: "remarks",
+				},
+				Optinid: 1,
+				Status:  7602,
+			},
+		},
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if updated.Id != contact.Id {
+		t.Errorf("Unexpected updated.Id, got %#v, expected %#v", updated.Id, contact.Id)
+	}
+
+	if len(updated.Optins) != 1 {
+		t.Errorf("Unexpected updated.Optins length, got %#v, expected %#v", len(updated.Optins), 1)
+	}
+
+	if updated.Optins[0].Optinid != 1 {
+		t.Errorf("Unexpected updated.Optins[0].Optinid, got %#v, expected %#v", updated.Optins[0].Optinid, 1)
+	}
+
+	if updated.Optins[0].Contactid != contact.Id {
+		t.Errorf("Unexpected updated.Optins[0].Contactid, got %#v, expected %#v", updated.Optins[0].Contactid, contact.Id)
+	}
+
+	if updated.Optins[0].Status != 7602 {
+		t.Errorf("Unexpected updated.Optins[0].Status, got %#v, expected %#v", updated.Optins[0].Status, 7602)
+	}
+
+	if updated.Optins[0].Info.Method != "api" {
+		t.Errorf("Unexpected updated.Optins[0].Info.Method, got %#v, expected %#v", updated.Optins[0].Info.Method, "api")
+	}
+
+	if updated.Optins[0].Info.Remarks != "remarks" {
+		t.Errorf("Unexpected updated.Optins[0].Info.Remarks, got %#v, expected %#v", updated.Optins[0].Info.Remarks, "remarks")
+	}
+
+}

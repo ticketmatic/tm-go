@@ -338,6 +338,9 @@ type Contact struct {
 	// Middle name
 	Middlename string `json:"middlename,omitempty"`
 
+	// A list of opt ins
+	Optins []*ContactOptIn `json:"optins"`
+
 	// Job function
 	Organizationfunction string `json:"organizationfunction,omitempty"`
 
@@ -437,29 +440,30 @@ func (o *Contact) UnmarshalJSON(data []byte) error {
 func (o *Contact) MarshalJSON() ([]byte, error) {
 	// Use a custom type to avoid the custom marshaller, marshal the data.
 	type tmp struct {
-		Id                          int64          `json:"id,omitempty"`
-		AccountExternalid           string         `json:"account_externalid,omitempty"`
-		AccountLastauthenticationts Time           `json:"account_lastauthenticationts,omitempty"`
-		AccountType                 int64          `json:"account_type,omitempty"`
-		Addresses                   []*Address     `json:"addresses,omitempty"`
-		Birthdate                   Time           `json:"birthdate,omitempty"`
-		Company                     string         `json:"company,omitempty"`
-		Customertitleid             int64          `json:"customertitleid,omitempty"`
-		Email                       string         `json:"email,omitempty"`
-		Firstname                   string         `json:"firstname,omitempty"`
-		Languagecode                string         `json:"languagecode,omitempty"`
-		Lastname                    string         `json:"lastname,omitempty"`
-		Middlename                  string         `json:"middlename,omitempty"`
-		Organizationfunction        string         `json:"organizationfunction,omitempty"`
-		Phonenumbers                []*Phonenumber `json:"phonenumbers,omitempty"`
-		Relationtypes               []int64        `json:"relationtypes,omitempty"`
-		Sex                         string         `json:"sex,omitempty"`
-		Status                      string         `json:"status,omitempty"`
-		Subscribed                  bool           `json:"subscribed,omitempty"`
-		Vatnumber                   string         `json:"vatnumber,omitempty"`
-		Isdeleted                   bool           `json:"isdeleted,omitempty"`
-		Createdts                   Time           `json:"createdts,omitempty"`
-		Lastupdatets                Time           `json:"lastupdatets,omitempty"`
+		Id                          int64           `json:"id,omitempty"`
+		AccountExternalid           string          `json:"account_externalid,omitempty"`
+		AccountLastauthenticationts Time            `json:"account_lastauthenticationts,omitempty"`
+		AccountType                 int64           `json:"account_type,omitempty"`
+		Addresses                   []*Address      `json:"addresses,omitempty"`
+		Birthdate                   Time            `json:"birthdate,omitempty"`
+		Company                     string          `json:"company,omitempty"`
+		Customertitleid             int64           `json:"customertitleid,omitempty"`
+		Email                       string          `json:"email,omitempty"`
+		Firstname                   string          `json:"firstname,omitempty"`
+		Languagecode                string          `json:"languagecode,omitempty"`
+		Lastname                    string          `json:"lastname,omitempty"`
+		Middlename                  string          `json:"middlename,omitempty"`
+		Optins                      []*ContactOptIn `json:"optins,omitempty"`
+		Organizationfunction        string          `json:"organizationfunction,omitempty"`
+		Phonenumbers                []*Phonenumber  `json:"phonenumbers,omitempty"`
+		Relationtypes               []int64         `json:"relationtypes,omitempty"`
+		Sex                         string          `json:"sex,omitempty"`
+		Status                      string          `json:"status,omitempty"`
+		Subscribed                  bool            `json:"subscribed,omitempty"`
+		Vatnumber                   string          `json:"vatnumber,omitempty"`
+		Isdeleted                   bool            `json:"isdeleted,omitempty"`
+		Createdts                   Time            `json:"createdts,omitempty"`
+		Lastupdatets                Time            `json:"lastupdatets,omitempty"`
 	}
 
 	obj := tmp{
@@ -476,6 +480,7 @@ func (o *Contact) MarshalJSON() ([]byte, error) {
 		Languagecode:                o.Languagecode,
 		Lastname:                    o.Lastname,
 		Middlename:                  o.Middlename,
+		Optins:                      o.Optins,
 		Organizationfunction:        o.Organizationfunction,
 		Phonenumbers:                o.Phonenumbers,
 		Relationtypes:               o.Relationtypes,
@@ -721,6 +726,35 @@ type ContactImportStatus struct {
 	Ok bool `json:"ok"`
 }
 
+// A single contact opt-in.
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/ContactOptIn).
+type ContactOptIn struct {
+	// Unique ID
+	Id int64 `json:"id"`
+
+	// ID of the contact
+	Contactid int64 `json:"contactid"`
+
+	// Info on the actual opt in
+	Info *ContactOptInInfo `json:"info,omitempty"`
+
+	// ID of the optin
+	Optinid int64 `json:"optinid"`
+
+	// Status of the opt-in
+	Status int64 `json:"status"`
+
+	// Created timestamp
+	Createdts Time `json:"createdts"`
+
+	// Last updated timestamp
+	Lastupdatets Time `json:"lastupdatets"`
+}
+
 // Additional info when this opt in is set.
 //
 // Help Center
@@ -733,6 +767,9 @@ type ContactOptInInfo struct {
 
 	// The method by which the status is set
 	Method string `json:"method"`
+
+	// Explanation of why the status was set.
+	Remarks string `json:"remarks"`
 
 	// ID of the user that has set this opt in.
 	Userid int64 `json:"userid"`
@@ -3700,11 +3737,7 @@ type OptIn struct {
 	// Note: Ignored when updating an existing opt in.
 	Id int64 `json:"id"`
 
-	// Type of the opt-in. Can be 'Consent' (40001) or 'Soft' (40002)
-	//
-	// Note: Ignored when creating a new opt in.
-	//
-	// Note: Ignored when updating an existing opt in.
+	// Type of the opt-in. Can be 'Mandatory' (40001) or 'Optional' (40002)
 	Typeid int64 `json:"typeid"`
 
 	// Name
@@ -3713,16 +3746,16 @@ type OptIn struct {
 	// Sales channel where this opt-in is available
 	Availability []*OptInAvailability `json:"availability"`
 
-	// Caption for the checkbox, needs to be set when typeid is Soft (40002)
+	// Caption for the checkbox, needs to be set when typeid is Optional (40002)
 	Caption string `json:"caption"`
 
 	// Description
 	Description string `json:"description"`
 
-	// Caption for no radio button, needs to be set when typeid is Consent (40001)
+	// Caption for no radio button, needs to be set when typeid is Mandatory (40001)
 	Nocaption string `json:"nocaption"`
 
-	// Caption for yes radio button, needs to be set when typeid is Consent (40001)
+	// Caption for yes radio button, needs to be set when typeid is Mandatory (40001)
 	Yescaption string `json:"yescaption"`
 
 	// Whether or not this item is archived
@@ -5729,8 +5762,6 @@ type Product struct {
 	// also controls the content of the product. All products should have a default
 	// instancevalue and a set of exceptions (if there are any). If no specific
 	// exception is found for the selected product, the default instancevalue is used.
-	//
-	// Note: Not set when retrieving a list of products.
 	Instancevalues *ProductInstancevalues `json:"instancevalues,omitempty"`
 
 	// The amount of individual tickets per event that can be purchased alongside this
