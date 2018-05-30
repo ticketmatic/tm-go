@@ -736,16 +736,14 @@ type ContactOptIn struct {
 	// Unique ID
 	Id int64 `json:"id"`
 
-	// ID of the contact
-	Contactid int64 `json:"contactid"`
-
 	// Info on the actual opt in
 	Info *ContactOptInInfo `json:"info,omitempty"`
 
 	// ID of the optin
 	Optinid int64 `json:"optinid"`
 
-	// Status of the opt-in
+	// Status of the opt-in. Possible values are Unknown (7601), Opted In (7602) and
+	// Opted Out (7603)
 	Status int64 `json:"status"`
 
 	// Created timestamp
@@ -1850,6 +1848,9 @@ type Event struct {
 	// for more information.
 	Ticketlayoutid int64 `json:"ticketlayoutid,omitempty"`
 
+	// Translation of event fields
+	Translations map[string]string `json:"translations,omitempty"`
+
 	// The type of the waiting list the event uses
 	Waitinglisttype int64 `json:"waitinglisttype,omitempty"`
 
@@ -1947,6 +1948,7 @@ func (o *Event) MarshalJSON() ([]byte, error) {
 		Subtitle2                      string                         `json:"subtitle2,omitempty"`
 		Ticketfeeid                    int64                          `json:"ticketfeeid,omitempty"`
 		Ticketlayoutid                 int64                          `json:"ticketlayoutid,omitempty"`
+		Translations                   map[string]string              `json:"translations,omitempty"`
 		Waitinglisttype                int64                          `json:"waitinglisttype,omitempty"`
 		Webremark                      string                         `json:"webremark,omitempty"`
 		Createdts                      Time                           `json:"createdts,omitempty"`
@@ -1990,6 +1992,7 @@ func (o *Event) MarshalJSON() ([]byte, error) {
 		Subtitle2:                      o.Subtitle2,
 		Ticketfeeid:                    o.Ticketfeeid,
 		Ticketlayoutid:                 o.Ticketlayoutid,
+		Translations:                   o.Translations,
 		Waitinglisttype:                o.Waitinglisttype,
 		Webremark:                      o.Webremark,
 		Createdts:                      o.Createdts,
@@ -4542,9 +4545,6 @@ type OrderTicket struct {
 
 	// Order ID
 	Orderid int64 `json:"orderid"`
-
-	// The abo ticketid for tickets that belong to an abo
-	Aboparentid int64 `json:"aboparentid"`
 
 	// The barcode of this ticket, will be visible when the order is confirmed
 	Barcode string `json:"barcode"`
