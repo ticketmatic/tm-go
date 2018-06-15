@@ -7096,6 +7096,32 @@ type TicketsPdfRequest struct {
 	Vouchercodes []int64 `json:"vouchercodes"`
 }
 
+// Info for requesting placeholder data for one or more tickets in an order
+// (https://www.ticketmatic.com/docs/api/types/Order).
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/TicketsPlaceholdersRequest).
+type TicketsPlaceholdersRequest struct {
+	// Ticketids
+	Tickets []int64 `json:"tickets"`
+}
+
+// Placeholder data for a ticket.
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/TicketsPlaceholdersResult).
+type TicketsPlaceholdersResult struct {
+	// Ticket id
+	Id int64 `json:"id"`
+
+	// Placeholders for the ticket
+	Placeholders map[string]interface{} `json:"placeholders,omitempty"`
+}
+
 // Required data for requesting the ticketsprocessedstatistics.
 //
 // Help Center

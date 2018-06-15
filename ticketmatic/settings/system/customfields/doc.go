@@ -24,6 +24,12 @@
 //
 // * Event location (13010)
 //
+// * User (13011)
+//
+// * Waiting list request (13012)
+//
+// * Waiting list request item (13013)
+//
 // The list of possible custom field field types are:
 //
 // * String (12001)
