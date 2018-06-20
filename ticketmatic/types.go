@@ -3038,6 +3038,37 @@ type FieldDefinitionQuery struct {
 	Lastupdatesince Time `json:"lastupdatesince,omitempty"`
 }
 
+// Info for requesting field definition data for one or more items.
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/FielddefinitionsDataRequest).
+type FielddefinitionsDataRequest struct {
+	// Type id
+	Typeid int64 `json:"typeid"`
+
+	// Keys for field definitions to retrieve
+	Fielddefinitions []string `json:"fielddefinitions"`
+
+	// Item ids
+	Ids []int64 `json:"ids"`
+}
+
+// Data for field definitions for an item.
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/FielddefinitionsDataResult).
+type FielddefinitionsDataResult struct {
+	// Item id
+	Id int64 `json:"id"`
+
+	// Field definition data for the item
+	Data map[string]interface{} `json:"data,omitempty"`
+}
+
 // A single filter definition.
 //
 // More info: see the get operation
@@ -7094,32 +7125,6 @@ type TicketsPdfRequest struct {
 
 	// Vouchercodeids
 	Vouchercodes []int64 `json:"vouchercodes"`
-}
-
-// Info for requesting placeholder data for one or more tickets in an order
-// (https://www.ticketmatic.com/docs/api/types/Order).
-//
-// Help Center
-//
-// Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/TicketsPlaceholdersRequest).
-type TicketsPlaceholdersRequest struct {
-	// Ticketids
-	Tickets []int64 `json:"tickets"`
-}
-
-// Placeholder data for a ticket.
-//
-// Help Center
-//
-// Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/TicketsPlaceholdersResult).
-type TicketsPlaceholdersResult struct {
-	// Ticket id
-	Id int64 `json:"id"`
-
-	// Placeholders for the ticket
-	Placeholders map[string]interface{} `json:"placeholders,omitempty"`
 }
 
 // Required data for requesting the ticketsprocessedstatistics.

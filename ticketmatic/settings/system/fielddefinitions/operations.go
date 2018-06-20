@@ -135,3 +135,16 @@ func Translate(client *ticketmatic.Client, id int64, data map[string]string) (ma
 	}
 	return obj, nil
 }
+
+// Get data for field definitions
+func Getdata(client *ticketmatic.Client, data *ticketmatic.FielddefinitionsDataRequest) ([]*ticketmatic.FielddefinitionsDataResult, error) {
+	r := client.NewRequest("POST", "/{accountname}/settings/system/fielddefinitions/data", "json")
+	r.Body(data, "json")
+
+	var obj []*ticketmatic.FielddefinitionsDataResult
+	err := r.Run(&obj)
+	if err != nil {
+		return nil, err
+	}
+	return obj, nil
+}

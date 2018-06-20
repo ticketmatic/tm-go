@@ -372,22 +372,6 @@ func Postpdf(client *ticketmatic.Client, id int64, data *ticketmatic.TicketsPdfR
 	return obj, nil
 }
 
-// Get placeholders for tickets
-func Postplaceholders(client *ticketmatic.Client, id int64, data *ticketmatic.TicketsPlaceholdersRequest) ([]*ticketmatic.TicketsPlaceholdersResult, error) {
-	r := client.NewRequest("POST", "/{accountname}/orders/{id}/placeholders", "json")
-	r.UrlParameters(map[string]interface{}{
-		"id": id,
-	})
-	r.Body(data, "json")
-
-	var obj []*ticketmatic.TicketsPlaceholdersResult
-	err := r.Run(&obj)
-	if err != nil {
-		return nil, err
-	}
-	return obj, nil
-}
-
 // Send the delivery e-mail for the order
 func Postticketsemaildelivery(client *ticketmatic.Client, id int64, data *ticketmatic.TicketsEmaildeliveryRequest) (*ticketmatic.Order, error) {
 	r := client.NewRequest("POST", "/{accountname}/orders/{id}/tickets/emaildelivery", "json")
