@@ -6750,6 +6750,29 @@ type SetOrderCost struct {
 	Servicechargedefinitionid int64 `json:"servicechargedefinitionid"`
 }
 
+// Required data for splitting an order
+// (https://www.ticketmatic.com/docs/api/types/Order).
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/SplitOrder).
+type SplitOrder struct {
+	// The delivery scenario for the new order, when not provided will be the same as
+	// the current order.
+	Deliveryscenarioid int64 `json:"deliveryscenarioid"`
+
+	// The payment scenario for the new order, when not provided will be the same as
+	// the current order.
+	Paymentscenarioid int64 `json:"paymentscenarioid"`
+
+	// Product IDs that need to be moved from the current order to the new one
+	Products []int64 `json:"products"`
+
+	// Ticket IDs that need to be moved from the current order to the new one
+	Tickets []int64 `json:"tickets"`
+}
+
 // A newly created communication
 //
 // Help Center
@@ -7556,6 +7579,9 @@ type WaitingListRequest struct {
 	// Note: Ignored when updating an existing waiting list request.
 	Id int64 `json:"id"`
 
+	// Order id
+	Orderid int64 `json:"orderid"`
+
 	// Contact id
 	Contactid int64 `json:"contactid"`
 
@@ -7636,6 +7662,7 @@ func (o *WaitingListRequest) MarshalJSON() ([]byte, error) {
 	// Use a custom type to avoid the custom marshaller, marshal the data.
 	type tmp struct {
 		Id                      int64                     `json:"id,omitempty"`
+		Orderid                 int64                     `json:"orderid,omitempty"`
 		Contactid               int64                     `json:"contactid,omitempty"`
 		Itemsstatus             int64                     `json:"itemsstatus,omitempty"`
 		Requeststatus           int64                     `json:"requeststatus,omitempty"`
@@ -7648,6 +7675,7 @@ func (o *WaitingListRequest) MarshalJSON() ([]byte, error) {
 
 	obj := tmp{
 		Id:                      o.Id,
+		Orderid:                 o.Orderid,
 		Contactid:               o.Contactid,
 		Itemsstatus:             o.Itemsstatus,
 		Requeststatus:           o.Requeststatus,

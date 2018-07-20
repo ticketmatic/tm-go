@@ -161,6 +161,22 @@ func Confirm(client *ticketmatic.Client, id int64) (*ticketmatic.Order, error) {
 	return obj, nil
 }
 
+// Split tickets and/or products from an order into a new one.
+func Split(client *ticketmatic.Client, id int64, data *ticketmatic.SplitOrder) (*ticketmatic.Order, error) {
+	r := client.NewRequest("POST", "/{accountname}/orders/{id}/split", "json")
+	r.UrlParameters(map[string]interface{}{
+		"id": id,
+	})
+	r.Body(data, "json")
+
+	var obj *ticketmatic.Order
+	err := r.Run(&obj)
+	if err != nil {
+		return nil, err
+	}
+	return obj, nil
+}
+
 // Add tickets to order
 //
 // When adding tickets, this is limited to 50 tickets per call. Note: This method

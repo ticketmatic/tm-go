@@ -150,6 +150,112 @@ func TestCreate(t *testing.T) {
 
 }
 
+func TestSplit(t *testing.T) {
+	var err error
+
+	accountcode := os.Getenv("TM_TEST_ACCOUNTCODE")
+	accesskey := os.Getenv("TM_TEST_ACCESSKEY")
+	secretkey := os.Getenv("TM_TEST_SECRETKEY")
+	c := ticketmatic.NewClient(accountcode, accesskey, secretkey)
+
+	order, err := Create(c, &ticketmatic.CreateOrder{
+		Saleschannelid: 1,
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if order.Orderid == 0 {
+		t.Errorf("Unexpected order.Orderid, got %#v, expected different value", order.Orderid)
+	}
+
+	if order.Saleschannelid != 1 {
+		t.Errorf("Unexpected order.Saleschannelid, got %#v, expected %#v", order.Saleschannelid, 1)
+	}
+
+	updated, err := Update(c, order.Orderid, &ticketmatic.UpdateOrder{
+		Customerid:         777701,
+		Deliveryscenarioid: 2,
+		Paymentscenarioid:  3,
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if updated.Orderid != order.Orderid {
+		t.Errorf("Unexpected updated.Orderid, got %#v, expected %#v", updated.Orderid, order.Orderid)
+	}
+
+	if updated.Deliveryscenarioid != 2 {
+		t.Errorf("Unexpected updated.Deliveryscenarioid, got %#v, expected %#v", updated.Deliveryscenarioid, 2)
+	}
+
+	if updated.Paymentscenarioid != 3 {
+		t.Errorf("Unexpected updated.Paymentscenarioid, got %#v, expected %#v", updated.Paymentscenarioid, 3)
+	}
+
+	if updated.Customerid != 777701 {
+		t.Errorf("Unexpected updated.Customerid, got %#v, expected %#v", updated.Customerid, 777701)
+	}
+
+	ttps, err := events.Get(c, 777701)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if ttps.Id == 0 {
+		t.Errorf("Unexpected ttps.Id, got %#v, expected different value", ttps.Id)
+	}
+
+	ticketsadded, err := Addtickets(c, order.Orderid, &ticketmatic.AddTickets{
+		Tickets: []*ticketmatic.CreateTicket{
+			&ticketmatic.CreateTicket{
+				Tickettypepriceid: ttps.Prices.Contingents[0].Pricetypes[0].Tickettypepriceid,
+			},
+			&ticketmatic.CreateTicket{
+				Tickettypepriceid: ttps.Prices.Contingents[0].Pricetypes[0].Tickettypepriceid,
+			},
+		},
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if len(ticketsadded.Order.Tickets) != 2 {
+		t.Errorf("Unexpected ticketsadded.Order.Tickets length, got %#v, expected %#v", len(ticketsadded.Order.Tickets), 2)
+	}
+
+	ticketids := []int64{
+		ticketsadded.Order.Tickets[0].Id,
+	}
+
+	_, err = Confirm(c, order.Orderid)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	split, err := Split(c, order.Orderid, &ticketmatic.SplitOrder{
+		Deliveryscenarioid: 3,
+		Tickets:            ticketids,
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if len(split.Tickets) != 1 {
+		t.Errorf("Unexpected split.Tickets length, got %#v, expected %#v", len(split.Tickets), 1)
+	}
+
+	if split.Deliveryscenarioid != 3 {
+		t.Errorf("Unexpected split.Deliveryscenarioid, got %#v, expected %#v", split.Deliveryscenarioid, 3)
+	}
+
+	if split.Paymentscenarioid != 3 {
+		t.Errorf("Unexpected split.Paymentscenarioid, got %#v, expected %#v", split.Paymentscenarioid, 3)
+	}
+
+}
+
 func TestCreatequeued(t *testing.T) {
 	var err error
 
