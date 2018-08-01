@@ -274,43 +274,6 @@ type Contact struct {
 	// Note: Ignored when updating an existing contact.
 	Id int64 `json:"id"`
 
-	// The id by which the contact authenticated in case of Facebook, Google or Twitter
-	// authentication. Will be empty when account_type is Password
-	//
-	// Note: Ignored when creating a new contact.
-	//
-	// Note: Ignored when updating an existing contact.
-	AccountExternalid string `json:"account_externalid,omitempty"`
-
-	// Last time the contact authenticated.
-	//
-	// Note: Ignored when creating a new contact.
-	//
-	// Note: Ignored when updating an existing contact.
-	AccountLastauthenticationts Time `json:"account_lastauthenticationts,omitempty"`
-
-	// Account type.
-	//
-	// Indicates the authentication type supported for this contact (used when
-	// authentication is enabled in web sales).
-	//
-	// Possible values:
-	//
-	// * 0: No authentication
-	//
-	// * 1901: Password authentication
-	//
-	// * 1902: Facebook
-	//
-	// * 1903: Google
-	//
-	// * 1904: Twitter
-	//
-	// Note: Ignored when creating a new contact.
-	//
-	// Note: Ignored when updating an existing contact.
-	AccountType int64 `json:"account_type,omitempty"`
-
 	// Addresses
 	Addresses []*Address `json:"addresses"`
 
@@ -440,57 +403,51 @@ func (o *Contact) UnmarshalJSON(data []byte) error {
 func (o *Contact) MarshalJSON() ([]byte, error) {
 	// Use a custom type to avoid the custom marshaller, marshal the data.
 	type tmp struct {
-		Id                          int64           `json:"id,omitempty"`
-		AccountExternalid           string          `json:"account_externalid,omitempty"`
-		AccountLastauthenticationts Time            `json:"account_lastauthenticationts,omitempty"`
-		AccountType                 int64           `json:"account_type,omitempty"`
-		Addresses                   []*Address      `json:"addresses,omitempty"`
-		Birthdate                   Time            `json:"birthdate,omitempty"`
-		Company                     string          `json:"company,omitempty"`
-		Customertitleid             int64           `json:"customertitleid,omitempty"`
-		Email                       string          `json:"email,omitempty"`
-		Firstname                   string          `json:"firstname,omitempty"`
-		Languagecode                string          `json:"languagecode,omitempty"`
-		Lastname                    string          `json:"lastname,omitempty"`
-		Middlename                  string          `json:"middlename,omitempty"`
-		Optins                      []*ContactOptIn `json:"optins,omitempty"`
-		Organizationfunction        string          `json:"organizationfunction,omitempty"`
-		Phonenumbers                []*Phonenumber  `json:"phonenumbers,omitempty"`
-		Relationtypes               []int64         `json:"relationtypes,omitempty"`
-		Sex                         string          `json:"sex,omitempty"`
-		Status                      string          `json:"status,omitempty"`
-		Subscribed                  bool            `json:"subscribed,omitempty"`
-		Vatnumber                   string          `json:"vatnumber,omitempty"`
-		Isdeleted                   bool            `json:"isdeleted,omitempty"`
-		Createdts                   Time            `json:"createdts,omitempty"`
-		Lastupdatets                Time            `json:"lastupdatets,omitempty"`
+		Id                   int64           `json:"id,omitempty"`
+		Addresses            []*Address      `json:"addresses,omitempty"`
+		Birthdate            Time            `json:"birthdate,omitempty"`
+		Company              string          `json:"company,omitempty"`
+		Customertitleid      int64           `json:"customertitleid,omitempty"`
+		Email                string          `json:"email,omitempty"`
+		Firstname            string          `json:"firstname,omitempty"`
+		Languagecode         string          `json:"languagecode,omitempty"`
+		Lastname             string          `json:"lastname,omitempty"`
+		Middlename           string          `json:"middlename,omitempty"`
+		Optins               []*ContactOptIn `json:"optins,omitempty"`
+		Organizationfunction string          `json:"organizationfunction,omitempty"`
+		Phonenumbers         []*Phonenumber  `json:"phonenumbers,omitempty"`
+		Relationtypes        []int64         `json:"relationtypes,omitempty"`
+		Sex                  string          `json:"sex,omitempty"`
+		Status               string          `json:"status,omitempty"`
+		Subscribed           bool            `json:"subscribed,omitempty"`
+		Vatnumber            string          `json:"vatnumber,omitempty"`
+		Isdeleted            bool            `json:"isdeleted,omitempty"`
+		Createdts            Time            `json:"createdts,omitempty"`
+		Lastupdatets         Time            `json:"lastupdatets,omitempty"`
 	}
 
 	obj := tmp{
-		Id:                          o.Id,
-		AccountExternalid:           o.AccountExternalid,
-		AccountLastauthenticationts: o.AccountLastauthenticationts,
-		AccountType:                 o.AccountType,
-		Addresses:                   o.Addresses,
-		Birthdate:                   o.Birthdate,
-		Company:                     o.Company,
-		Customertitleid:             o.Customertitleid,
-		Email:                       o.Email,
-		Firstname:                   o.Firstname,
-		Languagecode:                o.Languagecode,
-		Lastname:                    o.Lastname,
-		Middlename:                  o.Middlename,
-		Optins:                      o.Optins,
-		Organizationfunction:        o.Organizationfunction,
-		Phonenumbers:                o.Phonenumbers,
-		Relationtypes:               o.Relationtypes,
-		Sex:                         o.Sex,
-		Status:                      o.Status,
-		Subscribed:                  o.Subscribed,
-		Vatnumber:                   o.Vatnumber,
-		Isdeleted:                   o.Isdeleted,
-		Createdts:                   o.Createdts,
-		Lastupdatets:                o.Lastupdatets,
+		Id:                   o.Id,
+		Addresses:            o.Addresses,
+		Birthdate:            o.Birthdate,
+		Company:              o.Company,
+		Customertitleid:      o.Customertitleid,
+		Email:                o.Email,
+		Firstname:            o.Firstname,
+		Languagecode:         o.Languagecode,
+		Lastname:             o.Lastname,
+		Middlename:           o.Middlename,
+		Optins:               o.Optins,
+		Organizationfunction: o.Organizationfunction,
+		Phonenumbers:         o.Phonenumbers,
+		Relationtypes:        o.Relationtypes,
+		Sex:                  o.Sex,
+		Status:               o.Status,
+		Subscribed:           o.Subscribed,
+		Vatnumber:            o.Vatnumber,
+		Isdeleted:            o.Isdeleted,
+		Createdts:            o.Createdts,
+		Lastupdatets:         o.Lastupdatets,
 	}
 	data, err := json.Marshal(obj)
 	if err != nil {
