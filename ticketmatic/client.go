@@ -24,7 +24,7 @@ var Server = "https://apps.ticketmatic.com"
 var Version = "1"
 
 // Library Version
-const Build = "c7884824a65c9d8445b84eb852c72b0b577bd9cc"
+const Build = "1.0.94"
 
 // Rate limit error
 type RateLimitError struct {
@@ -45,7 +45,11 @@ type RequestError struct {
 }
 
 func (r *RequestError) Error() string {
-	return fmt.Sprintf("Failed (%d): %s", r.StatusCode, string(r.Body))
+	if r.Message != "" {
+		return fmt.Sprintf("Failed (%d): %s", r.StatusCode, r.Message)
+	} else {
+		return fmt.Sprintf("Failed (%d): %s", r.StatusCode, string(r.Body))
+	}
 }
 
 func init() {

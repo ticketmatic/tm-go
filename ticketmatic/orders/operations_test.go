@@ -36,6 +36,17 @@ func TestGet(t *testing.T) {
 		t.Errorf("Unexpected order.Orderid, got %#v, expected %#v", order.Orderid, list.Data[0].Orderid)
 	}
 
+	list2, err := Getlist(c, &ticketmatic.OrderQuery{
+		Limit: 100,
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if len(list2.Data) != 100 {
+		t.Errorf("Unexpected list2.Data length, got %#v, expected %#v", len(list2.Data), 100)
+	}
+
 }
 
 func TestCreate(t *testing.T) {
