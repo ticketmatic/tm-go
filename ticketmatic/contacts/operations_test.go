@@ -91,10 +91,6 @@ func TestBatch(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	if batchupdate == nil {
-		t.Errorf("Unexpected batchupdate, got %#v, expected different value", batchupdate)
-	}
-
 }
 
 func TestCreate(t *testing.T) {
@@ -464,10 +460,6 @@ func TestUpdatewithoptins(t *testing.T) {
 
 	if updated.Optins[0].Optinid != 1 {
 		t.Errorf("Unexpected updated.Optins[0].Optinid, got %#v, expected %#v", updated.Optins[0].Optinid, 1)
-	}
-
-	if updated.Optins[0].Contactid != contact.Id {
-		t.Errorf("Unexpected updated.Optins[0].Contactid, got %#v, expected %#v", updated.Optins[0].Contactid, contact.Id)
 	}
 
 	if updated.Optins[0].Status != 7602 {
