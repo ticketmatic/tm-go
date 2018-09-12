@@ -4562,7 +4562,7 @@ type OrderQuery struct {
 	Orderby string `json:"orderby,omitempty"`
 
 	// Sets the direction for ordering. Default false.
-	OrderbyAscending bool `json:"orderby_ascending,omitempty"`
+	OrderbyAsc bool `json:"orderby_asc,omitempty"`
 
 	// Output format.
 	//
