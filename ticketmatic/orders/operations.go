@@ -64,6 +64,7 @@ func Getlist(client *ticketmatic.Client, params *ticketmatic.OrderQuery) (*List,
 		r.AddParameter("limit", params.Limit)
 		r.AddParameter("offset", params.Offset)
 		r.AddParameter("orderby", params.Orderby)
+		r.AddParameter("orderby_ascending", params.OrderbyAscending)
 		r.AddParameter("output", params.Output)
 		r.AddParameter("searchterm", params.Searchterm)
 		r.AddParameter("simplefilter", params.Simplefilter)

@@ -2799,8 +2799,8 @@ func (o *EventTicket) MarshalJSON() ([]byte, error) {
 	}
 
 	obj := tmp{
-		Id:      o.Id,
-		Orderid: o.Orderid,
+		Id:                                   o.Id,
+		Orderid:                              o.Orderid,
 		Accesscontrollastenteredscandeviceid: o.Accesscontrollastenteredscandeviceid,
 		Accesscontrollastenteredts:           o.Accesscontrollastenteredts,
 		Accesscontrollastexitscandeviceid:    o.Accesscontrollastexitscandeviceid,
@@ -3553,6 +3553,9 @@ type LockType struct {
 
 	// The color of the lock type
 	Color string `json:"color"`
+
+	// Hides seats in online sales if this is true
+	Hideseats bool `json:"hideseats"`
 
 	// Indicates whether this lock is a hard lock (meaning that it normally never will
 	// be released and does not count for the inventory) or a soft lock
@@ -4557,6 +4560,9 @@ type OrderQuery struct {
 	//
 	// Supported values: createdts, lastupdatets.
 	Orderby string `json:"orderby,omitempty"`
+
+	// Sets the direction for ordering. Default false.
+	OrderbyAscending bool `json:"orderby_ascending,omitempty"`
 
 	// Output format.
 	//
@@ -7167,6 +7173,26 @@ type TicketsPdfRequest struct {
 
 	// Vouchercodeids
 	Vouchercodes []int64 `json:"vouchercodes"`
+}
+
+// Config for a ticket sales flow
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/TicketsalesFlowConfig).
+type TicketsalesFlowConfig struct {
+	// Start timestamp for this config
+	From Time `json:"from,omitempty"`
+
+	// End timestamp for this config
+	Until Time `json:"until,omitempty"`
+
+	// Widget to use in this config
+	Widget string `json:"widget,omitempty"`
+
+	// Widget parameters for this config
+	Widgetparams map[string]string `json:"widgetparams,omitempty"`
 }
 
 // Required data for requesting the ticketsprocessedstatistics.

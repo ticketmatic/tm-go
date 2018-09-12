@@ -24,7 +24,7 @@ var Server = "https://apps.ticketmatic.com"
 var Version = "1"
 
 // Library Version
-const Build = "1.0.94"
+const Build = "1.0.95"
 
 // Rate limit error
 type RateLimitError struct {
@@ -131,9 +131,14 @@ func (r *Request) Run(obj interface{}) error {
 
 	if obj != nil {
 		if r.resultContentType == "json" {
-			err = json.NewDecoder(resp.Body).Decode(obj)
+			data, err := ioutil.ReadAll(resp.Body)
 			if err != nil {
 				return err
+			}
+
+			err = json.Unmarshal(data, obj)
+			if err != nil {
+				return fmt.Errorf("Deserialization failed: %s in %s", err, string(data))
 			}
 		} else {
 			buff, ok := obj.(*bytes.Buffer)
