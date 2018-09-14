@@ -475,3 +475,85 @@ func TestUpdatewithoptins(t *testing.T) {
 	}
 
 }
+
+func TestRemarks(t *testing.T) {
+	var err error
+
+	accountcode := os.Getenv("TM_TEST_ACCOUNTCODE")
+	accesskey := os.Getenv("TM_TEST_ACCESSKEY")
+	secretkey := os.Getenv("TM_TEST_SECRETKEY")
+	c := ticketmatic.NewClient(accountcode, accesskey, secretkey)
+
+	contact, err := Create(c, &ticketmatic.Contact{
+		Firstname: "John",
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if contact.Id == 0 {
+		t.Errorf("Unexpected contact.Id, got %#v, expected different value", contact.Id)
+	}
+
+	if contact.Firstname != "John" {
+		t.Errorf("Unexpected contact.Firstname, got %#v, expected %#v", contact.Firstname, "John")
+	}
+
+	remark, err := Createremark(c, contact.Id, &ticketmatic.ContactRemark{
+		Content: "Hello World",
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if remark.Id == 0 {
+		t.Errorf("Unexpected remark.Id, got %#v, expected different value", remark.Id)
+	}
+
+	if remark.Content != "Hello World" {
+		t.Errorf("Unexpected remark.Content, got %#v, expected %#v", remark.Content, "Hello World")
+	}
+
+	if remark.Pinned != false {
+		t.Errorf("Unexpected remark.Pinned, got %#v, expected %#v", remark.Pinned, false)
+	}
+
+	updated, err := Updateremark(c, contact.Id, remark.Id, &ticketmatic.ContactRemark{
+		Content: "Hello World 2",
+		Pinned:  true,
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if updated.Content != "Hello World 2" {
+		t.Errorf("Unexpected updated.Content, got %#v, expected %#v", updated.Content, "Hello World 2")
+	}
+
+	if updated.Pinned != true {
+		t.Errorf("Unexpected updated.Pinned, got %#v, expected %#v", updated.Pinned, true)
+	}
+
+	get, err := Getremark(c, contact.Id, remark.Id)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if get.Id != remark.Id {
+		t.Errorf("Unexpected get.Id, got %#v, expected %#v", get.Id, remark.Id)
+	}
+
+	if get.Content != "Hello World 2" {
+		t.Errorf("Unexpected get.Content, got %#v, expected %#v", get.Content, "Hello World 2")
+	}
+
+	if get.Pinned != true {
+		t.Errorf("Unexpected get.Pinned, got %#v, expected %#v", get.Pinned, true)
+	}
+
+	err = Deleteremark(c, contact.Id, remark.Id)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+}

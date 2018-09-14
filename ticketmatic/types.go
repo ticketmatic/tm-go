@@ -778,6 +778,20 @@ type ContactQuery struct {
 	Searchterm string `json:"searchterm,omitempty"`
 }
 
+// Remark to add to a contact
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/ContactRemark).
+type ContactRemark struct {
+	// The message
+	Content string `json:"content"`
+
+	// Is this relevant for sales?
+	Pinned bool `json:"pinned,omitempty"`
+}
+
 // A single contact title.
 //
 // More info: see the get operation

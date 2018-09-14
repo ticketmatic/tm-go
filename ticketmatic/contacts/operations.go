@@ -203,3 +203,71 @@ func Reserve(client *ticketmatic.Client, data *ticketmatic.ContactIdReservation)
 	}
 	return obj, nil
 }
+
+// Get a remark
+//
+// Gets a specific remark for this contact
+func Getremark(client *ticketmatic.Client, id int64, remarkid string) (*ticketmatic.ContactRemark, error) {
+	r := client.NewRequest("GET", "/{accountname}/contacts/{id}/remarks/{remarkid}", "json")
+	r.UrlParameters(map[string]interface{}{
+		"id":       id,
+		"remarkid": remarkid,
+	})
+
+	var obj *ticketmatic.ContactRemark
+	err := r.Run(&obj)
+	if err != nil {
+		return nil, err
+	}
+	return obj, nil
+}
+
+// Create a remark
+//
+// Creates a remark for this contact
+func Createremark(client *ticketmatic.Client, id int64, data *ticketmatic.ContactRemark) (*ticketmatic.ContactRemark, error) {
+	r := client.NewRequest("POST", "/{accountname}/contacts/{id}/remarks", "json")
+	r.UrlParameters(map[string]interface{}{
+		"id": id,
+	})
+	r.Body(data, "json")
+
+	var obj *ticketmatic.ContactRemark
+	err := r.Run(&obj)
+	if err != nil {
+		return nil, err
+	}
+	return obj, nil
+}
+
+// Update a remark
+//
+// Updates a specific remark for this contact
+func Updateremark(client *ticketmatic.Client, id int64, remarkid string, data *ticketmatic.ContactRemark) (*ticketmatic.ContactRemark, error) {
+	r := client.NewRequest("PUT", "/{accountname}/contacts/{id}/remarks/{remarkid}", "json")
+	r.UrlParameters(map[string]interface{}{
+		"id":       id,
+		"remarkid": remarkid,
+	})
+	r.Body(data, "json")
+
+	var obj *ticketmatic.ContactRemark
+	err := r.Run(&obj)
+	if err != nil {
+		return nil, err
+	}
+	return obj, nil
+}
+
+// Delete a remark
+//
+// Deletes a specific remark for this contact
+func Deleteremark(client *ticketmatic.Client, id int64, remarkid string) error {
+	r := client.NewRequest("DELETE", "/{accountname}/contacts/{id}/remarks/{remarkid}", "json")
+	r.UrlParameters(map[string]interface{}{
+		"id":       id,
+		"remarkid": remarkid,
+	})
+
+	return r.Run(nil)
+}
