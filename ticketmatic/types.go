@@ -778,18 +778,21 @@ type ContactQuery struct {
 	Searchterm string `json:"searchterm,omitempty"`
 }
 
-// Remark to add to a contact
+// Remarks belonging to a contact.
 //
 // Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/ContactRemark).
 type ContactRemark struct {
+	// Remark ID
+	Id int64 `json:"id"`
+
 	// The message
 	Content string `json:"content"`
 
 	// Is this relevant for sales?
-	Pinned bool `json:"pinned,omitempty"`
+	Pinned bool `json:"pinned"`
 }
 
 // A single contact title.
@@ -3144,6 +3147,20 @@ type FilterItem struct {
 
 	// Operator type
 	Operator string `json:"operator"`
+}
+
+// Required data for a flow session
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/Flowsession).
+type Flowsession struct {
+	// Order id
+	Orderid int64 `json:"orderid"`
+
+	// Contact id
+	Contactid int64 `json:"contactid"`
 }
 
 // Used when importing an order with optiondbundle tickets
@@ -7207,6 +7224,131 @@ type TicketsalesFlowConfig struct {
 
 	// Widget parameters for this config
 	Widgetparams map[string]string `json:"widgetparams,omitempty"`
+}
+
+// A single ticketsalesflow.
+//
+// More info: see the get operation
+// (https://www.ticketmatic.com/docs/api/settings/system/ticketsalesflows/get) and
+// the ticketsalesflows endpoint
+// (https://www.ticketmatic.com/docs/api/settings/system/ticketsalesflows).
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/Ticketsalesflow).
+type Ticketsalesflow struct {
+	// Unique ID
+	//
+	// Note: Ignored when creating a new ticketsalesflow.
+	//
+	// Note: Ignored when updating an existing ticketsalesflow.
+	Id int64 `json:"id"`
+
+	// Name
+	Name string `json:"name"`
+
+	// Description of which events are available for this flow
+	Availabilitydescription string `json:"availabilitydescription"`
+
+	// Fielddefinition used to define the availability of events for this flow
+	Availabilityfielddefinition string `json:"availabilityfielddefinition"`
+
+	// Unique code used for the flow. Should only contain lower case letters and digits
+	Code string `json:"code"`
+
+	// Config for the flow
+	Config []*TicketsalesFlowConfig `json:"config"`
+
+	// Description
+	Description string `json:"description"`
+
+	// Supported parameters for the flow
+	Supportedparameters []string `json:"supportedparameters"`
+
+	// Whether or not the flow is in test mode
+	Testmode bool `json:"testmode"`
+
+	// Ticket sales setup this flow belongs to
+	Ticketsalessetupid int64 `json:"ticketsalessetupid"`
+}
+
+// Set of parameters used to filter ticketsalesflows.
+//
+// More info: see ticketsalesflow
+// (https://www.ticketmatic.com/docs/api/types/Ticketsalesflow), the getlist
+// operation
+// (https://www.ticketmatic.com/docs/api/settings/system/ticketsalesflows/getlist)
+// and the ticketsalesflows endpoint
+// (https://www.ticketmatic.com/docs/api/settings/system/ticketsalesflows).
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/TicketsalesflowQuery).
+type TicketsalesflowQuery struct {
+	// Filter the returned items by specifying a query on the public datamodel that
+	// returns the ids.
+	Filter string `json:"filter,omitempty"`
+
+	// All items that were updated since this timestamp will be returned. Timestamp
+	// should be passed in YYYY-MM-DD hh:mm:ss format.
+	Lastupdatesince Time `json:"lastupdatesince,omitempty"`
+}
+
+// A single ticketsalessetup.
+//
+// More info: see the get operation
+// (https://www.ticketmatic.com/docs/api/settings/system/ticketsalessetups/get) and
+// the ticketsalessetups endpoint
+// (https://www.ticketmatic.com/docs/api/settings/system/ticketsalessetups).
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/Ticketsalessetup).
+type Ticketsalessetup struct {
+	// Unique ID
+	//
+	// Note: Ignored when creating a new ticketsalessetup.
+	//
+	// Note: Ignored when updating an existing ticketsalessetup.
+	Id int64 `json:"id"`
+
+	// Name
+	Name string `json:"name"`
+
+	// Unique code used for the public link to the ticketsalessetup docs
+	Code string `json:"code"`
+
+	// Whether or not the ticket sales setup is integrated with the website
+	Integrated bool `json:"integrated"`
+
+	// Widget parameters used for all flows in this setup
+	Widgetparams map[string]string `json:"widgetparams,omitempty"`
+}
+
+// Set of parameters used to filter ticketsalessetups.
+//
+// More info: see ticketsalessetup
+// (https://www.ticketmatic.com/docs/api/types/Ticketsalessetup), the getlist
+// operation
+// (https://www.ticketmatic.com/docs/api/settings/system/ticketsalessetups/getlist)
+// and the ticketsalessetups endpoint
+// (https://www.ticketmatic.com/docs/api/settings/system/ticketsalessetups).
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/TicketsalessetupQuery).
+type TicketsalessetupQuery struct {
+	// Filter the returned items by specifying a query on the public datamodel that
+	// returns the ids.
+	Filter string `json:"filter,omitempty"`
+
+	// All items that were updated since this timestamp will be returned. Timestamp
+	// should be passed in YYYY-MM-DD hh:mm:ss format.
+	Lastupdatesince Time `json:"lastupdatesince,omitempty"`
 }
 
 // Required data for requesting the ticketsprocessedstatistics.
