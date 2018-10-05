@@ -6831,6 +6831,10 @@ type SetOrderCost struct {
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/SplitOrder).
 type SplitOrder struct {
+	// The customer for the new order, when not provided will be the same as the
+	// current order.
+	Customerid int64 `json:"customerid"`
+
 	// The delivery scenario for the new order, when not provided will be the same as
 	// the current order.
 	Deliveryscenarioid int64 `json:"deliveryscenarioid"`
