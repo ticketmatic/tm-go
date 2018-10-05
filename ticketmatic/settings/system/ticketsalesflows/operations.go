@@ -95,3 +95,18 @@ func Flowsession(client *ticketmatic.Client, data *ticketmatic.Flowsession) (str
 	}
 	return obj, nil
 }
+
+// Get info on a flow
+func Flowinfo(client *ticketmatic.Client, token string) (*ticketmatic.Flowinfo, error) {
+	r := client.NewRequest("GET", "/{accountname}/settings/system/ticketsalesflows/flowinfo/{token}", "json")
+	r.UrlParameters(map[string]interface{}{
+		"token": token,
+	})
+
+	var obj *ticketmatic.Flowinfo
+	err := r.Run(&obj)
+	if err != nil {
+		return nil, err
+	}
+	return obj, nil
+}

@@ -3149,6 +3149,23 @@ type FilterItem struct {
 	Operator string `json:"operator"`
 }
 
+// Info about a finished flow
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/Flowinfo).
+type Flowinfo struct {
+	// Contact id
+	Contactid int64 `json:"contactid"`
+
+	// Order active in the flow
+	Order *Order `json:"order,omitempty"`
+
+	// Reason the user was redirected
+	Reason string `json:"reason"`
+}
+
 // Required data for a flow session
 //
 // Help Center
@@ -6824,6 +6841,9 @@ type SplitOrder struct {
 
 	// Product IDs that need to be moved from the current order to the new one
 	Products []int64 `json:"products"`
+
+	// Assign new barcodes to tickets?
+	RegenerateBarcodes bool `json:"regenerate_barcodes,omitempty"`
 
 	// Ticket IDs that need to be moved from the current order to the new one
 	Tickets []int64 `json:"tickets"`
