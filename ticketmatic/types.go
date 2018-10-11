@@ -220,9 +220,6 @@ type Address struct {
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/BatchContactOperation).
 type BatchContactOperation struct {
-	// Apply operation to all contacts except for the supplied IDs.
-	Excludeids []int64 `json:"excludeids"`
-
 	// Restrict operation to supplied IDs, if these ids are not specified all contacts
 	// are updated.
 	Ids []int64 `json:"ids"`
