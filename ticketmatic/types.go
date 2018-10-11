@@ -3981,6 +3981,9 @@ type Order struct {
 	// When the order will expire
 	Expiryts Time `json:"expiryts"`
 
+	// First name (only with minimal output)
+	Firstname string `json:"firstname,omitempty"`
+
 	// Indicates of the order has an open payment request with a PSP.
 	//
 	// Note: Ignored when importing orders.
@@ -3990,6 +3993,9 @@ type Order struct {
 	//
 	// Note: Ignored when importing orders.
 	Isauthenticatedcustomer bool `json:"isauthenticatedcustomer"`
+
+	// Last name (only with minimal output)
+	Lastname string `json:"lastname,omitempty"`
 
 	// Related objects
 	//
@@ -4143,8 +4149,10 @@ func (o *Order) MarshalJSON() ([]byte, error) {
 		Deliverystatus            int64                  `json:"deliverystatus,omitempty"`
 		Expiryhandled             bool                   `json:"expiryhandled,omitempty"`
 		Expiryts                  Time                   `json:"expiryts,omitempty"`
+		Firstname                 string                 `json:"firstname,omitempty"`
 		Hasopenpaymentrequest     bool                   `json:"hasopenpaymentrequest,omitempty"`
 		Isauthenticatedcustomer   bool                   `json:"isauthenticatedcustomer,omitempty"`
+		Lastname                  string                 `json:"lastname,omitempty"`
 		Lookup                    map[string]interface{} `json:"lookup,omitempty"`
 		Nbroftickets              int64                  `json:"nbroftickets,omitempty"`
 		Ordercosts                []*Ordercost           `json:"ordercosts,omitempty"`
@@ -4177,8 +4185,10 @@ func (o *Order) MarshalJSON() ([]byte, error) {
 		Deliverystatus:            o.Deliverystatus,
 		Expiryhandled:             o.Expiryhandled,
 		Expiryts:                  o.Expiryts,
+		Firstname:                 o.Firstname,
 		Hasopenpaymentrequest:     o.Hasopenpaymentrequest,
 		Isauthenticatedcustomer:   o.Isauthenticatedcustomer,
+		Lastname:                  o.Lastname,
 		Lookup:                    o.Lookup,
 		Nbroftickets:              o.Nbroftickets,
 		Ordercosts:                o.Ordercosts,

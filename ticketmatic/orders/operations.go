@@ -20,6 +20,9 @@ type Lookups struct {
 	// Contact details
 	Contacts map[string]*ticketmatic.Contact `json:"contacts"`
 
+	// Customfield values
+	Customfieldvalues map[string]string `json:"customfieldvalues"`
+
 	// Delivery scenarios
 	Deliveryscenarios map[string]*ticketmatic.DeliveryScenario `json:"deliveryscenarios"`
 
@@ -40,6 +43,9 @@ type Lookups struct {
 
 	// Products
 	Products map[string]*ticketmatic.Product `json:"products"`
+
+	// Relation types
+	Relationtypes map[string]string `json:"relationtypes"`
 
 	// Sales channels
 	Saleschannels map[string]*ticketmatic.SalesChannel `json:"saleschannels"`
