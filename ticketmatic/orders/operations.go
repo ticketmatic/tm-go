@@ -151,6 +151,21 @@ func Delete(client *ticketmatic.Client, id int64) error {
 	return r.Run(nil)
 }
 
+// Delete orders
+//
+// Delete multiple orders.
+func Deletebatch(client *ticketmatic.Client, data []int64) (*ticketmatic.BatchResult, error) {
+	r := client.NewRequest("DELETE", "/{accountname}/orders", "json")
+	r.Body(data, "json")
+
+	var obj *ticketmatic.BatchResult
+	err := r.Run(&obj)
+	if err != nil {
+		return nil, err
+	}
+	return obj, nil
+}
+
 // Confirm an order
 //
 // Marks the order as confirmed.
@@ -516,7 +531,7 @@ func Reserve(client *ticketmatic.Client, data *ticketmatic.OrderIdReservation) (
 
 // Purge orders
 //
-// Purge all orders.
+// Purge all orders. This is only possible for test or staging accounts.
 func Purge(client *ticketmatic.Client, params *ticketmatic.PurgeOrdersRequest) (string, error) {
 	r := client.NewRequest("POST", "/{accountname}/orders/purge", "json")
 	if params != nil {

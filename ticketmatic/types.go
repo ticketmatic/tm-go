@@ -253,6 +253,37 @@ type BatchContactParameters struct {
 	Primary int64 `json:"primary,omitempty"`
 }
 
+// Result of a batch operation.
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/BatchResult).
+type BatchResult struct {
+	// The number of items for which the batch operation succeeded.
+	Nbrsucceeded int64 `json:"nbrsucceeded,omitempty"`
+
+	// Detailed results for the batch operation
+	Results []*BatchResultItem `json:"results"`
+}
+
+// Result of a batch operation for a specific item.
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/BatchResultItem).
+type BatchResultItem struct {
+	// The id of the item.
+	Id int64 `json:"id,omitempty"`
+
+	// Extra info
+	Msg string `json:"msg"`
+
+	// Indicates if the operation succeeded for this item
+	Succeeded bool `json:"succeeded"`
+}
+
 // A single contact.
 //
 // More info: see the get operation
