@@ -2695,6 +2695,9 @@ type EventTicket struct {
 	// Note: Ignored when updating tickets
 	Price float64 `json:"price,omitempty"`
 
+	// String to string key-value mapping of properties
+	Properties map[string]string `json:"properties,omitempty"`
+
 	// The seat description for this ticket (only for seated tickets)
 	//
 	// Note: Ignored in the result for updating tickets
@@ -2823,30 +2826,31 @@ func (o *EventTicket) UnmarshalJSON(data []byte) error {
 func (o *EventTicket) MarshalJSON() ([]byte, error) {
 	// Use a custom type to avoid the custom marshaller, marshal the data.
 	type tmp struct {
-		Id                                   int64   `json:"id,omitempty"`
-		Orderid                              int64   `json:"orderid,omitempty"`
-		Accesscontrollastenteredscandeviceid int64   `json:"accesscontrollastenteredscandeviceid,omitempty"`
-		Accesscontrollastenteredts           Time    `json:"accesscontrollastenteredts,omitempty"`
-		Accesscontrollastexitscandeviceid    int64   `json:"accesscontrollastexitscandeviceid,omitempty"`
-		Accesscontrollastexitts              Time    `json:"accesscontrollastexitts,omitempty"`
-		Accesscontrolstatus                  int64   `json:"accesscontrolstatus,omitempty"`
-		Barcode                              string  `json:"barcode,omitempty"`
-		Bundleid                             int64   `json:"bundleid,omitempty"`
-		Locktypeid                           int64   `json:"locktypeid,omitempty"`
-		Orderfee                             float64 `json:"orderfee,omitempty"`
-		Price                                float64 `json:"price,omitempty"`
-		Seatdescription                      string  `json:"seatdescription,omitempty"`
-		Seatid                               string  `json:"seatid,omitempty"`
-		Seatpriority                         int64   `json:"seatpriority,omitempty"`
-		Seatrownumber                        string  `json:"seatrownumber,omitempty"`
-		Seatseatnumber                       string  `json:"seatseatnumber,omitempty"`
-		Seatzoneid                           int64   `json:"seatzoneid,omitempty"`
-		Seatzonename                         string  `json:"seatzonename,omitempty"`
-		Ticketholderid                       int64   `json:"ticketholderid,omitempty"`
-		Ticketname                           string  `json:"ticketname,omitempty"`
-		Tickettypeid                         int64   `json:"tickettypeid,omitempty"`
-		Tickettypepriceid                    int64   `json:"tickettypepriceid,omitempty"`
-		Vouchercodeid                        int64   `json:"vouchercodeid,omitempty"`
+		Id                                   int64             `json:"id,omitempty"`
+		Orderid                              int64             `json:"orderid,omitempty"`
+		Accesscontrollastenteredscandeviceid int64             `json:"accesscontrollastenteredscandeviceid,omitempty"`
+		Accesscontrollastenteredts           Time              `json:"accesscontrollastenteredts,omitempty"`
+		Accesscontrollastexitscandeviceid    int64             `json:"accesscontrollastexitscandeviceid,omitempty"`
+		Accesscontrollastexitts              Time              `json:"accesscontrollastexitts,omitempty"`
+		Accesscontrolstatus                  int64             `json:"accesscontrolstatus,omitempty"`
+		Barcode                              string            `json:"barcode,omitempty"`
+		Bundleid                             int64             `json:"bundleid,omitempty"`
+		Locktypeid                           int64             `json:"locktypeid,omitempty"`
+		Orderfee                             float64           `json:"orderfee,omitempty"`
+		Price                                float64           `json:"price,omitempty"`
+		Properties                           map[string]string `json:"properties,omitempty"`
+		Seatdescription                      string            `json:"seatdescription,omitempty"`
+		Seatid                               string            `json:"seatid,omitempty"`
+		Seatpriority                         int64             `json:"seatpriority,omitempty"`
+		Seatrownumber                        string            `json:"seatrownumber,omitempty"`
+		Seatseatnumber                       string            `json:"seatseatnumber,omitempty"`
+		Seatzoneid                           int64             `json:"seatzoneid,omitempty"`
+		Seatzonename                         string            `json:"seatzonename,omitempty"`
+		Ticketholderid                       int64             `json:"ticketholderid,omitempty"`
+		Ticketname                           string            `json:"ticketname,omitempty"`
+		Tickettypeid                         int64             `json:"tickettypeid,omitempty"`
+		Tickettypepriceid                    int64             `json:"tickettypepriceid,omitempty"`
+		Vouchercodeid                        int64             `json:"vouchercodeid,omitempty"`
 	}
 
 	obj := tmp{
@@ -2862,6 +2866,7 @@ func (o *EventTicket) MarshalJSON() ([]byte, error) {
 		Locktypeid:                           o.Locktypeid,
 		Orderfee:                             o.Orderfee,
 		Price:                                o.Price,
+		Properties:                           o.Properties,
 		Seatdescription:                      o.Seatdescription,
 		Seatid:                               o.Seatid,
 		Seatpriority:                         o.Seatpriority,
@@ -4621,6 +4626,89 @@ type OrderProduct struct {
 
 	// Vouchercode ID for the voucher that is linked to this orderproduct
 	Vouchercodeid int64 `json:"vouchercodeid"`
+
+	// Custom fields
+	CustomFields map[string]interface{} `json:"-"`
+}
+
+// Custom unmarshaller with support for custom fields
+func (o *OrderProduct) UnmarshalJSON(data []byte) error {
+	// Alias the type, to avoid calling UnmarshalJSON. Unpack it.
+	type tmp OrderProduct
+	var obj tmp
+	err := json.Unmarshal(data, &obj)
+	if err != nil {
+		return err
+	}
+
+	*o = OrderProduct(obj)
+
+	// Unpack it again, this time to a map, so we can pull out the custom fields.
+	var raw map[string]interface{}
+	err = json.Unmarshal(data, &raw)
+	if err != nil {
+		return err
+	}
+
+	o.CustomFields = make(map[string]interface{})
+	for key, val := range raw {
+		if strings.HasPrefix(key, "c_") {
+			o.CustomFields[key[2:]] = val
+		}
+	}
+
+	// Note: We're doing a double JSON decode here, I'd love to get rid of it
+	// but I'm not sure how we can do this easily. Suggestions welcome:
+	// developers@ticketmatic.com!
+
+	return nil
+}
+
+// Custom marshaller with support for custom fields
+func (o *OrderProduct) MarshalJSON() ([]byte, error) {
+	// Use a custom type to avoid the custom marshaller, marshal the data.
+	type tmp struct {
+		Id            int64             `json:"id,omitempty"`
+		Orderid       int64             `json:"orderid,omitempty"`
+		Code          string            `json:"code,omitempty"`
+		Contactid     int64             `json:"contactid,omitempty"`
+		Price         float64           `json:"price,omitempty"`
+		Productid     int64             `json:"productid,omitempty"`
+		Properties    map[string]string `json:"properties,omitempty"`
+		Vouchercodeid int64             `json:"vouchercodeid,omitempty"`
+	}
+
+	obj := tmp{
+		Id:            o.Id,
+		Orderid:       o.Orderid,
+		Code:          o.Code,
+		Contactid:     o.Contactid,
+		Price:         o.Price,
+		Productid:     o.Productid,
+		Properties:    o.Properties,
+		Vouchercodeid: o.Vouchercodeid,
+	}
+	data, err := json.Marshal(obj)
+	if err != nil {
+		return nil, err
+	}
+
+	// Unpack it again, to get the wire representation
+	var raw map[string]interface{}
+	err = json.Unmarshal(data, &raw)
+	if err != nil {
+		return nil, err
+	}
+
+	for key, val := range o.CustomFields {
+		raw["c_"+key] = val
+	}
+
+	// Pack it again
+	return json.Marshal(raw)
+
+	// Note: Like UnmarshalJSON, this is quite crazy. But it works beautifully.
+	// Know a way to do this better? Get in touch!
 }
 
 // Filter parameters to fetch a list of orders
@@ -7991,6 +8079,77 @@ type WaitingListRequestItem struct {
 
 	// The requested tickets for the event, identified by tickettypepriceid
 	Tickets []*WaitingListRequestItemTicket `json:"tickets"`
+
+	// Custom fields
+	CustomFields map[string]interface{} `json:"-"`
+}
+
+// Custom unmarshaller with support for custom fields
+func (o *WaitingListRequestItem) UnmarshalJSON(data []byte) error {
+	// Alias the type, to avoid calling UnmarshalJSON. Unpack it.
+	type tmp WaitingListRequestItem
+	var obj tmp
+	err := json.Unmarshal(data, &obj)
+	if err != nil {
+		return err
+	}
+
+	*o = WaitingListRequestItem(obj)
+
+	// Unpack it again, this time to a map, so we can pull out the custom fields.
+	var raw map[string]interface{}
+	err = json.Unmarshal(data, &raw)
+	if err != nil {
+		return err
+	}
+
+	o.CustomFields = make(map[string]interface{})
+	for key, val := range raw {
+		if strings.HasPrefix(key, "c_") {
+			o.CustomFields[key[2:]] = val
+		}
+	}
+
+	// Note: We're doing a double JSON decode here, I'd love to get rid of it
+	// but I'm not sure how we can do this easily. Suggestions welcome:
+	// developers@ticketmatic.com!
+
+	return nil
+}
+
+// Custom marshaller with support for custom fields
+func (o *WaitingListRequestItem) MarshalJSON() ([]byte, error) {
+	// Use a custom type to avoid the custom marshaller, marshal the data.
+	type tmp struct {
+		Eventid int64                           `json:"eventid,omitempty"`
+		Tickets []*WaitingListRequestItemTicket `json:"tickets,omitempty"`
+	}
+
+	obj := tmp{
+		Eventid: o.Eventid,
+		Tickets: o.Tickets,
+	}
+	data, err := json.Marshal(obj)
+	if err != nil {
+		return nil, err
+	}
+
+	// Unpack it again, to get the wire representation
+	var raw map[string]interface{}
+	err = json.Unmarshal(data, &raw)
+	if err != nil {
+		return nil, err
+	}
+
+	for key, val := range o.CustomFields {
+		raw["c_"+key] = val
+	}
+
+	// Pack it again
+	return json.Marshal(raw)
+
+	// Note: Like UnmarshalJSON, this is quite crazy. But it works beautifully.
+	// Know a way to do this better? Get in touch!
 }
 
 // A ticket requested in a waitinglistrequestitem
