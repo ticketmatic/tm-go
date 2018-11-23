@@ -85,6 +85,12 @@ type AddPayments struct {
 
 	// Id of the payment method to be used for the payment
 	Paymentmethodid int64 `json:"paymentmethodid"`
+
+	// Voucher code to use for this payment
+	Vouchercode string `json:"vouchercode,omitempty"`
+
+	// Voucher code id to use for this payment
+	Vouchercodeid int64 `json:"vouchercodeid,omitempty"`
 }
 
 // Request data used to add products
@@ -7310,9 +7316,6 @@ type Ticketsalesflow struct {
 	// Name
 	Name string `json:"name"`
 
-	// Description of which events are available for this flow
-	Availabilitydescription string `json:"availabilitydescription"`
-
 	// Fielddefinition used to define the availability of events for this flow
 	Availabilityfielddefinition string `json:"availabilityfielddefinition"`
 
@@ -7324,6 +7327,10 @@ type Ticketsalesflow struct {
 
 	// Description
 	Description string `json:"description"`
+
+	// For flows with supported parameter 'product': the set of ProductTypes for which
+	// this flow is available
+	Productavailability []int64 `json:"productavailability"`
 
 	// Supported parameters for the flow
 	Supportedparameters []string `json:"supportedparameters"`
