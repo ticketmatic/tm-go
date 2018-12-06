@@ -8,6 +8,65 @@ import (
 	"github.com/ticketmatic/tm-go/ticketmatic/events"
 )
 
+func TestBatch(t *testing.T) {
+	var err error
+
+	accountcode := os.Getenv("TM_TEST_ACCOUNTCODE")
+	accesskey := os.Getenv("TM_TEST_ACCESSKEY")
+	secretkey := os.Getenv("TM_TEST_SECRETKEY")
+	c := ticketmatic.NewClient(accountcode, accesskey, secretkey)
+
+	order, err := Create(c, &ticketmatic.CreateOrder{
+		Saleschannelid: 1,
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if order.Orderid == 0 {
+		t.Errorf("Unexpected order.Orderid, got %#v, expected different value", order.Orderid)
+	}
+
+	if order.Saleschannelid != 1 {
+		t.Errorf("Unexpected order.Saleschannelid, got %#v, expected %#v", order.Saleschannelid, 1)
+	}
+
+	order2, err := Create(c, &ticketmatic.CreateOrder{
+		Saleschannelid: 1,
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if order2.Orderid == 0 {
+		t.Errorf("Unexpected order2.Orderid, got %#v, expected different value", order2.Orderid)
+	}
+
+	if order2.Saleschannelid != 1 {
+		t.Errorf("Unexpected order2.Saleschannelid, got %#v, expected %#v", order2.Saleschannelid, 1)
+	}
+
+	err = Batch(c, &ticketmatic.BatchOrderOperation{
+		Ids: []int64{
+			order.Orderid,
+			order2.Orderid,
+		},
+		Operation: "update",
+		Parameters: &ticketmatic.BatchOrderParameters{
+			Updatefields: []*ticketmatic.BatchOrderUpdateField{
+				&ticketmatic.BatchOrderUpdateField{
+					Key:   "deliveryscenarioid",
+					Value: 1,
+				},
+			},
+		},
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+
+}
+
 func TestGet(t *testing.T) {
 	var err error
 

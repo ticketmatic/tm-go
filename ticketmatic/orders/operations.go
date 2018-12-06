@@ -151,6 +151,42 @@ func Delete(client *ticketmatic.Client, id int64) error {
 	return r.Run(nil)
 }
 
+// Batch operations
+//
+// Apply batch operations to a set of orders.
+//
+// The parameters required are specific to the type of operation.
+//
+// What will be affected?
+//
+// The operation will be applied to the orders with given IDs. The amount of IDs is
+// limited to 1000 per call.
+//
+//
+//    ids: [1, 2, 3]
+//
+//
+//
+// This will apply the operation to orders with ID 1, 2 and 3.
+//
+// Batch operations
+//
+// The following operations are supported:
+//
+// * emaildelivery: Send the delivery email to a selection of orders.
+//
+// * pdf: Print a selection of orders.
+//
+// * update: Update a specific field for the selection of orders. See
+// BatchOrderParameters
+// (https://www.ticketmatic.com/docs/api/types/BatchOrderParameters) for more info.
+func Batch(client *ticketmatic.Client, data *ticketmatic.BatchOrderOperation) error {
+	r := client.NewRequest("POST", "/{accountname}/orders/batch", "json")
+	r.Body(data, "json")
+
+	return r.Run(nil)
+}
+
 // Delete orders
 //
 // Delete multiple orders.

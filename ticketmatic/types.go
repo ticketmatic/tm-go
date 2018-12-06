@@ -332,6 +332,55 @@ type BatchEventUpdateField struct {
 	Value interface{} `json:"value,omitempty"`
 }
 
+// Batch operations performed on orders
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/BatchOrderOperation).
+type BatchOrderOperation struct {
+	// Restrict operation to supplied IDs, if these ids are not specified all events
+	// are updated.
+	Ids []int64 `json:"ids"`
+
+	// Operation to perform, possible values are: emaildelivery , update, pdf
+	Operation string `json:"operation"`
+
+	// Operation-specific parameters
+	Parameters *BatchOrderParameters `json:"parameters,omitempty"`
+}
+
+// Parameters for batch operations performed on orders
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/BatchOrderParameters).
+type BatchOrderParameters struct {
+	// Set of fields to update, used for operation update. Custom fields are also
+	// supported.
+	Updatefields []*BatchOrderUpdateField `json:"updatefields"`
+}
+
+// Field to update on order
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/BatchOrderUpdateField).
+type BatchOrderUpdateField struct {
+	// The name of the field, can either be a custom field or one of the following
+	// fixed fields (deliveryscenarioid, paymentscenarioid).
+	Key string `json:"key"`
+
+	// The type of update that needs to be done on the field. Can either be set
+	// (default), add or remove when used in combination with multi value fields.
+	Updatetype string `json:"updatetype"`
+
+	// The value of the field
+	Value interface{} `json:"value,omitempty"`
+}
+
 // Result of a batch operation.
 //
 // Help Center
