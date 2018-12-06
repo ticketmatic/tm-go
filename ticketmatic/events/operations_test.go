@@ -7,6 +7,85 @@ import (
 	"github.com/ticketmatic/tm-go/ticketmatic"
 )
 
+func TestBatch(t *testing.T) {
+	var err error
+
+	accountcode := os.Getenv("TM_TEST_ACCOUNTCODE")
+	accesskey := os.Getenv("TM_TEST_ACCESSKEY")
+	secretkey := os.Getenv("TM_TEST_SECRETKEY")
+	c := ticketmatic.NewClient(accountcode, accesskey, secretkey)
+
+	event, err := Create(c, &ticketmatic.Event{
+		Name: "Example",
+		Contingents: []*ticketmatic.EventContingent{
+			&ticketmatic.EventContingent{
+				Amount: 100,
+			},
+		},
+		Locationid: 1,
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if event.Name != "Example" {
+		t.Errorf("Unexpected event.Name, got %#v, expected %#v", event.Name, "Example")
+	}
+
+	if event.Contingents[0].Amount != 100 {
+		t.Errorf("Unexpected event.Contingents[0].Amount, got %#v, expected %#v", event.Contingents[0].Amount, 100)
+	}
+
+	if event.Locationid != 1 {
+		t.Errorf("Unexpected event.Locationid, got %#v, expected %#v", event.Locationid, 1)
+	}
+
+	event2, err := Create(c, &ticketmatic.Event{
+		Name: "Example2",
+		Contingents: []*ticketmatic.EventContingent{
+			&ticketmatic.EventContingent{
+				Amount: 100,
+			},
+		},
+		Locationid: 1,
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if event2.Name != "Example2" {
+		t.Errorf("Unexpected event2.Name, got %#v, expected %#v", event2.Name, "Example2")
+	}
+
+	if event2.Contingents[0].Amount != 100 {
+		t.Errorf("Unexpected event2.Contingents[0].Amount, got %#v, expected %#v", event2.Contingents[0].Amount, 100)
+	}
+
+	if event2.Locationid != 1 {
+		t.Errorf("Unexpected event2.Locationid, got %#v, expected %#v", event2.Locationid, 1)
+	}
+
+	err = Batch(c, &ticketmatic.BatchEventOperation{
+		Ids: []int64{
+			event.Id,
+			event2.Id,
+		},
+		Operation: "update",
+		Parameters: &ticketmatic.BatchEventParameters{
+			Updatefields: []*ticketmatic.BatchEventUpdateField{
+				&ticketmatic.BatchEventUpdateField{
+					Key:   "locationid",
+					Value: 2,
+				},
+			},
+		},
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+
+}
+
 func TestCreate(t *testing.T) {
 	var err error
 

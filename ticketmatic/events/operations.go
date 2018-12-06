@@ -117,6 +117,50 @@ func Update(client *ticketmatic.Client, id int64, data *ticketmatic.Event) (*tic
 	return obj, nil
 }
 
+// Batch operations
+//
+// Apply batch operations to a set of events.
+//
+// The parameters required are specific to the type of operation.
+//
+// What will be affected?
+//
+// The operation will be applied to the events with given IDs. The amount of IDs is
+// limited to 1000 per call.
+//
+//
+//    ids: [1, 2, 3]
+//
+//
+//
+// This will apply the operation to events with ID 1, 2 and 3.
+//
+// Batch operations
+//
+// The following operations are supported:
+//
+// * duplicate: Duplicate events
+//
+// * publish: Publish a selection of events;
+//
+// * redraft: Redraft a selection of events;
+//
+// * close: Close a selection of events;
+//
+// * reopen: Re-open a selection of events;
+//
+// * delete: Deletes the selection of events.
+//
+// * update: Update a specific field for the selection of events. See
+// BatchEventParameters
+// (https://www.ticketmatic.com/docs/api/types/BatchEventParameters) for more info.
+func Batch(client *ticketmatic.Client, data *ticketmatic.BatchEventOperation) error {
+	r := client.NewRequest("POST", "/{accountname}/events/batch", "json")
+	r.Body(data, "json")
+
+	return r.Run(nil)
+}
+
 // Delete an event
 func Delete(client *ticketmatic.Client, id int64) error {
 	r := client.NewRequest("DELETE", "/{accountname}/events/{id}", "json")

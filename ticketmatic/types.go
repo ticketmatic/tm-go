@@ -248,8 +248,7 @@ type BatchContactParameters struct {
 	// Selection name, used for operation sendselection
 	Name string `json:"name,omitempty"`
 
-	// Set of fields to update, used for operation update. Custom fields are also
-	// supported.
+	// [DEPRECATED] Use updatefields instead
 	Fields *ContactBatchUpdate `json:"fields,omitempty"`
 
 	// Relation type IDs, used for operations addrelationtypes and removerelationtypes
@@ -257,6 +256,80 @@ type BatchContactParameters struct {
 
 	// Primary contact to merge into
 	Primary int64 `json:"primary,omitempty"`
+
+	// Set of fields to update, used for operation update. Custom fields are also
+	// supported.
+	Updatefields []*BatchContactUpdateField `json:"updatefields"`
+}
+
+// Field to update on contact
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/BatchContactUpdateField).
+type BatchContactUpdateField struct {
+	// The name of the field, can either be a custom field or one of the following
+	// fixed fields (customertitleid, languagecode).
+	Key string `json:"key"`
+
+	// The type of update that needs to be done on the field. Can either be set
+	// (default), add or remove when used in combination with multi value fields.
+	Updatetype string `json:"updatetype"`
+
+	// The value of the field
+	Value interface{} `json:"value,omitempty"`
+}
+
+// Batch operations performed on events
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/BatchEventOperation).
+type BatchEventOperation struct {
+	// Restrict operation to supplied IDs, if these ids are not specified all events
+	// are updated.
+	Ids []int64 `json:"ids"`
+
+	// Operation to perform, possible values are: duplicate , publish, delete, close,
+	// update, redraft, reopen
+	Operation string `json:"operation"`
+
+	// Operation-specific parameters
+	Parameters *BatchEventParameters `json:"parameters,omitempty"`
+}
+
+// Parameters for batch operations performed on events
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/BatchEventParameters).
+type BatchEventParameters struct {
+	// Set of fields to update, used for operation update. Custom fields are also
+	// supported.
+	Updatefields []*BatchEventUpdateField `json:"updatefields"`
+}
+
+// Field to update on event
+//
+// Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/BatchEventUpdateField).
+type BatchEventUpdateField struct {
+	// The name of the field, can either be a custom field or one of the following
+	// fixed fields (name, subtitle, webremark, startts, endts, locationid,
+	// ticketlayoutid, seatselection).
+	Key string `json:"key"`
+
+	// The type of update that needs to be done on the field. Can either be set
+	// (default), add or remove when used in combination with multi value fields.
+	Updatetype string `json:"updatetype"`
+
+	// The value of the field
+	Value interface{} `json:"value,omitempty"`
 }
 
 // Result of a batch operation.
