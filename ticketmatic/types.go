@@ -1685,7 +1685,7 @@ type Document struct {
 // (https://www.ticketmatic.com/docs/api/types/DocumentQuery).
 type DocumentQuery struct {
 	// Only return items with the given typeid.
-	Typeid int64 `json:"typeid,omitempty"`
+	Typeid int64 `json:"typeid"`
 
 	// Filter the returned items by specifying a query on the public datamodel that
 	// returns the ids.
