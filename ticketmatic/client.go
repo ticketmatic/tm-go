@@ -13,6 +13,7 @@ import (
 	"net/url"
 	"os"
 	"reflect"
+	"strconv"
 	"strings"
 	"time"
 )
@@ -24,15 +25,15 @@ var Server = "https://apps.ticketmatic.com"
 var Version = "1"
 
 // Library Version
-const Build = "1.0.110"
+const Build = "1.0.111"
 
 // Rate limit error
 type RateLimitError struct {
-	Status *QueueStatus
+	Backoff int
 }
 
 func (r *RateLimitError) Error() string {
-	return "Rate Limit Exceeded"
+	return fmt.Sprintf("Rate Limit Exceeded, wait for %d seconds", r.Backoff)
 }
 
 // Request error
@@ -211,14 +212,19 @@ func (r *Request) prepareRequest() (*http.Response, error) {
 	case 200:
 		return resp, nil
 	case 429:
-		status := &QueueStatus{}
-		err = json.NewDecoder(resp.Body).Decode(status)
-		defer resp.Body.Close()
-		if err != nil {
-			return nil, err
+		resp.Body.Close()
+
+		backoff := int(0)
+		hdr := resp.Header.Get("Retry-After")
+		if len(hdr) > 0 {
+			b, err := strconv.ParseInt(hdr, 10, 64)
+			if err != nil {
+				return nil, err
+			}
+			backoff = int(b)
 		}
 		return nil, &RateLimitError{
-			Status: status,
+			Backoff: backoff,
 		}
 	default:
 		body, _ := ioutil.ReadAll(resp.Body)
