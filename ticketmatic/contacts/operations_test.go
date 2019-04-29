@@ -2,6 +2,7 @@ package contacts
 
 import (
 	"os"
+	"strconv"
 	"testing"
 
 	"github.com/ticketmatic/tm-go/ticketmatic"
@@ -518,7 +519,7 @@ func TestRemarks(t *testing.T) {
 		t.Errorf("Unexpected remark.Pinned, got %#v, expected %#v", remark.Pinned, false)
 	}
 
-	updated, err := Updateremark(c, contact.Id, remark.Id, &ticketmatic.ContactRemark{
+	updated, err := Updateremark(c, contact.Id, strconv.Itoa(int(remark.Id)), &ticketmatic.ContactRemark{
 		Content: "Hello World 2",
 		Pinned:  true,
 	})
@@ -534,7 +535,7 @@ func TestRemarks(t *testing.T) {
 		t.Errorf("Unexpected updated.Pinned, got %#v, expected %#v", updated.Pinned, true)
 	}
 
-	get, err := Getremark(c, contact.Id, remark.Id)
+	get, err := Getremark(c, contact.Id, strconv.Itoa(int(remark.Id)))
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -551,7 +552,7 @@ func TestRemarks(t *testing.T) {
 		t.Errorf("Unexpected get.Pinned, got %#v, expected %#v", get.Pinned, true)
 	}
 
-	err = Deleteremark(c, contact.Id, remark.Id)
+	err = Deleteremark(c, contact.Id, strconv.Itoa(int(remark.Id)))
 	if err != nil {
 		t.Fatal(err)
 	}
