@@ -37,7 +37,7 @@ func (t *Time) UnmarshalJSON(data []byte) error {
 	if err != nil {
 		return err
 	}
-	t.ts = ts.In(time.Local)
+	t.ts = ts
 	return nil
 }
 
@@ -66,13 +66,13 @@ func ParseTime(s string) (time.Time, error) {
 
 		// "2015-04-09T14:19:49"
 		if len(s) == 19 {
-			return time.Parse("2006-01-02T15:04:05", s)
+			return time.ParseInLocation("2006-01-02T15:04:05", s, time.Local)
 		} else {
-			return time.Parse("2006-01-02T15:04:05.999999", s)
+			return time.ParseInLocation("2006-01-02T15:04:05.999999", s, time.Local)
 		}
 	} else if len(s) == 10 {
 		// "2015-04-09"
-		return time.Parse("2006-01-02", s)
+		return time.ParseInLocation("2006-01-02", s, time.Local)
 	}
 
 	return time.Time{}, fmt.Errorf("Unknown date format: %s", s)
