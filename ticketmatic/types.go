@@ -151,6 +151,10 @@ type AddVoucherCodes struct {
 
 	// Number of codes to create
 	Count int64 `json:"count"`
+
+	// Whether or not to reactivate and update the expiry of already existing
+	// vouchercodes.
+	Update bool `json:"update,omitempty"`
 }
 
 // Address, used for physical deliveries and contact details.

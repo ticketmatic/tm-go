@@ -6,7 +6,7 @@
 //
 // Types
 //
-// There are 5 types of order mail templates:
+// There are 6 types of order mail templates:
 //
 // * Confirmation (3101)
 //
@@ -17,6 +17,8 @@
 // * Overdue notices (3104)
 //
 // * Expiration notices (3105)
+//
+// * Waitinglist group confirmation (3106)
 //
 // Subject & Body
 //
