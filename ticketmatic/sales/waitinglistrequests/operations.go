@@ -18,6 +18,7 @@ func Getlist(client *ticketmatic.Client, params *ticketmatic.WaitingListRequestQ
 	r := client.NewRequest("GET", "/{accountname}/sales/waitinglistrequests", "json")
 	if params != nil {
 		r.AddParameter("filter", params.Filter)
+		r.AddParameter("includearchived", params.Includearchived)
 		r.AddParameter("lastupdatesince", params.Lastupdatesince)
 	}
 
@@ -74,6 +75,13 @@ func Update(client *ticketmatic.Client, id int64, data *ticketmatic.WaitingListR
 }
 
 // Remove a waiting list request
+//
+// Waiting list requests are archivable: this call won't actually delete the object
+// from the database. Instead, it will mark the object as archived, which means it
+// won't show up anymore in most places.
+//
+// Most object types are archivable and can't be deleted: this is needed to ensure
+// consistency of historical data.
 func Delete(client *ticketmatic.Client, id int64) error {
 	r := client.NewRequest("DELETE", "/{accountname}/sales/waitinglistrequests/{id}", "json")
 	r.UrlParameters(map[string]interface{}{
