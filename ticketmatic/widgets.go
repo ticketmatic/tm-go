@@ -93,6 +93,7 @@ func (w *Widgets) VerifyFormReturnUrl(values url.Values) error {
 
 func (w *Widgets) calculateSignature(params map[string]string) string {
 	delete(params, "l")
+	delete(params, "ordercode")
 
 	paramObjs := make(paramSlice, 0)
 	for k, v := range params {
