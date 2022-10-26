@@ -11,35 +11,30 @@
 //
 // ---
 //
-// URI
+// # URI
 //
-// The URIs for endpoints are served at
+// # The URIs for endpoints are served at
 //
-//
-//    https://apps.ticketmatic.com/api/1/{accountname}/
-//
-//
+//	https://apps.ticketmatic.com/api/1/{accountname}/
 //
 // Note that Ticketmatic API is secure, so use HTTPS whenever you access any
 // endpoints. Calls made over plain HTTP will fail.
 //
 // ---
 //
-// Libraries
+// # Libraries
 //
 // The recommended way to integrate with the Ticketmatic API is to use a library.
 // The following languages are currently supported:
 //
 // * PHP (https://www.ticketmatic.com/docs/api/libraries/php)
 //
-// * Go (https://www.ticketmatic.com/docs/api/libraries/go)
-//
 // If you're preferred language is not on this list, please let us know
 // (mailto:help@ticketmatic.com)
 //
 // ---
 //
-// Getting started
+// # Getting started
 //
 // Be sure to read up on the core concepts first:
 //
@@ -54,14 +49,7 @@
 //
 // Afterwards, check the pages of the individual endpoints you wish to use.
 //
-// ---
-//
-// Audit log
-//
-// All calls to the API are logged, and you can inspect these using the Audit Log
-// tool in your account.
-//
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/).

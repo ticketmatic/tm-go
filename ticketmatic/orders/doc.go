@@ -5,7 +5,7 @@
 // A users currently active basket (or cart) is also handled using an (unconfirmed)
 // order.
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/orders).

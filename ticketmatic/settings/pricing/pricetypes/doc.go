@@ -5,7 +5,7 @@
 // For an overview of pricing concepts, check the pricing configuration guide
 // (https://www.ticketmatic.com/docs/events/pricingconfiguration).
 //
-// Types
+// # Types
 //
 // There are 5 categories of price types:
 //
@@ -22,7 +22,7 @@
 // Prices are indicated with different colors based on these categories and help
 // users to quickly recognize the price type they're looking for.
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/settings/pricing/pricetypes).

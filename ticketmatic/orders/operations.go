@@ -107,8 +107,8 @@ func Get(client *ticketmatic.Client, id int64) (*ticketmatic.Order, error) {
 // (https://www.ticketmatic.com/docs/api/types/SalesChannel), which needs to be
 // supplied when creating.
 //
-// Note: This method may return a 429 Rate Limit Exceeded status when there is too
-// much demand. See the article about rate limiting
+// Note: This method may return a 429 Rate Limit Exceeded status
+// when there is too much demand. See the article about rate limiting
 // (https://www.ticketmatic.com/docs/api/ratelimiting) for more information on how
 // to handle this.
 func Create(client *ticketmatic.Client, data *ticketmatic.CreateOrder) (*ticketmatic.Order, error) {
@@ -162,14 +162,11 @@ func Delete(client *ticketmatic.Client, id int64) error {
 // The operation will be applied to the orders with given IDs. The amount of IDs is
 // limited to 1000 per call.
 //
-//
-//    ids: [1, 2, 3]
-//
-//
+//	ids: [1, 2, 3]
 //
 // This will apply the operation to orders with ID 1, 2 and 3.
 //
-// Batch operations
+// # Batch operations
 //
 // The following operations are supported:
 //
@@ -177,8 +174,8 @@ func Delete(client *ticketmatic.Client, id int64) error {
 //
 // * pdf: Print a selection of orders.
 //
-// * update: Update a specific field for the selection of orders. See
-// BatchOrderParameters
+// * update: Update a specific field for the
+// selection of orders. See BatchOrderParameters
 // (https://www.ticketmatic.com/docs/api/types/BatchOrderParameters) for more info.
 func Batch(client *ticketmatic.Client, data *ticketmatic.BatchOrderOperation) error {
 	r := client.NewRequest("POST", "/{accountname}/orders/batch", "json")
@@ -237,9 +234,9 @@ func Split(client *ticketmatic.Client, id int64, data *ticketmatic.SplitOrder) (
 
 // Add tickets to order
 //
-// When adding tickets, this is limited to 50 tickets per call. Note: This method
-// may return a 429 Rate Limit Exceeded status when there is too much demand. See
-// the article about rate limiting
+// When adding tickets, this is limited to 50 tickets per call.
+// Note: This method may return a 429 Rate Limit Exceeded status
+// when there is too much demand. See the article about rate limiting
 // (https://www.ticketmatic.com/docs/api/ratelimiting) for more information on how
 // to handle this.
 func Addtickets(client *ticketmatic.Client, id int64, data *ticketmatic.AddTickets) (*ticketmatic.AddItemsResult, error) {
@@ -530,9 +527,9 @@ func Getdocument(client *ticketmatic.Client, id int64, documentid string, langua
 //
 // Up to 100 orders can be sent per call.
 //
-// Many of the usual consistency checks are relaxed while importing orders. It is
-// recommended that you only import orders that will not be changed anymore in the
-// future.
+// Many of the usual consistency checks are relaxed while importing orders.
+// It is recommended that you only import orders that will not be changed anymore
+// in the future.
 func Import(client *ticketmatic.Client, data []*ticketmatic.ImportOrder) ([]*ticketmatic.OrderImportStatus, error) {
 	r := client.NewRequest("POST", "/{accountname}/orders/import", "json")
 	r.Body(data, "json")

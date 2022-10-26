@@ -28,12 +28,12 @@
 //
 // * 10: Option set
 //
-// The field sqlclause defines the actual filter
+// # The field sqlclause defines the actual filter
 //
 // You can find more information about setting up filter definitions here
 // (https://www.ticketmatic.com/docs/setup/filterdefinitions)
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/settings/system/filterdefinitions).

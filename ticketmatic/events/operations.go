@@ -128,14 +128,11 @@ func Update(client *ticketmatic.Client, id int64, data *ticketmatic.Event) (*tic
 // The operation will be applied to the events with given IDs. The amount of IDs is
 // limited to 1000 per call.
 //
-//
-//    ids: [1, 2, 3]
-//
-//
+//	ids: [1, 2, 3]
 //
 // This will apply the operation to events with ID 1, 2 and 3.
 //
-// Batch operations
+// # Batch operations
 //
 // The following operations are supported:
 //
@@ -151,8 +148,8 @@ func Update(client *ticketmatic.Client, id int64, data *ticketmatic.Event) (*tic
 //
 // * delete: Deletes the selection of events.
 //
-// * update: Update a specific field for the selection of events. See
-// BatchEventParameters
+// * update: Update a specific field for the
+// selection of events. See BatchEventParameters
 // (https://www.ticketmatic.com/docs/api/types/BatchEventParameters) for more info.
 func Batch(client *ticketmatic.Client, data *ticketmatic.BatchEventOperation) error {
 	r := client.NewRequest("POST", "/{accountname}/events/batch", "json")

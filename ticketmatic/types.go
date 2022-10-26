@@ -7,7 +7,7 @@ import (
 
 // Account information
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/AccountInfo).
@@ -42,7 +42,7 @@ type AccountInfo struct {
 
 // An account parameter defines general behavior of your account
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/AccountParameter).
@@ -59,7 +59,7 @@ type AccountParameter struct {
 // (https://www.ticketmatic.com/docs/api/orders/addproducts) to an order
 // (https://www.ticketmatic.com/docs/api/types/Order).
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/AddItemsResult).
@@ -75,7 +75,7 @@ type AddItemsResult struct {
 // (https://www.ticketmatic.com/docs/api/orders/addpayments) to an order
 // (https://www.ticketmatic.com/docs/api/types/Order).
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/AddPayments).
@@ -97,7 +97,7 @@ type AddPayments struct {
 // (https://www.ticketmatic.com/docs/api/orders/addproducts) to an order
 // (https://www.ticketmatic.com/docs/api/types/Order).
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/AddProducts).
@@ -110,7 +110,7 @@ type AddProducts struct {
 // (https://www.ticketmatic.com/docs/api/orders/addrefunds) for an order
 // (https://www.ticketmatic.com/docs/api/types/Order).
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/AddRefunds).
@@ -127,7 +127,7 @@ type AddRefunds struct {
 // (https://www.ticketmatic.com/docs/api/types/Order). The amount of tickets that
 // can be added is limited to 50 per call.
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/AddTickets).
@@ -142,7 +142,7 @@ type AddTickets struct {
 
 // Parameters used to create voucher codes
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/AddVoucherCodes).
@@ -163,7 +163,7 @@ type AddVoucherCodes struct {
 
 // Address, used for physical deliveries and contact details.
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/Address).
@@ -227,9 +227,32 @@ type Address struct {
 	Zip string `json:"zip"`
 }
 
+// App optin
+//
+// # Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/Appoptin).
+type Appoptin struct {
+	// IP address
+	Ip string `json:"ip"`
+
+	// The message shown for the optin
+	Message string `json:"message"`
+
+	// Method used for optin
+	Method string `json:"method"`
+
+	// The status of the optin
+	Status bool `json:"status"`
+
+	// Created timestamp
+	Ts string `json:"ts"`
+}
+
 // Batch operations performed on contacts
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/BatchContactOperation).
@@ -248,7 +271,7 @@ type BatchContactOperation struct {
 
 // Parameters for batch operations performed on contacts
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/BatchContactParameters).
@@ -272,7 +295,7 @@ type BatchContactParameters struct {
 
 // Field to update on contact
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/BatchContactUpdateField).
@@ -291,7 +314,7 @@ type BatchContactUpdateField struct {
 
 // Batch operations performed on events
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/BatchEventOperation).
@@ -310,7 +333,7 @@ type BatchEventOperation struct {
 
 // Parameters for batch operations performed on events
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/BatchEventParameters).
@@ -322,7 +345,7 @@ type BatchEventParameters struct {
 
 // Field to update on event
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/BatchEventUpdateField).
@@ -342,7 +365,7 @@ type BatchEventUpdateField struct {
 
 // Batch operations performed on orders
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/BatchOrderOperation).
@@ -360,7 +383,7 @@ type BatchOrderOperation struct {
 
 // Parameters for batch operations performed on orders
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/BatchOrderParameters).
@@ -372,7 +395,7 @@ type BatchOrderParameters struct {
 
 // Field to update on order
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/BatchOrderUpdateField).
@@ -391,7 +414,7 @@ type BatchOrderUpdateField struct {
 
 // Result of a batch operation.
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/BatchResult).
@@ -405,7 +428,7 @@ type BatchResult struct {
 
 // Result of a batch operation for a specific item.
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/BatchResultItem).
@@ -426,7 +449,7 @@ type BatchResultItem struct {
 // (https://www.ticketmatic.com/docs/api/contacts/get) and the contacts endpoint
 // (https://www.ticketmatic.com/docs/api/contacts).
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/Contact).
@@ -440,6 +463,21 @@ type Contact struct {
 
 	// Addresses
 	Addresses []*Address `json:"addresses"`
+
+	// App notifications
+	Appnotifications []int64 `json:"appnotifications"`
+
+	// App onboardingstatus
+	Apponboardingstatus int64 `json:"apponboardingstatus,omitempty"`
+
+	// App optin
+	Appoptin *Appoptin `json:"appoptin,omitempty"`
+
+	// App phone
+	Appphone string `json:"appphone,omitempty"`
+
+	// App token
+	Apptoken string `json:"apptoken,omitempty"`
 
 	// Birth date
 	Birthdate Time `json:"birthdate,omitempty"`
@@ -456,11 +494,17 @@ type Contact struct {
 	// First name
 	Firstname string `json:"firstname,omitempty"`
 
+	// Image url
+	Image string `json:"image,omitempty"`
+
 	// Language (ISO 639-1 code (http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes))
 	Languagecode string `json:"languagecode,omitempty"`
 
 	// Last name
 	Lastname string `json:"lastname,omitempty"`
+
+	// Related objects
+	Lookup map[string]interface{} `json:"lookup,omitempty"`
 
 	// Middle name
 	Middlename string `json:"middlename,omitempty"`
@@ -474,8 +518,12 @@ type Contact struct {
 	// Phone numbers
 	Phonenumbers []*Phonenumber `json:"phonenumbers"`
 
+	// A list of contact relationships
+	Relationships []*ContactRelationship `json:"relationships"`
+
 	// Relation type IDs
 	Relationtypes []int64 `json:"relationtypes"`
+	Sendmail      bool    `json:"sendmail"`
 
 	// Sex
 	Sex string `json:"sex,omitempty"`
@@ -567,44 +615,62 @@ func (o *Contact) UnmarshalJSON(data []byte) error {
 func (o *Contact) MarshalJSON() ([]byte, error) {
 	// Use a custom type to avoid the custom marshaller, marshal the data.
 	type tmp struct {
-		Id                   int64           `json:"id,omitempty"`
-		Addresses            []*Address      `json:"addresses,omitempty"`
-		Birthdate            Time            `json:"birthdate,omitempty"`
-		Company              string          `json:"company,omitempty"`
-		Customertitleid      int64           `json:"customertitleid,omitempty"`
-		Email                string          `json:"email,omitempty"`
-		Firstname            string          `json:"firstname,omitempty"`
-		Languagecode         string          `json:"languagecode,omitempty"`
-		Lastname             string          `json:"lastname,omitempty"`
-		Middlename           string          `json:"middlename,omitempty"`
-		Optins               []*ContactOptIn `json:"optins,omitempty"`
-		Organizationfunction string          `json:"organizationfunction,omitempty"`
-		Phonenumbers         []*Phonenumber  `json:"phonenumbers,omitempty"`
-		Relationtypes        []int64         `json:"relationtypes,omitempty"`
-		Sex                  string          `json:"sex,omitempty"`
-		Status               string          `json:"status,omitempty"`
-		Subscribed           bool            `json:"subscribed,omitempty"`
-		Vatnumber            string          `json:"vatnumber,omitempty"`
-		Isdeleted            bool            `json:"isdeleted,omitempty"`
-		Createdts            Time            `json:"createdts,omitempty"`
-		Lastupdatets         Time            `json:"lastupdatets,omitempty"`
+		Id                   int64                  `json:"id,omitempty"`
+		Addresses            []*Address             `json:"addresses,omitempty"`
+		Appnotifications     []int64                `json:"appnotifications,omitempty"`
+		Apponboardingstatus  int64                  `json:"apponboardingstatus,omitempty"`
+		Appoptin             *Appoptin              `json:"appoptin,omitempty"`
+		Appphone             string                 `json:"appphone,omitempty"`
+		Apptoken             string                 `json:"apptoken,omitempty"`
+		Birthdate            Time                   `json:"birthdate,omitempty"`
+		Company              string                 `json:"company,omitempty"`
+		Customertitleid      int64                  `json:"customertitleid,omitempty"`
+		Email                string                 `json:"email,omitempty"`
+		Firstname            string                 `json:"firstname,omitempty"`
+		Image                string                 `json:"image,omitempty"`
+		Languagecode         string                 `json:"languagecode,omitempty"`
+		Lastname             string                 `json:"lastname,omitempty"`
+		Lookup               map[string]interface{} `json:"lookup,omitempty"`
+		Middlename           string                 `json:"middlename,omitempty"`
+		Optins               []*ContactOptIn        `json:"optins,omitempty"`
+		Organizationfunction string                 `json:"organizationfunction,omitempty"`
+		Phonenumbers         []*Phonenumber         `json:"phonenumbers,omitempty"`
+		Relationships        []*ContactRelationship `json:"relationships,omitempty"`
+		Relationtypes        []int64                `json:"relationtypes,omitempty"`
+		Sendmail             bool                   `json:"sendmail,omitempty"`
+		Sex                  string                 `json:"sex,omitempty"`
+		Status               string                 `json:"status,omitempty"`
+		Subscribed           bool                   `json:"subscribed,omitempty"`
+		Vatnumber            string                 `json:"vatnumber,omitempty"`
+		Isdeleted            bool                   `json:"isdeleted,omitempty"`
+		Createdts            Time                   `json:"createdts,omitempty"`
+		Lastupdatets         Time                   `json:"lastupdatets,omitempty"`
 	}
 
 	obj := tmp{
 		Id:                   o.Id,
 		Addresses:            o.Addresses,
+		Appnotifications:     o.Appnotifications,
+		Apponboardingstatus:  o.Apponboardingstatus,
+		Appoptin:             o.Appoptin,
+		Appphone:             o.Appphone,
+		Apptoken:             o.Apptoken,
 		Birthdate:            o.Birthdate,
 		Company:              o.Company,
 		Customertitleid:      o.Customertitleid,
 		Email:                o.Email,
 		Firstname:            o.Firstname,
+		Image:                o.Image,
 		Languagecode:         o.Languagecode,
 		Lastname:             o.Lastname,
+		Lookup:               o.Lookup,
 		Middlename:           o.Middlename,
 		Optins:               o.Optins,
 		Organizationfunction: o.Organizationfunction,
 		Phonenumbers:         o.Phonenumbers,
+		Relationships:        o.Relationships,
 		Relationtypes:        o.Relationtypes,
+		Sendmail:             o.Sendmail,
 		Sex:                  o.Sex,
 		Status:               o.Status,
 		Subscribed:           o.Subscribed,
@@ -643,7 +709,7 @@ func (o *Contact) MarshalJSON() ([]byte, error) {
 // and the contact address types endpoint
 // (https://www.ticketmatic.com/docs/api/settings/system/contactaddresstypes).
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/ContactAddressType).
@@ -683,13 +749,13 @@ type ContactAddressType struct {
 // Set of parameters used to filter contact address types.
 //
 // More info: see contact address type
-// (https://www.ticketmatic.com/docs/api/types/ContactAddressType), the getlist
-// operation
+// (https://www.ticketmatic.com/docs/api/types/ContactAddressType),
+// the getlist operation
 // (https://www.ticketmatic.com/docs/api/settings/system/contactaddresstypes/getlist)
 // and the contact address types endpoint
 // (https://www.ticketmatic.com/docs/api/settings/system/contactaddresstypes).
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/ContactAddressTypeQuery).
@@ -708,7 +774,7 @@ type ContactAddressTypeQuery struct {
 
 // Set of fields that can be used for contact batch update.
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/ContactBatchUpdate).
@@ -793,7 +859,7 @@ func (o *ContactBatchUpdate) MarshalJSON() ([]byte, error) {
 
 // Contact field is a list of field that are asked upon registration
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/ContactField).
@@ -810,7 +876,7 @@ type ContactField struct {
 
 // Optional alternative methods to retrieve a contact
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/ContactGetQuery).
@@ -821,7 +887,7 @@ type ContactGetQuery struct {
 
 // Contact ID reservation
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/ContactIdReservation).
@@ -832,7 +898,7 @@ type ContactIdReservation struct {
 
 // Import status per contact
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/ContactImportStatus).
@@ -849,7 +915,7 @@ type ContactImportStatus struct {
 
 // A single contact opt-in.
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/ContactOptIn).
@@ -876,7 +942,7 @@ type ContactOptIn struct {
 
 // Additional info when this opt in is set.
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/ContactOptInInfo).
@@ -896,7 +962,7 @@ type ContactOptInInfo struct {
 
 // Filter parameters to fetch a list of contacts
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/ContactQuery).
@@ -942,9 +1008,29 @@ type ContactQuery struct {
 	Searchterm string `json:"searchterm,omitempty"`
 }
 
+// Contact relationships
+//
+// # Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/ContactRelationship).
+type ContactRelationship struct {
+	// Contact relationship ID
+	Id int64 `json:"id"`
+
+	// The type of the relationship
+	Typeid int64 `json:"typeid"`
+
+	// The contact ID of the child
+	Childcontactid int64 `json:"childcontactid"`
+
+	// The contact ID of the parent
+	Parentcontactid int64 `json:"parentcontactid"`
+}
+
 // Remarks belonging to a contact.
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/ContactRemark).
@@ -962,11 +1048,11 @@ type ContactRemark struct {
 // A single contact title.
 //
 // More info: see the get operation
-// (https://www.ticketmatic.com/docs/api/settings/system/contacttitles/get) and the
-// contact titles endpoint
+// (https://www.ticketmatic.com/docs/api/settings/system/contacttitles/get)
+// and the contact titles endpoint
 // (https://www.ticketmatic.com/docs/api/settings/system/contacttitles).
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/ContactTitle).
@@ -1016,11 +1102,11 @@ type ContactTitle struct {
 //
 // More info: see contact title
 // (https://www.ticketmatic.com/docs/api/types/ContactTitle), the getlist operation
-// (https://www.ticketmatic.com/docs/api/settings/system/contacttitles/getlist) and
-// the contact titles endpoint
+// (https://www.ticketmatic.com/docs/api/settings/system/contacttitles/getlist)
+// and the contact titles endpoint
 // (https://www.ticketmatic.com/docs/api/settings/system/contacttitles).
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/ContactTitleQuery).
@@ -1040,7 +1126,7 @@ type ContactTitleQuery struct {
 // Required data for creating an order
 // (https://www.ticketmatic.com/docs/api/types/Order).
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/CreateOrder).
@@ -1061,7 +1147,7 @@ type CreateOrder struct {
 // (https://www.ticketmatic.com/docs/api/orders/addproducts) to an order
 // (https://www.ticketmatic.com/docs/api/types/Order).
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/CreateProduct).
@@ -1077,7 +1163,7 @@ type CreateProduct struct {
 // (https://www.ticketmatic.com/docs/api/orders/addtickets) to an order
 // (https://www.ticketmatic.com/docs/api/types/Order).
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/CreateTicket).
@@ -1104,11 +1190,11 @@ type CreateTicket struct {
 // A single custom field.
 //
 // More info: see the get operation
-// (https://www.ticketmatic.com/docs/api/settings/system/customfields/get) and the
-// custom fields endpoint
+// (https://www.ticketmatic.com/docs/api/settings/system/customfields/get)
+// and the custom fields endpoint
 // (https://www.ticketmatic.com/docs/api/settings/system/customfields).
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/CustomField).
@@ -1180,11 +1266,11 @@ type CustomField struct {
 //
 // More info: see custom field
 // (https://www.ticketmatic.com/docs/api/types/CustomField), the getlist operation
-// (https://www.ticketmatic.com/docs/api/settings/system/customfields/getlist) and
-// the custom fields endpoint
+// (https://www.ticketmatic.com/docs/api/settings/system/customfields/getlist)
+// and the custom fields endpoint
 // (https://www.ticketmatic.com/docs/api/settings/system/customfields).
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/CustomFieldQuery).
@@ -1207,11 +1293,11 @@ type CustomFieldQuery struct {
 // A single custom field value.
 //
 // More info: see the get operation
-// (https://www.ticketmatic.com/docs/api/settings/system/customfieldvalues/get) and
-// the custom field values endpoint
+// (https://www.ticketmatic.com/docs/api/settings/system/customfieldvalues/get)
+// and the custom field values endpoint
 // (https://www.ticketmatic.com/docs/api/settings/system/customfieldvalues).
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/CustomFieldValue).
@@ -1259,13 +1345,13 @@ type CustomFieldValue struct {
 // Set of parameters used to filter custom field values.
 //
 // More info: see custom field value
-// (https://www.ticketmatic.com/docs/api/types/CustomFieldValue), the getlist
-// operation
+// (https://www.ticketmatic.com/docs/api/types/CustomFieldValue),
+// the getlist operation
 // (https://www.ticketmatic.com/docs/api/settings/system/customfieldvalues/getlist)
 // and the custom field values endpoint
 // (https://www.ticketmatic.com/docs/api/settings/system/customfieldvalues).
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/CustomFieldValueQuery).
@@ -1294,7 +1380,7 @@ type CustomFieldValueQuery struct {
 // More information about writing order scripts can be found here
 // (https://www.ticketmatic.com/docs/tickets/configure_ticket_sales/orderfees).
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/CustomfieldAvailability).
@@ -1314,7 +1400,7 @@ type CustomfieldAvailability struct {
 // (https://www.ticketmatic.com/docs/api/orders/deleteproducts) from an order
 // (https://www.ticketmatic.com/docs/api/types/Order).
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/DeleteProducts).
@@ -1327,7 +1413,7 @@ type DeleteProducts struct {
 // (https://www.ticketmatic.com/docs/api/orders/deletetickets) from an order
 // (https://www.ticketmatic.com/docs/api/types/Order).
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/DeleteTickets).
@@ -1343,7 +1429,7 @@ type DeleteTickets struct {
 // and the delivery scenarios endpoint
 // (https://www.ticketmatic.com/docs/api/settings/ticketsales/deliveryscenarios).
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/DeliveryScenario).
@@ -1355,9 +1441,9 @@ type DeliveryScenario struct {
 	// Note: Ignored when updating an existing delivery scenario.
 	Id int64 `json:"id"`
 
-	// The type of this delivery scenario, defines when this delivery scenario is
-	// triggered. The available values for this field can be found on the delivery
-	// scenario overview
+	// The type of this delivery scenario, defines when this
+	// delivery scenario is triggered. The available values for
+	// this field can be found on the delivery scenario overview
 	// (https://www.ticketmatic.com/docs/api/settings/ticketsales/deliveryscenarios)
 	// page.
 	Typeid int64 `json:"typeid"`
@@ -1368,8 +1454,8 @@ type DeliveryScenario struct {
 	// Are e-tickets allowed with this delivery scenario?
 	Allowetickets int64 `json:"allowetickets"`
 
-	// The rules that define when this scenario is available. See the delivery scenario
-	// overview
+	// The rules that define when this scenario is
+	// available. See the delivery scenario overview
 	// (https://www.ticketmatic.com/docs/api/settings/ticketsales/deliveryscenarios)
 	// page for a description of this field
 	//
@@ -1379,8 +1465,17 @@ type DeliveryScenario struct {
 	// The delivery status the order will transition to when the trigger occurs.
 	Deliverystatusaftertrigger int64 `json:"deliverystatusaftertrigger"`
 
+	// A very short description of the fee that is applicable.
+	Feedescription string `json:"feedescription"`
+
 	// An internal description field. Will not be shown to customers.
 	Internalremark string `json:"internalremark,omitempty"`
+
+	// Logo url
+	Logo string `json:"logo"`
+
+	// Send mail to organization if known
+	Mailorganization bool `json:"mailorganization"`
 
 	// A physical address is required
 	Needsaddress bool `json:"needsaddress"`
@@ -1470,7 +1565,10 @@ func (o *DeliveryScenario) MarshalJSON() ([]byte, error) {
 		Allowetickets                      int64                         `json:"allowetickets,omitempty"`
 		Availability                       *DeliveryscenarioAvailability `json:"availability,omitempty"`
 		Deliverystatusaftertrigger         int64                         `json:"deliverystatusaftertrigger,omitempty"`
+		Feedescription                     string                        `json:"feedescription,omitempty"`
 		Internalremark                     string                        `json:"internalremark,omitempty"`
+		Logo                               string                        `json:"logo,omitempty"`
+		Mailorganization                   bool                          `json:"mailorganization,omitempty"`
 		Needsaddress                       bool                          `json:"needsaddress,omitempty"`
 		OrdermailtemplateidDelivery        int64                         `json:"ordermailtemplateid_delivery,omitempty"`
 		OrdermailtemplateidDeliverystarted int64                         `json:"ordermailtemplateid_deliverystarted,omitempty"`
@@ -1488,7 +1586,10 @@ func (o *DeliveryScenario) MarshalJSON() ([]byte, error) {
 		Allowetickets:                      o.Allowetickets,
 		Availability:                       o.Availability,
 		Deliverystatusaftertrigger:         o.Deliverystatusaftertrigger,
+		Feedescription:                     o.Feedescription,
 		Internalremark:                     o.Internalremark,
+		Logo:                               o.Logo,
+		Mailorganization:                   o.Mailorganization,
 		Needsaddress:                       o.Needsaddress,
 		OrdermailtemplateidDelivery:        o.OrdermailtemplateidDelivery,
 		OrdermailtemplateidDeliverystarted: o.OrdermailtemplateidDeliverystarted,
@@ -1524,13 +1625,13 @@ func (o *DeliveryScenario) MarshalJSON() ([]byte, error) {
 // Set of parameters used to filter delivery scenarios.
 //
 // More info: see delivery scenario
-// (https://www.ticketmatic.com/docs/api/types/DeliveryScenario), the getlist
-// operation
+// (https://www.ticketmatic.com/docs/api/types/DeliveryScenario),
+// the getlist operation
 // (https://www.ticketmatic.com/docs/api/settings/ticketsales/deliveryscenarios/getlist)
 // and the delivery scenarios endpoint
 // (https://www.ticketmatic.com/docs/api/settings/ticketsales/deliveryscenarios).
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/DeliveryScenarioQuery).
@@ -1558,12 +1659,9 @@ type DeliveryScenarioQuery struct {
 //
 // In its simplest form, a DeliveryscenarioAvailability looks like this:
 //
-//
-//    {
-//        "saleschannels": [1, 2]
-//    }
-//
-//
+//	{
+//	    "saleschannels": [1, 2]
+//	}
 //
 // This defines that the delivery scenario is available when used in the context of
 // saleschannel 1 or 2.
@@ -1572,24 +1670,18 @@ type DeliveryScenarioQuery struct {
 // (http://en.wikipedia.org/wiki/JavaScript). To do so, you need to add a usescript
 // and script field to the availability:
 //
-//
-//    {
-//        "saleschannels": [1, 2],
-//        "usescript": true,
-//        "script": "// script here"
-//    }
-//
-//
+//	{
+//	    "saleschannels": [1, 2],
+//	    "usescript": true,
+//	    "script": "// script here"
+//	}
 //
 // Note that the list of sales channel IDs is still required: the script can only
 // restrict this set further.
 //
 // A simple example of a delivery scenario script:
 //
-//
-//    return order.tickets.length < 3 && saleschannel.typeid == 3002;
-//
-//
+//	return order.tickets.length < 3 && saleschannel.typeid == 3002;
 //
 // This script states that the current delivery scenario is only available if the
 // amount of tickets in the order is less than 3 and the current sales channel is a
@@ -1597,14 +1689,11 @@ type DeliveryScenarioQuery struct {
 //
 // With this script the DeliveryscenarioAvailability would look like this:
 //
-//
-//    {
-//        "saleschannels": [1, 2],
-//        "usescript": true,
-//        "script": "return order.tickets.length < 3 && saleschannel.typeid == 3002;"
-//    }
-//
-//
+//	{
+//	    "saleschannels": [1, 2],
+//	    "usescript": true,
+//	    "script": "return order.tickets.length < 3 && saleschannel.typeid == 3002;"
+//	}
 //
 // The following variables are available in the script:
 //
@@ -1612,10 +1701,10 @@ type DeliveryScenarioQuery struct {
 //
 // * saleschannel
 //
-// You can use any valid JavaScript syntax (including conditionals and loops). Note
-// that each script has a strict time limit.
+// You can use any valid JavaScript syntax (including conditionals and loops).
+// Note that each script has a strict time limit.
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/DeliveryscenarioAvailability).
@@ -1637,7 +1726,7 @@ type DeliveryscenarioAvailability struct {
 // and the documents endpoint
 // (https://www.ticketmatic.com/docs/api/settings/communicationanddesign/documents).
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/Document).
@@ -1665,10 +1754,18 @@ type Document struct {
 	// Description of the document
 	Description string `json:"description"`
 
+	// Translations for the document template
+	Enabled bool `json:"enabled"`
+
 	// HTML content for the document template
 	//
 	// Note: Not set when retrieving a list of documents.
 	Htmltemplate string `json:"htmltemplate"`
+
+	// Key-value array of options. Can contain: nbrperpage
+	//
+	// Note: Not set when retrieving a list of documents.
+	Options *DocumentOptions `json:"options,omitempty"`
 
 	// Translations for the document template
 	//
@@ -1690,15 +1787,26 @@ type Document struct {
 	Lastupdatets Time `json:"lastupdatets"`
 }
 
+// Options for the document generation.
+//
+// # Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/DocumentOptions).
+type DocumentOptions struct {
+	// Amount of documents per page
+	Nbrperpage int64 `json:"nbrperpage"`
+}
+
 // Set of parameters used to filter documents.
 //
-// More info: see document (https://www.ticketmatic.com/docs/api/types/Document),
-// the getlist operation
+// More info: see document
+// (https://www.ticketmatic.com/docs/api/types/Document), the getlist operation
 // (https://www.ticketmatic.com/docs/api/settings/communicationanddesign/documents/getlist)
 // and the documents endpoint
 // (https://www.ticketmatic.com/docs/api/settings/communicationanddesign/documents).
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/DocumentQuery).
@@ -1719,7 +1827,7 @@ type DocumentQuery struct {
 // (https://www.ticketmatic.com/docs/api/settings/system/dupedetectrules) for an
 // overview of the possible field/matcher combinations.
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/DupeDetectCriteria).
@@ -1734,11 +1842,11 @@ type DupeDetectCriteria struct {
 // A single dupe detect rule.
 //
 // More info: see the get operation
-// (https://www.ticketmatic.com/docs/api/settings/system/dupedetectrules/get) and
-// the dupe detect rules endpoint
+// (https://www.ticketmatic.com/docs/api/settings/system/dupedetectrules/get)
+// and the dupe detect rules endpoint
 // (https://www.ticketmatic.com/docs/api/settings/system/dupedetectrules).
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/DupeDetectRule).
@@ -1776,13 +1884,13 @@ type DupeDetectRule struct {
 // Set of parameters used to filter dupe detect rules.
 //
 // More info: see dupe detect rule
-// (https://www.ticketmatic.com/docs/api/types/DupeDetectRule), the getlist
-// operation
+// (https://www.ticketmatic.com/docs/api/types/DupeDetectRule),
+// the getlist operation
 // (https://www.ticketmatic.com/docs/api/settings/system/dupedetectrules/getlist)
 // and the dupe detect rules endpoint
 // (https://www.ticketmatic.com/docs/api/settings/system/dupedetectrules).
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/DupeDetectRuleQuery).
@@ -1798,7 +1906,7 @@ type DupeDetectRuleQuery struct {
 
 // A single Event.
 //
-// Status
+// # Status
 //
 // The currentstatus field of an event can have any of the following values:
 //
@@ -1808,7 +1916,7 @@ type DupeDetectRuleQuery struct {
 //
 // * Closed (19003)
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/Event).
@@ -1872,6 +1980,9 @@ type Event struct {
 	// Practical info for the event, visible for ticket buyers
 	Info string `json:"info,omitempty"`
 
+	// Layout parameters for the event
+	Layout *Layout `json:"layout,omitempty"`
+
 	// Event location ID
 	//
 	// See event locations
@@ -1890,6 +2001,9 @@ type Event struct {
 
 	// Maximum number of tickets for this event that can be added to a basket
 	Maxnbrofticketsperbasket int64 `json:"maxnbrofticketsperbasket,omitempty"`
+
+	// Opt-in set id
+	Optinsetid int64 `json:"optinsetid,omitempty"`
 
 	// Preview urls for the event.
 	Previews []*EventPreview `json:"previews"`
@@ -1933,8 +2047,18 @@ type Event struct {
 	// Used for all sales channels for which no specific sales period has been defined.
 	Salestartts Time `json:"salestartts,omitempty"`
 
+	// Salestatus messages id
+	Salestatusmessagesid int64 `json:"salestatusmessagesid,omitempty"`
+
 	// Schedule for the event, visible for ticket buyers
 	Schedule string `json:"schedule,omitempty"`
+
+	// Allow or disallow leaving single seats on their own.
+	Seatallowsingle bool   `json:"seatallowsingle,omitempty"`
+	SeatedChartkey  string `json:"seated_chartkey"`
+
+	// Seated contingents
+	SeatedContingents []*EventContingent `json:"seated_contingents"`
 
 	// Information about the contingents defined in the seatingplan. Read-only.
 	//
@@ -1974,6 +2098,18 @@ type Event struct {
 	// Enable or disable seat selection for customers.
 	Seatselection bool `json:"seatselection,omitempty"`
 
+	// Segmentation tags
+	Segmentationtags []string `json:"segmentationtags"`
+
+	// servicemailids
+	Servicemailids []int64 `json:"servicemailids"`
+
+	// Short description of the event, visible for ticket buyers
+	Shortdescription string `json:"shortdescription,omitempty"`
+
+	// Social distance type. Determines if social distance must be practiced.
+	Socialdistance int64 `json:"socialdistance,omitempty"`
+
 	// Event start time
 	Startts Time `json:"startts"`
 
@@ -1983,12 +2119,18 @@ type Event struct {
 	// Event subtitle (2)
 	Subtitle2 string `json:"subtitle2,omitempty"`
 
+	// Event tags
+	Tags []string `json:"tags"`
+
 	// Ticket fee ID
 	//
 	// Determines which ticket fee rules are used for this event. See ticket fees
 	// (https://www.ticketmatic.com/docs/api/settings/pricing/ticketfees) for more
 	// information.
 	Ticketfeeid int64 `json:"ticketfeeid,omitempty"`
+
+	// Ticketinfo id
+	Ticketinfoid int64 `json:"ticketinfoid,omitempty"`
 
 	// Ticket layout ID
 	//
@@ -1997,8 +2139,14 @@ type Event struct {
 	// for more information.
 	Ticketlayoutid int64 `json:"ticketlayoutid,omitempty"`
 
+	// Determines the total maximum amount of tickets that can be sold for event.
+	Totalmaxtickets int64 `json:"totalmaxtickets,omitempty"`
+
 	// Translation of event fields
 	Translations map[string]string `json:"translations,omitempty"`
+
+	// Upsell id
+	Upsellid int64 `json:"upsellid,omitempty"`
 
 	// The type of the waiting list the event uses
 	Waitinglisttype int64 `json:"waitinglisttype,omitempty"`
@@ -2073,9 +2221,11 @@ func (o *Event) MarshalJSON() ([]byte, error) {
 		Externalcode                   string                         `json:"externalcode,omitempty"`
 		Image                          string                         `json:"image,omitempty"`
 		Info                           string                         `json:"info,omitempty"`
+		Layout                         *Layout                        `json:"layout,omitempty"`
 		Locationid                     int64                          `json:"locationid,omitempty"`
 		Locationname                   string                         `json:"locationname,omitempty"`
 		Maxnbrofticketsperbasket       int64                          `json:"maxnbrofticketsperbasket,omitempty"`
+		Optinsetid                     int64                          `json:"optinsetid,omitempty"`
 		Previews                       []*EventPreview                `json:"previews,omitempty"`
 		Prices                         *EventPrices                   `json:"prices,omitempty"`
 		Productionid                   int64                          `json:"productionid,omitempty"`
@@ -2085,19 +2235,31 @@ func (o *Event) MarshalJSON() ([]byte, error) {
 		Saleendts                      Time                           `json:"saleendts,omitempty"`
 		Saleschannels                  []*EventSalesChannel           `json:"saleschannels,omitempty"`
 		Salestartts                    Time                           `json:"salestartts,omitempty"`
+		Salestatusmessagesid           int64                          `json:"salestatusmessagesid,omitempty"`
 		Schedule                       string                         `json:"schedule,omitempty"`
+		Seatallowsingle                bool                           `json:"seatallowsingle,omitempty"`
+		SeatedChartkey                 string                         `json:"seated_chartkey,omitempty"`
+		SeatedContingents              []*EventContingent             `json:"seated_contingents,omitempty"`
 		Seatingplancontingents         []*EventSeatingplanContingent  `json:"seatingplancontingents,omitempty"`
 		Seatingplaneventspecificprices *PricelistPrices               `json:"seatingplaneventspecificprices,omitempty"`
 		Seatingplanid                  int64                          `json:"seatingplanid,omitempty"`
 		Seatingplanlocktemplate        string                         `json:"seatingplanlocktemplate,omitempty"`
 		Seatingplanpricelistid         int64                          `json:"seatingplanpricelistid,omitempty"`
 		Seatselection                  bool                           `json:"seatselection,omitempty"`
+		Segmentationtags               []string                       `json:"segmentationtags,omitempty"`
+		Servicemailids                 []int64                        `json:"servicemailids,omitempty"`
+		Shortdescription               string                         `json:"shortdescription,omitempty"`
+		Socialdistance                 int64                          `json:"socialdistance,omitempty"`
 		Startts                        Time                           `json:"startts,omitempty"`
 		Subtitle                       string                         `json:"subtitle,omitempty"`
 		Subtitle2                      string                         `json:"subtitle2,omitempty"`
+		Tags                           []string                       `json:"tags,omitempty"`
 		Ticketfeeid                    int64                          `json:"ticketfeeid,omitempty"`
+		Ticketinfoid                   int64                          `json:"ticketinfoid,omitempty"`
 		Ticketlayoutid                 int64                          `json:"ticketlayoutid,omitempty"`
+		Totalmaxtickets                int64                          `json:"totalmaxtickets,omitempty"`
 		Translations                   map[string]string              `json:"translations,omitempty"`
+		Upsellid                       int64                          `json:"upsellid,omitempty"`
 		Waitinglisttype                int64                          `json:"waitinglisttype,omitempty"`
 		Webremark                      string                         `json:"webremark,omitempty"`
 		Createdts                      Time                           `json:"createdts,omitempty"`
@@ -2117,9 +2279,11 @@ func (o *Event) MarshalJSON() ([]byte, error) {
 		Externalcode:                   o.Externalcode,
 		Image:                          o.Image,
 		Info:                           o.Info,
+		Layout:                         o.Layout,
 		Locationid:                     o.Locationid,
 		Locationname:                   o.Locationname,
 		Maxnbrofticketsperbasket:       o.Maxnbrofticketsperbasket,
+		Optinsetid:                     o.Optinsetid,
 		Previews:                       o.Previews,
 		Prices:                         o.Prices,
 		Productionid:                   o.Productionid,
@@ -2129,19 +2293,31 @@ func (o *Event) MarshalJSON() ([]byte, error) {
 		Saleendts:                      o.Saleendts,
 		Saleschannels:                  o.Saleschannels,
 		Salestartts:                    o.Salestartts,
+		Salestatusmessagesid:           o.Salestatusmessagesid,
 		Schedule:                       o.Schedule,
+		Seatallowsingle:                o.Seatallowsingle,
+		SeatedChartkey:                 o.SeatedChartkey,
+		SeatedContingents:              o.SeatedContingents,
 		Seatingplancontingents:         o.Seatingplancontingents,
 		Seatingplaneventspecificprices: o.Seatingplaneventspecificprices,
 		Seatingplanid:                  o.Seatingplanid,
 		Seatingplanlocktemplate:        o.Seatingplanlocktemplate,
 		Seatingplanpricelistid:         o.Seatingplanpricelistid,
 		Seatselection:                  o.Seatselection,
+		Segmentationtags:               o.Segmentationtags,
+		Servicemailids:                 o.Servicemailids,
+		Shortdescription:               o.Shortdescription,
+		Socialdistance:                 o.Socialdistance,
 		Startts:                        o.Startts,
 		Subtitle:                       o.Subtitle,
 		Subtitle2:                      o.Subtitle2,
+		Tags:                           o.Tags,
 		Ticketfeeid:                    o.Ticketfeeid,
+		Ticketinfoid:                   o.Ticketinfoid,
 		Ticketlayoutid:                 o.Ticketlayoutid,
+		Totalmaxtickets:                o.Totalmaxtickets,
 		Translations:                   o.Translations,
+		Upsellid:                       o.Upsellid,
 		Waitinglisttype:                o.Waitinglisttype,
 		Webremark:                      o.Webremark,
 		Createdts:                      o.Createdts,
@@ -2173,12 +2349,12 @@ func (o *Event) MarshalJSON() ([]byte, error) {
 // Used when requesting events, to restrict the event information to a specific
 // context.
 //
-// Currently allows you to filter the event information (both the events and the
-// pricing information within each event) to a specific saleschannel. If a
-// saleschannel is specified, only events that are currently for sale in that
+// Currently allows you to filter the event information (both the events and
+// the pricing information within each event) to a specific saleschannel.
+// If a saleschannel is specified, only events that are currently for sale in that
 // specific saleschannel will be returned.
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/EventContext).
@@ -2190,7 +2366,7 @@ type EventContext struct {
 // Information about a contingent for an event
 // (https://www.ticketmatic.com/docs/api/types/Event).
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/EventContingent).
@@ -2219,14 +2395,14 @@ type EventContingent struct {
 	// Price list ID for this contingent
 	Pricelistid int64 `json:"pricelistid,omitempty"`
 
-	// Whether the barcodes for the tickets in this contingent were imported (true), or
-	// were generated internally (false)
+	// Whether the barcodes for the tickets in this contingent were imported (true),
+	// or were generated internally (false)
 	Withimportedbarcodes bool `json:"withimportedbarcodes,omitempty"`
 }
 
 // Information about the availability of tickets for a contingent
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/EventContingentAvailability).
@@ -2264,7 +2440,7 @@ type EventContingentAvailability struct {
 
 // Information about locked tickets in a Contingent.
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/EventContingentLock).
@@ -2283,7 +2459,7 @@ type EventContingentLock struct {
 //
 // Currently allows you to filter based on the production ID.
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/EventFilter).
@@ -2299,11 +2475,11 @@ type EventFilter struct {
 // A single event location.
 //
 // More info: see the get operation
-// (https://www.ticketmatic.com/docs/api/settings/events/eventlocations/get) and
-// the event locations endpoint
+// (https://www.ticketmatic.com/docs/api/settings/events/eventlocations/get)
+// and the event locations endpoint
 // (https://www.ticketmatic.com/docs/api/settings/events/eventlocations).
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/EventLocation).
@@ -2480,13 +2656,13 @@ func (o *EventLocation) MarshalJSON() ([]byte, error) {
 // Set of parameters used to filter event locations.
 //
 // More info: see event location
-// (https://www.ticketmatic.com/docs/api/types/EventLocation), the getlist
-// operation
+// (https://www.ticketmatic.com/docs/api/types/EventLocation),
+// the getlist operation
 // (https://www.ticketmatic.com/docs/api/settings/events/eventlocations/getlist)
 // and the event locations endpoint
 // (https://www.ticketmatic.com/docs/api/settings/events/eventlocations).
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/EventLocationQuery).
@@ -2506,7 +2682,7 @@ type EventLocationQuery struct {
 // Used when locking a set of tickets. Contains the locktypeid and the set of
 // ticketids
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/EventLockTickets).
@@ -2521,7 +2697,7 @@ type EventLockTickets struct {
 // Preview information for an event
 // (https://www.ticketmatic.com/docs/api/types/Event).
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/EventPreview).
@@ -2548,7 +2724,7 @@ type EventPreview struct {
 
 // Information about the prices for an event.
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/EventPrices).
@@ -2559,7 +2735,7 @@ type EventPrices struct {
 
 // Information about the prices for a contingent for an event.
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/EventPricesContingent).
@@ -2573,7 +2749,7 @@ type EventPricesContingent struct {
 
 // Information about costs for a price for an event.
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/EventPricesCost).
@@ -2588,7 +2764,7 @@ type EventPricesCost struct {
 // Information about the price for a pricetype for the specific sales channel for
 // an event.
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/EventPricesPricetype).
@@ -2606,7 +2782,7 @@ type EventPricesPricetype struct {
 // Information about the price for a pricetype for the specific sales channel for
 // an event.
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/EventPricesSaleschannel).
@@ -2633,7 +2809,7 @@ type EventPricesSaleschannel struct {
 
 // Filter parameters to fetch a list of events
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/EventQuery).
@@ -2693,7 +2869,7 @@ type EventQuery struct {
 // (https://www.ticketmatic.com/docs/api/types/SalesChannel) in an event
 // (https://www.ticketmatic.com/docs/api/types/Event).
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/EventSalesChannel).
@@ -2719,7 +2895,7 @@ type EventSalesChannel struct {
 
 // Scan out all tickets that are scanned in
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/EventScanTicketsOut).
@@ -2731,7 +2907,7 @@ type EventScanTicketsOut struct {
 // Information about a contingent in the seating plan for an event
 // (https://www.ticketmatic.com/docs/api/types/Event).
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/EventSeatingplanContingent).
@@ -2754,7 +2930,7 @@ type EventSeatingplanContingent struct {
 
 // A single ticket.
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/EventTicket).
@@ -3046,7 +3222,7 @@ func (o *EventTicket) MarshalJSON() ([]byte, error) {
 
 // Used when requesting tickets for an event, to filter the tickets.
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/EventTicketFilter).
@@ -3057,7 +3233,7 @@ type EventTicketFilter struct {
 
 // Filter parameters to fetch a list of tickets for an event
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/EventTicketQuery).
@@ -3068,7 +3244,7 @@ type EventTicketQuery struct {
 
 // Used when unlocking a set of tickets.
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/EventUnlockTickets).
@@ -3079,7 +3255,7 @@ type EventUnlockTickets struct {
 
 // Used when updating the seat rank for a set of tickets.
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/EventUpdateSeatRankForTickets).
@@ -3091,14 +3267,83 @@ type EventUpdateSeatRankForTickets struct {
 	Ticketids []int64 `json:"ticketids"`
 }
 
+// Upsell items for the event.
+//
+// # Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/EventUpsellitem).
+type EventUpsellitem struct {
+	// Id of the linked item
+	Id int64 `json:"id,omitempty"`
+
+	// Upsellitem type. Currently supported values are: event, product
+	Type string `json:"type,omitempty"`
+}
+
+// Results of polling the stream
+//
+// # Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/EventstreamItem).
+type EventstreamItem struct {
+	// Id of the event
+	Id string `json:"id"`
+
+	// Eventstream data
+	Data map[string]interface{} `json:"data,omitempty"`
+
+	// ISO-8601 timestamp of the event
+	Ts string `json:"ts"`
+
+	// Eventstream item type
+	Type string `json:"type"`
+}
+
+// Parameters for requesting eventstream events
+//
+// # Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/EventstreamRequest).
+type EventstreamRequest struct {
+	// Minimum id to start reading the stream
+	Id string `json:"id"`
+
+	// Comma separated list of event types to filter on
+	Eventtypes string `json:"eventtypes"`
+
+	// Timestamp in ISO-8601 format to start reading the stream, mutually exclusive
+	// with the id
+	Ts string `json:"ts"`
+}
+
+// Result of polling the eventstream.
+//
+// # Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/EventstreamResult).
+type EventstreamResult struct {
+	// The stream possibly contains more events, polling might need to catch up
+	Moreresults bool `json:"moreresults"`
+
+	// Id to use as startid in next poll
+	Nextid string `json:"nextid"`
+
+	// The results of polling the stream
+	Results []*EventstreamItem `json:"results"`
+}
+
 // A single field definition.
 //
 // More info: see the get operation
-// (https://www.ticketmatic.com/docs/api/settings/system/fielddefinitions/get) and
-// the field definitions endpoint
+// (https://www.ticketmatic.com/docs/api/settings/system/fielddefinitions/get)
+// and the field definitions endpoint
 // (https://www.ticketmatic.com/docs/api/settings/system/fielddefinitions).
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/FieldDefinition).
@@ -3166,13 +3411,13 @@ type FieldDefinition struct {
 // Set of parameters used to filter field definitions.
 //
 // More info: see field definition
-// (https://www.ticketmatic.com/docs/api/types/FieldDefinition), the getlist
-// operation
+// (https://www.ticketmatic.com/docs/api/types/FieldDefinition),
+// the getlist operation
 // (https://www.ticketmatic.com/docs/api/settings/system/fielddefinitions/getlist)
 // and the field definitions endpoint
 // (https://www.ticketmatic.com/docs/api/settings/system/fielddefinitions).
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/FieldDefinitionQuery).
@@ -3194,7 +3439,7 @@ type FieldDefinitionQuery struct {
 
 // Info for requesting field definition data for one or more items.
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/FielddefinitionsDataRequest).
@@ -3211,7 +3456,7 @@ type FielddefinitionsDataRequest struct {
 
 // Data for field definitions for an item.
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/FielddefinitionsDataResult).
@@ -3226,11 +3471,11 @@ type FielddefinitionsDataResult struct {
 // A single filter definition.
 //
 // More info: see the get operation
-// (https://www.ticketmatic.com/docs/api/settings/system/filterdefinitions/get) and
-// the filter definitions endpoint
+// (https://www.ticketmatic.com/docs/api/settings/system/filterdefinitions/get)
+// and the filter definitions endpoint
 // (https://www.ticketmatic.com/docs/api/settings/system/filterdefinitions).
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/FilterDefinition).
@@ -3262,6 +3507,9 @@ type FilterDefinition struct {
 	// The sql clause that defines how the filter will work
 	Sqlclause string `json:"sqlclause"`
 
+	// Disable or enable filter
+	Visible bool `json:"visible"`
+
 	// Whether or not this item is archived
 	//
 	// Note: Ignored when creating a new filter definition.
@@ -3287,13 +3535,13 @@ type FilterDefinition struct {
 // Set of parameters used to filter filter definitions.
 //
 // More info: see filter definition
-// (https://www.ticketmatic.com/docs/api/types/FilterDefinition), the getlist
-// operation
+// (https://www.ticketmatic.com/docs/api/types/FilterDefinition),
+// the getlist operation
 // (https://www.ticketmatic.com/docs/api/settings/system/filterdefinitions/getlist)
 // and the filter definitions endpoint
 // (https://www.ticketmatic.com/docs/api/settings/system/filterdefinitions).
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/FilterDefinitionQuery).
@@ -3315,7 +3563,7 @@ type FilterDefinitionQuery struct {
 
 // Element of a filter
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/FilterItem).
@@ -3331,7 +3579,7 @@ type FilterItem struct {
 
 // Info about a finished flow
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/Flowinfo).
@@ -3348,7 +3596,7 @@ type Flowinfo struct {
 
 // Required data for a flow session
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/Flowsession).
@@ -3362,7 +3610,7 @@ type Flowsession struct {
 
 // Used when importing an order with optiondbundle tickets
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/ImportBundleTicket).
@@ -3386,15 +3634,15 @@ type ImportBundleTicket struct {
 	Tickettypeid int64 `json:"tickettypeid"`
 
 	// The tickettypeprice ID for the ticket. This field is required if bundletickets
-	// are specified for a fixed bundle. When importing an optionbundle, if one of the
-	// bundletickets has a tickettypepriceid, all bundletickets should have one.
+	// are specified for a fixed bundle. When importing an optionbundle, if one of
+	// the bundletickets has a tickettypepriceid, all bundletickets should have one.
 	// Setting this, overrides the default behaviour of the configured bundle
 	Tickettypepriceid int64 `json:"tickettypepriceid,omitempty"`
 }
 
 // Used to import an order.
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/ImportOrder).
@@ -3579,7 +3827,7 @@ func (o *ImportOrder) MarshalJSON() ([]byte, error) {
 
 // Used when importing orders.
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/ImportOrdercost).
@@ -3593,7 +3841,7 @@ type ImportOrdercost struct {
 
 // Used when importing an order.
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/ImportPayment).
@@ -3619,7 +3867,7 @@ type ImportPayment struct {
 
 // Used when importing orders.
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/ImportProduct).
@@ -3660,7 +3908,7 @@ type ImportProduct struct {
 
 // Used when importing order.
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/ImportTicket).
@@ -3707,7 +3955,7 @@ type ImportTicket struct {
 
 // Info on a job.
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/JobResult).
@@ -3730,7 +3978,7 @@ type JobResult struct {
 
 // Key-value item
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/KeyValueItem).
@@ -3742,10 +3990,24 @@ type KeyValueItem struct {
 	Value string `json:"value"`
 }
 
+// Layout parameters
+//
+// # Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/Layout).
+type Layout struct {
+	// Main color for the event
+	Color string `json:"color,omitempty"`
+
+	// Use image in max format
+	MaxImage bool `json:"maxImage,omitempty"`
+}
+
 // The lock templates contain a mapping of which type of lock is applied to which
 // seats
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/LockTemplate).
@@ -3760,11 +4022,11 @@ type LockTemplate struct {
 // A single lock type.
 //
 // More info: see the get operation
-// (https://www.ticketmatic.com/docs/api/settings/ticketsales/locktypes/get) and
-// the lock types endpoint
+// (https://www.ticketmatic.com/docs/api/settings/ticketsales/locktypes/get)
+// and the lock types endpoint
 // (https://www.ticketmatic.com/docs/api/settings/ticketsales/locktypes).
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/LockType).
@@ -3813,13 +4075,13 @@ type LockType struct {
 
 // Set of parameters used to filter lock types.
 //
-// More info: see lock type (https://www.ticketmatic.com/docs/api/types/LockType),
-// the getlist operation
+// More info: see lock type
+// (https://www.ticketmatic.com/docs/api/types/LockType), the getlist operation
 // (https://www.ticketmatic.com/docs/api/settings/ticketsales/locktypes/getlist)
 // and the lock types endpoint
 // (https://www.ticketmatic.com/docs/api/settings/ticketsales/locktypes).
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/LockTypeQuery).
@@ -3839,7 +4101,7 @@ type LockTypeQuery struct {
 // Log item returned when requesting the log history of an order
 // (https://www.ticketmatic.com/docs/api/types/Order).
 //
-// Type
+// # Type
 //
 // The typeid field of an order log can have any of the following values:
 //
@@ -3901,7 +4163,7 @@ type LockTypeQuery struct {
 //
 // * Tickets/documents downloaded via API (18029)
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/LogItem).
@@ -3936,7 +4198,7 @@ type LogItem struct {
 
 // The logical plan describes the structure and layout of seats in a zone.
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/LogicalPlan).
@@ -3953,7 +4215,7 @@ type LogicalPlan struct {
 
 // A row contains a set of seats
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/LogicalPlanRow).
@@ -3970,7 +4232,7 @@ type LogicalPlanRow struct {
 
 // The definition of a seat.
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/LogicalPlanSeat).
@@ -4009,7 +4271,7 @@ type LogicalPlanSeat struct {
 // (https://www.ticketmatic.com/docs/api/settings/system/optins/get) and the opt
 // ins endpoint (https://www.ticketmatic.com/docs/api/settings/system/optins).
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/OptIn).
@@ -4066,7 +4328,7 @@ type OptIn struct {
 
 // The opt-in will be available for this saleschannel.
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/OptInAvailability).
@@ -4077,12 +4339,12 @@ type OptInAvailability struct {
 
 // Set of parameters used to filter opt ins.
 //
-// More info: see opt in (https://www.ticketmatic.com/docs/api/types/OptIn), the
-// getlist operation
+// More info: see opt in (https://www.ticketmatic.com/docs/api/types/OptIn),
+// the getlist operation
 // (https://www.ticketmatic.com/docs/api/settings/system/optins/getlist) and the
 // opt ins endpoint (https://www.ticketmatic.com/docs/api/settings/system/optins).
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/OptInQuery).
@@ -4101,7 +4363,7 @@ type OptInQuery struct {
 
 // A single Order.
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/Order).
@@ -4414,11 +4676,11 @@ func (o *Order) MarshalJSON() ([]byte, error) {
 // A single order fee.
 //
 // More info: see the get operation
-// (https://www.ticketmatic.com/docs/api/settings/ticketsales/orderfees/get) and
-// the order fees endpoint
+// (https://www.ticketmatic.com/docs/api/settings/ticketsales/orderfees/get)
+// and the order fees endpoint
 // (https://www.ticketmatic.com/docs/api/settings/ticketsales/orderfees).
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/OrderFee).
@@ -4479,7 +4741,7 @@ type OrderFee struct {
 // and the order fee definitions endpoint
 // (https://www.ticketmatic.com/docs/api/settings/pricing/orderfeedefinitions).
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/OrderFeeDefinition).
@@ -4536,13 +4798,13 @@ type OrderFeeDefinition struct {
 // Set of parameters used to filter order fee definitions.
 //
 // More info: see order fee definition
-// (https://www.ticketmatic.com/docs/api/types/OrderFeeDefinition), the getlist
-// operation
+// (https://www.ticketmatic.com/docs/api/types/OrderFeeDefinition),
+// the getlist operation
 // (https://www.ticketmatic.com/docs/api/settings/pricing/orderfeedefinitions/getlist)
 // and the order fee definitions endpoint
 // (https://www.ticketmatic.com/docs/api/settings/pricing/orderfeedefinitions).
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/OrderFeeDefinitionQuery).
@@ -4561,13 +4823,13 @@ type OrderFeeDefinitionQuery struct {
 
 // Set of parameters used to filter order fees.
 //
-// More info: see order fee (https://www.ticketmatic.com/docs/api/types/OrderFee),
-// the getlist operation
+// More info: see order fee
+// (https://www.ticketmatic.com/docs/api/types/OrderFee), the getlist operation
 // (https://www.ticketmatic.com/docs/api/settings/ticketsales/orderfees/getlist)
 // and the order fees endpoint
 // (https://www.ticketmatic.com/docs/api/settings/ticketsales/orderfees).
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/OrderFeeQuery).
@@ -4588,7 +4850,7 @@ type OrderFeeQuery struct {
 //
 // Specify any of the supported fields to filter the list of orders.
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/OrderFilter).
@@ -4616,7 +4878,7 @@ type OrderFilter struct {
 
 // Order ID reservation
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/OrderIdReservation).
@@ -4627,7 +4889,7 @@ type OrderIdReservation struct {
 
 // Import status per order
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/OrderImportStatus).
@@ -4649,7 +4911,7 @@ type OrderImportStatus struct {
 // and the order mail templates endpoint
 // (https://www.ticketmatic.com/docs/api/settings/communicationanddesign/ordermails).
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/OrderMailTemplate).
@@ -4681,8 +4943,8 @@ type OrderMailTemplate struct {
 	Subject string `json:"subject"`
 
 	// A map of language codes to gettext .po files
-	// (http://en.wikipedia.org/wiki/Gettext). More info can be found on the order mail
-	// template overview
+	// (http://en.wikipedia.org/wiki/Gettext). More info
+	// can be found on the order mail template overview
 	// (https://www.ticketmatic.com/docs/api/settings/communicationanddesign/ordermails)
 	// page.
 	//
@@ -4714,13 +4976,13 @@ type OrderMailTemplate struct {
 // Set of parameters used to filter order mail templates.
 //
 // More info: see order mail template
-// (https://www.ticketmatic.com/docs/api/types/OrderMailTemplate), the getlist
-// operation
+// (https://www.ticketmatic.com/docs/api/types/OrderMailTemplate),
+// the getlist operation
 // (https://www.ticketmatic.com/docs/api/settings/communicationanddesign/ordermails/getlist)
 // and the order mail templates endpoint
 // (https://www.ticketmatic.com/docs/api/settings/communicationanddesign/ordermails).
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/OrderMailTemplateQuery).
@@ -4739,7 +5001,7 @@ type OrderMailTemplateQuery struct {
 
 // A single product in an order.
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/OrderProduct).
@@ -4854,7 +5116,7 @@ func (o *OrderProduct) MarshalJSON() ([]byte, error) {
 
 // Filter parameters to fetch a list of orders
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/OrderQuery).
@@ -4912,7 +5174,7 @@ type OrderQuery struct {
 
 // A single ticket in an order.
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/OrderTicket).
@@ -4928,6 +5190,12 @@ type OrderTicket struct {
 
 	// The id of the product this ticket is linked to
 	Bundleid int64 `json:"bundleid"`
+
+	// The key of the fixedseat variant this ticket is linked to
+	Bundlevariant string `json:"bundlevariant"`
+
+	// Accesscontrol status for this ticket
+	Cachedaccesscontrolstatus int64 `json:"cachedaccesscontrolstatus"`
 
 	// The timestamp of the last delivery of this ticket
 	Deliveredts Time `json:"deliveredts"`
@@ -4949,6 +5217,9 @@ type OrderTicket struct {
 
 	// Description of the ticket
 	Seatdescription string `json:"seatdescription"`
+
+	// Seated ref
+	SeatedRef string `json:"seated_ref"`
 
 	// Name of the seat
 	Seatname string `json:"seatname"`
@@ -4974,13 +5245,16 @@ type OrderTicket struct {
 	// Id for the tickettypeprice of this ticket for the order
 	Tickettypepriceid int64 `json:"tickettypepriceid"`
 
+	// The contact this ticket is transferred to
+	Transferredto int64 `json:"transferredto"`
+
 	// The voucher code that was linked to this ticket
 	Vouchercodeid int64 `json:"vouchercodeid"`
 }
 
 // Order tickettype
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/OrderTickettype).
@@ -4997,7 +5271,7 @@ type OrderTickettype struct {
 
 // A single order fee for an order.
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/Ordercost).
@@ -5015,13 +5289,13 @@ type Ordercost struct {
 // More info about order fees can be found here
 // (https://www.ticketmatic.com/docs/api/settings/ticketsales/orderfees).
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/OrderfeeAutoRule).
 type OrderfeeAutoRule struct {
-	// The delivery scenarios that this order fee is applicable for. If not set it
-	// defaults to 'all'. This is only needed if the order fee type is set to
+	// The delivery scenarios that this order fee is applicable for. If not set
+	// it defaults to 'all'. This is only needed if the order fee type is set to
 	// automatic.
 	Deliveryscenarioids []int64 `json:"deliveryscenarioids"`
 
@@ -5045,7 +5319,7 @@ type OrderfeeAutoRule struct {
 // More info about order fees can be found here
 // (https://www.ticketmatic.com/docs/api/settings/ticketsales/orderfees).
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/OrderfeeRule).
@@ -5066,7 +5340,7 @@ type OrderfeeRule struct {
 // More info about order fees can be found here
 // (https://www.ticketmatic.com/docs/api/settings/ticketsales/orderfees).
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/OrderfeeScriptContext).
@@ -5085,7 +5359,7 @@ type OrderfeeScriptContext struct {
 
 // A single payment.
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/Payment).
@@ -5124,7 +5398,7 @@ type Payment struct {
 // and the payment methods endpoint
 // (https://www.ticketmatic.com/docs/api/settings/ticketsales/paymentmethods).
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/PaymentMethod).
@@ -5151,6 +5425,9 @@ type PaymentMethod struct {
 	// Type of the paymentmethod. For a list of possible types see here
 	// (https://www.ticketmatic.com/docs/api/settings/ticketsales/paymentmethods)
 	Paymentmethodtypeid int64 `json:"paymentmethodtypeid"`
+
+	// Payment Service Provider this payment method is linked to
+	Pspid int64 `json:"pspid"`
 
 	// Whether or not this item is archived
 	//
@@ -5219,6 +5496,7 @@ func (o *PaymentMethod) MarshalJSON() ([]byte, error) {
 		Config              map[string]interface{} `json:"config,omitempty"`
 		Internalremark      string                 `json:"internalremark,omitempty"`
 		Paymentmethodtypeid int64                  `json:"paymentmethodtypeid,omitempty"`
+		Pspid               int64                  `json:"pspid,omitempty"`
 		Isarchived          bool                   `json:"isarchived,omitempty"`
 		Createdts           Time                   `json:"createdts,omitempty"`
 		Lastupdatets        Time                   `json:"lastupdatets,omitempty"`
@@ -5230,6 +5508,7 @@ func (o *PaymentMethod) MarshalJSON() ([]byte, error) {
 		Config:              o.Config,
 		Internalremark:      o.Internalremark,
 		Paymentmethodtypeid: o.Paymentmethodtypeid,
+		Pspid:               o.Pspid,
 		Isarchived:          o.Isarchived,
 		Createdts:           o.Createdts,
 		Lastupdatets:        o.Lastupdatets,
@@ -5260,13 +5539,13 @@ func (o *PaymentMethod) MarshalJSON() ([]byte, error) {
 // Set of parameters used to filter payment methods.
 //
 // More info: see payment method
-// (https://www.ticketmatic.com/docs/api/types/PaymentMethod), the getlist
-// operation
+// (https://www.ticketmatic.com/docs/api/types/PaymentMethod),
+// the getlist operation
 // (https://www.ticketmatic.com/docs/api/settings/ticketsales/paymentmethods/getlist)
 // and the payment methods endpoint
 // (https://www.ticketmatic.com/docs/api/settings/ticketsales/paymentmethods).
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/PaymentMethodQuery).
@@ -5286,7 +5565,7 @@ type PaymentMethodQuery struct {
 // Info for requesting an immediate payment in an order
 // (https://www.ticketmatic.com/docs/api/types/Order).
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/PaymentRequest).
@@ -5309,7 +5588,7 @@ type PaymentRequest struct {
 // and the payment scenarios endpoint
 // (https://www.ticketmatic.com/docs/api/settings/ticketsales/paymentscenarios).
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/PaymentScenario).
@@ -5350,6 +5629,9 @@ type PaymentScenario struct {
 	// Note: Not set when retrieving a list of payment scenarios.
 	Expiryparameters *PaymentscenarioExpiryParameters `json:"expiryparameters,omitempty"`
 
+	// A very short description of the fee that is applicable.
+	Feedescription string `json:"feedescription"`
+
 	// An internal remark, which is never shown to customers. Can be used to
 	// distinguish identically named payment scenarios.
 	//
@@ -5358,16 +5640,22 @@ type PaymentScenario struct {
 	// named VISA, this field can be used to distinguish them.
 	Internalremark string `json:"internalremark,omitempty"`
 
-	// Link to the order mail template that will be sent when the order is expired. Can
-	// be 0 to indicate that no mail should be sent. Not used for type 2701.
+	// Logo url
+	Logo string `json:"logo"`
+
+	// Send mail to organization if known
+	Mailorganization bool `json:"mailorganization"`
+
+	// Link to the order mail template that will be sent when the order is expired.
+	// Can be 0 to indicate that no mail should be sent. Not used for type 2701.
 	OrdermailtemplateidExpiry int64 `json:"ordermailtemplateid_expiry"`
 
-	// Link to the order mail template that will be sent when the order is overdue. Can
-	// be 0 to indicate that no mail should be sent. Not used for type 2701.
+	// Link to the order mail template that will be sent when the order is overdue.
+	// Can be 0 to indicate that no mail should be sent. Not used for type 2701.
 	OrdermailtemplateidOverdue int64 `json:"ordermailtemplateid_overdue"`
 
-	// Link to the order mail template that will be sent as payment instruction. Can be
-	// 0 to indicate that no mail should be sent. Not used for type 2701.
+	// Link to the order mail template that will be sent as payment instruction.
+	// Can be 0 to indicate that no mail should be sent. Not used for type 2701.
 	OrdermailtemplateidPaymentinstruction int64 `json:"ordermailtemplateid_paymentinstruction"`
 
 	// Rules that define when an order becomes overdue. Not used for type 2701.
@@ -5456,7 +5744,10 @@ func (o *PaymentScenario) MarshalJSON() ([]byte, error) {
 		Bankaccountbic                        string                            `json:"bankaccountbic,omitempty"`
 		Bankaccountnumber                     string                            `json:"bankaccountnumber,omitempty"`
 		Expiryparameters                      *PaymentscenarioExpiryParameters  `json:"expiryparameters,omitempty"`
+		Feedescription                        string                            `json:"feedescription,omitempty"`
 		Internalremark                        string                            `json:"internalremark,omitempty"`
+		Logo                                  string                            `json:"logo,omitempty"`
+		Mailorganization                      bool                              `json:"mailorganization,omitempty"`
 		OrdermailtemplateidExpiry             int64                             `json:"ordermailtemplateid_expiry,omitempty"`
 		OrdermailtemplateidOverdue            int64                             `json:"ordermailtemplateid_overdue,omitempty"`
 		OrdermailtemplateidPaymentinstruction int64                             `json:"ordermailtemplateid_paymentinstruction,omitempty"`
@@ -5478,7 +5769,10 @@ func (o *PaymentScenario) MarshalJSON() ([]byte, error) {
 		Bankaccountbic:                        o.Bankaccountbic,
 		Bankaccountnumber:                     o.Bankaccountnumber,
 		Expiryparameters:                      o.Expiryparameters,
+		Feedescription:                        o.Feedescription,
 		Internalremark:                        o.Internalremark,
+		Logo:                                  o.Logo,
+		Mailorganization:                      o.Mailorganization,
 		OrdermailtemplateidExpiry:             o.OrdermailtemplateidExpiry,
 		OrdermailtemplateidOverdue:            o.OrdermailtemplateidOverdue,
 		OrdermailtemplateidPaymentinstruction: o.OrdermailtemplateidPaymentinstruction,
@@ -5516,13 +5810,13 @@ func (o *PaymentScenario) MarshalJSON() ([]byte, error) {
 // Set of parameters used to filter payment scenarios.
 //
 // More info: see payment scenario
-// (https://www.ticketmatic.com/docs/api/types/PaymentScenario), the getlist
-// operation
+// (https://www.ticketmatic.com/docs/api/types/PaymentScenario),
+// the getlist operation
 // (https://www.ticketmatic.com/docs/api/settings/ticketsales/paymentscenarios/getlist)
 // and the payment scenarios endpoint
 // (https://www.ticketmatic.com/docs/api/settings/ticketsales/paymentscenarios).
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/PaymentScenarioQuery).
@@ -5548,7 +5842,7 @@ type PaymentScenarioQuery struct {
 // More information about writing order scripts can be found here
 // (https://www.ticketmatic.com/docs/tickets/configure_ticket_sales/orderfees).
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/PaymentscenarioAvailability).
@@ -5557,8 +5851,8 @@ type PaymentscenarioAvailability struct {
 	// the payment scenario will not be available.
 	Saleschannels []int64 `json:"saleschannels"`
 
-	// A Javascript that needs to return a boolean. It has the current order and
-	// saleschannel available. More info
+	// A Javascript that needs to return a boolean. It has
+	// the current order and saleschannel available. More info
 	// (https://www.ticketmatic.com/docs/tickets/configure_ticket_sales/orderfees)
 	Script string `json:"script"`
 
@@ -5574,7 +5868,7 @@ type PaymentscenarioAvailability struct {
 // order> - daysbeforeevent). If deleteonexpiry is set to true, the order will be
 // deleted.
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/PaymentscenarioExpiryParameters).
@@ -5602,7 +5896,7 @@ type PaymentscenarioExpiryParameters struct {
 // as MIN(<order creation date> + daysafterordercreation, <date of first event in
 // order> - daysbeforeevent).
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/PaymentscenarioOverdueParameters).
@@ -5623,11 +5917,11 @@ type PaymentscenarioOverdueParameters struct {
 // A single phone number type.
 //
 // More info: see the get operation
-// (https://www.ticketmatic.com/docs/api/settings/system/phonenumbertypes/get) and
-// the phone number types endpoint
+// (https://www.ticketmatic.com/docs/api/settings/system/phonenumbertypes/get)
+// and the phone number types endpoint
 // (https://www.ticketmatic.com/docs/api/settings/system/phonenumbertypes).
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/PhoneNumberType).
@@ -5667,13 +5961,13 @@ type PhoneNumberType struct {
 // Set of parameters used to filter phone number types.
 //
 // More info: see phone number type
-// (https://www.ticketmatic.com/docs/api/types/PhoneNumberType), the getlist
-// operation
+// (https://www.ticketmatic.com/docs/api/types/PhoneNumberType),
+// the getlist operation
 // (https://www.ticketmatic.com/docs/api/settings/system/phonenumbertypes/getlist)
 // and the phone number types endpoint
 // (https://www.ticketmatic.com/docs/api/settings/system/phonenumbertypes).
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/PhoneNumberTypeQuery).
@@ -5693,7 +5987,7 @@ type PhoneNumberTypeQuery struct {
 // See contact (https://www.ticketmatic.com/docs/api/types/Contact) for more
 // information.
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/Phonenumber).
@@ -5717,11 +6011,11 @@ type Phonenumber struct {
 // A single price list.
 //
 // More info: see the get operation
-// (https://www.ticketmatic.com/docs/api/settings/pricing/pricelists/get) and the
-// price lists endpoint
+// (https://www.ticketmatic.com/docs/api/settings/pricing/pricelists/get)
+// and the price lists endpoint
 // (https://www.ticketmatic.com/docs/api/settings/pricing/pricelists).
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/PriceList).
@@ -5770,11 +6064,11 @@ type PriceList struct {
 //
 // More info: see price list
 // (https://www.ticketmatic.com/docs/api/types/PriceList), the getlist operation
-// (https://www.ticketmatic.com/docs/api/settings/pricing/pricelists/getlist) and
-// the price lists endpoint
+// (https://www.ticketmatic.com/docs/api/settings/pricing/pricelists/getlist)
+// and the price lists endpoint
 // (https://www.ticketmatic.com/docs/api/settings/pricing/pricelists).
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/PriceListQuery).
@@ -5794,11 +6088,11 @@ type PriceListQuery struct {
 // A single price type.
 //
 // More info: see the get operation
-// (https://www.ticketmatic.com/docs/api/settings/pricing/pricetypes/get) and the
-// price types endpoint
+// (https://www.ticketmatic.com/docs/api/settings/pricing/pricetypes/get)
+// and the price types endpoint
 // (https://www.ticketmatic.com/docs/api/settings/pricing/pricetypes).
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/PriceType).
@@ -5810,8 +6104,8 @@ type PriceType struct {
 	// Note: Ignored when updating an existing price type.
 	Id int64 `json:"id"`
 
-	// The category of this price type, defines how the price is displayed. The
-	// available values for this field can be found on the price type overview
+	// The category of this price type, defines how the price is displayed.
+	// The available values for this field can be found on the price type overview
 	// (https://www.ticketmatic.com/docs/api/settings/pricing/pricetypes) page.
 	Typeid int64 `json:"typeid"`
 
@@ -5928,11 +6222,11 @@ func (o *PriceType) MarshalJSON() ([]byte, error) {
 //
 // More info: see price type
 // (https://www.ticketmatic.com/docs/api/types/PriceType), the getlist operation
-// (https://www.ticketmatic.com/docs/api/settings/pricing/pricetypes/getlist) and
-// the price types endpoint
+// (https://www.ticketmatic.com/docs/api/settings/pricing/pricetypes/getlist)
+// and the price types endpoint
 // (https://www.ticketmatic.com/docs/api/settings/pricing/pricetypes).
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/PriceTypeQuery).
@@ -5952,7 +6246,7 @@ type PriceTypeQuery struct {
 // You can find more information about price in the endpoint documentation
 // (https://www.ticketmatic.com/docs/api/settings/pricing/pricelists).
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/PricelistPrice).
@@ -5983,89 +6277,71 @@ type PricelistPrice struct {
 
 // These are the possible condition and example values:
 //
-// Ticketlimit
+// # Ticketlimit
 //
 // There is a limited amount of tickets available for the selected pricetype.
 //
+//	{
+//	    "type": "ticketlimit",
+//	    "value": 10
+//	}
 //
-//    {
-//        "type": "ticketlimit",
-//        "value": 10
-//    }
-//
-//
-//
-// Date validity
+// # Date validity
 //
 // The price type is only available in this period.
 //
-// Absolute
+// # Absolute
 //
+//	{
+//	    "type": "date",
+//	    "value": {
+//	        "datetype": "absolute",
+//	        "absoluteStart": "2015-05-20",
+//	        "absoluteEnd": "2015-05-27"
+//	    }
+//	}
 //
-//    {
-//        "type": "date",
-//        "value": {
-//            "datetype": "absolute",
-//            "absoluteStart": "2015-05-20",
-//            "absoluteEnd": "2015-05-27"
-//        }
-//    }
+// # Relative
 //
+//	{
+//	    "type": "date",
+//	    "value": {
+//	        "datetype": "relative_eventdate",
+//	        "relativeStart": 10,
+//	        "relativeEnd": 5
+//	    }
+//	}
 //
-//
-// Relative
-//
-//
-//    {
-//        "type": "date",
-//        "value": {
-//            "datetype": "relative_eventdate",
-//            "relativeStart": 10,
-//            "relativeEnd": 5
-//        }
-//    }
-//
-//
-//
-// Promocode
+// # Promocode
 //
 // The price type is only available if the customer provides a promocode.
 //
+//	{
+//	    "type": "promocode",
+//	    "value": ["TM"]
+//	}
 //
-//    {
-//        "type": "promocode",
-//        "value": ["TM"]
-//    }
-//
-//
-//
-// Max number of tickets per customer
+// # Max number of tickets per customer
 //
 // Limit the maximum number of tickets a customer can buy of this specific price
 // type.
 //
+//	{
+//	    "type": "orderticketlimit",
+//	    "value": 2
+//	}
 //
-//    {
-//        "type": "orderticketlimit",
-//        "value": 2
-//    }
-//
-//
-//
-// Voucherids
+// # Voucherids
 //
 // When buying a ticket of this pricetype, a valid vouchercode with voucherid one
 // of the values should be attached to the ticket.
 //
+//	{
+//	    "type": "voucherids",
+//	    "value": [1,2,3]
+//	}
 //
-//    {
-//        "type": "voucherids",
-//        "value": [1,2,3]
-//    }
-//
-//
-//
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/PricelistPriceCondition).
@@ -6090,7 +6366,7 @@ type PricelistPriceCondition struct {
 // You can find more information about prices in the endpoint documentation
 // (https://www.ticketmatic.com/docs/api/settings/pricing/pricelists).
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/PricelistPrices).
@@ -6108,7 +6384,7 @@ type PricelistPrices struct {
 // (https://www.ticketmatic.com/docs/api/settings/products/get) and the products
 // endpoint (https://www.ticketmatic.com/docs/api/settings/products).
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/Product).
@@ -6138,6 +6414,9 @@ type Product struct {
 	// Name for the product
 	Name string `json:"name"`
 
+	// If true, subscriber info is requested for each bundle in websales.
+	Asksubscribers bool `json:"asksubscribers,omitempty"`
+
 	// Unique 12-digit for the product
 	Code string `json:"code,omitempty"`
 
@@ -6149,6 +6428,15 @@ type Product struct {
 	//
 	// Note: Not set when retrieving a list of products.
 	Groupbycustomfield int64 `json:"groupbycustomfield,omitempty"`
+
+	// Reference to product image
+	//
+	// Note: Ignored when creating a new product.
+	//
+	// Note: Ignored when updating an existing product.
+	//
+	// Note: Not set when retrieving a list of products.
+	Image string `json:"image,omitempty"`
 
 	// Instancevalues control the price for a product and for non simple products it
 	// also controls the content of the product. All products should have a default
@@ -6189,6 +6477,12 @@ type Product struct {
 
 	// Start of sales
 	Salestartts Time `json:"salestartts,omitempty"`
+
+	// Sale status messages in use for this product
+	Salestatusmessagesid int64 `json:"salestatusmessagesid,omitempty"`
+
+	// Short description for the product
+	Shortdescription string `json:"shortdescription,omitempty"`
 
 	// Translations for the product properties
 	//
@@ -6262,9 +6556,11 @@ func (o *Product) MarshalJSON() ([]byte, error) {
 		Categoryid           int64                  `json:"categoryid,omitempty"`
 		Layoutid             int64                  `json:"layoutid,omitempty"`
 		Name                 string                 `json:"name,omitempty"`
+		Asksubscribers       bool                   `json:"asksubscribers,omitempty"`
 		Code                 string                 `json:"code,omitempty"`
 		Description          string                 `json:"description,omitempty"`
 		Groupbycustomfield   int64                  `json:"groupbycustomfield,omitempty"`
+		Image                string                 `json:"image,omitempty"`
 		Instancevalues       *ProductInstancevalues `json:"instancevalues,omitempty"`
 		Maxadditionaltickets int64                  `json:"maxadditionaltickets,omitempty"`
 		Printtickets         bool                   `json:"printtickets,omitempty"`
@@ -6273,6 +6569,8 @@ func (o *Product) MarshalJSON() ([]byte, error) {
 		Saleendts            Time                   `json:"saleendts,omitempty"`
 		Saleschannels        []int64                `json:"saleschannels,omitempty"`
 		Salestartts          Time                   `json:"salestartts,omitempty"`
+		Salestatusmessagesid int64                  `json:"salestatusmessagesid,omitempty"`
+		Shortdescription     string                 `json:"shortdescription,omitempty"`
 		Translations         map[string]string      `json:"translations,omitempty"`
 		Isarchived           bool                   `json:"isarchived,omitempty"`
 		Createdts            Time                   `json:"createdts,omitempty"`
@@ -6285,9 +6583,11 @@ func (o *Product) MarshalJSON() ([]byte, error) {
 		Categoryid:           o.Categoryid,
 		Layoutid:             o.Layoutid,
 		Name:                 o.Name,
+		Asksubscribers:       o.Asksubscribers,
 		Code:                 o.Code,
 		Description:          o.Description,
 		Groupbycustomfield:   o.Groupbycustomfield,
+		Image:                o.Image,
 		Instancevalues:       o.Instancevalues,
 		Maxadditionaltickets: o.Maxadditionaltickets,
 		Printtickets:         o.Printtickets,
@@ -6296,6 +6596,8 @@ func (o *Product) MarshalJSON() ([]byte, error) {
 		Saleendts:            o.Saleendts,
 		Saleschannels:        o.Saleschannels,
 		Salestartts:          o.Salestartts,
+		Salestatusmessagesid: o.Salestatusmessagesid,
+		Shortdescription:     o.Shortdescription,
 		Translations:         o.Translations,
 		Isarchived:           o.Isarchived,
 		Createdts:            o.Createdts,
@@ -6327,11 +6629,11 @@ func (o *Product) MarshalJSON() ([]byte, error) {
 // A single product category.
 //
 // More info: see the get operation
-// (https://www.ticketmatic.com/docs/api/settings/productcategories/get) and the
-// product categories endpoint
+// (https://www.ticketmatic.com/docs/api/settings/productcategories/get)
+// and the product categories endpoint
 // (https://www.ticketmatic.com/docs/api/settings/productcategories).
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/ProductCategory).
@@ -6380,13 +6682,13 @@ type ProductCategory struct {
 // Set of parameters used to filter product categories.
 //
 // More info: see product category
-// (https://www.ticketmatic.com/docs/api/types/ProductCategory), the getlist
-// operation
-// (https://www.ticketmatic.com/docs/api/settings/productcategories/getlist) and
-// the product categories endpoint
+// (https://www.ticketmatic.com/docs/api/types/ProductCategory),
+// the getlist operation
+// (https://www.ticketmatic.com/docs/api/settings/productcategories/getlist)
+// and the product categories endpoint
 // (https://www.ticketmatic.com/docs/api/settings/productcategories).
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/ProductCategoryQuery).
@@ -6405,7 +6707,7 @@ type ProductCategoryQuery struct {
 
 // Product instancevalue exception
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/ProductInstanceException).
@@ -6419,7 +6721,7 @@ type ProductInstanceException struct {
 
 // Product Instance Pricetype Value
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/ProductInstancePricetypeValue).
@@ -6434,7 +6736,7 @@ type ProductInstancePricetypeValue struct {
 // Product instance value, used with products. It configures the price and the
 // content of a product.
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/ProductInstanceValue).
@@ -6463,7 +6765,7 @@ type ProductInstanceValue struct {
 
 // Product instancevalues
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/ProductInstancevalues).
@@ -6480,7 +6782,7 @@ type ProductInstancevalues struct {
 
 // Product property
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/ProductProperty).
@@ -6500,12 +6802,12 @@ type ProductProperty struct {
 
 // Set of parameters used to filter products.
 //
-// More info: see product (https://www.ticketmatic.com/docs/api/types/Product), the
-// getlist operation
+// More info: see product
+// (https://www.ticketmatic.com/docs/api/types/Product), the getlist operation
 // (https://www.ticketmatic.com/docs/api/settings/products/getlist) and the
 // products endpoint (https://www.ticketmatic.com/docs/api/settings/products).
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/ProductQuery).
@@ -6527,7 +6829,7 @@ type ProductQuery struct {
 
 // Product Voucher Value
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/ProductVoucherValue).
@@ -6541,7 +6843,7 @@ type ProductVoucherValue struct {
 
 // Info for requesting a purge of all orders.
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/PurgeOrdersRequest).
@@ -6558,7 +6860,7 @@ type PurgeOrdersRequest struct {
 
 // Required data for creating a query on the public data model.
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/QueryRequest).
@@ -6575,7 +6877,7 @@ type QueryRequest struct {
 
 // Result of a query on the public data model.
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/QueryResult).
@@ -6587,53 +6889,14 @@ type QueryResult struct {
 	Results []map[string]interface{} `json:"results"`
 }
 
-// Rate limiting status. See rate limiting
-// (https://www.ticketmatic.com/docs/api/ratelimiting) for more details on rate
-// limiting.
-//
-// Help Center
-//
-// Full documentation can be found in the Ticketmatic Help Center
-// (https://www.ticketmatic.com/docs/api/types/QueueStatus).
-type QueueStatus struct {
-	// Queueing ID, used to request status updates
-	Id string `json:"id"`
-
-	// The ID of the newly created order. Only returned when a throttled "create order"
-	// call has finished queueing.
-	Orderid int64 `json:"orderid"`
-
-	// Number of people waiting ahead. Might not be returned when the queue hasn't
-	// started yet.
-	Ahead int64 `json:"ahead"`
-
-	// Number of milliseconds to wait before requesting a new status update
-	Backoff int64 `json:"backoff"`
-
-	// Further instructions on how to handle this error
-	Description string `json:"description"`
-
-	// Optional message shown to waiting customers
-	Message string `json:"message"`
-
-	// Status code: 1: wait more, 2: ready to proceed
-	Progress int64 `json:"progress"`
-
-	// Whether the queue has started
-	Started bool `json:"started"`
-
-	// When the queue will start
-	Starttime Time `json:"starttime"`
-}
-
 // A single relation type.
 //
 // More info: see the get operation
-// (https://www.ticketmatic.com/docs/api/settings/system/relationtypes/get) and the
-// relation types endpoint
+// (https://www.ticketmatic.com/docs/api/settings/system/relationtypes/get)
+// and the relation types endpoint
 // (https://www.ticketmatic.com/docs/api/settings/system/relationtypes).
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/RelationType).
@@ -6677,11 +6940,11 @@ type RelationType struct {
 //
 // More info: see relation type
 // (https://www.ticketmatic.com/docs/api/types/RelationType), the getlist operation
-// (https://www.ticketmatic.com/docs/api/settings/system/relationtypes/getlist) and
-// the relation types endpoint
+// (https://www.ticketmatic.com/docs/api/settings/system/relationtypes/getlist)
+// and the relation types endpoint
 // (https://www.ticketmatic.com/docs/api/settings/system/relationtypes).
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/RelationTypeQuery).
@@ -6704,7 +6967,7 @@ type RelationTypeQuery struct {
 // (https://www.ticketmatic.com/docs/api/settings/system/reports/get) and the
 // reports endpoint (https://www.ticketmatic.com/docs/api/settings/system/reports).
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/Report).
@@ -6754,6 +7017,9 @@ type Report struct {
 	// Hour of the day the report will be sent
 	Emailschedulehourofday int64 `json:"emailschedulehourofday"`
 
+	// Report will only be sent if the given query returns at least one result.
+	Emailschedulequery string `json:"emailschedulequery"`
+
 	// Key-value array of options. Can contain: pdfpagesize, excelpagewidth,
 	// excelscaling, usesystemfont
 	//
@@ -6775,8 +7041,8 @@ type Report struct {
 	// Note: Not set when retrieving a list of reports.
 	Translations map[string]string `json:"translations,omitempty"`
 
-	// Indicates where the report is being used. Possible values: 17001 (Sales), 17002
-	// (External sales), 17003 (Hidden)
+	// Indicates where the report is being used. Possible values: 17001 (Sales),
+	// 17002 (External sales), 17003 (Hidden)
 	Usagetypeid int64 `json:"usagetypeid"`
 
 	// Created timestamp
@@ -6796,7 +7062,7 @@ type Report struct {
 
 // Report Options
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/ReportOptions).
@@ -6816,12 +7082,12 @@ type ReportOptions struct {
 
 // Set of parameters used to filter reports.
 //
-// More info: see report (https://www.ticketmatic.com/docs/api/types/Report), the
-// getlist operation
+// More info: see report (https://www.ticketmatic.com/docs/api/types/Report),
+// the getlist operation
 // (https://www.ticketmatic.com/docs/api/settings/system/reports/getlist) and the
 // reports endpoint (https://www.ticketmatic.com/docs/api/settings/system/reports).
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/ReportQuery).
@@ -6842,7 +7108,7 @@ type ReportQuery struct {
 // and the sales channels endpoint
 // (https://www.ticketmatic.com/docs/api/settings/ticketsales/saleschannels).
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/SalesChannel).
@@ -6899,7 +7165,7 @@ type SalesChannel struct {
 // and the sales channels endpoint
 // (https://www.ticketmatic.com/docs/api/settings/ticketsales/saleschannels).
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/SalesChannelQuery).
@@ -6918,7 +7184,7 @@ type SalesChannelQuery struct {
 
 // Templates to allow different seat description for seats
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/SeatDescriptionTemplate).
@@ -6936,11 +7202,11 @@ type SeatDescriptionTemplate struct {
 // A single seat rank.
 //
 // More info: see the get operation
-// (https://www.ticketmatic.com/docs/api/settings/seatingplans/seatranks/get) and
-// the seat ranks endpoint
+// (https://www.ticketmatic.com/docs/api/settings/seatingplans/seatranks/get)
+// and the seat ranks endpoint
 // (https://www.ticketmatic.com/docs/api/settings/seatingplans/seatranks).
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/SeatRank).
@@ -6987,13 +7253,13 @@ type SeatRank struct {
 
 // Set of parameters used to filter seat ranks.
 //
-// More info: see seat rank (https://www.ticketmatic.com/docs/api/types/SeatRank),
-// the getlist operation
+// More info: see seat rank
+// (https://www.ticketmatic.com/docs/api/types/SeatRank), the getlist operation
 // (https://www.ticketmatic.com/docs/api/settings/seatingplans/seatranks/getlist)
 // and the seat ranks endpoint
 // (https://www.ticketmatic.com/docs/api/settings/seatingplans/seatranks).
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/SeatRankQuery).
@@ -7017,7 +7283,7 @@ type SeatRankQuery struct {
 // and the seating plans endpoint
 // (https://www.ticketmatic.com/docs/api/settings/seatingplans/seatingplans).
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/SeatingPlan).
@@ -7082,7 +7348,7 @@ type SeatingPlan struct {
 // and the seating plans endpoint
 // (https://www.ticketmatic.com/docs/api/settings/seatingplans/seatingplans).
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/SeatingPlanQuery).
@@ -7099,9 +7365,26 @@ type SeatingPlanQuery struct {
 	Lastupdatesince Time `json:"lastupdatesince,omitempty"`
 }
 
+// Scheduling used for planning of servicemails.
+//
+// # Help Center
+//
+// Full documentation can be found in the Ticketmatic Help Center
+// (https://www.ticketmatic.com/docs/api/types/ServicemailScheduling).
+type ServicemailScheduling struct {
+	// Amount of days before/after the event to send the mail.
+	Days int64 `json:"days"`
+
+	// Send the mail before or after the event.
+	Relative string `json:"relative"`
+
+	// The time (HH:MM) at which to send the mail.
+	Time string `json:"time"`
+}
+
 // Used to update order costs in an order.
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/SetOrderCost).
@@ -7116,7 +7399,7 @@ type SetOrderCost struct {
 // Required data for splitting an order
 // (https://www.ticketmatic.com/docs/api/types/Order).
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/SplitOrder).
@@ -7145,7 +7428,7 @@ type SplitOrder struct {
 
 // A newly created communication
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/SubscriberCommunication).
@@ -7165,7 +7448,7 @@ type SubscriberCommunication struct {
 
 // A subscriber record to sync state back to Ticketmatic
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/SubscriberSync).
@@ -7192,11 +7475,11 @@ type SubscriberSync struct {
 // A single ticket fee.
 //
 // More info: see the get operation
-// (https://www.ticketmatic.com/docs/api/settings/pricing/ticketfees/get) and the
-// ticket fees endpoint
+// (https://www.ticketmatic.com/docs/api/settings/pricing/ticketfees/get)
+// and the ticket fees endpoint
 // (https://www.ticketmatic.com/docs/api/settings/pricing/ticketfees).
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/TicketFee).
@@ -7242,11 +7525,11 @@ type TicketFee struct {
 //
 // More info: see ticket fee
 // (https://www.ticketmatic.com/docs/api/types/TicketFee), the getlist operation
-// (https://www.ticketmatic.com/docs/api/settings/pricing/ticketfees/getlist) and
-// the ticket fees endpoint
+// (https://www.ticketmatic.com/docs/api/settings/pricing/ticketfees/getlist)
+// and the ticket fees endpoint
 // (https://www.ticketmatic.com/docs/api/settings/pricing/ticketfees).
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/TicketFeeQuery).
@@ -7270,7 +7553,7 @@ type TicketFeeQuery struct {
 // and the ticket layouts endpoint
 // (https://www.ticketmatic.com/docs/api/settings/communicationanddesign/ticketlayouts).
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/TicketLayout).
@@ -7320,7 +7603,7 @@ type TicketLayout struct {
 // and the ticket layouts endpoint
 // (https://www.ticketmatic.com/docs/api/settings/communicationanddesign/ticketlayouts).
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/TicketLayoutQuery).
@@ -7347,7 +7630,7 @@ type TicketLayoutQuery struct {
 // and the ticket layout templates endpoint
 // (https://www.ticketmatic.com/docs/api/settings/communicationanddesign/ticketlayouttemplates).
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/TicketLayoutTemplate).
@@ -7413,13 +7696,13 @@ type TicketLayoutTemplate struct {
 // Set of parameters used to filter ticket layout templates.
 //
 // More info: see ticket layout template
-// (https://www.ticketmatic.com/docs/api/types/TicketLayoutTemplate), the getlist
-// operation
+// (https://www.ticketmatic.com/docs/api/types/TicketLayoutTemplate),
+// the getlist operation
 // (https://www.ticketmatic.com/docs/api/settings/communicationanddesign/ticketlayouttemplates/getlist)
 // and the ticket layout templates endpoint
 // (https://www.ticketmatic.com/docs/api/settings/communicationanddesign/ticketlayouttemplates).
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/TicketLayoutTemplateQuery).
@@ -7442,7 +7725,7 @@ type TicketLayoutTemplateQuery struct {
 // An exception to the default rule for a specific pricetype and a set of
 // saleschannels.
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/TicketfeeException).
@@ -7454,11 +7737,11 @@ type TicketfeeException struct {
 	Saleschannels []*TicketfeeSaleschannelRule `json:"saleschannels"`
 }
 
-// Defines which fees are active for specific price types and sales channels. It's
-// possible to define a fixed fee and a percentage based fee. The default rule (if
-// none is specified for a specific sales channel) is always a fixed fee of 0.
+// Defines which fees are active for specific price types and sales channels.
+// It's possible to define a fixed fee and a percentage based fee. The default rule
+// (if none is specified for a specific sales channel) is always a fixed fee of 0.
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/TicketfeeRules).
@@ -7473,7 +7756,7 @@ type TicketfeeRules struct {
 // This is a rule for a specific saleschannel that indicates the fee based on a
 // fixed amount or a percentage.
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/TicketfeeSaleschannelRule).
@@ -7496,7 +7779,7 @@ type TicketfeeSaleschannelRule struct {
 // Info for requesting a e-mail delivery for an order
 // (https://www.ticketmatic.com/docs/api/types/Order).
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/TicketsEmaildeliveryRequest).
@@ -7508,7 +7791,7 @@ type TicketsEmaildeliveryRequest struct {
 // Info for requesting a PDF ticket for one or more tickets or vouchercodes in an
 // order (https://www.ticketmatic.com/docs/api/types/Order).
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/TicketsPdfRequest).
@@ -7522,7 +7805,7 @@ type TicketsPdfRequest struct {
 
 // Config for a ticket sales flow
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/TicketsalesFlowConfig).
@@ -7543,11 +7826,11 @@ type TicketsalesFlowConfig struct {
 // A single ticketsalesflow.
 //
 // More info: see the get operation
-// (https://www.ticketmatic.com/docs/api/settings/system/ticketsalesflows/get) and
-// the ticketsalesflows endpoint
+// (https://www.ticketmatic.com/docs/api/settings/system/ticketsalesflows/get)
+// and the ticketsalesflows endpoint
 // (https://www.ticketmatic.com/docs/api/settings/system/ticketsalesflows).
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/Ticketsalesflow).
@@ -7591,13 +7874,13 @@ type Ticketsalesflow struct {
 // Set of parameters used to filter ticketsalesflows.
 //
 // More info: see ticketsalesflow
-// (https://www.ticketmatic.com/docs/api/types/Ticketsalesflow), the getlist
-// operation
+// (https://www.ticketmatic.com/docs/api/types/Ticketsalesflow),
+// the getlist operation
 // (https://www.ticketmatic.com/docs/api/settings/system/ticketsalesflows/getlist)
 // and the ticketsalesflows endpoint
 // (https://www.ticketmatic.com/docs/api/settings/system/ticketsalesflows).
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/TicketsalesflowQuery).
@@ -7614,11 +7897,11 @@ type TicketsalesflowQuery struct {
 // A single ticketsalessetup.
 //
 // More info: see the get operation
-// (https://www.ticketmatic.com/docs/api/settings/system/ticketsalessetups/get) and
-// the ticketsalessetups endpoint
+// (https://www.ticketmatic.com/docs/api/settings/system/ticketsalessetups/get)
+// and the ticketsalessetups endpoint
 // (https://www.ticketmatic.com/docs/api/settings/system/ticketsalessetups).
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/Ticketsalessetup).
@@ -7646,13 +7929,13 @@ type Ticketsalessetup struct {
 // Set of parameters used to filter ticketsalessetups.
 //
 // More info: see ticketsalessetup
-// (https://www.ticketmatic.com/docs/api/types/Ticketsalessetup), the getlist
-// operation
+// (https://www.ticketmatic.com/docs/api/types/Ticketsalessetup),
+// the getlist operation
 // (https://www.ticketmatic.com/docs/api/settings/system/ticketsalessetups/getlist)
 // and the ticketsalessetups endpoint
 // (https://www.ticketmatic.com/docs/api/settings/system/ticketsalessetups).
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/TicketsalessetupQuery).
@@ -7668,7 +7951,7 @@ type TicketsalessetupQuery struct {
 
 // Required data for requesting the ticketsprocessedstatistics.
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/TicketsprocessedRequest).
@@ -7685,7 +7968,7 @@ type TicketsprocessedRequest struct {
 
 // Statistics on the number of tickets processed in a certain period.
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/TicketsprocessedStatistics).
@@ -7703,7 +7986,7 @@ type TicketsprocessedStatistics struct {
 // A timestamp returned by the diagnostic /time call
 // (https://www.ticketmatic.com/docs/api/diagnostics/time).
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/Timestamp).
@@ -7715,7 +7998,7 @@ type Timestamp struct {
 // Used to update an order. Each of the fields is optional. Omitting a field will
 // leave it unchanged.
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/UpdateOrder).
@@ -7755,7 +8038,7 @@ type UpdateOrder struct {
 // (https://www.ticketmatic.com/docs/api/types/Contact)), one for each product
 // (productholderids). *
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/UpdateProducts).
@@ -7791,7 +8074,7 @@ type UpdateProducts struct {
 //
 // * Remove from bundles: none.
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/UpdateTickets).
@@ -7818,7 +8101,7 @@ type UpdateTickets struct {
 
 // Url.
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/Url).
@@ -7833,7 +8116,7 @@ type Url struct {
 // (https://www.ticketmatic.com/docs/api/settings/system/views/get) and the views
 // endpoint (https://www.ticketmatic.com/docs/api/settings/system/views).
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/View).
@@ -7886,7 +8169,7 @@ type View struct {
 
 // View column for a view.
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/ViewColumn).
@@ -7897,12 +8180,12 @@ type ViewColumn struct {
 
 // Set of parameters used to filter views.
 //
-// More info: see view (https://www.ticketmatic.com/docs/api/types/View), the
-// getlist operation
+// More info: see view (https://www.ticketmatic.com/docs/api/types/View),
+// the getlist operation
 // (https://www.ticketmatic.com/docs/api/settings/system/views/getlist) and the
 // views endpoint (https://www.ticketmatic.com/docs/api/settings/system/views).
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/ViewQuery).
@@ -7928,7 +8211,7 @@ type ViewQuery struct {
 // (https://www.ticketmatic.com/docs/api/settings/vouchers/get) and the vouchers
 // endpoint (https://www.ticketmatic.com/docs/api/settings/vouchers).
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/Voucher).
@@ -7984,9 +8267,9 @@ type Voucher struct {
 	// a voucher of this type attached, the script will be run to validate the contents
 	Ordervalidationscript string `json:"ordervalidationscript,omitempty"`
 
-	// Paymentmethod to use when creating payments for vouchers of type payment. This
-	// field is required when a payment voucher is created. The paymentmethod that is
-	// referred to should be of a voucher type.
+	// Paymentmethod to use when creating payments for vouchers of type payment.
+	// This field is required when a payment voucher is created. The paymentmethod that
+	// is referred to should be of a voucher type.
 	Paymentmethodid int64 `json:"paymentmethodid,omitempty"`
 
 	// Definition of the validity of this voucher. Depends on the typeid.
@@ -8018,7 +8301,7 @@ type Voucher struct {
 
 // Voucher code
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/VoucherCode).
@@ -8032,12 +8315,12 @@ type VoucherCode struct {
 
 // Set of parameters used to filter vouchers.
 //
-// More info: see voucher (https://www.ticketmatic.com/docs/api/types/Voucher), the
-// getlist operation
+// More info: see voucher
+// (https://www.ticketmatic.com/docs/api/types/Voucher), the getlist operation
 // (https://www.ticketmatic.com/docs/api/settings/vouchers/getlist) and the
 // vouchers endpoint (https://www.ticketmatic.com/docs/api/settings/vouchers).
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/VoucherQuery).
@@ -8059,14 +8342,14 @@ type VoucherQuery struct {
 
 // The definition of the validity of a voucher.
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/VoucherValidity).
 type VoucherValidity struct {
-	// The fixed expiry date for a voucher. The voucher will be valid untill this date
-	// (thus if 2020-01-01 is specified, the voucher will remain valid until 2019-12-31
-	// 23:59:59). If this is specified, it has preference over
+	// The fixed expiry date for a voucher. The voucher will be valid untill
+	// this date (thus if 2020-01-01 is specified, the voucher will remain valid
+	// until 2019-12-31 23:59:59). If this is specified, it has preference over
 	// expiry_monthsaftercreation.
 	ExpiryFixeddate Time `json:"expiry_fixeddate,omitempty"`
 
@@ -8086,11 +8369,11 @@ type VoucherValidity struct {
 // A single waiting list request.
 //
 // More info: see the get operation
-// (https://www.ticketmatic.com/docs/api/sales/waitinglistrequests/get) and the
-// waiting list requests endpoint
+// (https://www.ticketmatic.com/docs/api/sales/waitinglistrequests/get)
+// and the waiting list requests endpoint
 // (https://www.ticketmatic.com/docs/api/sales/waitinglistrequests).
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/WaitingListRequest).
@@ -8244,7 +8527,7 @@ func (o *WaitingListRequest) MarshalJSON() ([]byte, error) {
 // A waitinglistrequestitem is a single event and the requested tickets in a
 // waitinglistrequest
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/WaitingListRequestItem).
@@ -8329,7 +8612,7 @@ func (o *WaitingListRequestItem) MarshalJSON() ([]byte, error) {
 
 // A ticket requested in a waitinglistrequestitem
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/WaitingListRequestItemTicket).
@@ -8341,13 +8624,13 @@ type WaitingListRequestItemTicket struct {
 // Set of parameters used to filter waiting list requests.
 //
 // More info: see waiting list request
-// (https://www.ticketmatic.com/docs/api/types/WaitingListRequest), the getlist
-// operation
-// (https://www.ticketmatic.com/docs/api/sales/waitinglistrequests/getlist) and the
-// waiting list requests endpoint
+// (https://www.ticketmatic.com/docs/api/types/WaitingListRequest),
+// the getlist operation
+// (https://www.ticketmatic.com/docs/api/sales/waitinglistrequests/getlist)
+// and the waiting list requests endpoint
 // (https://www.ticketmatic.com/docs/api/sales/waitinglistrequests).
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/WaitingListRequestQuery).
@@ -8371,7 +8654,7 @@ type WaitingListRequestQuery struct {
 // and the web sales skins endpoint
 // (https://www.ticketmatic.com/docs/api/settings/communicationanddesign/webskins).
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/WebSalesSkin).
@@ -8417,8 +8700,8 @@ type WebSalesSkin struct {
 	Html string `json:"html"`
 
 	// A map of language codes to gettext .po files
-	// (http://en.wikipedia.org/wiki/Gettext). More info can be found on the web skin
-	// overview
+	// (http://en.wikipedia.org/wiki/Gettext).
+	// More info can be found on the web skin overview
 	// (https://www.ticketmatic.com/docs/api/settings/communicationanddesign/webskins)
 	// page.
 	//
@@ -8443,7 +8726,7 @@ type WebSalesSkin struct {
 // Configuration settings and parameters for a web sales skin
 // (https://www.ticketmatic.com/docs/api/types/WebSalesSkin).
 //
-// Page titles
+// # Page titles
 //
 // The title field contains a template for the page title. The same variables as in
 // the HTML of the skin itself can be used.
@@ -8452,7 +8735,7 @@ type WebSalesSkin struct {
 // (https://www.ticketmatic.com/docs/tickets/configure_ticket_sales/webskin) for
 // more information.
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/WebSalesSkinConfiguration).
@@ -8478,7 +8761,7 @@ type WebSalesSkinConfiguration struct {
 // and the web sales skins endpoint
 // (https://www.ticketmatic.com/docs/api/settings/communicationanddesign/webskins).
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/types/WebSalesSkinQuery).

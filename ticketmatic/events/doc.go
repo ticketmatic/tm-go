@@ -2,7 +2,7 @@
 // (https://www.ticketmatic.com/docs/events/events). This will help you get
 // acquainted with the concepts involved.
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/events).

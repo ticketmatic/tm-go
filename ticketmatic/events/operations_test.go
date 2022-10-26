@@ -274,7 +274,7 @@ func TestLockunlocktickets(t *testing.T) {
 	c := ticketmatic.NewClient(accountcode, accesskey, secretkey)
 
 	list, err := Getlist(c, &ticketmatic.EventQuery{
-		Filter:  "select id from tm.event where seatingplanid is not null",
+		Filter:  "select id from tm.event where seatingplanid is not null and id < 777800",
 		Limit:   1,
 		Orderby: "name",
 		Output:  "ids",
@@ -340,7 +340,7 @@ func TestUpdateseatrankfortickets(t *testing.T) {
 	c := ticketmatic.NewClient(accountcode, accesskey, secretkey)
 
 	list, err := Getlist(c, &ticketmatic.EventQuery{
-		Filter:  "select id from tm.event where seatingplanid is not null",
+		Filter:  "select id from tm.event where seatingplanid is not null and id < 777800",
 		Limit:   1,
 		Orderby: "name",
 		Output:  "ids",

@@ -10,9 +10,9 @@ import (
 //
 // The returned timestamp uses the ISO-8601 format.
 //
-// This call does not require an Authorization header to be set (it's the only call
-// that allows this) and can be used to investigate timestamp issues when trying to
-// sign API requests
+// This call does not require an Authorization header to be
+// set (it's the only call that allows this) and can be used to
+// investigate timestamp issues when trying to sign API requests
 // (https://www.ticketmatic.com/docs/api/coreconcepts/authentication).
 func Time(client *ticketmatic.Client) (*ticketmatic.Timestamp, error) {
 	r := client.NewRequest("GET", "/{accountname}/diagnostics/time", "json")

@@ -6,7 +6,7 @@
 //
 // Examples include: Print at home, Mobile, Send by mail, Retrieve at desk
 //
-// Types
+// # Types
 //
 // There are 3 types of delivery scenarios:
 //
@@ -20,13 +20,13 @@
 // * Automatic after confirmation (2503): Ticketmatic will deliver the tickets
 // automatically as soon as the order is confirmed.
 //
-// Availability
+// # Availability
 //
-// The full rules for defining when a delivery scenario can be used are defined in
-// DeliveryscenarioAvailability
+// The full rules for defining when a delivery scenario
+// can be used are defined in DeliveryscenarioAvailability
 // (https://www.ticketmatic.com/docs/api/types/DeliveryscenarioAvailability).
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/settings/ticketsales/deliveryscenarios).

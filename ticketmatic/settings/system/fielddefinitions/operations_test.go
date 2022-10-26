@@ -15,7 +15,9 @@ func TestGet(t *testing.T) {
 	secretkey := os.Getenv("TM_TEST_SECRETKEY")
 	c := ticketmatic.NewClient(accountcode, accesskey, secretkey)
 
-	req, err := Getlist(c, &ticketmatic.FieldDefinitionQuery{})
+	req, err := Getlist(c, &ticketmatic.FieldDefinitionQuery{
+		Typeid: 10004,
+	})
 	if err != nil {
 		t.Fatal(err)
 	}

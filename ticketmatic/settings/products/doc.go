@@ -24,8 +24,8 @@
 // different prices for specific variants of a product are desired, these can be
 // controlled with instance value exceptions.
 //
-// Each instance value exception contains one or more property values to match. If
-// all the property values match, this instance value exception is selected to
+// Each instance value exception contains one or more property values to match.
+// If all the property values match, this instance value exception is selected to
 // control the price for that specific product variant.
 //
 // For non simple products (like vouchers and bundle) the instancevalues also
@@ -36,7 +36,7 @@
 // (https://www.ticketmatic.com/docs/api/settings/products/create/) for creating a
 // new product to see how properties and instancevalues work.
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/settings/products).

@@ -1,5 +1,5 @@
-// Custom fields allow you to extend the Ticketmatic data model with your own data
-// fields. See setting up customfields
+// Custom fields allow you to extend the Ticketmatic data model
+// with your own data fields. See setting up customfields
 // (https://www.ticketmatic.com/docs/setup/customfields) for more information.
 //
 // The list of custom field types are:
@@ -69,7 +69,7 @@
 // Possible required types: * None (30001): not required * Everywhere (30002):
 // required everywhere * Checkout (30003): Only required during online checkout
 //
-// Help Center
+// # Help Center
 //
 // Full documentation can be found in the Ticketmatic Help Center
 // (https://www.ticketmatic.com/docs/api/settings/system/customfields).

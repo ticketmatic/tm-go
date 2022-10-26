@@ -115,14 +115,11 @@ func Delete(client *ticketmatic.Client, id int64) error {
 // The operation will be applied to the contacts with given IDs. The amount of IDs
 // is limited to 1000 per call.
 //
-//
-//    ids: [1, 2, 3]
-//
-//
+//	ids: [1, 2, 3]
 //
 // This will apply the operation to contacts with ID 1, 2 and 3.
 //
-// Batch operations
+// # Batch operations
 //
 // The following operations are supported:
 //
@@ -130,8 +127,8 @@ func Delete(client *ticketmatic.Client, id int64) error {
 // contacts. The parameters object should contain an ids field with a set of
 // relation type IDs.
 //
-// * removerelationtypes: Remove the specified relation types from the selection of
-// contacts. The parameters object should contain an ids field with a set of
+// * removerelationtypes: Remove the specified relation types from the selection
+// of contacts. The parameters object should contain an ids field with a set of
 // relation type IDs.
 //
 // * delete: Deletes the selection of contacts.
@@ -144,8 +141,8 @@ func Delete(client *ticketmatic.Client, id int64) error {
 // contacts can then be used to send out a mailing. The parameters object can
 // optionally contain a name field that will be used to identify the selection.
 //
-// * update: Update a specific field for the selection of contacts. See
-// BatchContactParameters
+// * update: Update a specific field for the
+// selection of contacts. See BatchContactParameters
 // (https://www.ticketmatic.com/docs/api/types/BatchContactParameters) for more
 // info.
 //
@@ -176,9 +173,9 @@ func Import(client *ticketmatic.Client, data []*ticketmatic.Contact) ([]*ticketm
 // Reserve contact IDs
 //
 // Importing contacts with the specified IDs is only possible when those IDs fall
-// in the reserved ID range. Use this call to reserve a range of contact IDs. Any
-// unused ID lower than or equal to the specified ID will be reserved. New contacts
-// will receive IDs higher than the specified ID.
+// in the reserved ID range. Use this call to reserve a range of contact IDs.
+// Any unused ID lower than or equal to the specified ID will be reserved.
+// New contacts will receive IDs higher than the specified ID.
 func Reserve(client *ticketmatic.Client, data *ticketmatic.ContactIdReservation) (*ticketmatic.ContactIdReservation, error) {
 	r := client.NewRequest("POST", "/{accountname}/contacts/import/reserve", "json")
 	r.Body(data, "json")
